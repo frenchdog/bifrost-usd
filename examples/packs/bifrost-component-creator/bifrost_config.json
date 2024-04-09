@@ -1,0 +1,15 @@
+{
+  "AminoConfigurations": [
+    {
+      "vendorName": "Autodesk",
+      "libraryVersion": "1.0.0",
+      "libraryName": "usd_component_creator",
+      "jsonLibs": [
+        {
+          "path": "compounds",
+          "files": [ ]
+        }
+      ]
+    }
+  ]
+}

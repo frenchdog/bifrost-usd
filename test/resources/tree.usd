@@ -1,0 +1,61 @@
+#usda 1.0
+(
+    defaultPrim = "Tree"
+    metersPerUnit = 0.01
+    upAxis = "Y"
+)
+
+def Xform "Tree" (
+    kind = "component"
+    variants = {
+        string Shape = "One"
+    }
+    prepend variantSets = "Shape"
+)
+{
+    def Scope "geo" (
+        kind = "group"
+    )
+    {
+        over "shape" (
+            variants = {
+                string Shape = "Three"
+            }
+        )
+        {
+        }
+    }
+    variantSet "Shape" = {
+        "One" {
+            over "geo"
+            {
+                def Capsule "shape"
+                {
+                    uniform token axis = "Y"
+                }
+            }
+
+        }
+        "Three" {
+            over "geo"
+            {
+                def Cube "shape"
+                {
+                    token axis = "Y"
+                }
+            }
+
+        }
+        "Two" {
+            over "geo"
+            {
+                def Cylinder "shape"
+                {
+                    uniform token axis = "Y"
+                }
+            }
+
+        }
+    }
+}
+

@@ -167,11 +167,6 @@
                     "metaValue": "BifrostGraph,Core::Type_Conversion,to_int"
                 },
                 {
-                    "metaName": "UILayout",
-                    "metaType": "string",
-                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"path\"\n            },\n            {\n                \"port\": \"mesh\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"General\",\n                \"items\": [\n                    {\n                        \"port\": \"normal_per_vertex\"\n                    },\n                    {\n                        \"port\": \"subdivision_scheme\"\n                    },\n                    {\n                        \"port\": \"use_frame\"\n                    },\n                    {\n                        \"port\": \"frame\"\n                    },\n                    {\n                        \"expanded\": false,\n                        \"group\": \"Variant Selection\",\n                        \"items\": [\n                            {\n                                \"port\": \"variant_name\"\n                            },\n                            {\n                                \"port\": \"variant_set_name\"\n                            }\n                        ]\n                    }\n                ]\n            },\n            {\n                \"port\": \"reference_definitions\"\n            },\n            {\n                \"port\": \"attribute_definitions\"\n            },\n            {\n                \"port\": \"children\"\n            },\n            {\n                \"port\": \"relationship_definitions\"\n            },\n            {\n                \"port\": \"material\"\n            }\n        ]\n    }\n}\n"
-                },
-                {
                     "metaName": "PortExpandedState",
                     "metadata": [
                         {
@@ -194,12 +189,17 @@
                 {
                     "metaName": "LayoutPos",
                     "metaType": "string",
-                    "metaValue": "76.5 -1"
+                    "metaValue": "620 324"
+                },
+                {
+                    "metaName": "UILayout",
+                    "metaType": "string",
+                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"path\"\n            },\n            {\n                \"port\": \"mesh\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"General\",\n                \"items\": [\n                    {\n                        \"port\": \"normal_per_vertex\"\n                    },\n                    {\n                        \"condition\": {\n                            \"action\": \"disable\",\n                            \"op\": \"==\",\n                            \"port\": \"normal_per_vertex\",\n                            \"value\": \"\"\n                        },\n                        \"group\": \"Disable based on: normal_per_vertex\",\n                        \"items\": [\n                            {\n                                \"port\": \"subdivision_scheme\"\n                            }\n                        ],\n                        \"unique_id\": 22\n                    },\n                    {\n                        \"port\": \"use_frame\"\n                    },\n                    {\n                        \"port\": \"frame\"\n                    },\n                    {\n                        \"expanded\": false,\n                        \"group\": \"Variant Selection\",\n                        \"items\": [\n                            {\n                                \"port\": \"variant_set_name\"\n                            },\n                            {\n                                \"port\": \"variant_name\"\n                            }\n                        ],\n                        \"unique_id\": 8\n                    }\n                ],\n                \"unique_id\": 3\n            },\n            {\n                \"port\": \"reference_definitions\"\n            },\n            {\n                \"port\": \"attribute_definitions\"\n            },\n            {\n                \"port\": \"children\"\n            },\n            {\n                \"port\": \"relationship_definitions\"\n            },\n            {\n                \"port\": \"material\"\n            }\n        ]\n    }\n}\n"
                 },
                 {
                     "metaName": "zValue",
                     "metaType": "string",
-                    "metaValue": "46.000000"
+                    "metaValue": "43.000000"
                 }
             ],
             "ports": [
@@ -1146,7 +1146,13 @@
                             "compounds": [
                                 {
                                     "name": "for_each",
+                                    "uriImported": "file:///define_usd_mesh.json",
                                     "metadata": [
+                                        {
+                                            "metaName": "icon",
+                                            "metaType": "string",
+                                            "metaValue": "<NATIVE>../icons/LoopForEach.svg"
+                                        },
                                         {
                                             "metaName": "icon",
                                             "metaType": "string",

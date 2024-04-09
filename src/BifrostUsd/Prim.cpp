@@ -1,5 +1,5 @@
 //-
-// Copyright 2022 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,12 +28,11 @@ Prim::Prim(PXR_NS::UsdPrim prim, Amino::Ptr<Stage> stage)
     assert((stage_ptr != nullptr) == (pxr_prim.IsValid()));
 }
 Prim::~Prim() = default;
-} // namespace BifrostUsd
 
 //------------------------------------------------------------------------------
 //
-template <>
-Amino::Ptr<BifrostUsd::Prim> Amino::createDefaultClass() {
+namespace {
+Amino::Ptr<BifrostUsd::Prim> createDefaultPrim() {
     // Destructor of USD instances are lauching threads. This result in
     // a deadlock on windows when unloading the library (which destroys the
     // default constructed object held in static variables).
@@ -43,4 +42,7 @@ Amino::Ptr<BifrostUsd::Prim> Amino::createDefaultClass() {
     auto pxr_prim = stage->get().GetPseudoRoot();
     return Amino::newClassPtr<BifrostUsd::Prim>(pxr_prim, stage);
 }
-AMINO_DEFINE_DEFAULT_CLASS(BifrostUsd::Prim);
+} // namespace
+} // namespace BifrostUsd
+
+AMINO_DEFINE_DEFAULT_CLASS(BifrostUsd::Prim, BifrostUsd::createDefaultPrim());

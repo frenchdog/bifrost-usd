@@ -69,12 +69,12 @@ Amino::String const kUsdPrimName      = "BifrostUsd::Prim";
 Amino::String const kLastModifiedPrim = "last modified prim";
 Amino::String const kLastModifiedPrimDesc =
     "The prim that was modified last on the stage";
-Amino::String const kLastModifiedVariant = "last_modified_variant";
-Amino::String const kLastModifiedVariantDesc =
-    "The variant that was modifed last on the stage";
-Amino::String const kStageFilePaths     = "file_paths";
+Amino::String const kVariantSelection = "variant selection";
+Amino::String const kVariantSelectionDesc =
+    "The selected variant on the stage";
+Amino::String const kStageFilePaths     = "file paths";
 Amino::String const kStageFilePathsDesc = "The stage file paths";
-Amino::String const kLayerStack         = "layer_stack";
+Amino::String const kLayerStack         = "layer stack";
 Amino::String const kLayerStackDesc =
     "The layer stack, organized from strongest to weakest";
 Amino::String const kStats = "stats";
@@ -338,11 +338,9 @@ void USDWPClientData::record(StagePtr const& stage) {
             m_recordedValues.set(kStageFilePaths, filePaths);
         }
 
-        if (!stage->last_modified_variant_name.empty()) {
-            m_recordedValues.set(kLastModifiedVariant,
-                                 stage->last_modified_variant_set_prim + ": " +
-                                     stage->last_modified_variant_set_name +
-                                     "::" + stage->last_modified_variant_name);
+        if (!stage->variantSelection().empty()) {
+            m_recordedValues.set(kVariantSelection,
+                                 stage->variantSelection().variantInfo());
         }
 
         Amino::String layerStackString = "";
@@ -545,7 +543,7 @@ bool USDWatchpoint::getAvailableParameters(
         return true;
     } else if (isUsdStageType(dataType)) {
         out_parameters.push_back(kLastModifiedPrim);
-        out_parameters.push_back(kLastModifiedVariant);
+        out_parameters.push_back(kVariantSelection);
         out_parameters.push_back(kStageFilePaths);
         out_parameters.push_back(kLayerStack);
         out_parameters.push_back(kStats);
@@ -574,8 +572,8 @@ bool USDWatchpoint::getParameterDetails(
     } else if (isUsdStageType(dataType)) {
         if (parameter == kLastModifiedPrim) {
             out_description = kLastModifiedPrimDesc;
-        } else if (parameter == kLastModifiedVariant) {
-            out_description = kLastModifiedVariantDesc;
+        } else if (parameter == kVariantSelection) {
+            out_description = kVariantSelectionDesc;
         } else if (parameter == kLayerStack) {
             out_description = kLayerStackDesc;
         } else if (parameter == kStats) {

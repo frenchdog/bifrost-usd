@@ -89,12 +89,7 @@ void reasonablyEqual(const BifrostUsd::Stage& lhs,
         // all other strings
         EXPECT_STREQ(lhs.last_modified_prim.c_str(),
                      rhs.last_modified_prim.c_str());
-        EXPECT_STREQ(lhs.last_modified_variant_set_prim.c_str(),
-                     rhs.last_modified_variant_set_prim.c_str());
-        EXPECT_STREQ(lhs.last_modified_variant_set_name.c_str(),
-                     rhs.last_modified_variant_set_name.c_str());
-        EXPECT_STREQ(lhs.last_modified_variant_name.c_str(),
-                     rhs.last_modified_variant_name.c_str());
+        EXPECT_EQ(lhs.variantSelection(), rhs.variantSelection());
     }
 }
 

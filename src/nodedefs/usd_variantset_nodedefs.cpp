@@ -15,58 +15,55 @@
 //+
 
 #include "usd_variantset_nodedefs.h"
+#include <BifrostUsd/VariantContext.h>
+#include <BifrostUsd/VariantSelection.h>
 
 #include <Amino/Core/String.h>
+#include <pxr/base/tf/token.h>
+#include <pxr/pxr.h>
 #include <pxr/usd/sdf/copyUtils.h>
-
-#include <iostream>
+#include <pxr/usd/sdf/path.h>
+#include <algorithm>
 
 #include "logger.h"
 #include "usd_utils.h"
 
-namespace {
-/// \todo BIFROST-6381 Investigate if USD throws and whether all try/catch
-/// are necessary.
-void log_exception(const char* func_name, std::exception const& e) {
-    if (USDUtils::Logger::errorVerboseLevel() > 0) {
-        std::cerr << func_name << " failed: " << e.what() << std::endl;
-    }
-}
-} // namespace
+using namespace USDUtils;
 
-void USD::VariantSet::add_variant_set(BifrostUsd::Stage& stage,
+void USD::VariantSet::add_variant_set(BifrostUsd::Stage&   stage,
                                       const Amino::String& prim_path,
                                       const Amino::String& variant_set_name) {
     try {
-        if (stage) {
-            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-            if (pxr_prim) {
+        BifrostUsd::WithVariantContext(stage, [&]() {
+            if (stage) {
+                auto resolvedPath =
+                    USDUtils::resolve_prim_path(prim_path, stage);
+                auto pxr_prim =
+                    USDUtils::get_prim_or_throw(resolvedPath, stage);
                 pxr_prim.GetVariantSets().AddVariantSet(
                     variant_set_name.c_str());
-                stage.last_modified_prim = pxr_prim.GetPath().GetText();
-                stage.last_modified_variant_set_prim = stage.last_modified_prim;
-                stage.last_modified_variant_set_name = variant_set_name;
+                stage.last_modified_prim = resolvedPath;
             }
-        }
-
+        });
     } catch (std::exception& e) {
         log_exception("add_variant_set", e);
     }
 }
 
-void USD::VariantSet::add_variant(BifrostUsd::Stage& stage,
+void USD::VariantSet::add_variant(BifrostUsd::Stage&   stage,
                                   const Amino::String& prim_path,
                                   const Amino::String& variant_set_name,
                                   const Amino::String& variant_name,
                                   const bool           set_variant_selection) {
     try {
-        if (stage) {
-            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-            if (pxr_prim) {
+        BifrostUsd::WithVariantContext(stage, [&]() {
+            if (stage) {
+                auto pxr_prim =
+                    USDUtils::get_prim_or_throw(USDUtils::resolve_prim_path(prim_path, stage), stage);
+
                 Amino::String resolved_variant_set_name = variant_set_name;
                 if (resolved_variant_set_name.empty()) {
-                    resolved_variant_set_name =
-                        stage.last_modified_variant_set_name;
+                    resolved_variant_set_name = stage.lastModifiedVariantSet();
                 }
                 if (!resolved_variant_set_name.empty()) {
                     auto pxr_variant_set = pxr_prim.GetVariantSet(
@@ -77,18 +74,18 @@ void USD::VariantSet::add_variant(BifrostUsd::Stage& stage,
                         if (set_variant_selection) {
                             pxr_variant_set.SetVariantSelection(
                                 variant_name.c_str());
+                            stage.variantSelection().add(
+                                pxr_prim.GetPath().GetText(), variant_set_name.c_str(),
+                                variant_name.c_str());
                         }
 
                         stage.last_modified_prim = pxr_prim.GetPath().GetText();
-                        stage.last_modified_variant_set_prim =
-                            stage.last_modified_prim;
-                        stage.last_modified_variant_set_name =
-                            resolved_variant_set_name;
-                        stage.last_modified_variant_name = variant_name;
+                        stage.variantSelection().setPrimPath(
+                            stage.last_modified_prim);
                     }
                 }
             }
-        }
+        });
 
     } catch (std::exception& e) {
         log_exception("add_variant", e);
@@ -96,50 +93,61 @@ void USD::VariantSet::add_variant(BifrostUsd::Stage& stage,
 }
 
 void USD::VariantSet::set_variant_selection(
-    BifrostUsd::Stage& stage,
+    BifrostUsd::Stage&   stage,
     const Amino::String& prim_path,
     const Amino::String& variant_set_name,
     const Amino::String& variant_name,
     bool                 clear) {
     try {
         if (stage) {
-            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-            if (!pxr_prim) {
-                throw std::runtime_error("Could not get prim at path " +
-                                         std::string(prim_path.c_str()));
-            } else {
-                Amino::String resolved_variant_set_name =
-                    clear ? "" : variant_set_name;
-                if (resolved_variant_set_name.empty()) {
-                    resolved_variant_set_name =
-                        stage.last_modified_variant_set_name;
-                }
-                if (!resolved_variant_set_name.empty()) {
-                    auto vset = pxr_prim.GetVariantSet(
-                        resolved_variant_set_name.c_str());
-                    stage.last_modified_variant_set_name =
-                        resolved_variant_set_name;
-                    Amino::String resolved_variant_name = variant_name;
-                    if (resolved_variant_name.empty() && !clear) {
-                        resolved_variant_name =
-                            stage.last_modified_variant_name;
-                    }
-                    stage.last_modified_variant_name = resolved_variant_name;
-                    if (!resolved_variant_name.empty() && !clear) {
-                        if (!vset.SetVariantSelection(
-                                resolved_variant_name.c_str())) {
-                            throw std::runtime_error(
-                                "Could not set Variant selection to " +
-                                std::string(resolved_variant_name.c_str()));
-                        }
-                    } else if (clear) {
-                        vset.ClearVariantSelection();
-                    }
-                    stage.last_modified_prim = pxr_prim.GetPath().GetText();
-                    stage.last_modified_variant_set_prim =
-                        stage.last_modified_prim;
-                }
+            if (variant_set_name.empty()) {
+                throw std::runtime_error(
+                    "Could not set Variant selection with an empty Variant Set "
+                    "name");
+            } else if (variant_name.empty()) {
+                // If variant_name is empty, UsdVariantSet::SetVariantSelection
+                // will clear the variant selection. Bifrost USD avoid this
+                // behaviour to remove confusion while authoring a graph.
+                throw std::runtime_error(
+                    "Could not set Variant selection with an empty Variant "
+                    "name. If you want to clear the variantSet selection use "
+                    "the clear_variant_selection node");
             }
+
+            if (clear) {
+                stage.variantSelection().clear();
+            }
+
+            BifrostUsd::WithVariantContext(stage, [&]() {
+                auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+
+                // Check if variant_set_name is valid
+                std::vector<std::string> vsetNames;
+                pxr_prim.GetVariantSets().GetNames(&vsetNames);
+
+                auto it = std::find(vsetNames.begin(), vsetNames.end(),
+                                    variant_set_name.c_str());
+                if (it == vsetNames.end()) {
+                    throw std::runtime_error("VariantSet not found");
+                }
+
+                auto vset = pxr_prim.GetVariantSet(variant_set_name.c_str());
+                if (clear) {
+                    vset.ClearVariantSelection();
+                }
+
+                if (!vset.SetVariantSelection(variant_name.c_str())) {
+                    throw std::runtime_error(
+                        "Could not set Variant selection to " +
+                        std::string(variant_name.c_str()));
+                }
+
+                stage.variantSelection().add(pxr_prim.GetPath().GetText(),
+                                              variant_set_name.c_str(),
+                                              variant_name.c_str());
+
+                stage.last_modified_prim = pxr_prim.GetPath().GetText();
+            });
         }
 
     } catch (std::exception& e) {
@@ -147,25 +155,36 @@ void USD::VariantSet::set_variant_selection(
     }
 }
 
+void USD::VariantSet::clear_variant_selection(
+    BifrostUsd::Stage&   stage,
+    const Amino::String& prim_path,
+    const Amino::String& variant_set_name) {
+    try {
+        if (stage) {
+            auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+            auto vset     = pxr_prim.GetVariantSet(variant_set_name.c_str());
+            vset.ClearVariantSelection();
+            stage.variantSelection().clear();
+        }
+    } catch (std::exception& e) {
+        log_exception("clear_variant_selection", e);
+    }
+}
+
 void USD::VariantSet::get_variant_sets(
-    const BifrostUsd::Stage&                      stage,
+    const BifrostUsd::Stage&                        stage,
     const Amino::String&                            prim_path,
     Amino::MutablePtr<Amino::Array<Amino::String>>& names) {
     names = Amino::newMutablePtr<Amino::Array<Amino::String>>();
     try {
         if (stage) {
-            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-            if (!pxr_prim) {
-                throw std::runtime_error("Could not get prim at path " +
-                                         std::string(prim_path.c_str()));
-            } else {
-                if (!pxr_prim.HasVariantSets()) {
-                    return;
-                }
+            auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+            if (!pxr_prim.HasVariantSets()) {
+                return;
+            }
 
-                for (const auto& name : pxr_prim.GetVariantSets().GetNames()) {
-                    names->push_back(name.c_str());
-                }
+            for (const auto& name : pxr_prim.GetVariantSets().GetNames()) {
+                names->push_back(name.c_str());
             }
         }
 
@@ -175,28 +194,24 @@ void USD::VariantSet::get_variant_sets(
 }
 
 void USD::VariantSet::get_variants(
-    const BifrostUsd::Stage&                      stage,
+    const BifrostUsd::Stage&                        stage,
     const Amino::String&                            prim_path,
     const Amino::String&                            variant_set_name,
     Amino::MutablePtr<Amino::Array<Amino::String>>& names) {
     names = Amino::newMutablePtr<Amino::Array<Amino::String>>();
     try {
         if (stage) {
-            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-            if (pxr_prim) {
-                Amino::String resolved_variant_set_name = variant_set_name;
-                if (resolved_variant_set_name.empty()) {
-                    resolved_variant_set_name =
-                        stage.last_modified_variant_set_name;
-                }
-                if (!resolved_variant_set_name.empty()) {
-                    auto pxr_variant_set = pxr_prim.GetVariantSet(
-                        resolved_variant_set_name.c_str());
-                    if (pxr_variant_set) {
-                        for (const auto& name :
-                             pxr_variant_set.GetVariantNames()) {
-                            names->push_back(name.c_str());
-                        }
+            auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+            Amino::String resolved_variant_set_name = variant_set_name;
+            if (resolved_variant_set_name.empty()) {
+                resolved_variant_set_name = stage.lastModifiedVariantSet();
+            }
+            if (!resolved_variant_set_name.empty()) {
+                auto pxr_variant_set =
+                    pxr_prim.GetVariantSet(resolved_variant_set_name.c_str());
+                if (pxr_variant_set) {
+                    for (const auto& name : pxr_variant_set.GetVariantNames()) {
+                        names->push_back(name.c_str());
                     }
                 }
             }

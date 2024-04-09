@@ -26,9 +26,11 @@ set(usd_headers
 
 
 set(usdHeaders
-    StageCache.h
-    BifrostUsdExport.h
     ${usd_headers}
+    BifrostUsdExport.h
+    StageCache.h
+    VariantContext.h
+    VariantSelection.h
 )
 
 bifusd_install_headers(

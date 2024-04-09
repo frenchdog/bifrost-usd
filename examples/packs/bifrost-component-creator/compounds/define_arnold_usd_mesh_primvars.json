@@ -1,0 +1,634 @@
+{
+    "header": {
+        "metadata": [
+            {
+                "metaName": "adskFileFormatVersion",
+                "metaValue": "100L"
+            }
+        ]
+    },
+    "namespaces": [],
+    "types": [],
+    "compounds": [
+        {
+            "name": "USD::Arnold::define_arnold_usd_mesh_primvars",
+            "uriImported": "file:///define_arnold_usd_mesh_primvars.json",
+            "metadata": [
+                {
+                    "metaName": "icon",
+                    "metaType": "string",
+                    "metaValue": "../icons/arnold_logo_200.png"
+                },
+                {
+                    "metaName": "io_nodes",
+                    "metadata": [
+                        {
+                            "metaName": "io_inodes",
+                            "metadata": [
+                                {
+                                    "metaName": "input_subdiv",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "163.605 129.245"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "39.000000"
+                                        },
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "subdiv_type"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_iterations"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_adaptive_error"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_adaptive_metric"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_adaptive_space"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_frustum_ignore"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_uv_smoothing"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_smooth_derivs"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "metaName": "input_disp",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "201.377 598.592"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "34.000000"
+                                        },
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "disp_height"
+                                                },
+                                                {
+                                                    "metaName": "disp_padding"
+                                                },
+                                                {
+                                                    "metaName": "disp_zero_value"
+                                                },
+                                                {
+                                                    "metaName": "disp_autobump"
+                                                },
+                                                {
+                                                    "metaName": "autobump_visibility_by_ray_type"
+                                                },
+                                                {
+                                                    "metaName": "smoothing"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "metaName": "input",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "578.754 -150.085"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "37.000000"
+                                        },
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "prim_paths"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "io_onodes",
+                            "metadata": [
+                                {
+                                    "metaName": "output",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "1407.23 243.892"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "31.000000"
+                                        },
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "primvar_definitions"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Arnold,define_arnold_usd_mesh_disp"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Arnold,define_arnold_usd_mesh_subdiv"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Attribute,define_usd_transform"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,Rendering::Arnold,set_Arnold_mesh_settings"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "backdrop"
+                },
+                {
+                    "metaName": "ViewportRect",
+                    "metaType": "string",
+                    "metaValue": "45.5836 -259.283 1096.54 1424.21"
+                },
+                {
+                    "metaName": "UILayout",
+                    "metaType": "string",
+                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"stage\"\n            },\n            {\n                \"port\": \"prim_path\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Subdivision\",\n                \"items\": [\n                    {\n                        \"port\": \"subdiv_type\"\n                    },\n                    {\n                        \"port\": \"subdiv_iterations\"\n                    },\n                    {\n                        \"port\": \"subdiv_adaptive_error\"\n                    },\n                    {\n                        \"port\": \"subdiv_adaptive_metric\"\n                    },\n                    {\n                        \"port\": \"subdiv_adaptive_space\"\n                    },\n                    {\n                        \"port\": \"subdiv_frustum_ignore\"\n                    },\n                    {\n                        \"port\": \"subdiv_uv_smoothing\"\n                    },\n                    {\n                        \"port\": \"subdiv_smooth_derivs\"\n                    }\n                ],\n                \"unique_id\": 5\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Displacement\",\n                \"items\": [\n                    {\n                        \"port\": \"disp_padding\"\n                    },\n                    {\n                        \"port\": \"disp_height\"\n                    },\n                    {\n                        \"port\": \"disp_zero_value\"\n                    },\n                    {\n                        \"port\": \"disp_autobump\"\n                    },\n                    {\n                        \"port\": \"autobump_visibility_by_ray_type\"\n                    }\n                ],\n                \"unique_id\": 10\n            },\n            {\n                \"port\": \"prim_paths\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Normals\",\n                \"items\": [\n                    {\n                        \"port\": \"smoothing\"\n                    }\n                ],\n                \"unique_id\": 25\n            }\n        ]\n    }\n}\n"
+                },
+                {
+                    "metaName": "PortExpandedState",
+                    "metadata": [
+                        {
+                            "metaName": "prim_paths",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "Displacement",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "Subdivision",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "Normals",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        }
+                    ]
+                },
+                {
+                    "metaName": "DisplayMode",
+                    "metaType": "string",
+                    "metaValue": "2"
+                },
+                {
+                    "metaName": "LayoutPos",
+                    "metaType": "string",
+                    "metaValue": "-481.059 806.067"
+                },
+                {
+                    "metaName": "zValue",
+                    "metaType": "string",
+                    "metaValue": "56.000000"
+                }
+            ],
+            "ports": [
+                {
+                    "portName": "prim_paths",
+                    "portDirection": "input",
+                    "portType": "array<string>",
+                    "portDefault": [],
+                    "isDefaultFanIn": "true",
+                    "metadata": [
+                        {
+                            "metaName": "quick_create",
+                            "metaType": "string",
+                            "metaValue": "USDLab::PatternMatching::path_expression"
+                        }
+                    ]
+                },
+                {
+                    "portName": "subdiv_type",
+                    "portDirection": "input",
+                    "portType": "Rendering::Arnold::SubdivType",
+                    "portDefault": "Catmull-Clark"
+                },
+                {
+                    "portName": "subdiv_iterations",
+                    "portDirection": "input",
+                    "portType": "int",
+                    "portDefault": "2L",
+                    "metadata": [
+                        {
+                            "metaName": "UISoftMin",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "UISoftMax",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        }
+                    ]
+                },
+                {
+                    "portName": "primvar_definitions",
+                    "portDirection": "output",
+                    "portType": "Object"
+                },
+                {
+                    "portName": "subdiv_adaptive_error",
+                    "portDirection": "input",
+                    "portType": "float",
+                    "portDefault": "0f"
+                },
+                {
+                    "portName": "subdiv_adaptive_metric",
+                    "portDirection": "input",
+                    "portType": "Rendering::Arnold::SubdivAdaptiveMetric",
+                    "portDefault": "Auto"
+                },
+                {
+                    "portName": "disp_height",
+                    "portDirection": "input",
+                    "portType": "float",
+                    "portDefault": "1f"
+                },
+                {
+                    "portName": "disp_padding",
+                    "portDirection": "input",
+                    "portType": "float",
+                    "portDefault": "0f"
+                },
+                {
+                    "portName": "disp_zero_value",
+                    "portDirection": "input",
+                    "portType": "float",
+                    "portDefault": "0f"
+                },
+                {
+                    "portName": "subdiv_adaptive_space",
+                    "portDirection": "input",
+                    "portType": "Rendering::Arnold::SubdivAdaptiveSpace",
+                    "portDefault": "Raster"
+                },
+                {
+                    "portName": "subdiv_frustum_ignore",
+                    "portDirection": "input",
+                    "portType": "bool",
+                    "portDefault": "false"
+                },
+                {
+                    "portName": "subdiv_uv_smoothing",
+                    "portDirection": "input",
+                    "portType": "Rendering::Arnold::SubdivUVSmoothing",
+                    "portDefault": "Pin Corners"
+                },
+                {
+                    "portName": "subdiv_smooth_derivs",
+                    "portDirection": "input",
+                    "portType": "bool",
+                    "portDefault": "false"
+                },
+                {
+                    "portName": "disp_autobump",
+                    "portDirection": "input",
+                    "portType": "bool",
+                    "portDefault": "false"
+                },
+                {
+                    "portName": "autobump_visibility_by_ray_type",
+                    "portDirection": "input",
+                    "portType": "uchar",
+                    "portDefault": "255"
+                },
+                {
+                    "portName": "smoothing",
+                    "portDirection": "input",
+                    "portType": "bool",
+                    "portDefault": "true"
+                }
+            ],
+            "compoundNodes": [
+                {
+                    "nodeName": "set_property",
+                    "nodeType": "Core::Object::set_property",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "1114.46 -40.231"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "38.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "set_property1",
+                    "nodeType": "Core::Object::set_property",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "829.993 -258.643"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "36.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "value2",
+                    "valueType": "Object",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "565.683 -305.274"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "35.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "build_array",
+                    "nodeType": "Core::Array::build_array",
+                    "multiInPortNames": [
+                        "attribute_definitions",
+                        "attribute_definitions1"
+                    ],
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "812.036 230.071"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "32.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_arnold_usd_mesh_subdiv",
+                    "nodeType": "USD::Arnold::define_arnold_usd_mesh_subdiv",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "502.56 106.31"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "33.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_arnold_usd_mesh_disp",
+                    "nodeType": "USD::Arnold::define_arnold_usd_mesh_disp",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "499.487 565.829"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "40.000000"
+                        }
+                    ]
+                }
+            ],
+            "connections": [
+                {
+                    "source": "set_property1.out_object",
+                    "target": "set_property.object"
+                },
+                {
+                    "source": "value2.output",
+                    "target": "set_property1.object"
+                },
+                {
+                    "source": ".prim_paths",
+                    "target": "set_property1.value"
+                },
+                {
+                    "source": "build_array.array",
+                    "target": "set_property.value"
+                },
+                {
+                    "source": "set_property.out_object",
+                    "target": ".primvar_definitions"
+                },
+                {
+                    "source": ".subdiv_type",
+                    "target": "define_arnold_usd_mesh_subdiv.subdiv_type"
+                },
+                {
+                    "source": ".subdiv_iterations",
+                    "target": "define_arnold_usd_mesh_subdiv.subdiv_iterations"
+                },
+                {
+                    "source": "define_arnold_usd_mesh_subdiv.attribute_definitions",
+                    "target": "build_array.first.attribute_definitions"
+                },
+                {
+                    "source": ".disp_height",
+                    "target": "define_arnold_usd_mesh_disp.disp_height"
+                },
+                {
+                    "source": ".disp_padding",
+                    "target": "define_arnold_usd_mesh_disp.disp_padding"
+                },
+                {
+                    "source": ".disp_zero_value",
+                    "target": "define_arnold_usd_mesh_disp.disp_zero_value"
+                },
+                {
+                    "source": "define_arnold_usd_mesh_disp.attribute_definitions",
+                    "target": "build_array.first.attribute_definitions1"
+                },
+                {
+                    "source": ".subdiv_adaptive_error",
+                    "target": "define_arnold_usd_mesh_subdiv.subdiv_adaptive_error"
+                },
+                {
+                    "source": ".subdiv_adaptive_metric",
+                    "target": "define_arnold_usd_mesh_subdiv.subdiv_adaptive_metric"
+                },
+                {
+                    "source": ".subdiv_frustum_ignore",
+                    "target": "define_arnold_usd_mesh_subdiv.subdiv_frustum_ignore"
+                },
+                {
+                    "source": ".subdiv_adaptive_space",
+                    "target": "define_arnold_usd_mesh_subdiv.subdiv_adaptive_space"
+                },
+                {
+                    "source": ".subdiv_uv_smoothing",
+                    "target": "define_arnold_usd_mesh_subdiv.subdiv_uv_smoothing"
+                },
+                {
+                    "source": ".subdiv_smooth_derivs",
+                    "target": "define_arnold_usd_mesh_subdiv.subdiv_smooth_derivs"
+                },
+                {
+                    "source": ".disp_autobump",
+                    "target": "define_arnold_usd_mesh_disp.disp_autobump"
+                },
+                {
+                    "source": ".autobump_visibility_by_ray_type",
+                    "target": "define_arnold_usd_mesh_disp.autobump_visibility_by_ray_type"
+                },
+                {
+                    "source": ".smoothing",
+                    "target": "define_arnold_usd_mesh_disp.smoothing"
+                }
+            ],
+            "values": [
+                {
+                    "valueName": "set_property.key",
+                    "valueType": "string",
+                    "value": "primvars_definitions"
+                },
+                {
+                    "valueName": "set_property1.key",
+                    "valueType": "string",
+                    "value": "prim_paths"
+                },
+                {
+                    "valueName": "set_property1.value",
+                    "valueType": "array<string>",
+                    "value": []
+                },
+                {
+                    "valueName": "value2.value",
+                    "valueType": "Object",
+                    "value": {}
+                }
+            ],
+            "reservedNodeNames": [
+                {
+                    "name": "output"
+                },
+                {
+                    "name": "input_subdiv"
+                },
+                {
+                    "name": "input_disp"
+                },
+                {
+                    "name": "input"
+                }
+            ]
+        }
+    ]
+}

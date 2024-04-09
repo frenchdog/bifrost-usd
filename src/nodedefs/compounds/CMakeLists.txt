@@ -62,6 +62,7 @@ set(node_def_compound_json
     define_usd_attribute.json
     define_usd_curves.json
     define_usd_display_color.json
+    define_usd_geom_subset.json
     define_usd_material_tag.json
     define_usd_mesh.json
     define_usd_point_instancer.json
@@ -70,6 +71,8 @@ set(node_def_compound_json
     define_usd_reference.json
     define_usd_reference_from_file.json
     define_usd_relationship.json
+    define_usd_skeleton.json
+    define_usd_skeleton_animation.json
     define_usd_transform.json
     define_usd_variant_set.json
     duplicate_usd_prim_definition.json

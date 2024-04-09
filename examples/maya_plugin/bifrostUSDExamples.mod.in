@@ -1,0 +1,3 @@
++ bifrostUSDExamples @BIFUSD_MAJOR_VERSION@.@BIFUSD_MINOR_VERSION@.@BIFUSD_PATCH_LEVEL@ .
+PYTHONPATH+:=python
+BIFROST_LIB_CONFIG_FILES+:= ../packs/bifrost_config.json

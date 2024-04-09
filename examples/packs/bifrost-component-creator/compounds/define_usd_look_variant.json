@@ -1,0 +1,440 @@
+{
+    "header": {
+        "metadata": [
+            {
+                "metaName": "adskFileFormatVersion",
+                "metaValue": "100L"
+            }
+        ]
+    },
+    "namespaces": [],
+    "types": [],
+    "compounds": [
+        {
+            "name": "USD::Model::define_usd_look_variant",
+            "uriImported": "file:///define_usd_look_variant.json",
+            "metadata": [
+                {
+                    "metaName": "icon",
+                    "metaType": "string",
+                    "metaValue": "../icons/shader.svg"
+                },
+                {
+                    "metaName": "material_bindings",
+                    "metaType": "string",
+                    "metaValue": "1"
+                },
+                {
+                    "metaName": "io_nodes",
+                    "metadata": [
+                        {
+                            "metaName": "io_inodes",
+                            "metadata": [
+                                {
+                                    "metaName": "input",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "variant_name"
+                                                },
+                                                {
+                                                    "metaName": "material_bindings"
+                                                },
+                                                {
+                                                    "metaName": "proxy_material_bindings"
+                                                },
+                                                {
+                                                    "metaName": "primvar_definitions_array"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "40.000000"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "1604.74 915.279"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "io_onodes",
+                            "metadata": [
+                                {
+                                    "metaName": "output",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "look_variant"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "45.000000"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "3241.99 1012.62"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Prim,define_usd_prim"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,Core::Object,set_property"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Prim,set_prim_purpose"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,Core::String,string_empty"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,Core::Logic,if"
+                },
+                {
+                    "metaName": "NodeValueDisplay",
+                    "metadata": [
+                        {
+                            "metaName": "show",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "format",
+                            "metaType": "string",
+                            "metaValue": "Define {variant_name} Look Variant"
+                        }
+                    ]
+                },
+                {
+                    "metaName": "PortExpandedState",
+                    "metadata": [
+                        {
+                            "metaName": "material_bindings",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "proxy_material_bindings",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        }
+                    ]
+                },
+                {
+                    "metaName": "ViewportRect",
+                    "metaType": "string",
+                    "metaValue": "1325.19 126.123 2293.71 1595.83"
+                },
+                {
+                    "metaName": "DisplayMode",
+                    "metaType": "string",
+                    "metaValue": "2"
+                },
+                {
+                    "metaName": "LayoutPos",
+                    "metaType": "string",
+                    "metaValue": "-847.862 129.931"
+                },
+                {
+                    "metaName": "UILayout",
+                    "metaType": "string",
+                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"variant_name\"\n            },\n            {\n                \"port\": \"remove_dir_path\"\n            },\n            {\n                \"port\": \"use_existing_material_file\"\n            },\n            {\n                \"port\": \"info\"\n            },\n            {\n                \"port\": \"purpose\"\n            },\n            {\n                \"port\": \"create_materials_file\"\n            },\n            {\n                \"port\": \"materials_file\"\n            },\n            {\n                \"port\": \"use_existing_bidings_file\"\n            },\n            {\n                \"port\": \"create_bindings_file\"\n            },\n            {\n                \"port\": \"materials_bindings_file\"\n            },\n            {\n                \"port\": \"material_bindings\"\n            },\n            {\n                \"port\": \"proxy_geo_scope_name\"\n            },\n            {\n                \"port\": \"proxy_material_bindings\"\n            }\n        ]\n    }\n}\n"
+                },
+                {
+                    "metaName": "zValue",
+                    "metaType": "string",
+                    "metaValue": "41.000000"
+                }
+            ],
+            "ports": [
+                {
+                    "portName": "variant_name",
+                    "portDirection": "input",
+                    "portType": "string",
+                    "portDefault": "look1"
+                },
+                {
+                    "portName": "material_bindings",
+                    "portDirection": "input",
+                    "portType": "array<Object>",
+                    "portDefault": [],
+                    "isDefaultFanIn": "true",
+                    "metadata": [
+                        {
+                            "metaName": "quick_create",
+                            "metaType": "string",
+                            "metaValue": "USD::Model::define_usd_material_binding"
+                        }
+                    ]
+                },
+                {
+                    "portName": "look_variant",
+                    "portDirection": "output",
+                    "portType": "Object"
+                },
+                {
+                    "portName": "proxy_material_bindings",
+                    "portDirection": "input",
+                    "portType": "array<Object>",
+                    "portDefault": [],
+                    "isDefaultFanIn": "true",
+                    "metadata": [
+                        {
+                            "metaName": "quick_create",
+                            "metaType": "string",
+                            "metaValue": "USD::Model::define_usd_material_binding"
+                        }
+                    ]
+                },
+                {
+                    "portName": "primvar_definitions_array",
+                    "portDirection": "input",
+                    "portType": "array<Object>",
+                    "portDefault": [],
+                    "isDefaultFanIn": "true",
+                    "metadata": [
+                        {
+                            "metaName": "quick_create",
+                            "metaType": "string",
+                            "metaValue": "USD::Arnold::define_arnold_usd_mesh_primvars"
+                        }
+                    ]
+                }
+            ],
+            "compoundNodes": [
+                {
+                    "nodeName": "set_property1",
+                    "nodeType": "Core::Object::set_property",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "41.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "2078.7 735.926"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "set_property2",
+                    "nodeType": "Core::Object::set_property",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "43.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "2373.68 873.232"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "value",
+                    "valueType": "Object",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "42.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "1799.48 615.924"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "set_property7",
+                    "nodeType": "Core::Object::set_property",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "2674.6 1036.88"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "34.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "set_property8",
+                    "nodeType": "Core::Object::set_property",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "44.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "2919.22 1157.75"
+                        }
+                    ]
+                }
+            ],
+            "connections": [
+                {
+                    "source": ".material_bindings",
+                    "target": "set_property2.value"
+                },
+                {
+                    "source": ".proxy_material_bindings",
+                    "target": "set_property7.value"
+                },
+                {
+                    "source": ".primvar_definitions_array",
+                    "target": "set_property8.value"
+                },
+                {
+                    "source": "set_property2.out_object",
+                    "target": "set_property7.object"
+                },
+                {
+                    "source": "set_property7.out_object",
+                    "target": "set_property8.object"
+                },
+                {
+                    "source": "set_property8.out_object",
+                    "target": ".look_variant"
+                },
+                {
+                    "source": "value.output",
+                    "target": "set_property1.object"
+                },
+                {
+                    "source": ".variant_name",
+                    "target": "set_property1.value"
+                },
+                {
+                    "source": "set_property1.out_object",
+                    "target": "set_property2.object"
+                }
+            ],
+            "values": [
+                {
+                    "valueName": "set_property1.key",
+                    "valueType": "string",
+                    "value": "variant_name"
+                },
+                {
+                    "valueName": "set_property2.key",
+                    "valueType": "string",
+                    "value": "material_bindings"
+                },
+                {
+                    "valueName": "set_property2.value",
+                    "valueType": "array<Object>",
+                    "value": []
+                },
+                {
+                    "valueName": "value.value",
+                    "valueType": "Object",
+                    "value": {}
+                },
+                {
+                    "valueName": "set_property7.key",
+                    "valueType": "string",
+                    "value": "proxy_material_bindings"
+                },
+                {
+                    "valueName": "set_property7.value",
+                    "valueType": "array<Object>",
+                    "value": []
+                },
+                {
+                    "valueName": "set_property8.key",
+                    "valueType": "string",
+                    "value": "primvar_definitions_array"
+                },
+                {
+                    "valueName": "set_property8.value",
+                    "valueType": "array<Object>",
+                    "value": []
+                }
+            ],
+            "reservedNodeNames": [
+                {
+                    "name": "input"
+                },
+                {
+                    "name": "output"
+                }
+            ]
+        }
+    ]
+}

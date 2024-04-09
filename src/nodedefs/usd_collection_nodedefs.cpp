@@ -15,6 +15,7 @@
 //+
 
 #include "usd_collection_nodedefs.h"
+#include <BifrostUsd/VariantContext.h>
 
 #include <Amino/Core/String.h>
 
@@ -47,7 +48,7 @@ bool USD::Collection::get_or_create_collection(
     try {
         auto prim = USDUtils::get_prim_or_throw(prim_path, stage);
 
-        VariantEditContext ctx(stage);
+        return BifrostUsd::WithVariantContext(stage, [&]() {
 
         auto collectionAPI = PXR_NS::UsdCollectionAPI::Get(
             prim, PXR_NS::TfToken{collection_name.c_str()});
@@ -111,6 +112,7 @@ bool USD::Collection::get_or_create_collection(
         }
 
         return true;
+    });
 
     } catch (std::exception& e) {
         log_exception("USD::Collection::get_or_create_collection", e);

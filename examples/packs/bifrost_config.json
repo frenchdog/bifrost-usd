@@ -1,0 +1,4 @@
+{
+    "include": "bifrost-component-creator/bifrost_config.json",
+    "include": "misc-compounds/bifrost_config.json"
+}

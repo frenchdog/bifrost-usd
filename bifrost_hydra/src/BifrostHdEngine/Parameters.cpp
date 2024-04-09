@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,11 @@
 //+
 
 #include <BifrostHydra/Engine/Parameters.h>
+
+#include <Bifrost/Object/Object.h>
+
+#include <Amino/Core/Array.h>
+#include <Amino/Core/Ptr.h>
 
 #include <pxr/imaging/hd/primvarsSchema.h>
 
@@ -34,7 +39,7 @@ public:
         return m_inputScene;
     }
 
-    void setInputs(PXR_NS::HdSceneIndexPrim const& prim) {
+    void setInputs(const PXR_NS::HdSceneIndexPrim& prim) {
         auto primvarSchema =
             PXR_NS::HdPrimvarsSchema::GetFromParent(prim.dataSource);
 
@@ -67,7 +72,9 @@ public:
     const std::string& compoundName() const { return m_compound_name; }
 
     const Inputs& inputs() const { return m_inputs; }
+    Inputs& inputs() { return m_inputs; }
 
+    const Output& output() const { return m_output; }
     Output& output() { return m_output; }
 
 public:
@@ -80,10 +87,10 @@ public:
     /// \}
 
 private:
-    std::string m_compound_name;
+    std::string                    m_compound_name;
     PXR_NS::HdSceneIndexBaseRefPtr m_inputScene;
-    Inputs      m_inputs;
-    Output      m_output;
+    Inputs                         m_inputs;
+    Output                         m_output;
 };
 
 Parameters::Parameters() : m_impl(std::make_unique<Impl>()) {}
@@ -97,13 +104,17 @@ void Parameters::setInputScene(PXR_NS::HdSceneIndexBaseRefPtr inputScene) {
     m_impl->setInputScene(std::move(inputScene));
 }
 
-void Parameters::setInputs(PXR_NS::HdSceneIndexPrim const& prim) {
+void Parameters::setInputs(const PXR_NS::HdSceneIndexPrim& prim) {
     m_impl->setInputs(prim);
 }
 
 const std::string& Parameters::compoundName() const { return m_impl->compoundName(); }
 
 const Inputs& Parameters::inputs() const { return m_impl->inputs(); }
+
+Inputs& Parameters::inputs() { return m_impl->inputs(); }
+
+const Output& Parameters::output() const { return m_impl->output(); }
 
 Output& Parameters::output() { return m_impl->output(); }
 

@@ -54,6 +54,7 @@ enum /*@cond true*/ class AMINO_ANNOTATE(
 /// An enum for the SdfValueTypeNames.
 enum /*@cond true*/ class AMINO_ANNOTATE(
     "Amino::Enum") /*@endcond*/ SdfValueTypeName : int {
+    Invalid,
     Asset,
     AssetArray,
     Bool,

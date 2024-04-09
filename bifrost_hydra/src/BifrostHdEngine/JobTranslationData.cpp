@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,33 +22,28 @@ namespace BifrostHd {
 
 class JobTranslationData::Impl {
 public:
-    Impl(bool logVerbose, Time const& time, Parameters& params)
-        : m_logVerbose(logVerbose), m_time(time), m_params(params) {
-        (void)m_logVerbose;
-    }
+    Impl(Parameters& params, const Time& time)
+        : m_params(params), m_time(time) {}
 
-    JobTranslationData::Time getTime() const { return m_time; }
     Parameters&              getParameters() { return m_params; }
+    JobTranslationData::Time getTime() const { return m_time; }
 
 private:
-    bool const  m_logVerbose;
-    Time        m_time;
     Parameters& m_params;
+    Time        m_time;
 };
 
-JobTranslationData::JobTranslationData(Parameters& params,
-                                       bool        logVerbose,
-                                       Time const& time)
-    : BifrostGraph::Executor::JobPreview::JobTranslationData(),
-      m_impl(std::make_unique<Impl>(logVerbose, time, params)) {}
+JobTranslationData::JobTranslationData(Parameters& params, const Time& time)
+    : m_impl(std::make_unique<Impl>(params, time)) {}
 
 JobTranslationData::~JobTranslationData() = default;
+
+Parameters& JobTranslationData::getParameters() {
+    return m_impl->getParameters();
+}
 
 JobTranslationData::Time JobTranslationData::getTime() const {
     return m_impl->getTime();
 }
 
-Parameters& JobTranslationData::getParameters() {
-    return m_impl->getParameters();
-}
 } // namespace BifrostHd

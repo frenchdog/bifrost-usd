@@ -15,6 +15,7 @@
 //+
 
 #include "usd_prim_nodedefs.h"
+#include <BifrostUsd/VariantContext.h>
 
 #include <Amino/Core/String.h>
 #include <pxr/usd/sdf/copyUtils.h>
@@ -29,6 +30,11 @@
 
 // Note: To silence warnings coming from USD library
 #include <bifusd/config/CfgWarningMacros.h>
+#include <algorithm>
+#include <cassert>
+#include <cstddef>
+#include <iostream>
+#include <ostream>
 BIFUSD_WARNING_PUSH
 BIFUSD_WARNING_DISABLE_MSC(4003)
 #include <pxr/usd/usd/modelAPI.h>
@@ -51,15 +57,14 @@ template <typename T>
 bool set_prim_metadata_impl(const Amino::String& path,
                             const Amino::String& key,
                             T&&                  value,
-                            BifrostUsd::Stage& stage) {
+                            BifrostUsd::Stage&   stage) {
     if (!stage) return false;
 
     try {
-        auto pxr_prim = USDUtils::get_prim_or_throw(path, stage);
-
-        VariantEditContext ctx(stage);
-
-        return pxr_prim.SetMetadata(GetSdfFieldKey(key), toPxr(value));
+        return BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_or_throw(path, stage);
+            return pxr_prim.SetMetadata(GetSdfFieldKey(key), toPxr(value));
+        });
 
     } catch (std::exception& e) {
         log_exception("set_prim_metadata", e);
@@ -69,17 +74,16 @@ bool set_prim_metadata_impl(const Amino::String& path,
 
 template <typename T>
 bool get_prim_metadata_impl(const BifrostUsd::Stage& stage,
-                            const Amino::String&       path,
-                            const Amino::String&       key,
-                            const T&                   default_and_type,
-                            T&                         value) {
+                            const Amino::String&     path,
+                            const Amino::String&     key,
+                            const T&                 default_and_type,
+                            T&                       value) {
     if (!stage) return false;
 
     try {
-        auto               pxr_prim = USDUtils::get_prim_or_throw(path, stage);
-        VariantEditContext ctx(stage);
-        auto               pxr_key = GetSdfFieldKey(key);
-        PxrType_t<T>       pxrValue;
+        auto         pxr_prim = USDUtils::get_prim_or_throw(path, stage);
+        auto         pxr_key  = GetSdfFieldKey(key);
+        PxrType_t<T> pxrValue;
         if (pxr_prim.GetMetadata(pxr_key, &pxrValue)) {
             value = fromPxr(pxrValue);
             return true;
@@ -94,7 +98,7 @@ bool get_prim_metadata_impl(const BifrostUsd::Stage& stage,
 }
 
 std::string get_part_after_anchor_path(const std::string& anchor_path,
-                                    const std::string& identifier) {
+                                       const std::string& identifier) {
     std::string resolved_identifier = identifier;
     if (anchor_path.length() > 0 &&
         identifier.length() > anchor_path.length()) {
@@ -108,7 +112,7 @@ std::string get_part_after_anchor_path(const std::string& anchor_path,
 } // namespace
 
 bool USD::Prim::get_prim_at_path(Amino::Ptr<BifrostUsd::Stage>        stage,
-                                 const Amino::String&                   path,
+                                 const Amino::String&                 path,
                                  Amino::MutablePtr<BifrostUsd::Prim>& prim) {
     assert(stage);
     prim = Amino::newMutablePtr<BifrostUsd::Prim>();
@@ -117,8 +121,8 @@ bool USD::Prim::get_prim_at_path(Amino::Ptr<BifrostUsd::Stage>        stage,
 
     try {
         PXR_NS::SdfPath sdf_path(path.c_str());
-        auto         pxr_prim = USDUtils::get_prim_at_path(path, *stage);
-        *prim                 = BifrostUsd::Prim{pxr_prim, std::move(stage)};
+        auto            pxr_prim = USDUtils::get_prim_at_path(path, *stage);
+        *prim                    = BifrostUsd::Prim{pxr_prim, std::move(stage)};
         return pxr_prim.IsValid();
 
     } catch (std::exception& e) {
@@ -131,7 +135,7 @@ bool USD::Prim::get_prim_at_path(Amino::Ptr<BifrostUsd::Stage>        stage,
 
 void USD::Prim::get_prim_children(
     Amino::Ptr<BifrostUsd::Stage>        stage,
-    const Amino::String&                   prim_path,
+    const Amino::String&                 prim_path,
     const BifrostUsd::PrimDescendantMode descendant_mode,
     Amino::MutablePtr<Amino::Array<Amino::Ptr<BifrostUsd::Prim>>>& children) {
     assert(stage);
@@ -174,7 +178,7 @@ void USD::Prim::get_prim_children(
 }
 
 void USD::Prim::get_prim_path(const BifrostUsd::Prim& prim,
-                              Amino::String&            path) {
+                              Amino::String&          path) {
     try {
         if (prim) {
             path = prim->GetPrimPath().GetText();
@@ -195,7 +199,8 @@ bool USD::Prim::get_last_modified_prim(
         Amino::String const& primPath = stage->last_modified_prim;
         if (primPath.empty()) return false;
 
-        auto pxr_prim = (*stage)->GetPrimAtPath(PXR_NS::SdfPath(primPath.c_str()));
+        auto pxr_prim =
+            (*stage)->GetPrimAtPath(PXR_NS::SdfPath(primPath.c_str()));
         if (!pxr_prim.IsValid()) return false;
 
         *prim = BifrostUsd::Prim{pxr_prim, std::move(stage)};
@@ -207,7 +212,7 @@ bool USD::Prim::get_last_modified_prim(
 }
 
 void USD::Prim::get_prim_type(const BifrostUsd::Prim& prim,
-                              Amino::String&            type_name) {
+                              Amino::String&          type_name) {
     try {
         if (prim) {
             type_name = prim->GetTypeName().GetText();
@@ -217,12 +222,14 @@ void USD::Prim::get_prim_type(const BifrostUsd::Prim& prim,
     }
 }
 
-void USD::Prim::get_all_attribute_names(const BifrostUsd::Prim&                         prim,
-                                        Amino::MutablePtr<Amino::Array<Amino::String>>& names) {
+void USD::Prim::get_all_attribute_names(
+    const BifrostUsd::Prim&                         prim,
+    Amino::MutablePtr<Amino::Array<Amino::String>>& names) {
     names = Amino::newMutablePtr<Amino::Array<Amino::String>>();
     try {
         if (prim) {
-            std::vector<PXR_NS::UsdAttribute> usdAttributes = prim->GetAttributes();
+            std::vector<PXR_NS::UsdAttribute> usdAttributes =
+                prim->GetAttributes();
             names->resize(usdAttributes.size());
             for (size_t i = 0; i < usdAttributes.size(); ++i) {
                 (*names)[i] = usdAttributes[i].GetName().GetText();
@@ -251,7 +258,7 @@ void USD::Prim::get_authored_attribute_names(
     }
 }
 
-void USD::Prim::create_prim(BifrostUsd::Stage& stage,
+void USD::Prim::create_prim(BifrostUsd::Stage&   stage,
                             const Amino::String& path,
                             const Amino::String& type) {
     if (!stage || path.empty()) {
@@ -259,46 +266,48 @@ void USD::Prim::create_prim(BifrostUsd::Stage& stage,
     }
 
     try {
-        VariantEditContext ctx(stage);
-
-        Amino::String resolvedPath = USDUtils::resolve_prim_path(path, stage);
-        PXR_NS::SdfPath  sdf_path(resolvedPath.c_str());
-        stage->DefinePrim(sdf_path, PXR_NS::TfToken(type.c_str()));
-        stage.last_modified_prim = resolvedPath;
+        BifrostUsd::WithVariantContext(stage, [&]() {
+            auto resolvedPath = USDUtils::resolve_prim_path(path, stage);
+            auto primPath     = PXR_NS::SdfPath(resolvedPath.c_str());
+            stage->DefinePrim(primPath, PXR_NS::TfToken(type.c_str()));
+            stage.last_modified_prim = resolvedPath;
+        });
 
     } catch (std::exception& e) {
         log_exception("create_prim", e);
     }
 }
 
-void USD::Prim::create_class_prim(BifrostUsd::Stage& stage,
+void USD::Prim::create_class_prim(BifrostUsd::Stage&   stage,
                                   const Amino::String& path) {
     if (!stage) return;
 
     try {
-        VariantEditContext ctx(stage);
-
-        Amino::String resolvedPath = USDUtils::resolve_prim_path(path, stage);
-        PXR_NS::SdfPath  sdf_path(resolvedPath.c_str());
-        stage->CreateClassPrim(sdf_path);
-        stage.last_modified_prim = resolvedPath;
+        BifrostUsd::WithVariantContext(stage, [&]() {
+            Amino::String resolvedPath =
+                USDUtils::resolve_prim_path(path, stage);
+            PXR_NS::SdfPath sdf_path(resolvedPath.c_str());
+            stage->CreateClassPrim(sdf_path);
+            stage.last_modified_prim = resolvedPath;
+        });
 
     } catch (std::exception& e) {
         log_exception("create_class_prim", e);
     }
 }
 
-void USD::Prim::override_prim(BifrostUsd::Stage& stage,
+void USD::Prim::override_prim(BifrostUsd::Stage&   stage,
                               const Amino::String& path) {
     if (!stage) return;
 
     try {
-        VariantEditContext ctx(stage);
-
-        Amino::String resolvedPath = USDUtils::resolve_prim_path(path, stage);
-        PXR_NS::SdfPath  sdf_path(resolvedPath.c_str());
-        stage->OverridePrim(sdf_path);
-        stage.last_modified_prim = resolvedPath;
+        BifrostUsd::WithVariantContext(stage, [&]() {
+            Amino::String resolvedPath =
+                USDUtils::resolve_prim_path(path, stage);
+            PXR_NS::SdfPath sdf_path(resolvedPath.c_str());
+            stage->OverridePrim(sdf_path);
+            stage.last_modified_prim = resolvedPath;
+        });
 
     } catch (std::exception& e) {
         log_exception("override_prim", e);
@@ -310,73 +319,100 @@ bool USD::Prim::add_applied_schema(BifrostUsd::Stage&   stage,
                                    const Amino::String& applied_schema_name) {
     if (!stage) return false;
     try {
-        auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
-        VariantEditContext ctx(stage);
-        stage.last_modified_prim = pxr_prim.GetPath().GetText();
-        return pxr_prim.AddAppliedSchema(
-            PXR_NS::TfToken(applied_schema_name.c_str()));
+        bool success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+            stage.last_modified_prim = pxr_prim.GetPath().GetText();
+            return pxr_prim.AddAppliedSchema(
+                PXR_NS::TfToken(applied_schema_name.c_str()));
+        });
+        return success;
     } catch (std::exception& e) {
         log_exception("add_applied_schema", e);
     }
     return false;
 }
 
-bool USD::Prim::remove_applied_schema(BifrostUsd::Stage&   stage,
-                                   const Amino::String& prim_path,
-                                   const Amino::String& applied_schema_name) {
+bool USD::Prim::remove_applied_schema(
+    BifrostUsd::Stage&   stage,
+    const Amino::String& prim_path,
+    const Amino::String& applied_schema_name) {
     if (!stage) return false;
     try {
-        auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
-        VariantEditContext ctx(stage);
-        stage.last_modified_prim = pxr_prim.GetPath().GetText();
-        return pxr_prim.RemoveAppliedSchema(
-            PXR_NS::TfToken(applied_schema_name.c_str()));
+        bool success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+            stage.last_modified_prim = pxr_prim.GetPath().GetText();
+            return pxr_prim.RemoveAppliedSchema(
+                PXR_NS::TfToken(applied_schema_name.c_str()));
+        });
+        return success;
     } catch (std::exception& e) {
         log_exception("remove_applied_schema", e);
     }
     return false;
 }
 
-bool USD::Prim::add_reference_prim(
-    BifrostUsd::Stage&                stage,
-    const Amino::String&                prim_path,
-    const BifrostUsd::Layer&          reference_layer,
-    const Amino::String&                reference_prim_path,
-    const double                        layer_offset,
-    const double                        layer_scale,
-    const BifrostUsd::UsdListPosition reference_position,
-    const Amino::String& anchor_path) {
-    if (!stage) return false;
+void USD::Prim::get_applied_schemas(
+    const BifrostUsd::Prim&                         prim,
+    Amino::MutablePtr<Amino::Array<Amino::String>>& names) {
+    names = Amino::newMutablePtr<Amino::Array<Amino::String>>();
     try {
-        auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+        auto schemaNames = prim.getPxrPrim().GetAppliedSchemas();
 
-        VariantEditContext ctx(stage);
-
-        stage.last_modified_prim = pxr_prim.GetPath().GetText();
-        if (!reference_layer.isValid()) {
-            PXR_NS::SdfPath ref_prim_path(reference_prim_path.c_str());
-            return pxr_prim.GetReferences().AddInternalReference(
-                ref_prim_path, PXR_NS::SdfLayerOffset(layer_offset, layer_scale),
-                GetUsdListPosition(reference_position));
-        } else {
-            // c_str() is used intentionally to avoid DLL boundary issues
-            // NOLINTNEXTLINE(readability-redundant-string-cstr)
-            std::string identifier = reference_layer->GetIdentifier().c_str();
-            identifier = get_part_after_anchor_path(anchor_path.c_str(), identifier);
-
-            if (reference_prim_path.empty()) {
-                return pxr_prim.GetReferences().AddReference(
-                    identifier, PXR_NS::SdfLayerOffset(layer_offset, layer_scale),
-                    GetUsdListPosition(reference_position));
-            } else {
-                PXR_NS::SdfPath ref_prim_path(reference_prim_path.c_str());
-                return pxr_prim.GetReferences().AddReference(
-                    identifier, ref_prim_path,
-                    PXR_NS::SdfLayerOffset(layer_offset, layer_scale),
-                    GetUsdListPosition(reference_position));
-            }
+        const size_t numNames = schemaNames.size();
+        names->resize(numNames);
+        for (size_t i = 0; i < numNames; ++i) {
+            (*names)[i] = schemaNames[i].GetText();
         }
 
+    } catch (std::exception& e) {
+        log_exception("get_applied_schemas", e);
+    }
+}
+
+bool USD::Prim::add_reference_prim(
+    BifrostUsd::Stage&                stage,
+    const Amino::String&              prim_path,
+    const BifrostUsd::Layer&          reference_layer,
+    const Amino::String&              reference_prim_path,
+    const double                      layer_offset,
+    const double                      layer_scale,
+    const BifrostUsd::UsdListPosition reference_position,
+    const Amino::String&              anchor_path) {
+    if (!stage) return false;
+    try {
+        bool success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+
+            stage.last_modified_prim = pxr_prim.GetPath().GetText();
+            if (!reference_layer.isValid()) {
+                PXR_NS::SdfPath ref_prim_path(reference_prim_path.c_str());
+                return pxr_prim.GetReferences().AddInternalReference(
+                    ref_prim_path,
+                    PXR_NS::SdfLayerOffset(layer_offset, layer_scale),
+                    GetUsdListPosition(reference_position));
+            } else {
+                // c_str() is used intentionally to avoid DLL boundary issues
+                // NOLINTNEXTLINE(readability-redundant-string-cstr)
+                std::string identifier =
+                    reference_layer->GetIdentifier().c_str();
+                identifier =
+                    get_part_after_anchor_path(anchor_path.c_str(), identifier);
+
+                if (reference_prim_path.empty()) {
+                    return pxr_prim.GetReferences().AddReference(
+                        identifier,
+                        PXR_NS::SdfLayerOffset(layer_offset, layer_scale),
+                        GetUsdListPosition(reference_position));
+                } else {
+                    PXR_NS::SdfPath ref_prim_path(reference_prim_path.c_str());
+                    return pxr_prim.GetReferences().AddReference(
+                        identifier, ref_prim_path,
+                        PXR_NS::SdfLayerOffset(layer_offset, layer_scale),
+                        GetUsdListPosition(reference_position));
+                }
+            }
+        });
+        return success;
     } catch (std::exception& e) {
         log_exception("add_reference_prim", e);
     }
@@ -384,7 +420,7 @@ bool USD::Prim::add_reference_prim(
 }
 
 bool USD::Prim::remove_reference_prim(
-    BifrostUsd::Stage& stage,
+    BifrostUsd::Stage&   stage,
     const Amino::String& prim_path,
     const Amino::String& reference_layer_identifier,
     const Amino::String& reference_prim_path,
@@ -393,25 +429,25 @@ bool USD::Prim::remove_reference_prim(
     if (!stage) return false;
 
     try {
-        auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+        bool success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+            stage.last_modified_prim = pxr_prim.GetPath().GetText();
 
-        VariantEditContext ctx(stage);
-
-        stage.last_modified_prim = pxr_prim.GetPath().GetText();
-
-        if (clear_all) {
-            return pxr_prim.GetReferences().ClearReferences();
-        } else {
-            auto pxr_reference_prim_path = PXR_NS::SdfPath::EmptyPath();
-            if (!reference_prim_path.empty()) {
-                pxr_reference_prim_path =
-                    PXR_NS::SdfPath(reference_prim_path.c_str());
+            if (clear_all) {
+                return pxr_prim.GetReferences().ClearReferences();
+            } else {
+                auto pxr_reference_prim_path = PXR_NS::SdfPath::EmptyPath();
+                if (!reference_prim_path.empty()) {
+                    pxr_reference_prim_path =
+                        PXR_NS::SdfPath(reference_prim_path.c_str());
+                }
+                auto ref = PXR_NS::SdfReference(
+                    reference_layer_identifier.c_str(), pxr_reference_prim_path,
+                    PXR_NS::SdfLayerOffset(layer_offset));
+                return pxr_prim.GetReferences().RemoveReference(ref);
             }
-            auto ref = PXR_NS::SdfReference(reference_layer_identifier.c_str(),
-                                         pxr_reference_prim_path,
-                                         PXR_NS::SdfLayerOffset(layer_offset));
-            return pxr_prim.GetReferences().RemoveReference(ref);
-        }
+        });
+        return success;
     } catch (std::exception& e) {
         log_exception("remove_reference_prim", e);
     }
@@ -419,7 +455,7 @@ bool USD::Prim::remove_reference_prim(
 }
 
 bool USD::Prim::remove_payload_prim(
-    BifrostUsd::Stage& stage,
+    BifrostUsd::Stage&   stage,
     const Amino::String& prim_path,
     const Amino::String& payload_layer_identifier,
     const Amino::String& payload_prim_path,
@@ -427,24 +463,25 @@ bool USD::Prim::remove_payload_prim(
     const bool           clear_all) {
     if (!stage) return false;
     try {
-        auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+        bool success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+            stage.last_modified_prim = pxr_prim.GetPath().GetText();
 
-        VariantEditContext ctx(stage);
-
-        stage.last_modified_prim = pxr_prim.GetPath().GetText();
-
-        if (clear_all) {
-            return pxr_prim.GetPayloads().ClearPayloads();
-        } else {
-            auto pxr_payload_prim_path = PXR_NS::SdfPath::EmptyPath();
-            if (!payload_prim_path.empty()) {
-                pxr_payload_prim_path = PXR_NS::SdfPath(payload_prim_path.c_str());
+            if (clear_all) {
+                return pxr_prim.GetPayloads().ClearPayloads();
+            } else {
+                auto pxr_payload_prim_path = PXR_NS::SdfPath::EmptyPath();
+                if (!payload_prim_path.empty()) {
+                    pxr_payload_prim_path =
+                        PXR_NS::SdfPath(payload_prim_path.c_str());
+                }
+                auto ref = PXR_NS::SdfPayload(
+                    payload_layer_identifier.c_str(), pxr_payload_prim_path,
+                    PXR_NS::SdfLayerOffset(layer_offset));
+                return pxr_prim.GetPayloads().RemovePayload(ref);
             }
-            auto ref = PXR_NS::SdfPayload(payload_layer_identifier.c_str(),
-                                       pxr_payload_prim_path,
-                                       PXR_NS::SdfLayerOffset(layer_offset));
-            return pxr_prim.GetPayloads().RemovePayload(ref);
-        }
+        });
+        return success;
 
     } catch (std::exception& e) {
         log_exception("remove_payload_prim", e);
@@ -454,43 +491,47 @@ bool USD::Prim::remove_payload_prim(
 
 bool USD::Prim::add_payload_prim(
     BifrostUsd::Stage&                stage,
-    const Amino::String&                prim_path,
+    const Amino::String&              prim_path,
     const BifrostUsd::Layer&          payload_layer,
-    const Amino::String&                payload_prim_path,
-    const double                        layer_offset,
-    const double                        layer_scale,
+    const Amino::String&              payload_prim_path,
+    const double                      layer_offset,
+    const double                      layer_scale,
     const BifrostUsd::UsdListPosition payload_position,
-    const Amino::String& anchor_path) {
+    const Amino::String&              anchor_path) {
     if (!stage) return false;
     try {
-        auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+        bool success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
 
-        VariantEditContext ctx(stage);
-
-        stage.last_modified_prim = pxr_prim.GetPath().GetText();
-        if (!payload_layer.isValid()) {
-            PXR_NS::SdfPath pld_prim_path(payload_prim_path.c_str());
-            return pxr_prim.GetPayloads().AddInternalPayload(
-                pld_prim_path, PXR_NS::SdfLayerOffset(layer_offset, layer_scale),
-                GetUsdListPosition(payload_position));
-        } else {
-            // c_str() is used intentionally to avoid DLL boundary issues
-            // NOLINTNEXTLINE(readability-redundant-string-cstr)
-            std::string identifier = payload_layer->GetIdentifier().c_str();
-            identifier = get_part_after_anchor_path(anchor_path.c_str(), identifier);
-            
-            if (payload_prim_path.empty()) {
-                return pxr_prim.GetPayloads().AddPayload(
-                    identifier, PXR_NS::SdfLayerOffset(layer_offset, layer_scale),
-                    GetUsdListPosition(payload_position));
-            } else {
+            stage.last_modified_prim = pxr_prim.GetPath().GetText();
+            if (!payload_layer.isValid()) {
                 PXR_NS::SdfPath pld_prim_path(payload_prim_path.c_str());
-                return pxr_prim.GetPayloads().AddPayload(
-                    identifier, pld_prim_path,
+                return pxr_prim.GetPayloads().AddInternalPayload(
+                    pld_prim_path,
                     PXR_NS::SdfLayerOffset(layer_offset, layer_scale),
                     GetUsdListPosition(payload_position));
+            } else {
+                // c_str() is used intentionally to avoid DLL boundary issues
+                // NOLINTNEXTLINE(readability-redundant-string-cstr)
+                std::string identifier = payload_layer->GetIdentifier().c_str();
+                identifier =
+                    get_part_after_anchor_path(anchor_path.c_str(), identifier);
+
+                if (payload_prim_path.empty()) {
+                    return pxr_prim.GetPayloads().AddPayload(
+                        identifier,
+                        PXR_NS::SdfLayerOffset(layer_offset, layer_scale),
+                        GetUsdListPosition(payload_position));
+                } else {
+                    PXR_NS::SdfPath pld_prim_path(payload_prim_path.c_str());
+                    return pxr_prim.GetPayloads().AddPayload(
+                        identifier, pld_prim_path,
+                        PXR_NS::SdfLayerOffset(layer_offset, layer_scale),
+                        GetUsdListPosition(payload_position));
+                }
             }
-        }
+        });
+        return success;
     } catch (std::exception& e) {
         log_exception("add_payload_prim", e);
     }
@@ -499,25 +540,25 @@ bool USD::Prim::add_payload_prim(
 
 bool USD::Prim::add_inherit_prim(
     BifrostUsd::Stage&                stage,
-    const Amino::String&                prim_path,
-    const Amino::String&                inherited_prim_path,
+    const Amino::String&              prim_path,
+    const Amino::String&              inherited_prim_path,
     const BifrostUsd::UsdListPosition inherit_position) {
     if (!stage) return false;
 
     bool success = false;
     try {
-        auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
-        if (!pxr_prim) return false;
+        success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+            if (!pxr_prim) return false;
 
-        VariantEditContext ctx(stage);
-
-        PXR_NS::SdfPath in_prim_path(inherited_prim_path.c_str());
-        success = pxr_prim.GetInherits().AddInherit(
-            in_prim_path, GetUsdListPosition(inherit_position));
-        if (success) {
-            stage.last_modified_prim = pxr_prim.GetPath().GetText();
-        }
-
+            PXR_NS::SdfPath in_prim_path(inherited_prim_path.c_str());
+            success = pxr_prim.GetInherits().AddInherit(
+                in_prim_path, GetUsdListPosition(inherit_position));
+            if (success) {
+                stage.last_modified_prim = pxr_prim.GetPath().GetText();
+            }
+            return success;
+        });
     } catch (std::exception& e) {
         log_exception("add_inherit_prim", e);
     }
@@ -526,24 +567,24 @@ bool USD::Prim::add_inherit_prim(
 
 bool USD::Prim::add_specialize_prim(
     BifrostUsd::Stage&                stage,
-    const Amino::String&                prim_path,
-    const Amino::String&                specialized_prim_path,
+    const Amino::String&              prim_path,
+    const Amino::String&              specialized_prim_path,
     const BifrostUsd::UsdListPosition specialize_position) {
     if (!stage) return false;
 
     bool success = false;
     try {
-        auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+        success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
 
-        VariantEditContext ctx(stage);
-
-        PXR_NS::SdfPath in_prim_path(specialized_prim_path.c_str());
-        success = pxr_prim.GetSpecializes().AddSpecialize(
-            in_prim_path, GetUsdListPosition(specialize_position));
-        if (success) {
-            stage.last_modified_prim = pxr_prim.GetPath().GetText();
-        }
-
+            PXR_NS::SdfPath in_prim_path(specialized_prim_path.c_str());
+            success = pxr_prim.GetSpecializes().AddSpecialize(
+                in_prim_path, GetUsdListPosition(specialize_position));
+            if (success) {
+                stage.last_modified_prim = pxr_prim.GetPath().GetText();
+            }
+            return success;
+        });
     } catch (std::exception& e) {
         log_exception("add_specialize_prim", e);
     }
@@ -552,29 +593,30 @@ bool USD::Prim::add_specialize_prim(
 
 bool USD::Prim::create_prim_relationship(
     BifrostUsd::Stage&                stage,
-    const Amino::String&                prim_path,
-    const Amino::String&                rel_name,
-    const bool                          custom,
-    const Amino::String&                target,
+    const Amino::String&              prim_path,
+    const Amino::String&              rel_name,
+    const bool                        custom,
+    const Amino::String&              target,
     const BifrostUsd::UsdListPosition target_position) {
     if (!stage) return false;
 
     bool success = false;
     try {
-        VariantEditContext ctx(stage);
+        success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
+            if (!pxr_prim) return false;
 
-        auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-        if (!pxr_prim) return false;
+            auto rel = pxr_prim.CreateRelationship(
+                PXR_NS::TfToken(rel_name.c_str()), custom);
+            if (!rel) return false;
+            success = rel.AddTarget(PXR_NS::SdfPath(target.c_str()),
+                                    GetUsdListPosition(target_position));
 
-        auto rel =
-            pxr_prim.CreateRelationship(PXR_NS::TfToken(rel_name.c_str()), custom);
-        if (!rel) return false;
-        success = rel.AddTarget(PXR_NS::SdfPath(target.c_str()),
-                                GetUsdListPosition(target_position));
-
-        if (success) {
-            stage.last_modified_prim = pxr_prim.GetPath().GetText();
-        }
+            if (success) {
+                stage.last_modified_prim = pxr_prim.GetPath().GetText();
+            }
+            return success;
+        });
 
     } catch (std::exception& e) {
         log_exception("create_prim_relationship", e);
@@ -584,27 +626,29 @@ bool USD::Prim::create_prim_relationship(
 
 bool USD::Prim::add_relationship_target(
     BifrostUsd::Stage&                stage,
-    const Amino::String&                prim_path,
-    const Amino::String&                rel_name,
-    const Amino::String&                target,
+    const Amino::String&              prim_path,
+    const Amino::String&              rel_name,
+    const Amino::String&              target,
     const BifrostUsd::UsdListPosition target_position) {
     if (!stage) return false;
 
     bool success = false;
     try {
-        VariantEditContext ctx(stage);
+        success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
+            if (!pxr_prim) return false;
 
-        auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-        if (!pxr_prim) return false;
+            auto rel =
+                pxr_prim.GetRelationship(PXR_NS::TfToken(rel_name.c_str()));
+            if (!rel) return false;
+            success = rel.AddTarget(PXR_NS::SdfPath(target.c_str()),
+                                    GetUsdListPosition(target_position));
 
-        auto rel = pxr_prim.GetRelationship(PXR_NS::TfToken(rel_name.c_str()));
-        if (!rel) return false;
-        success = rel.AddTarget(PXR_NS::SdfPath(target.c_str()),
-                                GetUsdListPosition(target_position));
-
-        if (success) {
-            stage.last_modified_prim = pxr_prim.GetPath().GetText();
-        }
+            if (success) {
+                stage.last_modified_prim = pxr_prim.GetPath().GetText();
+            }
+            return success;
+        });
 
     } catch (std::exception& e) {
         log_exception("add_relationship_target", e);
@@ -612,7 +656,7 @@ bool USD::Prim::add_relationship_target(
     return success;
 }
 
-bool USD::Prim::remove_relationship_target(BifrostUsd::Stage& stage,
+bool USD::Prim::remove_relationship_target(BifrostUsd::Stage&   stage,
                                            const Amino::String& prim_path,
                                            const Amino::String& rel_name,
                                            const Amino::String& target) {
@@ -620,18 +664,20 @@ bool USD::Prim::remove_relationship_target(BifrostUsd::Stage& stage,
 
     bool success = false;
     try {
-        VariantEditContext ctx(stage);
+        success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
+            if (!pxr_prim) return false;
 
-        auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-        if (!pxr_prim) return false;
+            auto rel =
+                pxr_prim.GetRelationship(PXR_NS::TfToken(rel_name.c_str()));
+            if (!rel) return false;
 
-        auto rel = pxr_prim.GetRelationship(PXR_NS::TfToken(rel_name.c_str()));
-        if (!rel) return false;
-
-        success = rel.RemoveTarget(PXR_NS::SdfPath(target.c_str()));
-        if (success) {
-            stage.last_modified_prim = pxr_prim.GetPath().GetText();
-        }
+            success = rel.RemoveTarget(PXR_NS::SdfPath(target.c_str()));
+            if (success) {
+                stage.last_modified_prim = pxr_prim.GetPath().GetText();
+            }
+            return success;
+        });
 
     } catch (std::exception& e) {
         log_exception("remove_relationship_target", e);
@@ -640,7 +686,7 @@ bool USD::Prim::remove_relationship_target(BifrostUsd::Stage& stage,
 }
 
 bool USD::Prim::set_relationship_targets(
-    BifrostUsd::Stage&               stage,
+    BifrostUsd::Stage&                 stage,
     const Amino::String&               prim_path,
     const Amino::String&               rel_name,
     const Amino::Array<Amino::String>& targets) {
@@ -648,31 +694,32 @@ bool USD::Prim::set_relationship_targets(
 
     bool success = false;
     try {
-        VariantEditContext ctx(stage);
+        success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
+            if (!pxr_prim) return false;
 
-        auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-        if (!pxr_prim) return false;
+            auto rel =
+                pxr_prim.GetRelationship(PXR_NS::TfToken(rel_name.c_str()));
+            if (!rel) return false;
 
-        auto rel = pxr_prim.GetRelationship(PXR_NS::TfToken(rel_name.c_str()));
-        if (!rel) return false;
+            PXR_NS::SdfPathVector pxrTargets = {};
+            for (size_t i = 0; i < targets.size(); ++i) {
+                pxrTargets.push_back(PXR_NS::SdfPath(targets[i].c_str()));
+            }
 
-        PXR_NS::SdfPathVector pxrTargets = {};
-        for (size_t i = 0; i < targets.size(); ++i) {
-            pxrTargets.push_back(PXR_NS::SdfPath(targets[i].c_str()));
-        }
-
-        success = rel.SetTargets(pxrTargets);
-        if (success) {
-            stage.last_modified_prim = pxr_prim.GetPath().GetText();
-        }
-
+            success = rel.SetTargets(pxrTargets);
+            if (success) {
+                stage.last_modified_prim = pxr_prim.GetPath().GetText();
+            }
+            return success;
+        });
     } catch (std::exception& e) {
         log_exception("set_relationship_targets", e);
     }
     return success;
 }
 
-bool USD::Prim::clear_relationship_targets(BifrostUsd::Stage& stage,
+bool USD::Prim::clear_relationship_targets(BifrostUsd::Stage&   stage,
                                            const Amino::String& prim_path,
                                            const Amino::String& rel_name,
                                            const bool           remove_spec) {
@@ -680,19 +727,20 @@ bool USD::Prim::clear_relationship_targets(BifrostUsd::Stage& stage,
 
     bool success = false;
     try {
-        VariantEditContext ctx(stage);
+        success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
+            if (!pxr_prim) return false;
 
-        auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-        if (!pxr_prim) return false;
+            auto rel =
+                pxr_prim.GetRelationship(PXR_NS::TfToken(rel_name.c_str()));
+            if (!rel) return false;
 
-        auto rel = pxr_prim.GetRelationship(PXR_NS::TfToken(rel_name.c_str()));
-        if (!rel) return false;
-
-        success = rel.ClearTargets(remove_spec);
-        if (success) {
-            stage.last_modified_prim = pxr_prim.GetPath().GetText();
-        }
-
+            success = rel.ClearTargets(remove_spec);
+            if (success) {
+                stage.last_modified_prim = pxr_prim.GetPath().GetText();
+            }
+            return success;
+        });
     } catch (std::exception& e) {
         log_exception("clear_relationship_targets", e);
     }
@@ -700,7 +748,7 @@ bool USD::Prim::clear_relationship_targets(BifrostUsd::Stage& stage,
 }
 
 bool USD::Prim::get_relationship_targets(
-    BifrostUsd::Stage&                            stage,
+    BifrostUsd::Stage&                              stage,
     const Amino::String&                            prim_path,
     const Amino::String&                            rel_name,
     Amino::MutablePtr<Amino::Array<Amino::String>>& targets) {
@@ -709,24 +757,26 @@ bool USD::Prim::get_relationship_targets(
 
     bool success = false;
     try {
-        VariantEditContext ctx(stage);
+        success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
+            if (!pxr_prim) return false;
 
-        auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-        if (!pxr_prim) return false;
+            auto rel =
+                pxr_prim.GetRelationship(PXR_NS::TfToken(rel_name.c_str()));
+            if (!rel) return false;
 
-        auto rel = pxr_prim.GetRelationship(PXR_NS::TfToken(rel_name.c_str()));
-        if (!rel) return false;
+            PXR_NS::SdfPathVector pxrTargets = {};
+            success                          = rel.GetTargets(&pxrTargets);
 
-        PXR_NS::SdfPathVector pxrTargets = {};
-        success                       = rel.GetTargets(&pxrTargets);
-
-        if (success) {
-            targets->resize(pxrTargets.size());
-            for (size_t i = 0; i < pxrTargets.size(); ++i) {
-                (*targets)[i] = pxrTargets[i].GetPrimPath().GetText();
+            if (success) {
+                targets->resize(pxrTargets.size());
+                for (size_t i = 0; i < pxrTargets.size(); ++i) {
+                    (*targets)[i] = pxrTargets[i].GetPrimPath().GetText();
+                }
+                stage.last_modified_prim = pxr_prim.GetPath().GetText();
             }
-            stage.last_modified_prim = pxr_prim.GetPath().GetText();
-        }
+            return success;
+        });
 
     } catch (std::exception& e) {
         log_exception("get_relationship_targets", e);
@@ -735,7 +785,7 @@ bool USD::Prim::get_relationship_targets(
 }
 
 bool USD::Prim::get_forwarded_relationship_targets(
-    BifrostUsd::Stage&                            stage,
+    BifrostUsd::Stage&                              stage,
     const Amino::String&                            prim_path,
     const Amino::String&                            rel_name,
     Amino::MutablePtr<Amino::Array<Amino::String>>& targets) {
@@ -744,24 +794,26 @@ bool USD::Prim::get_forwarded_relationship_targets(
 
     bool success = false;
     try {
-        VariantEditContext ctx(stage);
+        success = BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
+            if (!pxr_prim) return false;
 
-        auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-        if (!pxr_prim) return false;
+            auto rel =
+                pxr_prim.GetRelationship(PXR_NS::TfToken(rel_name.c_str()));
+            if (!rel) return false;
 
-        auto rel = pxr_prim.GetRelationship(PXR_NS::TfToken(rel_name.c_str()));
-        if (!rel) return false;
+            PXR_NS::SdfPathVector pxrTargets = {};
+            success = rel.GetForwardedTargets(&pxrTargets);
 
-        PXR_NS::SdfPathVector pxrTargets = {};
-        success                       = rel.GetForwardedTargets(&pxrTargets);
-
-        if (success) {
-            targets->resize(pxrTargets.size());
-            for (size_t i = 0; i < pxrTargets.size(); ++i) {
-                (*targets)[i] = pxrTargets[i].GetPrimPath().GetText();
+            if (success) {
+                targets->resize(pxrTargets.size());
+                for (size_t i = 0; i < pxrTargets.size(); ++i) {
+                    (*targets)[i] = pxrTargets[i].GetPrimPath().GetText();
+                }
+                stage.last_modified_prim = pxr_prim.GetPath().GetText();
             }
-            stage.last_modified_prim = pxr_prim.GetPath().GetText();
-        }
+            return success;
+        });
 
     } catch (std::exception& e) {
         log_exception("get_forwarded_relationship_targets", e);
@@ -770,7 +822,7 @@ bool USD::Prim::get_forwarded_relationship_targets(
 }
 
 bool USD::Prim::prim_is_instanceable(const BifrostUsd::Stage& stage,
-                                     const Amino::String&       prim_path) {
+                                     const Amino::String&     prim_path) {
     if (!stage) return false;
     try {
         auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
@@ -782,13 +834,15 @@ bool USD::Prim::prim_is_instanceable(const BifrostUsd::Stage& stage,
     return false;
 }
 
-bool USD::Prim::set_prim_instanceable(BifrostUsd::Stage& stage,
+bool USD::Prim::set_prim_instanceable(BifrostUsd::Stage&   stage,
                                       const Amino::String& prim_path,
                                       const bool           instanceable) {
     if (!stage) return false;
     try {
-        auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-        return pxr_prim && pxr_prim.SetInstanceable(instanceable);
+        BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
+            return pxr_prim && pxr_prim.SetInstanceable(instanceable);
+        });
 
     } catch (std::exception& e) {
         log_exception("set_prim_instanceable", e);
@@ -796,12 +850,14 @@ bool USD::Prim::set_prim_instanceable(BifrostUsd::Stage& stage,
     return false;
 }
 
-bool USD::Prim::prim_clear_instanceable(BifrostUsd::Stage& stage,
+bool USD::Prim::prim_clear_instanceable(BifrostUsd::Stage&   stage,
                                         const Amino::String& prim_path) {
     if (!stage) return false;
     try {
-        auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-        return pxr_prim && pxr_prim.ClearInstanceable();
+        BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
+            return pxr_prim && pxr_prim.ClearInstanceable();
+        });
 
     } catch (std::exception& e) {
         log_exception("prim_clear_instanceable", e);
@@ -812,7 +868,6 @@ bool USD::Prim::prim_clear_instanceable(BifrostUsd::Stage& stage,
 bool USD::Prim::prim_has_authored_instanceable(const BifrostUsd::Stage& stage,
                                                const Amino::String& prim_path) {
     if (!stage) return false;
-
     try {
         auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
         return pxr_prim && pxr_prim.HasAuthoredInstanceable();
@@ -824,7 +879,7 @@ bool USD::Prim::prim_has_authored_instanceable(const BifrostUsd::Stage& stage,
 }
 
 bool USD::Prim::prim_is_instance(const BifrostUsd::Stage& stage,
-                                 const Amino::String&       prim_path) {
+                                 const Amino::String&     prim_path) {
     if (!stage) return false;
     try {
         auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
@@ -837,7 +892,7 @@ bool USD::Prim::prim_is_instance(const BifrostUsd::Stage& stage,
 }
 
 bool USD::Prim::prim_is_instance_proxy(const BifrostUsd::Stage& stage,
-                                       const Amino::String&       prim_path) {
+                                       const Amino::String&     prim_path) {
     if (!stage) return false;
 
     try {
@@ -851,7 +906,7 @@ bool USD::Prim::prim_is_instance_proxy(const BifrostUsd::Stage& stage,
 }
 
 bool USD::Prim::prim_is_prototype(const BifrostUsd::Stage& stage,
-                                  const Amino::String&       prim_path) {
+                                  const Amino::String&     prim_path) {
     if (!stage) return false;
 
     try {
@@ -865,7 +920,7 @@ bool USD::Prim::prim_is_prototype(const BifrostUsd::Stage& stage,
 }
 
 bool USD::Prim::prim_is_in_prototype(const BifrostUsd::Stage& stage,
-                                     const Amino::String&       prim_path) {
+                                     const Amino::String&     prim_path) {
     if (!stage) return false;
 
     try {
@@ -879,8 +934,8 @@ bool USD::Prim::prim_is_in_prototype(const BifrostUsd::Stage& stage,
 }
 
 void USD::Prim::prim_get_prototype(const BifrostUsd::Stage& stage,
-                                   const Amino::String&       prim_path,
-                                   Amino::String&             proto_path) {
+                                   const Amino::String&     prim_path,
+                                   Amino::String&           proto_path) {
     if (!stage) return;
     assert(stage);
 
@@ -899,7 +954,7 @@ void USD::Prim::prim_get_prototype(const BifrostUsd::Stage& stage,
 }
 
 void USD::Prim::get_prim_in_prototype(const BifrostUsd::Stage& stage,
-                                      const Amino::String&       prim_path,
+                                      const Amino::String&     prim_path,
                                       Amino::String& prim_in_proto_path) {
     if (!stage) return;
 
@@ -919,7 +974,7 @@ void USD::Prim::get_prim_in_prototype(const BifrostUsd::Stage& stage,
 }
 
 void USD::Prim::get_prim_instances(
-    const BifrostUsd::Stage&                      stage,
+    const BifrostUsd::Stage&                        stage,
     const Amino::String&                            proto_prim_path,
     Amino::MutablePtr<Amino::Array<Amino::String>>& instances_paths) {
     instances_paths = Amino::newMutablePtr<Amino::Array<Amino::String>>();
@@ -944,14 +999,13 @@ void USD::Prim::get_prim_instances(
 }
 
 void USD::Prim::get_prototype_prims(
-    const BifrostUsd::Stage&                      stage,
+    const BifrostUsd::Stage&                        stage,
     Amino::MutablePtr<Amino::Array<Amino::String>>& proto_prim_paths) {
     proto_prim_paths = Amino::newMutablePtr<Amino::Array<Amino::String>>();
     if (!stage) return;
 
     try {
         auto prototypes = stage->GetPrototypes();
-
         proto_prim_paths->resize(prototypes.size());
         for (size_t i = 0; i < prototypes.size(); ++i) {
             (*proto_prim_paths)[i] = prototypes[i].GetPrimPath().GetText();
@@ -963,32 +1017,31 @@ void USD::Prim::get_prototype_prims(
 }
 
 void USD::Prim::set_prim_purpose(BifrostUsd::Stage&                 stage,
-                                 const Amino::String&                 prim_path,
+                                 const Amino::String&               prim_path,
                                  const BifrostUsd::ImageablePurpose purpose) {
     assert(stage);
 
     try {
-        auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
-        if (!pxr_prim) {
-            std::cerr << "set_prim_purpose failed: " << prim_path.c_str()
-                      << " is not a valid prim path" << std::endl;
-            return;
-        }
+        BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_at_path(prim_path, stage);
+            if (!pxr_prim) {
+                std::cerr << "set_prim_purpose failed: " << prim_path.c_str()
+                          << " is not a valid prim path" << std::endl;
+                return;
+            }
 
-        if (!pxr_prim.IsA<PXR_NS::UsdGeomImageable>()) {
-            std::cerr << "set_prim_purpose failed: " << prim_path.c_str()
-                      << " is not an Imageable prim" << std::endl;
-            return;
-        }
+            if (!pxr_prim.IsA<PXR_NS::UsdGeomImageable>()) {
+                std::cerr << "set_prim_purpose failed: " << prim_path.c_str()
+                          << " is not an Imageable prim" << std::endl;
+                return;
+            }
 
-        VariantEditContext ctx(stage);
-
-        auto imageable   = PXR_NS::UsdGeomImageable(pxr_prim);
-        auto pxr_purpose = USDUtils::GetImageablePurpose(purpose);
-        if (pxr_purpose.IsEmpty())
-            throw std::runtime_error("Invalid purpose enum value");
-        imageable.GetPurposeAttr().Set(pxr_purpose);
-
+            auto imageable   = PXR_NS::UsdGeomImageable(pxr_prim);
+            auto pxr_purpose = USDUtils::GetImageablePurpose(purpose);
+            if (pxr_purpose.IsEmpty())
+                throw std::runtime_error("Invalid purpose enum value");
+            imageable.GetPurposeAttr().Set(pxr_purpose);
+        });
     } catch (std::exception& e) {
         log_exception("set_prim_purpose", e);
     }
@@ -996,18 +1049,30 @@ void USD::Prim::set_prim_purpose(BifrostUsd::Stage&                 stage,
 
 void USD::Prim::set_prim_kind(const Amino::String& prim_path,
                               const Amino::String& kind,
-                              BifrostUsd::Stage& stage) {
+                              BifrostUsd::Stage&   stage) {
     if (!stage) return;
     try {
-        auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
-
-        VariantEditContext ctx(stage);
-
-        auto modelAPI = PXR_NS::UsdModelAPI(pxr_prim);
-        modelAPI.SetKind(PXR_NS::TfToken(kind.c_str()));
-
+        BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+            auto modelAPI = PXR_NS::UsdModelAPI(pxr_prim);
+            modelAPI.SetKind(PXR_NS::TfToken(kind.c_str()));
+        });
     } catch (std::exception& e) {
         log_exception("set_prim_kind", e);
+    }
+}
+
+void USD::Prim::get_prim_kind(const BifrostUsd::Prim& prim,
+                              Amino::String&          kind) {
+    try {
+        if (prim) {
+            auto modelAPI = PXR_NS::UsdModelAPI(prim.getPxrPrim());
+            auto tfKind   = PXR_NS::TfToken();
+            modelAPI.GetKind(&tfKind);
+            kind = tfKind.GetText();
+        }
+    } catch (std::exception& e) {
+        log_exception("get_prim_kind", e);
     }
 }
 
@@ -1018,39 +1083,39 @@ void USD::Prim::set_prim_asset_info(BifrostUsd::Stage&   stage,
                                     const Amino::String& asset_version) {
     if (!stage) return;
     try {
-        auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
+        BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
 
-        VariantEditContext ctx(stage);
-
-        auto modelAPI = PXR_NS::UsdModelAPI(pxr_prim);
-        // if the string parameter is empty we don't want to
-        // call the modelAPI matching method as it would erase
-        // any existing value.
-        if (!asset_identifier.empty()) {
-            modelAPI.SetAssetIdentifier(
-                // We use the SdfAssetPath constructor using one parameter.
-                // The SdfAssetPath constructor using two parameters is useless
-                // in our scenario as UsdModelAPI::GetAssetIdentifier
-                // returns an SdfAssetPath with an empty resolvedPath.
-                // The following python snippet (tested with USD 22.08)
-                // illustrates this behaviour:
-                // \code
-                // >>> model = Usd.ModelAPI(prim)
-                // >>> asset_path = Sdf.AssetPath("foo.usd", "/abc/foo/foo.usd")
-                // >>> asset_path
-                // Sdf.AssetPath('foo.usd', '/abc/foo/foo.usd')
-                // >>> model.SetAssetIdentifier(asset_path)
-                // >>> model.GetAssetIdentifier()
-                // Sdf.AssetPath('foo.usd')
-                // \endcode
-                PXR_NS::SdfAssetPath(asset_identifier.c_str()));
-        }
-        if (!asset_name.empty()) {
-            modelAPI.SetAssetName(asset_name.c_str());
-        }
-        if (!asset_version.empty()) {
-            modelAPI.SetAssetVersion(asset_version.c_str());
-        }
+            auto modelAPI = PXR_NS::UsdModelAPI(pxr_prim);
+            // if the string parameter is empty we don't want to
+            // call the modelAPI matching method as it would erase
+            // any existing value.
+            if (!asset_identifier.empty()) {
+                modelAPI.SetAssetIdentifier(
+                    // We use the SdfAssetPath constructor using one parameter.
+                    // The SdfAssetPath constructor using two parameters is
+                    // useless in our scenario as
+                    // UsdModelAPI::GetAssetIdentifier returns an SdfAssetPath
+                    // with an empty resolvedPath. The following python snippet
+                    // (tested with USD 22.08) illustrates this behaviour: \code
+                    // >>> model = Usd.ModelAPI(prim)
+                    // >>> asset_path = Sdf.AssetPath("foo.usd",
+                    // "/abc/foo/foo.usd")
+                    // >>> asset_path
+                    // Sdf.AssetPath('foo.usd', '/abc/foo/foo.usd')
+                    // >>> model.SetAssetIdentifier(asset_path)
+                    // >>> model.GetAssetIdentifier()
+                    // Sdf.AssetPath('foo.usd')
+                    // \endcode
+                    PXR_NS::SdfAssetPath(asset_identifier.c_str()));
+            }
+            if (!asset_name.empty()) {
+                modelAPI.SetAssetName(asset_name.c_str());
+            }
+            if (!asset_version.empty()) {
+                modelAPI.SetAssetVersion(asset_version.c_str());
+            }
+        });
     } catch (std::exception& e) {
         log_exception("set_prim_asset_info", e);
     }
@@ -1064,9 +1129,6 @@ void USD::Prim::get_prim_asset_info(const BifrostUsd::Stage& stage,
     if (!stage) return;
     try {
         auto pxr_prim = USDUtils::get_prim_or_throw(prim_path, stage);
-
-        VariantEditContext ctx(stage);
-
         auto modelAPI = PXR_NS::UsdModelAPI(pxr_prim);
 
         PXR_NS::SdfAssetPath asset_path;
@@ -1086,67 +1148,64 @@ void USD::Prim::get_prim_asset_info(const BifrostUsd::Stage& stage,
     }
 }
 
-bool USD::Prim::set_prim_active(BifrostUsd::Stage& stage,
+bool USD::Prim::set_prim_active(BifrostUsd::Stage&   stage,
                                 const Amino::String& path,
                                 const bool           active) {
     if (!stage) return false;
 
     try {
         auto pxr_prim = USDUtils::get_prim_or_throw(path, stage);
-
-        VariantEditContext ctx(stage);
-
-        return pxr_prim.SetActive(active);
-
+        return BifrostUsd::WithVariantContext(
+            stage, [&]() { return pxr_prim.SetActive(active); });
     } catch (std::exception& e) {
         log_exception("set_prim_active", e);
     }
     return false;
 }
 
-bool USD::Prim::set_prim_metadata(BifrostUsd::Stage& stage,
+bool USD::Prim::set_prim_metadata(BifrostUsd::Stage&   stage,
                                   const Amino::String& path,
                                   const Amino::String& key,
                                   const Amino::String& value) {
     return set_prim_metadata_impl(path, key, value, stage);
 }
 
-bool USD::Prim::set_prim_metadata(BifrostUsd::Stage& stage,
+bool USD::Prim::set_prim_metadata(BifrostUsd::Stage&   stage,
                                   const Amino::String& path,
                                   const Amino::String& key,
                                   const Amino::bool_t& value) {
     return set_prim_metadata_impl(path, key, value, stage);
 }
 
-bool USD::Prim::set_prim_metadata(BifrostUsd::Stage&  stage,
+bool USD::Prim::set_prim_metadata(BifrostUsd::Stage&    stage,
                                   const Amino::String&  path,
                                   const Amino::String&  key,
                                   const Amino::float_t& value) {
     return set_prim_metadata_impl(path, key, value, stage);
 }
 
-bool USD::Prim::set_prim_metadata(BifrostUsd::Stage&   stage,
+bool USD::Prim::set_prim_metadata(BifrostUsd::Stage&     stage,
                                   const Amino::String&   path,
                                   const Amino::String&   key,
                                   const Amino::double_t& value) {
     return set_prim_metadata_impl(path, key, value, stage);
 }
 
-bool USD::Prim::set_prim_metadata(BifrostUsd::Stage& stage,
+bool USD::Prim::set_prim_metadata(BifrostUsd::Stage&   stage,
                                   const Amino::String& path,
                                   const Amino::String& key,
                                   const Amino::int_t&  value) {
     return set_prim_metadata_impl(path, key, value, stage);
 }
 
-bool USD::Prim::set_prim_metadata(BifrostUsd::Stage& stage,
+bool USD::Prim::set_prim_metadata(BifrostUsd::Stage&   stage,
                                   const Amino::String& path,
                                   const Amino::String& key,
                                   const Amino::long_t& value) {
     return set_prim_metadata_impl(path, key, value, stage);
 }
 
-bool USD::Prim::set_prim_metadata(BifrostUsd::Stage&   stage,
+bool USD::Prim::set_prim_metadata(BifrostUsd::Stage&     stage,
                                   const Amino::String&   path,
                                   const Amino::String&   key,
                                   const Bifrost::Object& value) {
@@ -1154,19 +1213,18 @@ bool USD::Prim::set_prim_metadata(BifrostUsd::Stage&   stage,
 }
 
 bool USD::Prim::get_prim_metadata(const BifrostUsd::Stage& stage,
-                                  const Amino::String&       path,
-                                  const Amino::String&       key,
-                                  const Amino::String&       default_and_type,
-                                  Amino::String&             value) {
+                                  const Amino::String&     path,
+                                  const Amino::String&     key,
+                                  const Amino::String&     default_and_type,
+                                  Amino::String&           value) {
     if (!stage) return false;
 
     try {
-        auto               pxr_prim = USDUtils::get_prim_or_throw(path, stage);
-        VariantEditContext ctx(stage);
-        auto               pxr_key = GetSdfFieldKey(key);
-        std::string        tempVal;
+        auto        pxr_prim = USDUtils::get_prim_or_throw(path, stage);
+        auto        pxr_key  = GetSdfFieldKey(key);
+        std::string tempVal;
         if (pxr_prim.GetMetadata(pxr_key, &tempVal)) {
-            value = tempVal.c_str();
+            value   = tempVal.c_str();
             return true;
         } else {
             value = default_and_type;
@@ -1179,47 +1237,47 @@ bool USD::Prim::get_prim_metadata(const BifrostUsd::Stage& stage,
 }
 
 bool USD::Prim::get_prim_metadata(const BifrostUsd::Stage& stage,
-                                  const Amino::String&       path,
-                                  const Amino::String&       key,
-                                  const Amino::bool_t&       default_and_type,
-                                  Amino::bool_t&             value) {
+                                  const Amino::String&     path,
+                                  const Amino::String&     key,
+                                  const Amino::bool_t&     default_and_type,
+                                  Amino::bool_t&           value) {
     return get_prim_metadata_impl(stage, path, key, default_and_type, value);
 }
 
 bool USD::Prim::get_prim_metadata(const BifrostUsd::Stage& stage,
-                                  const Amino::String&       path,
-                                  const Amino::String&       key,
-                                  const Amino::float_t&      default_and_type,
-                                  Amino::float_t&            value) {
+                                  const Amino::String&     path,
+                                  const Amino::String&     key,
+                                  const Amino::float_t&    default_and_type,
+                                  Amino::float_t&          value) {
     return get_prim_metadata_impl(stage, path, key, default_and_type, value);
 }
 
 bool USD::Prim::get_prim_metadata(const BifrostUsd::Stage& stage,
-                                  const Amino::String&       path,
-                                  const Amino::String&       key,
-                                  const Amino::double_t&     default_and_type,
-                                  Amino::double_t&           value) {
+                                  const Amino::String&     path,
+                                  const Amino::String&     key,
+                                  const Amino::double_t&   default_and_type,
+                                  Amino::double_t&         value) {
     return get_prim_metadata_impl(stage, path, key, default_and_type, value);
 }
 
 bool USD::Prim::get_prim_metadata(const BifrostUsd::Stage& stage,
-                                  const Amino::String&       path,
-                                  const Amino::String&       key,
-                                  const Amino::int_t&        default_and_type,
-                                  Amino::int_t&              value) {
+                                  const Amino::String&     path,
+                                  const Amino::String&     key,
+                                  const Amino::int_t&      default_and_type,
+                                  Amino::int_t&            value) {
     return get_prim_metadata_impl(stage, path, key, default_and_type, value);
 }
 
 bool USD::Prim::get_prim_metadata(const BifrostUsd::Stage& stage,
-                                  const Amino::String&       path,
-                                  const Amino::String&       key,
-                                  const Amino::long_t&       default_and_type,
-                                  Amino::long_t&             value) {
+                                  const Amino::String&     path,
+                                  const Amino::String&     key,
+                                  const Amino::long_t&     default_and_type,
+                                  Amino::long_t&           value) {
     return get_prim_metadata_impl(stage, path, key, default_and_type, value);
 }
 
 bool USD::Prim::get_prim_metadata(
-    const BifrostUsd::Stage&         stage,
+    const BifrostUsd::Stage&           stage,
     const Amino::String&               path,
     const Amino::String&               key,
     const Amino::Ptr<Bifrost::Object>& default_and_type,
@@ -1230,10 +1288,9 @@ bool USD::Prim::get_prim_metadata(
     if (!stage) return false;
 
     try {
-        auto               pxr_prim = USDUtils::get_prim_or_throw(path, stage);
-        VariantEditContext ctx(stage);
-        auto               pxr_key = GetSdfFieldKey(key);
-        PXR_NS::VtDictionary  temp;
+        auto pxr_prim = USDUtils::get_prim_or_throw(path, stage);
+        auto pxr_key  = GetSdfFieldKey(key);
+        PXR_NS::VtDictionary temp;
 
         if (pxr_prim.GetMetadata(pxr_key, &temp)) {
             value = fromPxr(temp);
@@ -1241,7 +1298,6 @@ bool USD::Prim::get_prim_metadata(
         } else {
             value = default_and_type;
         }
-
     } catch (std::exception& e) {
         log_exception("get_prim_metadata", e);
     }

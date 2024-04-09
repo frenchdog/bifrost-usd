@@ -119,6 +119,17 @@ function(maya_skd_init)
         ${maya_found_libs}
     )
 
+    find_program(MAYA_PY_EXECUTABLE
+            mayapy
+        HINTS
+            "${MAYA_RUNTIME_LOCATION}"
+        PATH_SUFFIXES
+            Maya.app/Contents/bin/
+            bin/
+        DOC
+            "Maya's Python executable path"
+    )
+
     if( Maya_FOUND)
         foreach(lib ${maya_libraries})
             set( target_name Maya::${lib})

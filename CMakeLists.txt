@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2023 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -202,6 +202,15 @@ endif()
 #
 if( BIFUSD_BUILD_HYDRA )
     add_subdirectory(bifrost_hydra)
+endif()
+
+#==============================================================================
+# Bifrost USD Examples
+#==============================================================================
+option(BIFUSD_EXAMPLES "Install the examples" ON)
+option(BIFUSD_EXAMPLES_TESTS "Test the examples" OFF)
+if( BIFUSD_EXAMPLES )
+    add_subdirectory(examples)
 endif()
 
 #==============================================================================

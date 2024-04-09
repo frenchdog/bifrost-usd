@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -479,18 +479,18 @@ Amino::String Layer::getPathWithValidUsdFileFormat(const Amino::String& path) {
     }
 }
 
-} // namespace BifrostUsd
-
 //------------------------------------------------------------------------------
 //
-template <>
-Amino::Ptr<BifrostUsd::Layer> Amino::createDefaultClass() {
+namespace {
+Amino::Ptr<BifrostUsd::Layer> createDefaultLayer() {
     // Destructor of USD instances are lauching threads. This result in
     // a deadlock on windows when unloading the library (which destroys the
     // default constructed object held in static variables).
     /// \todo BIFROST-6874 remove PXR_NS::Work_EnsureDetachedTaskProgress();
     PXR_NS::Work_EnsureDetachedTaskProgress();
-    return Amino::newClassPtr<BifrostUsd::Layer>(
-        BifrostUsd::Layer::Invalid{});
+    return Amino::newClassPtr<BifrostUsd::Layer>(BifrostUsd::Layer::Invalid{});
 }
-AMINO_DEFINE_DEFAULT_CLASS(BifrostUsd::Layer);
+} // namespace
+} // namespace BifrostUsd
+
+AMINO_DEFINE_DEFAULT_CLASS(BifrostUsd::Layer, BifrostUsd::createDefaultLayer());

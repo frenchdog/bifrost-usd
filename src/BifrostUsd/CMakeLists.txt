@@ -37,6 +37,7 @@ set(usd_src_files
     Prim.cpp
     Stage.cpp
     StageCache.cpp
+    VariantSelection.cpp
 )
 
 bifusd_set_extra_rpaths(extra_rpaths)

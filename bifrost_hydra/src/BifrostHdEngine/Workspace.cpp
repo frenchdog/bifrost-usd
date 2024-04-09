@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,67 +16,36 @@
 
 #include <BifrostHydra/Engine/Workspace.h>
 
-#include <BifrostGraph/Executor/PreviewUtility.h>
-//#include <BifrostGraph/Executor/Utility.h>
-
-#include <AminoConfig.h>
-#include <AminoStringList.h>
+#include <BifrostGraph/Executor/Factory.h>
+#include <BifrostGraph/Executor/Owner.h>
 
 namespace {
-std::unique_ptr<BifrostHd::Workspace> g_workspace;
+Amino::String sourceToStr(BifrostGraph::Executor::MessageSource source) {
+    switch (source) {
+        case BifrostGraph::Executor::MessageSource::kWorkspace: return "Workspace";
+        case BifrostGraph::Executor::MessageSource::kLibrary: return "Library";
+        case BifrostGraph::Executor::MessageSource::kGraphContainer: return "GraphContainer";
+        case BifrostGraph::Executor::MessageSource::kJob: return "Job";
+        case BifrostGraph::Executor::MessageSource::kTranslation: return "Translation";
+    }
+    assert(false);
+    return {};
+}
 } // namespace
 
 namespace BifrostHd {
 
-Workspace::Workspace(const Amino::String& name) : WorkspacePreview(name) {
-    auto configEnv = BifrostGraph::Executor::makeOwner<
-        BifrostGraph::Executor::Utility::ConfigEnv>();
-    if (configEnv && configEnv->isValid()) {
-        const auto& configFiles =
-            configEnv->values("bifrost_pack_config_files");
-        if (!configFiles.empty()) {
-            Amino::Config config;
-            readConfigFiles(configFiles, Amino::Array<Amino::String>{}, config);
-            addConfigForUserDefaultResources(config);
-            reportConfigData(config);
-            loadAllResources(config);
-        }
-    }
-}
+Workspace::Workspace(const Amino::String& name)
+    : BifrostGraph::Executor::Workspace(name) {}
 
 Workspace::~Workspace() = default;
-
-Workspace& Workspace::getInstance() {
-    if (!g_workspace) {
-        g_workspace = std::make_unique<Workspace>("BifrostHd");
-        assert(g_workspace);
-    }
-    return *g_workspace;
-}
 
 void Workspace::onReportedMessage(BifrostGraph::Executor::MessageSource source,
                                   BifrostGraph::Executor::MessageCategory /*category*/,
                                   const Amino::String& message) const noexcept {
-    reportMessage([source]() {
-        switch(source) {
-            case BifrostGraph::Executor::MessageSource::kWorkspace:
-                return Amino::String("[Workspace] ");
-            case BifrostGraph::Executor::MessageSource::kLibrary:
-                return Amino::String("[Library] ");
-            case BifrostGraph::Executor::MessageSource::kGraphContainer:
-                return Amino::String("[GraphContainer] ");
-            case BifrostGraph::Executor::MessageSource::kJob:
-                return Amino::String("[Job] ");
-            case BifrostGraph::Executor::MessageSource::kTranslation:
-                return Amino::String("[Translation] ");
-        }
-        assert(false);
-#if defined(_WIN32)
-        __assume(false);
-#else
-        __builtin_unreachable();
-#endif
-        }()+ message);
+    const Amino::String fullMsg =
+        Amino::String("[") + ::sourceToStr(source) + "] " + message;
+    m_messages.push_back(fullMsg);
 }
 
 } // namespace BifrostHd

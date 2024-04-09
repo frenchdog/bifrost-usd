@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@
 //+
 
 #include "TypeTranslation.h"
+
 #include <BifrostHydra/Engine/JobTranslationData.h>
 #include <BifrostHydra/Engine/ValueTranslationData.h>
 
 #include <Bifrost/Geometry/GeometryTypes.h>
-
-#include <AminoValue.h>
+#include <BifrostGraph/Executor/Utility.h>
 
 namespace BifrostHd {
 
@@ -52,22 +52,20 @@ void TypeTranslation::getSupportedTypeNames(
 }
 
 bool TypeTranslation::convertValueFromHost(
-    Amino::Type const& type,
+    const Amino::Type& type,
     Amino::Any&        value,
-    BifrostGraph::Executor::TypeTranslation::ValueData const*
+    const BifrostGraph::Executor::TypeTranslation::ValueData*
         valueTranslationData) const noexcept {
-    assert(dynamic_cast<BifrostHd::ValueTranslationData const*>(
-        valueTranslationData));
+    assert(
+        dynamic_cast<BifrostHd::InputValueData const*>(valueTranslationData));
 
-    auto bifrostHdValueTranslationData =
-        static_cast<const BifrostHd::ValueTranslationData*>(
-            valueTranslationData);
-    const auto& typeName = type.getFullyQualifiedName();
+    auto inputValueData =
+        static_cast<const BifrostHd::InputValueData*>(valueTranslationData);
+    Amino::String typeName = BifrostGraph::Executor::Utility::getTypeName(type);
 
     if (typeName == "Simulation::Time") {
-        auto time =
-            bifrostHdValueTranslationData->jobTranslationData().getTime();
-        
+        auto time = inputValueData->jobTranslationData().getTime();
+
         value = Bifrost::Simulation::Time{
             static_cast<long>(1),
             time.currentTime,
@@ -76,21 +74,20 @@ bool TypeTranslation::convertValueFromHost(
         return true;
     }
 
-    value = bifrostHdValueTranslationData->getInput(type);
+    value = inputValueData->getInput();
     return true;
 }
 
 bool TypeTranslation::convertValueToHost(
-    Amino::Any const&                                   value,
+    const Amino::Any&                                   value,
     BifrostGraph::Executor::TypeTranslation::ValueData* valueTranslationData)
     const noexcept {
-    assert(
-        dynamic_cast<BifrostHd::ValueTranslationData*>(valueTranslationData));
+    assert(dynamic_cast<BifrostHd::OutputValueData*>(valueTranslationData));
 
-    auto bifrostHdValueTranslationData =
-        static_cast<BifrostHd::ValueTranslationData*>(valueTranslationData);
+    auto outputValueData =
+        static_cast<BifrostHd::OutputValueData*>(valueTranslationData);
 
-    return bifrostHdValueTranslationData->setOutput(value);
+    return outputValueData->setOutput(value);
 }
 
 } // namespace BifrostHd

@@ -19,9 +19,112 @@
 #include <Amino/Core/String.h>
 #include <Bifrost/Object/Object.h>
 
+#include <pxr/pxr.h>
 #include <pxr/usd/usd/tokens.h>
+#include <unordered_map>
 
 using namespace USDTypeConverters;
+
+namespace  {
+
+// clang-format off
+const std::unordered_map<PXR_NS::SdfValueTypeName, BifrostUsd::SdfValueTypeName, PXR_NS::SdfValueTypeNameHash>
+    PxrToBifValueTypeName{
+        {PXR_NS::SdfValueTypeNames->Asset, BifrostUsd::SdfValueTypeName::Asset},
+        {PXR_NS::SdfValueTypeNames->AssetArray, BifrostUsd::SdfValueTypeName::AssetArray},
+
+        {PXR_NS::SdfValueTypeNames->Bool, BifrostUsd::SdfValueTypeName::Bool},
+        {PXR_NS::SdfValueTypeNames->BoolArray, BifrostUsd::SdfValueTypeName::BoolArray},
+
+        {PXR_NS::SdfValueTypeNames->Color3f, BifrostUsd::SdfValueTypeName::Color3f},
+        {PXR_NS::SdfValueTypeNames->Color3fArray, BifrostUsd::SdfValueTypeName::Color3fArray},
+
+        {PXR_NS::SdfValueTypeNames->Double, BifrostUsd::SdfValueTypeName::Double},
+        {PXR_NS::SdfValueTypeNames->DoubleArray, BifrostUsd::SdfValueTypeName::DoubleArray},
+
+        {PXR_NS::SdfValueTypeNames->Double2, BifrostUsd::SdfValueTypeName::Double2},
+        {PXR_NS::SdfValueTypeNames->Double2Array, BifrostUsd::SdfValueTypeName::Double2Array},
+
+        {PXR_NS::SdfValueTypeNames->Double3, BifrostUsd::SdfValueTypeName::Double3},
+        {PXR_NS::SdfValueTypeNames->Double3Array, BifrostUsd::SdfValueTypeName::Double3Array},
+
+        {PXR_NS::SdfValueTypeNames->Double4, BifrostUsd::SdfValueTypeName::Double4},
+        {PXR_NS::SdfValueTypeNames->Double4Array, BifrostUsd::SdfValueTypeName::Double4Array},
+
+        {PXR_NS::SdfValueTypeNames->Float, BifrostUsd::SdfValueTypeName::Float},
+        {PXR_NS::SdfValueTypeNames->FloatArray, BifrostUsd::SdfValueTypeName::FloatArray},
+
+        {PXR_NS::SdfValueTypeNames->Float2, BifrostUsd::SdfValueTypeName::Float2},
+        {PXR_NS::SdfValueTypeNames->Float2Array, BifrostUsd::SdfValueTypeName::Float2Array},
+
+        {PXR_NS::SdfValueTypeNames->Float3, BifrostUsd::SdfValueTypeName::Float3},
+        {PXR_NS::SdfValueTypeNames->Float3Array, BifrostUsd::SdfValueTypeName::Float3Array},
+
+        {PXR_NS::SdfValueTypeNames->Float4, BifrostUsd::SdfValueTypeName::Float4},
+        {PXR_NS::SdfValueTypeNames->Float4Array, BifrostUsd::SdfValueTypeName::Float4Array},
+
+        {PXR_NS::SdfValueTypeNames->Half, BifrostUsd::SdfValueTypeName::Half},
+        {PXR_NS::SdfValueTypeNames->HalfArray, BifrostUsd::SdfValueTypeName::HalfArray},
+
+        {PXR_NS::SdfValueTypeNames->Half2, BifrostUsd::SdfValueTypeName::Half2},
+        {PXR_NS::SdfValueTypeNames->Half2Array, BifrostUsd::SdfValueTypeName::Half2Array},
+
+        {PXR_NS::SdfValueTypeNames->Half3, BifrostUsd::SdfValueTypeName::Half3},
+        {PXR_NS::SdfValueTypeNames->Half3Array,BifrostUsd::SdfValueTypeName::Half3Array},
+
+        {PXR_NS::SdfValueTypeNames->Half4, BifrostUsd::SdfValueTypeName::Half4},
+        {PXR_NS::SdfValueTypeNames->Half4Array, BifrostUsd::SdfValueTypeName::Half4Array},
+
+        {PXR_NS::SdfValueTypeNames->Half4, BifrostUsd::SdfValueTypeName::Half4},
+        {PXR_NS::SdfValueTypeNames->Half4Array, BifrostUsd::SdfValueTypeName::Half4Array},
+
+        {PXR_NS::SdfValueTypeNames->Int, BifrostUsd::SdfValueTypeName::Int},
+        {PXR_NS::SdfValueTypeNames->IntArray, BifrostUsd::SdfValueTypeName::IntArray},
+
+        {PXR_NS::SdfValueTypeNames->Int64, BifrostUsd::SdfValueTypeName::Int64},
+        {PXR_NS::SdfValueTypeNames->Int64Array, BifrostUsd::SdfValueTypeName::Int64Array},
+
+        {PXR_NS::SdfValueTypeNames->Matrix2d, BifrostUsd::SdfValueTypeName::Matrix2d},
+        {PXR_NS::SdfValueTypeNames->Matrix2dArray, BifrostUsd::SdfValueTypeName::Matrix2dArray},
+
+        {PXR_NS::SdfValueTypeNames->Matrix3d, BifrostUsd::SdfValueTypeName::Matrix3d},
+        {PXR_NS::SdfValueTypeNames->Matrix3dArray, BifrostUsd::SdfValueTypeName::Matrix3dArray},
+
+        {PXR_NS::SdfValueTypeNames->Matrix4d, BifrostUsd::SdfValueTypeName::Matrix4d},
+        {PXR_NS::SdfValueTypeNames->Matrix4dArray,BifrostUsd::SdfValueTypeName::Matrix4dArray},
+
+        {PXR_NS::SdfValueTypeNames->Normal3f,BifrostUsd::SdfValueTypeName::Normal3f},
+        {PXR_NS::SdfValueTypeNames->Normal3fArray,BifrostUsd::SdfValueTypeName::Normal3fArray},
+
+        {PXR_NS::SdfValueTypeNames->Quatd, BifrostUsd::SdfValueTypeName::Quatd},
+        {PXR_NS::SdfValueTypeNames->QuatdArray, BifrostUsd::SdfValueTypeName::QuatdArray},
+
+        {PXR_NS::SdfValueTypeNames->Quatf, BifrostUsd::SdfValueTypeName::Quatf},
+        {PXR_NS::SdfValueTypeNames->QuatfArray, BifrostUsd::SdfValueTypeName::QuatfArray},
+
+        {PXR_NS::SdfValueTypeNames->Quath, BifrostUsd::SdfValueTypeName::Quath},
+        {PXR_NS::SdfValueTypeNames->QuathArray, BifrostUsd::SdfValueTypeName::QuathArray},
+
+        {PXR_NS::SdfValueTypeNames->String, BifrostUsd::SdfValueTypeName::String},
+        {PXR_NS::SdfValueTypeNames->StringArray, BifrostUsd::SdfValueTypeName::StringArray},
+
+        {PXR_NS::SdfValueTypeNames->TexCoord2f, BifrostUsd::SdfValueTypeName::TexCoord2f},
+        {PXR_NS::SdfValueTypeNames->TexCoord2fArray, BifrostUsd::SdfValueTypeName::TexCoord2fArray},
+
+        {PXR_NS::SdfValueTypeNames->Token, BifrostUsd::SdfValueTypeName::Token},
+        {PXR_NS::SdfValueTypeNames->TokenArray, BifrostUsd::SdfValueTypeName::TokenArray},
+
+        {PXR_NS::SdfValueTypeNames->UChar, BifrostUsd::SdfValueTypeName::UChar},
+        {PXR_NS::SdfValueTypeNames->UCharArray, BifrostUsd::SdfValueTypeName::UCharArray},
+
+        {PXR_NS::SdfValueTypeNames->UInt, BifrostUsd::SdfValueTypeName::UInt},
+        {PXR_NS::SdfValueTypeNames->UIntArray, BifrostUsd::SdfValueTypeName::UIntArray},
+
+        {PXR_NS::SdfValueTypeNames->UInt64, BifrostUsd::SdfValueTypeName::UInt64},
+        {PXR_NS::SdfValueTypeNames->UInt64Array, BifrostUsd::SdfValueTypeName::UInt64Array},
+    };
+// clang-format on
+} // namespace
 
 namespace USDUtils {
 
@@ -184,6 +287,7 @@ PXR_NS::SdfVariability GetSdfVariability(
 PXR_NS::SdfValueTypeName GetSdfValueTypeName(
     const BifrostUsd::SdfValueTypeName type_name) {
     switch (type_name) {
+        case BifrostUsd::SdfValueTypeName::Invalid: return PXR_NS::SdfValueTypeName();
         case BifrostUsd::SdfValueTypeName::Asset: return PXR_NS::SdfValueTypeNames->Asset;
         case BifrostUsd::SdfValueTypeName::AssetArray:
             return PXR_NS::SdfValueTypeNames->AssetArray;
@@ -281,6 +385,18 @@ PXR_NS::SdfValueTypeName GetSdfValueTypeName(
             return PXR_NS::SdfValueTypeNames->UInt64Array;
     }
     return PXR_NS::SdfValueTypeName();
+}
+
+bool SetSdfValueTypeName(const PXR_NS::SdfValueTypeName& pxr_type_name,
+                         BifrostUsd::SdfValueTypeName&   type_name) {
+    if (auto search = PxrToBifValueTypeName.find(pxr_type_name);
+        search != PxrToBifValueTypeName.end()) {
+        type_name = search->second;
+        return true;
+    }
+
+    type_name = BifrostUsd::SdfValueTypeName::Invalid;
+    return false;
 }
 
 PXR_NS::TfToken GetUsdGeomPrimvarInterpolation(

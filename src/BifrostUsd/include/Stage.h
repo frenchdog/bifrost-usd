@@ -46,6 +46,7 @@ BIFUSD_WARNING_DISABLE_MSC(4800)
 BIFUSD_WARNING_POP
 
 #include "Layer.h"
+#include "VariantSelection.h"
 
 #endif // DISABLE_PXR_HEADERS
 
@@ -151,7 +152,7 @@ public:
     Stage& operator=(const Stage& other);
 
     Stage(Stage&& other) noexcept;
-    Stage& operator=(Stage&& other) noexcept;
+    Stage& operator=(Stage&& other) = default;
 
     bool     isValid() const { return m_stage != nullptr; }
     explicit operator bool() const { return isValid(); }
@@ -202,11 +203,11 @@ public:
     ///     false.
     bool setEditLayerIndex(const int layerIndex, bool defaultToRoot);
 
-    bool hasLastModifiedVariantSetPrim() const {
-        return !last_modified_variant_set_prim.empty();
-    }
+    VariantSelection const & variantSelection() const { return m_variantSelection; }
+    VariantSelection & variantSelection() { return m_variantSelection; }
 
-    PXR_NS::UsdVariantSet getLastModifedVariantSet() const;
+    Amino::String lastModifiedVariantSet() const;
+    Amino::String lastModifiedVariant() const;
 
     bool save(const Amino::String& filePath = "") const;
 
@@ -216,14 +217,13 @@ public:
     }
 
     Amino::String last_modified_prim;
-    Amino::String last_modified_variant_set_prim;
-    Amino::String last_modified_variant_set_name;
-    Amino::String last_modified_variant_name;
+
 
 private:
     Amino::Ptr<Layer>   m_rootLayer;
     PXR_NS::UsdStageRefPtr m_stage;
     int                 m_editLayerIndex{-1};
+    VariantSelection m_variantSelection;
 #endif // DISABLE_PXR_HEADERS
 };
 } // namespace BifrostUsd

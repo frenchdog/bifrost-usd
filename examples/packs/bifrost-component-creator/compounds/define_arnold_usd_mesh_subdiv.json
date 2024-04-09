@@ -1,0 +1,1658 @@
+{
+    "header": {
+        "metadata": [
+            {
+                "metaName": "adskFileFormatVersion",
+                "metaValue": "100L"
+            }
+        ]
+    },
+    "namespaces": [],
+    "types": [],
+    "compounds": [
+        {
+            "name": "USD::Arnold::define_arnold_usd_mesh_subdiv",
+            "uriImported": "stream:/bifrostGraphShape1",
+            "metadata": [
+                {
+                    "metaName": "io_nodes",
+                    "metadata": [
+                        {
+                            "metaName": "io_inodes",
+                            "metadata": [
+                                {
+                                    "metaName": "input",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "-782.994 2523.86"
+                                        },
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "subdiv_type"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_iterations"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_adaptive_error"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_adaptive_metric"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_adaptive_space"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_frustum_ignore"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_uv_smoothing"
+                                                },
+                                                {
+                                                    "metaName": "subdiv_smooth_derivs"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "59.000000"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "io_onodes",
+                            "metadata": [
+                                {
+                                    "metaName": "output",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "2423.02 1542.34"
+                                        },
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "attribute_definitions"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "61.000000"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,Core::Logic,if"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,Core::Logic,not_equal"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Arnold,define_arnold_usd_mesh_subdiv"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,Rendering::Arnold,set_Arnold_mesh_settings"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Model,define_usd_look_variant"
+                },
+                {
+                    "metaName": "ViewportRect",
+                    "metaType": "string",
+                    "metaValue": "-863.479 -449.073 3592.18 4665.59"
+                },
+                {
+                    "metaName": "DisplayMode",
+                    "metaType": "string",
+                    "metaValue": "2"
+                },
+                {
+                    "metaName": "LayoutPos",
+                    "metaType": "string",
+                    "metaValue": "687.338 84.2792"
+                },
+                {
+                    "metaName": "zValue",
+                    "metaType": "string",
+                    "metaValue": "85.000000"
+                }
+            ],
+            "ports": [
+                {
+                    "portName": "subdiv_type",
+                    "portDirection": "input",
+                    "portType": "Rendering::Arnold::SubdivType",
+                    "portDefault": "Catmull-Clark"
+                },
+                {
+                    "portName": "attribute_definitions",
+                    "portDirection": "output",
+                    "portType": "array<Object>"
+                },
+                {
+                    "portName": "subdiv_iterations",
+                    "portDirection": "input",
+                    "portType": "int",
+                    "portDefault": "2L"
+                },
+                {
+                    "portName": "subdiv_adaptive_error",
+                    "portDirection": "input",
+                    "portType": "float",
+                    "portDefault": "0f"
+                },
+                {
+                    "portName": "subdiv_adaptive_metric",
+                    "portDirection": "input",
+                    "portType": "Rendering::Arnold::SubdivAdaptiveMetric",
+                    "portDefault": "Auto"
+                },
+                {
+                    "portName": "subdiv_adaptive_space",
+                    "portDirection": "input",
+                    "portType": "Rendering::Arnold::SubdivAdaptiveSpace",
+                    "portDefault": "Raster"
+                },
+                {
+                    "portName": "subdiv_frustum_ignore",
+                    "portDirection": "input",
+                    "portType": "bool",
+                    "portDefault": "false",
+                    "metadata": [
+                        {
+                            "metaName": "TypeWranglingSuggestedTypes",
+                            "metaType": "string",
+                            "metaValue": "string, float, bool, uchar, int, uint, long, ulong, double, Math::float3, Math::float4, array<float>, array<bool>, array<uchar>, array<int>, array<uint>, array<long>, array<ulong>, array<double>, array<string>, array<Math::float2>, array<Math::float3>, array<Math::float4>"
+                        }
+                    ]
+                },
+                {
+                    "portName": "subdiv_uv_smoothing",
+                    "portDirection": "input",
+                    "portType": "Rendering::Arnold::SubdivUVSmoothing",
+                    "portDefault": "Pin Corners"
+                },
+                {
+                    "portName": "subdiv_smooth_derivs",
+                    "portDirection": "input",
+                    "portType": "bool",
+                    "portDefault": "false"
+                }
+            ],
+            "compoundNodes": [
+                {
+                    "nodeName": "build_array",
+                    "nodeType": "Core::Array::build_array",
+                    "multiInPortNames": [
+                        "attribute_definition",
+                        "attribute_definition1",
+                        "output",
+                        "output1",
+                        "output2",
+                        "output3",
+                        "output4",
+                        "output5"
+                    ],
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "1746.04 1833.65"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "60.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_attribute",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "898.511 528.187"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "38.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_attribute1",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "PortExpandedState",
+                            "metadata": [
+                                {
+                                    "metaName": "Type",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "925 264"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "31.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "equal",
+                    "nodeType": "Core::Logic::equal",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "1208.19 -298.544"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "37.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "equal1",
+                    "nodeType": "Core::Logic::equal",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "315 10"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "35.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "if",
+                    "nodeType": "Core::Logic::if",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "2118.02 1541.34"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "62.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "if1",
+                    "nodeType": "Core::Logic::if",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "620 123"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "32.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "to_unsigned_char",
+                    "nodeType": "Core::Type_Conversion::to_unsigned_char",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "620 366"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "36.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "value",
+                    "valueType": "string",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "315 228"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "33.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "value1",
+                    "valueType": "string",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "315 370"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "34.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_attribute2",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "640.234 932.742"
+                        },
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "39.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "not_equal",
+                    "nodeType": "Core::Logic::not_equal",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "653.036 723.663"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "41.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "if2",
+                    "nodeType": "Core::Logic::if",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "964.237 735.654"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "40.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "if3",
+                    "nodeType": "Core::Logic::if",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "992.91 1173.32"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "44.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_attribute3",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "719.325 1420.82"
+                        },
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "43.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "not_equal1",
+                    "nodeType": "Core::Logic::not_equal",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "732.127 1211.75"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "42.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "Arnold_subdiv_adaptive_metric_to_string",
+                    "nodeType": "Rendering::Arnold::Internal::Arnold_subdiv_adaptive_metric_to_string",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "457.536 1366.62"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "45.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "if4",
+                    "nodeType": "Core::Logic::if",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "1043.44 2453.36"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "46.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "not_equal2",
+                    "nodeType": "Core::Logic::not_equal",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "732.243 2441.37"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "47.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_attribute4",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "PortExpandedState",
+                            "metadata": [
+                                {
+                                    "metaName": "Type",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "719.441 2650.44"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "48.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "Arnold_subdiv_adaptive_space_to_string",
+                    "nodeType": "Rendering::Arnold::Internal::Arnold_subdiv_adaptive_space_to_string",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "439.666 2006.95"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "52.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "not_equal3",
+                    "nodeType": "Core::Logic::not_equal",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "736.927 1776.47"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "50.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_attribute5",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "PortExpandedState",
+                            "metadata": [
+                                {
+                                    "metaName": "Type",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "709.727 2009.52"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "51.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "if5",
+                    "nodeType": "Core::Logic::if",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "1032.13 1769.27"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "49.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "Arnold_subdiv_uv_smoothing_to_string",
+                    "nodeType": "Rendering::Arnold::Internal::Arnold_subdiv_uv_smoothing_to_string",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "417.939 3162.95"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "55.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "not_equal4",
+                    "nodeType": "Core::Logic::not_equal",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "746.381 2988.5"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "54.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "if6",
+                    "nodeType": "Core::Logic::if",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "1041.59 2981.31"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "53.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_attribute6",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "719.181 3221.56"
+                        },
+                        {
+                            "metaName": "PortExpandedState",
+                            "metadata": [
+                                {
+                                    "metaName": "Type",
+                                    "metaType": "string",
+                                    "metaValue": "0"
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "56.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "if7",
+                    "nodeType": "Core::Logic::if",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "1049.47 3624.78"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "57.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "not_equal5",
+                    "nodeType": "Core::Logic::not_equal",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "754.266 3631.97"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "58.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_attribute7",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "727.066 3865.03"
+                        },
+                        {
+                            "metaName": "PortExpandedState",
+                            "metadata": [
+                                {
+                                    "metaName": "Type",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "63.000000"
+                        }
+                    ]
+                }
+            ],
+            "connections": [
+                {
+                    "source": "define_usd_attribute1.attribute_definition",
+                    "target": "build_array.first.attribute_definition"
+                },
+                {
+                    "source": "define_usd_attribute.attribute_definition",
+                    "target": "build_array.first.attribute_definition1"
+                },
+                {
+                    "source": "build_array.array",
+                    "target": "if.false_case"
+                },
+                {
+                    "source": "to_unsigned_char.unsigned_char",
+                    "target": "define_usd_attribute.value"
+                },
+                {
+                    "source": "if1.output",
+                    "target": "define_usd_attribute1.value"
+                },
+                {
+                    "source": ".subdiv_type",
+                    "target": "equal.first"
+                },
+                {
+                    "source": "equal.output",
+                    "target": "if.condition"
+                },
+                {
+                    "source": ".subdiv_type",
+                    "target": "equal1.first"
+                },
+                {
+                    "source": "equal1.output",
+                    "target": "if1.condition"
+                },
+                {
+                    "source": "value.output",
+                    "target": "if1.true_case"
+                },
+                {
+                    "source": "value1.output",
+                    "target": "if1.false_case"
+                },
+                {
+                    "source": ".subdiv_iterations",
+                    "target": "to_unsigned_char.from"
+                },
+                {
+                    "source": "if.output",
+                    "target": ".attribute_definitions"
+                },
+                {
+                    "source": ".subdiv_adaptive_error",
+                    "target": "not_equal.first"
+                },
+                {
+                    "source": "not_equal.output",
+                    "target": "if2.condition"
+                },
+                {
+                    "source": "define_usd_attribute2.attribute_definition",
+                    "target": "if2.true_case"
+                },
+                {
+                    "source": ".subdiv_adaptive_error",
+                    "target": "define_usd_attribute2.value"
+                },
+                {
+                    "source": "define_usd_attribute3.attribute_definition",
+                    "target": "if3.true_case"
+                },
+                {
+                    "source": "not_equal1.output",
+                    "target": "if3.condition"
+                },
+                {
+                    "source": ".subdiv_adaptive_metric",
+                    "target": "Arnold_subdiv_adaptive_metric_to_string.subdiv_adaptive_metric"
+                },
+                {
+                    "source": "Arnold_subdiv_adaptive_metric_to_string.as_string",
+                    "target": "define_usd_attribute3.value"
+                },
+                {
+                    "source": ".subdiv_adaptive_metric",
+                    "target": "not_equal1.first"
+                },
+                {
+                    "source": "if2.output",
+                    "target": "build_array.first.output"
+                },
+                {
+                    "source": "if3.output",
+                    "target": "build_array.first.output1"
+                },
+                {
+                    "source": "not_equal2.output",
+                    "target": "if4.condition"
+                },
+                {
+                    "source": "define_usd_attribute4.attribute_definition",
+                    "target": "if4.true_case"
+                },
+                {
+                    "source": ".subdiv_frustum_ignore",
+                    "target": "define_usd_attribute4.value"
+                },
+                {
+                    "source": ".subdiv_frustum_ignore",
+                    "target": "not_equal2.first"
+                },
+                {
+                    "source": "not_equal3.output",
+                    "target": "if5.condition"
+                },
+                {
+                    "source": "define_usd_attribute5.attribute_definition",
+                    "target": "if5.true_case"
+                },
+                {
+                    "source": ".subdiv_adaptive_space",
+                    "target": "not_equal3.first"
+                },
+                {
+                    "source": ".subdiv_adaptive_space",
+                    "target": "Arnold_subdiv_adaptive_space_to_string.subdiv_adaptive_space"
+                },
+                {
+                    "source": "Arnold_subdiv_adaptive_space_to_string.as_string",
+                    "target": "define_usd_attribute5.value"
+                },
+                {
+                    "source": "if5.output",
+                    "target": "build_array.first.output2"
+                },
+                {
+                    "source": "if4.output",
+                    "target": "build_array.first.output3"
+                },
+                {
+                    "source": ".subdiv_uv_smoothing",
+                    "target": "Arnold_subdiv_uv_smoothing_to_string.subdiv_uv_smoothing"
+                },
+                {
+                    "source": "not_equal4.output",
+                    "target": "if6.condition"
+                },
+                {
+                    "source": "define_usd_attribute6.attribute_definition",
+                    "target": "if6.true_case"
+                },
+                {
+                    "source": "Arnold_subdiv_uv_smoothing_to_string.as_string",
+                    "target": "define_usd_attribute6.value"
+                },
+                {
+                    "source": ".subdiv_uv_smoothing",
+                    "target": "not_equal4.first"
+                },
+                {
+                    "source": "if6.output",
+                    "target": "build_array.first.output4"
+                },
+                {
+                    "source": "not_equal5.output",
+                    "target": "if7.condition"
+                },
+                {
+                    "source": "define_usd_attribute7.attribute_definition",
+                    "target": "if7.true_case"
+                },
+                {
+                    "source": ".subdiv_smooth_derivs",
+                    "target": "not_equal5.first"
+                },
+                {
+                    "source": ".subdiv_smooth_derivs",
+                    "target": "define_usd_attribute7.value"
+                },
+                {
+                    "source": "if7.output",
+                    "target": "build_array.first.output5"
+                }
+            ],
+            "values": [
+                {
+                    "valueName": "define_usd_attribute.name",
+                    "valueType": "string",
+                    "value": "primvars:arnold:subdiv_iterations"
+                },
+                {
+                    "valueName": "define_usd_attribute.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "UChar"
+                },
+                {
+                    "valueName": "define_usd_attribute.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute.value",
+                    "valueType": "uchar",
+                    "value": "2"
+                },
+                {
+                    "valueName": "define_usd_attribute.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "define_usd_attribute1.name",
+                    "valueType": "string",
+                    "value": "primvars:arnold:subdiv_type"
+                },
+                {
+                    "valueName": "define_usd_attribute1.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "Token"
+                },
+                {
+                    "valueName": "define_usd_attribute1.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute1.value",
+                    "valueType": "string",
+                    "value": "catclark"
+                },
+                {
+                    "valueName": "define_usd_attribute1.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute1.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute1.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute1.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute1.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute1.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute1.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute1.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute1.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "equal1.second",
+                    "valueType": "Rendering::Arnold::SubdivType",
+                    "value": "Catmull-Clark"
+                },
+                {
+                    "valueName": "value.value",
+                    "valueType": "string",
+                    "value": "catclark"
+                },
+                {
+                    "valueName": "value1.value",
+                    "valueType": "string",
+                    "value": "linear"
+                },
+                {
+                    "valueName": "define_usd_attribute2.name",
+                    "valueType": "string",
+                    "value": "primvars:arnold:subdiv_adaptive_error"
+                },
+                {
+                    "valueName": "define_usd_attribute2.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "Float"
+                },
+                {
+                    "valueName": "define_usd_attribute2.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute2.value",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "define_usd_attribute2.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute2.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute2.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute2.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute2.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute2.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute2.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute2.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute2.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "define_usd_attribute3.name",
+                    "valueType": "string",
+                    "value": "primvars:arnold:subdiv_adaptive_metric"
+                },
+                {
+                    "valueName": "define_usd_attribute3.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "Token"
+                },
+                {
+                    "valueName": "define_usd_attribute3.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute3.value",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute3.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute3.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute3.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute3.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute3.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute3.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute3.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute3.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute3.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "define_usd_attribute4.name",
+                    "valueType": "string",
+                    "value": "primvars:arnold:subdiv_frustum_ignore"
+                },
+                {
+                    "valueName": "define_usd_attribute4.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "Bool"
+                },
+                {
+                    "valueName": "define_usd_attribute4.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute4.value",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute4.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute4.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute4.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute4.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute4.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute4.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute4.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute4.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute4.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "define_usd_attribute5.name",
+                    "valueType": "string",
+                    "value": "primvars:arnold:subdiv_adaptive_space"
+                },
+                {
+                    "valueName": "define_usd_attribute5.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "Token"
+                },
+                {
+                    "valueName": "define_usd_attribute5.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute5.value",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute5.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute5.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute5.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute5.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute5.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute5.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute5.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute5.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute5.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "define_usd_attribute6.name",
+                    "valueType": "string",
+                    "value": "primvars:arnold:subdiv_uv_smoothing"
+                },
+                {
+                    "valueName": "define_usd_attribute6.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "Token"
+                },
+                {
+                    "valueName": "define_usd_attribute6.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute6.value",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute6.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute6.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute6.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute6.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute6.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute6.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute6.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute6.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute6.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "define_usd_attribute7.name",
+                    "valueType": "string",
+                    "value": "primvars:arnold:subdiv_smooth_derivs"
+                },
+                {
+                    "valueName": "define_usd_attribute7.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "Bool"
+                },
+                {
+                    "valueName": "define_usd_attribute7.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute7.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute7.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute7.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute7.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute7.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute7.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute7.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute7.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute7.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                }
+            ],
+            "reservedNodeNames": [
+                {
+                    "name": "input"
+                },
+                {
+                    "name": "output"
+                }
+            ]
+        }
+    ]
+}

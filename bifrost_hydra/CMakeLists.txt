@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2023 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@
 #+
 
 if(IS_BIFUSD_STANDALONE)
-    include(${BIFROST_LOCATION}/sdk_preview/cmake/setup.cmake)
+    include(${BIFROST_LOCATION}/sdk/cmake/setup.cmake)
 endif()
-find_package(BifrostPreview REQUIRED SDK)
+find_package(Bifrost REQUIRED SDK)
 
 add_subdirectory(src)
 add_subdirectory(test)

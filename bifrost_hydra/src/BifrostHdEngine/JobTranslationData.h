@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,16 +19,13 @@
 
 #include <BifrostHydra/Engine/Export.h>
 
-#include <BifrostGraph/Executor/JobPreview.h>
-
 #include <memory>
 
 namespace BifrostHd {
 
 class Parameters;
 
-class BIFROST_HD_ENGINE_SHARED_DECL JobTranslationData final
-    : public BifrostGraph::Executor::JobPreview::JobTranslationData {
+class BIFROST_HD_ENGINE_SHARED_DECL JobTranslationData final {
 public:
     struct Time {
         double currentTime;
@@ -36,13 +33,12 @@ public:
         double frameLength;
     };
 
-    JobTranslationData(Parameters& params, bool logVerbose, Time const& time);
+    JobTranslationData(Parameters& params, const Time& time);
 
-    ~JobTranslationData() override;
-
-    Time getTime() const;
+    ~JobTranslationData();
 
     Parameters& getParameters();
+    Time        getTime() const;
 
 public:
     /// Disabled

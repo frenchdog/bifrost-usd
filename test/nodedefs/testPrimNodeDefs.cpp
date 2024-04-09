@@ -13,6 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //+
+#include <Amino/Core/Ptr.h>
 #include <Amino/Core/String.h>
 #include <Bifrost/FileUtils/FileUtils.h>
 #include <BifrostGraph/Executor/Utility.h>
@@ -22,6 +23,10 @@
 #include <nodedefs/usd_pack/usd_layer_nodedefs.h>
 #include <nodedefs/usd_pack/usd_prim_nodedefs.h>
 #include <nodedefs/usd_pack/usd_stage_nodedefs.h>
+#include <nodedefs/usd_pack/usd_variantset_nodedefs.h>
+
+#include <pxr/pxr.h>
+#include <pxr/usd/usd/prim.h>
 #include <utils/test/testUtils.h>
 
 // Note: To silence warnings coming from USD library
@@ -230,9 +235,14 @@ TEST(PrimNodeDefs, add_applied_schema) {
                                                  appliedSchemaName);
     EXPECT_TRUE(success);
 
-    prim = stage->GetPrimAtPath(primPath);
-    EXPECT_EQ(prim.GetAppliedSchemas().size(), 1);
-    EXPECT_EQ(prim.GetAppliedSchemas()[0], PXR_NS::TfToken{"SkelBindingAPI"});
+    auto stagePtr =
+        Amino::newClassPtr<BifrostUsd::Stage>(*(stage.getRootLayer()));
+    auto primInterface = Amino::newClassPtr<BifrostUsd::Prim>(prim, stagePtr);
+    Amino::MutablePtr<Amino::Array<Amino::String>> names;
+    USD::Prim::get_applied_schemas(*primInterface, names);
+
+    EXPECT_EQ((*names).size(), 1);
+    EXPECT_STREQ((*names)[0].c_str(), "SkelBindingAPI");
 }
 
 TEST(PrimNodeDefs, remove_applied_schema) {
@@ -388,14 +398,12 @@ TEST(PrimNodeDefs, remove_reference_prim) {
 TEST(PrimNodeDefs, add_reference_prim_in_variant) {
     BifrostUsd::Stage stage;
     auto              prim = stage->DefinePrim(PXR_NS::SdfPath("/top"));
-    auto              vset = prim.GetVariantSets().AddVariantSet("vset");
-    vset.AddVariant("no_ref");
-    vset.AddVariant("with_ref");
 
-    vset.SetVariantSelection("with_ref");
-    stage.last_modified_variant_set_prim = prim.GetPath().GetText();
-    stage.last_modified_variant_set_name = "vset";
-    stage.last_modified_variant_name     = "with_ref";
+    USD::VariantSet::add_variant_set(stage, "/top", "vset");
+    USD::VariantSet::add_variant(stage, "/top", "vset", "no_ref",
+                                     /*set_variant_selection*/ false);
+    USD::VariantSet::add_variant(stage, "/top", "vset", "with_ref",
+                                     /*set_variant_selection*/ true);
 
     auto primInVariantPath = PXR_NS::SdfPath("/top/a");
     prim                   = stage->DefinePrim(primInVariantPath);
@@ -419,7 +427,7 @@ TEST(PrimNodeDefs, add_reference_prim_in_variant) {
     ASSERT_TRUE(PXR_NS::UsdGeomMesh(prim));
 
     auto vsetPrim = stage->GetPrimAtPath(PXR_NS::SdfPath("/top"));
-    vset          = vsetPrim.GetVariantSets().GetVariantSet("vset");
+    auto vset          = vsetPrim.GetVariantSets().GetVariantSet("vset");
     vset.SetVariantSelection("no_ref");
 
     prim = stage->GetPrimAtPath(primInVariantPath);
@@ -805,14 +813,12 @@ TEST(PrimNodeDefs, create_prim_relationship_in_variant) {
     auto targetPath = PXR_NS::SdfPath("/b");
     stage->DefinePrim(targetPath);
 
-    auto vset = prim.GetVariantSets().AddVariantSet("vset");
-    vset.AddVariant("no_rel");
-    vset.AddVariant("with_rel");
 
-    vset.SetVariantSelection("with_rel");
-    stage.last_modified_variant_set_prim = prim.GetPath().GetText();
-    stage.last_modified_variant_set_name = "vset";
-    stage.last_modified_variant_name     = "with_rel";
+    USD::VariantSet::add_variant_set(stage, "/a", "vset");
+    USD::VariantSet::add_variant(stage, "/a", "vset", "no_ref",
+                                     /*set_variant_selection*/ false);
+    USD::VariantSet::add_variant(stage, "/a", "vset", "with_rel",
+                                     /*set_variant_selection*/ true);
 
     Amino::String relName = "rel";
     bool          custom  = true;
@@ -833,7 +839,7 @@ TEST(PrimNodeDefs, create_prim_relationship_in_variant) {
     ASSERT_EQ(targets.size(), 1);
     ASSERT_EQ(targets.at(0), targetPath);
 
-    vset = prim.GetVariantSets().GetVariantSet("vset");
+    auto vset = prim.GetVariantSets().GetVariantSet("vset");
     vset.SetVariantSelection("no_rel");
     stage->GetRootLayer()->Export(getThisTestOutputPath("rel.usda").c_str());
 
@@ -1057,4 +1063,37 @@ TEST(PrimNodeDefs, get_prim_asset_info) {
     std::string expected_asset_version;
     EXPECT_TRUE(modelAPI.GetAssetVersion(&expected_asset_version));
     EXPECT_EQ(expected_asset_version, std::string{"v002"});
+}
+
+TEST(PrimNodeDefs, set_and_get_prim_kind) {
+    Amino::String     path = "/A";
+    Amino::String     type = "Xform";
+    BifrostUsd::Stage stage;
+
+    // Create a prim of kind component with Bifrost USD operators.
+    USD::Prim::create_prim(stage, path, type);
+    USD::Prim::set_prim_kind(path, "component", stage);
+
+    // Check the kind with USD API.
+    auto pxrPrim = stage->GetPrimAtPath(PXR_NS::SdfPath(path.c_str()));
+    ASSERT_TRUE(pxrPrim);
+    auto tfKind = PXR_NS::TfToken();
+    PXR_NS::UsdModelAPI(pxrPrim).GetKind(&tfKind);
+    EXPECT_STREQ(tfKind.GetText(), "component");
+
+    // Check the kind with Bifrost USD operator.
+    const auto layerPtr = stage.getRootLayer();
+    ASSERT_TRUE(layerPtr);
+    ASSERT_TRUE(layerPtr->isValid());
+
+    auto stagePtr = Amino::newClassPtr<BifrostUsd::Stage>(*layerPtr);
+    ASSERT_TRUE(stagePtr);
+    Amino::MutablePtr<BifrostUsd::Prim> prim;
+    bool success = USD::Prim::get_prim_at_path(stagePtr, path, prim);
+    ASSERT_TRUE(success);
+    ASSERT_TRUE((*prim)->IsValid());
+
+    Amino::String kind;
+    USD::Prim::get_prim_kind(*prim, kind);
+    EXPECT_STREQ(kind.c_str(), "component");
 }

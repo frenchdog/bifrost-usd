@@ -30,6 +30,7 @@
 
 // Note: To silence warnings coming from USD library
 #include <bifusd/config/CfgWarningMacros.h>
+#include <iostream>
 BIFUSD_WARNING_PUSH
 BIFUSD_WARNING_DISABLE_MSC(4003)
 #include <pxr/usd/usd/editContext.h>
@@ -42,36 +43,6 @@ BIFUSD_WARNING_DISABLE_MSC(4003)
 BIFUSD_WARNING_POP
 
 namespace USDUtils {
-
-class VariantEditContext {
-public:
-    explicit VariantEditContext(const BifrostUsd::Stage& stage) {
-        auto variantSet = stage.getLastModifedVariantSet();
-        if (variantSet) {
-            auto variantEditCtx = variantSet.GetVariantEditContext();
-            if (variantEditCtx.second.IsValid()) {
-                new (&m_ctx) Ctx(variantSet.GetVariantEditContext());
-                m_hasContext = true;
-            }
-        }
-    }
-    ~VariantEditContext() {
-        if (m_hasContext) reinterpret_cast<Ctx*>(&m_ctx)->~Ctx();
-    }
-
-    VariantEditContext(VariantEditContext const&) = delete;
-    VariantEditContext(VariantEditContext&&)      = delete;
-    VariantEditContext& operator=(VariantEditContext const&) = delete;
-    VariantEditContext& operator=(VariantEditContext&&) = delete;
-
-private:
-    using Ctx          = PXR_NS::UsdEditContext;
-    using storage_type = std::aligned_storage_t<sizeof(Ctx), alignof(Ctx)>;
-
-    // home grown optional, should use std::optional when available.
-    storage_type m_ctx;
-    bool         m_hasContext = false;
-};
 
 PXR_NS::UsdListPosition GetUsdListPosition(
     const BifrostUsd::UsdListPosition position);
@@ -122,20 +93,45 @@ void set_volume_field_relationship(VOLUME_FIELD_ASSET_TYPE& fieldPrim,
     volume.CreateFieldRelationship(relationship_name, fieldPrim.GetPath());
 }
 
-PXR_NS::UsdPrim get_prim_at_path(const Amino::String&       path,
-                              const BifrostUsd::Stage& stage);
+/// \brief Try to get a valid prim.
+/// If path is empty, it will return the last prim modified upstream
+/// of the operator graph or an invalid prim if the path is not found in the
+/// stage.
+///
+/// If path starts without a "/", it will append it to the path of last prim
+/// modified upstream of the operator graph and will return matching prim or an
+/// invalid prim if the path is not found in the stage.
+///
+/// If path starts with "/", it will return matching prim or an invalid prim if
+/// the path is not found in the stage.
+PXR_NS::UsdPrim get_prim_at_path(const Amino::String&     path,
+                                 const BifrostUsd::Stage& stage);
 
+/// \brief Same as get_prim_at_path but will throw an error if the prim is not found.
 PXR_NS::UsdPrim get_prim_or_throw(Amino::String const&     prim_path,
                                BifrostUsd::Stage const& stage);
 
-Amino::String resolve_prim_path(const Amino::String&       path,
+/// \brief Get a valid prim path.
+/// If path is empty, it will return the path of the last prim modified upstream
+/// of the operator graph.
+///
+/// If path starts without a "/", it will append it to the path of last prim
+/// modified upstream of the operator graph and will return it.
+///
+/// If path starts with "/", it will return it.
+Amino::String resolve_prim_path(const Amino::String&     path,
                                 const BifrostUsd::Stage& stage);
 
 PXR_NS::SdfVariability GetSdfVariability(
     const BifrostUsd::SdfVariability variablity);
 
+/// \brief Get a Pixar SdfValueTypeName from a BifrostUsd one.
 PXR_NS::SdfValueTypeName GetSdfValueTypeName(
     const BifrostUsd::SdfValueTypeName type_name);
+
+/// \brief Set a BifrostUsd SdfValueTypeName from a Pixar one.
+bool SetSdfValueTypeName(const PXR_NS::SdfValueTypeName& pxr_type_name,
+                         BifrostUsd::SdfValueTypeName&   type_name);
 
 PXR_NS::TfToken GetUsdGeomPrimvarInterpolation(
     const BifrostUsd::UsdGeomPrimvarInterpolation interpolation);

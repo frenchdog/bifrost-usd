@@ -1,0 +1,301 @@
+global proc mayaUsdModelMenu_set_default_model(string $model)
+{
+    string $temp = `python("from bifrost_usd.component_creator import component;component.set_default_model_variant('" + $model + "')")`;
+}
+
+global proc mayaUsdModelMenu_renameDefaultModel()
+{
+    string $temp = `python("from bifrost_usd.component_creator.ui import rename_model_variant_dialog;rename_model_variant_dialog.show()")`;
+}
+
+global proc mayaUsdModelMenu_renameDefaultLook()
+{
+    string $temp = `python("from bifrost_usd.component_creator.ui import rename_look_variant_dialog;rename_look_variant_dialog.show()")`;
+}
+
+global proc mayaUsdModelMenu_copy_look()
+{
+    string $temp = `python("from bifrost_usd.component_creator.ui import copy_look_dialog;copy_look_dialog.show()")`;
+}
+
+global proc mayaUsdModelMenu_addExistingModels()
+{
+    string $models[] = `python("from bifrost_usd.component_creator import component;component.get_model_variant_names()")`;
+    string $defaultModel = `python("from bifrost_usd.component_creator import component;component.default_model_variant()")`;
+
+    string $menuItem;
+    for ($model in $models)
+    {
+        if ($menuItem != "")
+        {
+            setParent -menu ..;
+        }
+
+        $isCheck = off;
+        if ($model == $defaultModel)
+        {
+            $isCheck = on;
+        }
+        menuItem -label $model -checkBox $isCheck -command ("mayaUsdModelMenu_set_default_model \"" + $model + "\"");
+        if ($isCheck) {
+            menuItem -label "Rename Model..." -optionBox true  -command "mayaUsdModelMenu_renameDefaultModel";
+        }
+    }
+    setParent -menu ..;
+}
+
+global proc mayaUsdModelMenu_set_material_library()
+{
+    string $mtlDir = `python("from bifrost_usd.component_creator import component;component.get_mtl_dir()")`;
+    string $multipleFilters = "USD Files (*.usd *.usda *.usdc *.usdz)";
+    string $result[] = `fileDialog2 -fileFilter $multipleFilters -selectFileFilter "USD File" -dialogStyle 2 -fileMode 1 -dir $mtlDir`;
+    string $temp = `python("from bifrost_usd.component_creator import component; component.create_material_library('" + $result[0] + "')")`;
+}
+
+global proc mayaUsdModelMenu_set_default_look(string $look)
+{
+    string $temp = `python("from bifrost_usd.component_creator import component;component.set_default_look_variant('" + $look + "')")`;
+}
+
+global proc mayaUsdModelMenu_addExistingLooks()
+{
+    string $looks[] = `python("from bifrost_usd.component_creator import component;component.get_look_variant_names()")`;
+    string $defaultLook = `python("from bifrost_usd.component_creator import component;component.default_look_variant()")`;
+    string $menuItem;
+    for ($look in $looks)
+    {
+        if ($menuItem != "")
+        {
+            setParent -menu ..;
+        }
+
+        $isCheck = off;
+        if ($look == $defaultLook)
+        {
+            $isCheck = on;
+        }        
+        menuItem -label $look -checkBox $isCheck -command ("mayaUsdModelMenu_set_default_look \"" + $look + "\"");
+        if ($isCheck) {
+            menuItem -label "Rename Look..." -optionBox true -command "mayaUsdModelMenu_renameDefaultLook";
+        }
+    }
+    setParent -menu ..;
+}
+
+global proc mayaUsdModelMenu_assignNewMaterial(string $ufePath)
+{
+    if (!hasPrimUpdater())
+        return;
+
+    if (size($ufePath) != 0) {
+        string $temp = `python("from bifrost_usd.component_creator import component;component.assign_material('" + $ufePath  + "')")`;
+   }
+}
+
+global proc mayaUsdModelMenu_addArnoldNode(string $ufePath)
+{
+    if (!hasPrimUpdater())
+        return;
+
+    if (size($ufePath) != 0) {
+
+        string $temp = `python("from bifrost_usd.component_creator import component;component.add_arnold_node('" + $ufePath  + "')")`;
+   }
+}
+
+global proc mayaUsdModelMenu_removeArnoldNode(string $ufePath)
+{
+    if (!hasPrimUpdater())
+        return;
+
+    if (size($ufePath) != 0) {
+
+        string $temp = `python("from bifrost_usd.component_creator import component;component.remove_arnold_node('" + $ufePath  + "')")`;
+   }
+}
+
+global proc mayaUsdModelMenu_assignExistingMaterial(string $ufePath, string $material)
+{
+    if (!hasPrimUpdater())
+        return;
+
+    if (size($ufePath) != 0 && size($material) != 0) {
+        string $temp = `python("from bifrost_usd.component_creator import component;component.assign_material('" + $ufePath + "', '" + $material + "')")`;
+   }
+}
+
+global proc mayaUsdModelMenu_assignExistingMaterialByExpr(string $ufePath, string $material)
+{
+    if (!hasPrimUpdater())
+        return;
+    
+    string $exp;
+    string $result = `promptDialog
+    -title "Path Expression"
+        -message "Enter Expression:"
+        -button "OK" -button "Cancel"
+        -defaultButton "OK" -cancelButton "Cancel"
+        -dismissString "Cancel"`;
+
+    if ($result == "OK") {
+        $exp = `promptDialog -query -text`;
+        print($exp + "\n");
+        string $temp = `python("from bifrost_usd.component_creator import component;component.assign_material('" + $exp + "', '" + $material + "', expression=True)")`;
+    }
+}
+
+global proc mayaUsdModelMenu_unassignMaterial(string $ufePath)
+{
+    if (!hasPrimUpdater())
+        return;
+
+    if (size($ufePath) != 0) {
+
+        string $temp = `python("from bifrost_usd.component_creator import component;component.unassign_material('" + $ufePath  + "')")`;
+   }
+}
+
+global proc mayaUsdModelMenu_openMaterial(string $ufePath)
+{
+    if (!hasPrimUpdater())
+        return;
+
+    if (size($ufePath) != 0) {
+
+        string $temp = `python("from bifrost_usd.component_creator import component;component.open_material_from_prim_in_lookdevx('" + $ufePath  + "')")`;
+   }
+}
+
+global proc mayaUsdModelMenu_getAssignedPrim(string $ufePath)
+{
+    if (!hasPrimUpdater())
+        return;
+
+    if (size($ufePath) != 0) {
+        string $relPrimPath = `python("from bifrost_usd.component_creator import component;component.get_assigned_prim('" + $ufePath  + "')")`;
+        if($relPrimPath != "")
+        {
+            string $newUfePath = `python("from bifrost_usd.component_creator import component;component.append_path_to_geo_scope_full_path('" + $ufePath  + "', '" + $relPrimPath  + "')")`;
+
+            select -r $newUfePath;
+        } 
+   }
+}
+
+
+global proc mayaUsdModelMenu_addExistingMaterials(string $ufePath)
+{
+    string $materials[] = `python("from bifrost_usd.component_creator import component;component.get_all_materials(nameOnly=True)")`;
+
+    string $menuItem;
+    for ($material in $materials)
+    {
+        if ($menuItem != "")
+        {
+            setParent -menu ..;
+        }
+        menuItem -label $material -command ("mayaUsdModelMenu_assignExistingMaterial \"" + $ufePath + "\" \"" + $material + "\"");
+        menuItem -label $material -optionBox true -command ("mayaUsdModelMenu_assignExistingMaterialByExpr \"" + $ufePath + "\" \"" + $material + "\"");
+    }
+    setParent -menu ..;
+}
+
+global proc mayaUsdModelMenu_addPurposes(string $ufePath)
+{
+    string $tokens[];
+    $numTokens = `tokenize $ufePath "," $tokens`;
+    $drawGuide = getAttr($tokens[0] + ".drawGuidePurpose");
+    $drawProxy = getAttr($tokens[0] + ".drawProxyPurpose");
+    $drawRender = getAttr($tokens[0] + ".drawRenderPurpose");
+
+    menuItem -label "Guide" -checkBox $drawGuide -command "bifrostUsdRtc_ShowGuidePurposes";
+    menuItem -label "Proxy" -checkBox $drawProxy -command "bifrostUsdRtc_ShowProxyPurposes";
+    menuItem -label "Render" -checkBox $drawRender -command "bifrostUsdRtc_ShowRenderPurposes";
+    setParent -menu ..;
+}
+
+global proc USDUserMenuProc(string $parent, string $obj)
+{
+    // print("Object under cursor: " + $obj + "\n");
+	if (size($obj) != 0)
+    {
+		string $pathPrefix = "|componentCreatorStage|componentCreatorStageShape,";
+
+		if( startsWith($obj, $pathPrefix) ) {
+    		popupMenu -e -deleteAllItems $parent;
+
+            $hasModels = false;
+            string $modelVariantNodes[] = `python("from bifrost_usd.component_creator import component;component.get_model_variant_nodes()")`;
+            if(size($modelVariantNodes) > 1)
+            {
+                $hasModels = true;
+            }
+            menuItem -subMenu true -tearOff false -enable $hasModels -label "Set Default Model";
+            {
+                mayaUsdModelMenu_addExistingModels();
+            }
+            setParent -menu ..;
+
+            $hasLooks = false;
+            string $lookVariantNodes[] = `python("from bifrost_usd.component_creator import component;component.get_look_variant_nodes()")`;
+            if(size($lookVariantNodes) > 1)
+            {
+                $hasLooks = true;
+            }
+            menuItem -subMenu true -tearOff false -enable $hasLooks -label "Set Default Look";
+            {
+                mayaUsdModelMenu_addExistingLooks();
+            }
+            setParent -menu ..;
+            
+            menuItem -label "Add Model..." -command "bifrostUsdRtc_AddModel";
+            menuItem -label "Add Look..." -command "bifrostUsdRtc_AddLook";
+            menuItem -label "Copy Look" -command "mayaUsdModelMenu_copy_look";
+
+            menuItem -divider true;
+            menuItem -label "Add Material Library" -command "bifrostUsdRtc_CreateMaterialLibrary";
+            menuItem -label "Open Material Library" -optionBox true -command "mayaUsdModelMenu_set_material_library";
+
+            string $matLibFile = `python("from bifrost_usd.component_creator import component;component.material_library_file()")`;
+
+	        int $allowMaterialFunctions = `mayaUsdMaterialBindings $obj -canAssignMaterialToNodeType true`;
+	        if ($allowMaterialFunctions)
+	        {
+                menuItem -label "Assign New Material..." -command ("mayaUsdModelMenu_assignNewMaterial \"" + $obj + "\"");
+	            // Only show if we have materials in the stage.
+	            string $materials[] = `mayaUsdGetMaterialsInStage $obj`;
+	            if (size($materials) > 0)
+	            {
+	                // "Assign Existing Material" from a list of materials in the selected item's stage.
+	                menuItem -subMenu true -tearOff false -enable ($matLibFile != "") -label "Assign Existing Material";
+	                {
+	                    mayaUsdModelMenu_addExistingMaterials($obj);
+	                }
+	                setParent -menu ..;
+	            }
+                menuItem -label "Unassign Material" -enable ($matLibFile != "") -command ("mayaUsdModelMenu_unassignMaterial \"" + $obj + "\"");
+
+                if (`pluginInfo -q -loaded "mtoa"`)
+                {
+                    menuItem -divider true;
+                    menuItem -subMenu true -tearOff false -label "Arnold";
+                    menuItem -label "Add Arnold Mesh Properties" -command ("mayaUsdModelMenu_addArnoldNode \"" + $obj + "\"");
+                    menuItem -label "Remove Arnold Mesh Properties" -command ("mayaUsdModelMenu_removeArnoldNode \"" + $obj + "\"");
+                    setParent -menu ..;
+                }
+    		}
+
+            menuItem -divider true;
+            menuItem -label "Select Assigned Prim" -enable ($matLibFile != "") -command ("mayaUsdModelMenu_getAssignedPrim \"" + $obj + "\"");
+            menuItem -label "Open Material in LookdevX..." -enable ($matLibFile != "") -command ("mayaUsdModelMenu_openMaterial \"" + $obj + "\"");
+            menuItem -label "Open All Materials in LookdevX..." -enable ($matLibFile != "") -command "bifrostUsdRtc_OpenComponentMaterialsInLookdevX";
+            menuItem -label "Open Graph in Bifrost..." -command "bifrostUsdRtc_OpenComponentCreatorGraphEditor";
+            menuItem -divider true;
+
+            menuItem -subMenu true -tearOff false -label "Show Purpose";
+
+            mayaUsdModelMenu_addPurposes($obj);
+
+		}
+    }
+}
