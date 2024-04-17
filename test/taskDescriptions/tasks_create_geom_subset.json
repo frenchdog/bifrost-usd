@@ -1,0 +1,19 @@
+{
+    "schemaVersion": "1.0.0",
+    "comment": [
+        "The create_geom_subset_test00 compound is checking:",
+        "   - if prims are added to the stage.",
+        "   - if the geosubset attributes are created on the prims.",
+        "   - if the geosubset attributes types and values are correct."
+    ],
+    "options": {
+        "definitionFiles": [
+            "create_geom_subset_test00.json"
+        ],
+        "compound": "USD::Test::Prim::create_geom_subset_test00"
+    },
+    "task": {
+        "type": "single",
+        "name": "Use Default Params"
+    }
+}

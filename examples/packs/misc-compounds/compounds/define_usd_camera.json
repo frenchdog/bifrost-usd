@@ -1,0 +1,1095 @@
+{
+    "header": {
+        "metadata": [
+            {
+                "metaName": "adskFileFormatVersion",
+                "metaValue": "100L"
+            }
+        ]
+    },
+    "namespaces": [],
+    "types": [],
+    "compounds": [
+        {
+            "name": "USD::Prim::define_usd_camera",
+            "uriImported": "file:///define_usd_camera.json",
+            "metadata": [
+                {
+                    "metaName": "icon",
+                    "metaType": "string",
+                    "metaValue": "../icons/usd_lab.png"
+                },
+                {
+                    "metaName": "documentation",
+                    "metaType": "string",
+                    "metaValue": "../../docs/${language}/define_usd_camera.md"
+                },
+                {
+                    "metaName": "io_nodes",
+                    "metadata": [
+                        {
+                            "metaName": "io_inodes",
+                            "metadata": [
+                                {
+                                    "metaName": "input",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "path"
+                                                },
+                                                {
+                                                    "metaName": "clipping_range"
+                                                },
+                                                {
+                                                    "metaName": "camera_matrix"
+                                                },
+                                                {
+                                                    "metaName": "translation"
+                                                },
+                                                {
+                                                    "metaName": "rotation"
+                                                },
+                                                {
+                                                    "metaName": "scale"
+                                                },
+                                                {
+                                                    "metaName": "focal_length"
+                                                },
+                                                {
+                                                    "metaName": "focus_distance"
+                                                },
+                                                {
+                                                    "metaName": "horizontal_aperture"
+                                                },
+                                                {
+                                                    "metaName": "vertical_aperture"
+                                                },
+                                                {
+                                                    "metaName": "visibility"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "-552 646"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "io_onodes",
+                            "metadata": [
+                                {
+                                    "metaName": "output",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "1411.84 173.881"
+                                        },
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "prim_definition"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Prim,define_usd_prim"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Prim,define_usd_camera"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Prim,define_prim_hierarchy"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Stage,create_usd_stage"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "backdrop"
+                },
+                {
+                    "metaName": "ViewportRect",
+                    "metaType": "string",
+                    "metaValue": "1019.4 34.5248 760.147 439.146"
+                },
+                {
+                    "metaName": "DisplayMode",
+                    "metaType": "string",
+                    "metaValue": "2"
+                },
+                {
+                    "metaName": "LayoutPos",
+                    "metaType": "string",
+                    "metaValue": "616.669 -448.972"
+                }
+            ],
+            "ports": [
+                {
+                    "portName": "path",
+                    "portDirection": "input",
+                    "portType": "string",
+                    "portDefault": "/camera"
+                },
+                {
+                    "portName": "clipping_range",
+                    "portDirection": "input",
+                    "portType": "Math::float2",
+                    "portDefault": {
+                        "x": "0.100000001f",
+                        "y": "10000f"
+                    }
+                },
+                {
+                    "portName": "camera_matrix",
+                    "portDirection": "input",
+                    "portType": "Math::double4x4"
+                },
+                {
+                    "portName": "translation",
+                    "portDirection": "input",
+                    "portType": "Math::double3",
+                    "portDefault": {
+                        "x": "0",
+                        "y": "0",
+                        "z": "0"
+                    }
+                },
+                {
+                    "portName": "rotation",
+                    "portDirection": "input",
+                    "portType": "Math::double3",
+                    "portDefault": {
+                        "x": "0",
+                        "y": "0",
+                        "z": "0"
+                    }
+                },
+                {
+                    "portName": "scale",
+                    "portDirection": "input",
+                    "portType": "Math::double3",
+                    "portDefault": {
+                        "x": "0",
+                        "y": "0",
+                        "z": "0"
+                    }
+                },
+                {
+                    "portName": "focal_length",
+                    "portDirection": "input",
+                    "portType": "float",
+                    "portDefault": "35f",
+                    "metadata": [
+                        {
+                            "metaName": "TypeWranglingSuggestedTypes",
+                            "metaType": "string",
+                            "metaValue": "string, float, bool, uchar, int, uint, long, ulong, double, Math::float3, Math::float4, array<float>, array<bool>, array<uchar>, array<int>, array<uint>, array<long>, array<ulong>, array<double>, array<string>, array<Math::float2>, array<Math::float3>, array<Math::float4>"
+                        }
+                    ]
+                },
+                {
+                    "portName": "focus_distance",
+                    "portDirection": "input",
+                    "portType": "float",
+                    "portDefault": "5f",
+                    "metadata": [
+                        {
+                            "metaName": "TypeWranglingSuggestedTypes",
+                            "metaType": "string",
+                            "metaValue": "string, float, bool, uchar, int, uint, long, ulong, double, Math::float3, Math::float4, array<float>, array<bool>, array<uchar>, array<int>, array<uint>, array<long>, array<ulong>, array<double>, array<string>, array<Math::float2>, array<Math::float3>, array<Math::float4>"
+                        }
+                    ]
+                },
+                {
+                    "portName": "horizontal_aperture",
+                    "portDirection": "input",
+                    "portType": "float",
+                    "portDefault": "36f",
+                    "metadata": [
+                        {
+                            "metaName": "TypeWranglingSuggestedTypes",
+                            "metaType": "string",
+                            "metaValue": "string, float, bool, uchar, int, uint, long, ulong, double, Math::float3, Math::float4, array<float>, array<bool>, array<uchar>, array<int>, array<uint>, array<long>, array<ulong>, array<double>, array<string>, array<Math::float2>, array<Math::float3>, array<Math::float4>"
+                        }
+                    ]
+                },
+                {
+                    "portName": "vertical_aperture",
+                    "portDirection": "input",
+                    "portType": "float",
+                    "portDefault": "24f",
+                    "metadata": [
+                        {
+                            "metaName": "TypeWranglingSuggestedTypes",
+                            "metaType": "string",
+                            "metaValue": "string, float, bool, uchar, int, uint, long, ulong, double, Math::float3, Math::float4, array<float>, array<bool>, array<uchar>, array<int>, array<uint>, array<long>, array<ulong>, array<double>, array<string>, array<Math::float2>, array<Math::float3>, array<Math::float4>"
+                        }
+                    ]
+                },
+                {
+                    "portName": "visibility",
+                    "portDirection": "input",
+                    "portType": "string",
+                    "portDefault": "invisible",
+                    "metadata": [
+                        {
+                            "metaName": "TypeWranglingSuggestedTypes",
+                            "metaType": "string",
+                            "metaValue": "string, float, bool, uchar, int, uint, long, ulong, double, Math::float3, Math::float4, array<float>, array<bool>, array<uchar>, array<int>, array<uint>, array<long>, array<ulong>, array<double>, array<string>, array<Math::float2>, array<Math::float3>, array<Math::float4>"
+                        }
+                    ]
+                },
+                {
+                    "portName": "prim_definition",
+                    "portDirection": "output",
+                    "portType": "Amino::Object"
+                }
+            ],
+            "compoundNodes": [
+                {
+                    "nodeName": "define_usd_attribute10",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "140.79 -60.9246"
+                        },
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "value3",
+                    "valueType": "Math::float2",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "PortExpandedState",
+                            "metadata": [
+                                {
+                                    "metaName": "value",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-134.767 -38.2009"
+                        },
+                        {
+                            "metaName": "valuenode_defaultvalue",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "valuenode_defaultvalue",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_transform",
+                    "nodeType": "USD::Attribute::define_usd_transform",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "186.323 509.577"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "to_float",
+                    "nodeType": "Core::Type_Conversion::to_float",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-141.152 384.555"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "to_float1",
+                    "nodeType": "Core::Type_Conversion::to_float",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-136.111 534.485"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "to_float2",
+                    "nodeType": "Core::Type_Conversion::to_float",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-129.813 746.15"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_attribute11",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "120 840"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_attribute12",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "128 949"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_attribute13",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "129.585 1200.16"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_attribute14",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "129.585 1342.16"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_attribute15",
+                    "nodeType": "USD::Attribute::define_usd_attribute",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "129.585 1058.16"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_prim",
+                    "nodeType": "USD::Prim::define_usd_prim",
+                    "fanInPortNames": {
+                        "attribute_definitions": [
+                            "attribute_definitions",
+                            "attribute_definition"
+                        ],
+                        "reference_definitions": [],
+                        "relationship_definitions": [],
+                        "variant_set_definitions": [],
+                        "children": [
+                            "prim_definition"
+                        ]
+                    },
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "1006.21 205.017"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_prim1",
+                    "nodeType": "USD::Prim::define_usd_prim",
+                    "fanInPortNames": {
+                        "attribute_definitions": [
+                            "attribute_definition",
+                            "attribute_definition1",
+                            "attribute_definition2",
+                            "attribute_definition3",
+                            "attribute_definition4"
+                        ],
+                        "reference_definitions": [],
+                        "relationship_definitions": [],
+                        "variant_set_definitions": [],
+                        "children": []
+                    },
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "645.915 633.983"
+                        }
+                    ]
+                }
+            ],
+            "connections": [
+                {
+                    "source": "value3.output",
+                    "target": "define_usd_attribute10.value"
+                },
+                {
+                    "source": ".clipping_range",
+                    "target": "value3.value"
+                },
+                {
+                    "source": ".translation",
+                    "target": "to_float.from"
+                },
+                {
+                    "source": "to_float.float",
+                    "target": "define_usd_transform.translation"
+                },
+                {
+                    "source": ".rotation",
+                    "target": "to_float1.from"
+                },
+                {
+                    "source": "to_float1.float",
+                    "target": "define_usd_transform.rotation"
+                },
+                {
+                    "source": ".scale",
+                    "target": "to_float2.from"
+                },
+                {
+                    "source": "to_float2.float",
+                    "target": "define_usd_transform.scale"
+                },
+                {
+                    "source": ".focal_length",
+                    "target": "define_usd_attribute11.value"
+                },
+                {
+                    "source": ".focus_distance",
+                    "target": "define_usd_attribute12.value"
+                },
+                {
+                    "source": ".horizontal_aperture",
+                    "target": "define_usd_attribute13.value"
+                },
+                {
+                    "source": ".visibility",
+                    "target": "define_usd_attribute15.value"
+                },
+                {
+                    "source": ".vertical_aperture",
+                    "target": "define_usd_attribute14.value"
+                },
+                {
+                    "source": ".path",
+                    "target": "define_usd_prim.path"
+                },
+                {
+                    "source": "define_usd_transform.attribute_definitions",
+                    "target": "define_usd_prim.attribute_definitions.attribute_definitions"
+                },
+                {
+                    "source": "define_usd_attribute11.attribute_definition",
+                    "target": "define_usd_prim1.attribute_definitions.attribute_definition"
+                },
+                {
+                    "source": "define_usd_attribute12.attribute_definition",
+                    "target": "define_usd_prim1.attribute_definitions.attribute_definition1"
+                },
+                {
+                    "source": "define_usd_attribute13.attribute_definition",
+                    "target": "define_usd_prim1.attribute_definitions.attribute_definition2"
+                },
+                {
+                    "source": "define_usd_attribute14.attribute_definition",
+                    "target": "define_usd_prim1.attribute_definitions.attribute_definition3"
+                },
+                {
+                    "source": "define_usd_attribute15.attribute_definition",
+                    "target": "define_usd_prim1.attribute_definitions.attribute_definition4"
+                },
+                {
+                    "source": "define_usd_prim1.prim_definition",
+                    "target": "define_usd_prim.children.prim_definition"
+                },
+                {
+                    "source": "define_usd_attribute10.attribute_definition",
+                    "target": "define_usd_prim.attribute_definitions.attribute_definition"
+                },
+                {
+                    "source": "define_usd_prim.prim_definition",
+                    "target": ".prim_definition"
+                }
+            ],
+            "values": [
+                {
+                    "valueName": "define_usd_attribute10.name",
+                    "valueType": "string",
+                    "value": "clippingRange"
+                },
+                {
+                    "valueName": "define_usd_attribute10.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "Float2"
+                },
+                {
+                    "valueName": "define_usd_attribute10.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute10.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute10.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute10.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute10.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute10.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute10.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute10.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute10.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute10.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "value3.value",
+                    "valueType": "Math::float2",
+                    "value": {
+                        "x": "0f",
+                        "y": "0f"
+                    }
+                },
+                {
+                    "valueName": "define_usd_attribute11.name",
+                    "valueType": "string",
+                    "value": "focalLength"
+                },
+                {
+                    "valueName": "define_usd_attribute11.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "Float"
+                },
+                {
+                    "valueName": "define_usd_attribute11.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute11.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute11.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute11.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute11.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute11.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute11.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute11.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute11.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute11.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "define_usd_attribute12.name",
+                    "valueType": "string",
+                    "value": "focusDistance"
+                },
+                {
+                    "valueName": "define_usd_attribute12.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "Float"
+                },
+                {
+                    "valueName": "define_usd_attribute12.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute12.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute12.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute12.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute12.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute12.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute12.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute12.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute12.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute12.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "define_usd_attribute13.name",
+                    "valueType": "string",
+                    "value": "horizontalAperture"
+                },
+                {
+                    "valueName": "define_usd_attribute13.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "Float"
+                },
+                {
+                    "valueName": "define_usd_attribute13.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute13.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute13.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute13.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute13.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute13.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute13.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute13.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute13.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute13.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "define_usd_attribute14.name",
+                    "valueType": "string",
+                    "value": "verticalAperture"
+                },
+                {
+                    "valueName": "define_usd_attribute14.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "Float"
+                },
+                {
+                    "valueName": "define_usd_attribute14.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute14.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute14.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute14.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute14.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute14.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute14.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute14.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute14.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute14.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "define_usd_attribute15.name",
+                    "valueType": "string",
+                    "value": "visibility"
+                },
+                {
+                    "valueName": "define_usd_attribute15.type",
+                    "valueType": "BifrostUsd::SdfValueTypeName",
+                    "value": "TexCoord2f"
+                },
+                {
+                    "valueName": "define_usd_attribute15.enable_value",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "define_usd_attribute15.value",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute15.enable_connection",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute15.connection_mode",
+                    "valueType": "BifrostUsd::RelationshipTarget",
+                    "value": "Add"
+                },
+                {
+                    "valueName": "define_usd_attribute15.target_prim",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute15.target_attribute",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_attribute15.enable_primvar",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute15.interpolation",
+                    "valueType": "BifrostUsd::UsdGeomPrimvarInterpolation",
+                    "value": "PrimVarConstant"
+                },
+                {
+                    "valueName": "define_usd_attribute15.custom",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute15.use_frame",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_attribute15.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "define_usd_prim.path",
+                    "valueType": "string",
+                    "value": "/camera"
+                },
+                {
+                    "valueName": "define_usd_prim1.path",
+                    "valueType": "string",
+                    "value": "/shape"
+                },
+                {
+                    "valueName": "define_usd_prim1.type",
+                    "valueType": "string",
+                    "value": "Camera"
+                },
+                {
+                    "valueName": "define_usd_prim1.specifier",
+                    "valueType": "BifrostUsd::SdfSpecifier",
+                    "value": "Def"
+                },
+                {
+                    "valueName": "define_usd_prim1.kind",
+                    "valueType": "BifrostUsd::ModelKind",
+                    "value": "None"
+                },
+                {
+                    "valueName": "define_usd_prim1.active",
+                    "valueType": "BifrostUsd::ActivatePrim",
+                    "value": "None"
+                },
+                {
+                    "valueName": "define_usd_prim1.instanceable",
+                    "valueType": "BifrostUsd::InstanceablePrim",
+                    "value": "None"
+                },
+                {
+                    "valueName": "define_usd_prim1.purpose",
+                    "valueType": "BifrostUsd::ImageablePurpose",
+                    "value": "Default"
+                },
+                {
+                    "valueName": "define_usd_prim1.attribute_definitions",
+                    "valueType": "array<Amino::Object>",
+                    "value": []
+                },
+                {
+                    "valueName": "define_usd_prim1.reference_definitions",
+                    "valueType": "array<Amino::Object>",
+                    "value": []
+                },
+                {
+                    "valueName": "define_usd_prim1.relationship_definitions",
+                    "valueType": "array<Amino::Object>",
+                    "value": []
+                },
+                {
+                    "valueName": "define_usd_prim1.variant_set_definitions",
+                    "valueType": "array<Amino::Object>",
+                    "value": []
+                },
+                {
+                    "valueName": "define_usd_prim1.children",
+                    "valueType": "array<Amino::Object>",
+                    "value": []
+                },
+                {
+                    "valueName": "define_usd_prim1.material",
+                    "valueType": "Amino::Object",
+                    "value": {}
+                },
+                {
+                    "valueName": "define_usd_prim1.variant_set_name",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_prim1.variant_name",
+                    "valueType": "string",
+                    "value": ""
+                }
+            ],
+            "reservedNodeNames": [
+                {
+                    "name": "output"
+                },
+                {
+                    "name": "input"
+                }
+            ]
+        }
+    ]
+}

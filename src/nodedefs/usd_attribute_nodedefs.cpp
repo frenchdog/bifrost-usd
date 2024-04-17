@@ -15,6 +15,7 @@
 //+
 
 #include "usd_attribute_nodedefs.h"
+#include <BifrostUsd/VariantContext.h>
 
 #include <Amino/Core/String.h>
 #include <pxr/usd/sdf/copyUtils.h>
@@ -37,8 +38,8 @@ using namespace USDTypeConverters;
 namespace {
 
 PXR_NS::UsdAttribute get_attribute_or_throw(Amino::String const& prim_path,
-                                         const Amino::String& attribute_name,
-                                         BifrostUsd::Stage const& stage) {
+                                            const Amino::String& attribute_name,
+                                            BifrostUsd::Stage const& stage) {
     auto pxr_prim = get_prim_at_path(prim_path, stage);
     if (!pxr_prim) {
         auto msg = "Invalid prim path: " + std::string(prim_path.c_str());
@@ -58,15 +59,16 @@ bool set_attribute_metadata_impl(const Amino::String& prim_path,
                                  const Amino::String& attribute_name,
                                  const Amino::String& key,
                                  T&&                  value,
-                                 BifrostUsd::Stage& stage) {
+                                 BifrostUsd::Stage&   stage) {
     if (!stage) return false;
 
     try {
-        VariantEditContext ctx(stage);
-        auto               pxr_attribute =
-            get_attribute_or_throw(prim_path, attribute_name, stage);
+        return BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_attribute =
+                get_attribute_or_throw(prim_path, attribute_name, stage);
 
-        return pxr_attribute.SetMetadata(GetSdfFieldKey(key), toPxr(value));
+            return pxr_attribute.SetMetadata(GetSdfFieldKey(key), toPxr(value));
+        });
 
     } catch (std::exception& e) {
         log_exception("set_attribute_metadata", e);
@@ -76,22 +78,23 @@ bool set_attribute_metadata_impl(const Amino::String& prim_path,
 
 template <typename T>
 bool get_attribute_metadata_impl(const BifrostUsd::Stage& stage,
-                                 const Amino::String&       prim_path,
-                                 const Amino::String&       attribute_name,
-                                 const Amino::String&       key,
-                                 const T&                   default_and_type,
-                                 T&                         value) {
+                                 const Amino::String&     prim_path,
+                                 const Amino::String&     attribute_name,
+                                 const Amino::String&     key,
+                                 const T&                 default_and_type,
+                                 T&                       value) {
     if (!stage) return false;
 
     try {
-        VariantEditContext ctx(stage);
-        auto               pxr_attribute =
-            get_attribute_or_throw(prim_path, attribute_name, stage);
-        if (pxr_attribute.GetMetadata(USDUtils::GetSdfFieldKey(key), &value)) {
-            return true;
-        } else {
-            value = default_and_type;
-        }
+            auto pxr_attribute =
+                get_attribute_or_throw(prim_path, attribute_name, stage);
+            if (pxr_attribute.GetMetadata(USDUtils::GetSdfFieldKey(key),
+                                          &value)) {
+                return true;
+            } else {
+                value = default_and_type;
+            }
+            return false;
     } catch (std::exception& e) {
         log_exception("get_attribute_metadata", e);
         value = default_and_type;
@@ -107,23 +110,23 @@ bool get_attribute_metadata_impl(const BifrostUsd::Stage& stage,
 
 bool USD::Attribute::create_prim_attribute(
     BifrostUsd::Stage&                 stage,
-    const Amino::String&                 prim_path,
-    const Amino::String&                 name,
+    const Amino::String&               prim_path,
+    const Amino::String&               name,
     const BifrostUsd::SdfValueTypeName type_name,
-    const bool                           custom,
+    const bool                         custom,
     const BifrostUsd::SdfVariability   variablity) {
     if (!stage) return false;
 
     try {
-        VariantEditContext ctx(stage);
+        return BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = get_prim_at_path(prim_path, stage);
+            if (!pxr_prim) return false;
 
-        auto pxr_prim = get_prim_at_path(prim_path, stage);
-        if (!pxr_prim) return false;
-
-        auto attrib = pxr_prim.CreateAttribute(
-            PXR_NS::TfToken(name.c_str()), GetSdfValueTypeName(type_name), custom,
-            GetSdfVariability(variablity));
-        return attrib.IsValid();
+            auto attrib = pxr_prim.CreateAttribute(
+                PXR_NS::TfToken(name.c_str()), GetSdfValueTypeName(type_name),
+                custom, GetSdfVariability(variablity));
+            return attrib.IsValid();
+        });
 
     } catch (std::exception& e) {
         log_exception("create_prim_attribute", e);
@@ -131,16 +134,20 @@ bool USD::Attribute::create_prim_attribute(
     return false;
 }
 
-bool USD::Attribute::clear_attribute(BifrostUsd::Stage& stage,
+bool USD::Attribute::clear_attribute(BifrostUsd::Stage&   stage,
                                      const Amino::String& prim_path,
                                      const Amino::String& name) {
     if (!stage) return false;
     try {
-        auto pxr_prim = get_prim_at_path(prim_path, stage);
-        if (!pxr_prim) return false;
+        return BifrostUsd::WithVariantContext(stage, [&]() {
+            bool success  = false;
+            auto pxr_prim = get_prim_at_path(prim_path, stage);
+            if (!pxr_prim) return false;
 
-        auto attrib = pxr_prim.GetAttribute(PXR_NS::TfToken(name.c_str()));
-        if (attrib) return attrib.Clear();
+            auto attrib = pxr_prim.GetAttribute(PXR_NS::TfToken(name.c_str()));
+            if (attrib) success = attrib.Clear();
+            return success;
+        });
 
     } catch (std::exception& e) {
         log_exception("clear_attribute", e);
@@ -148,19 +155,20 @@ bool USD::Attribute::clear_attribute(BifrostUsd::Stage& stage,
     return false;
 }
 
-void USD::Attribute::block_attribute(BifrostUsd::Stage& stage,
+void USD::Attribute::block_attribute(BifrostUsd::Stage&   stage,
                                      const Amino::String& prim_path,
                                      const Amino::String& name) {
     if (!stage) return;
     try {
-        auto pxr_prim = get_prim_at_path(prim_path, stage);
-        if (!pxr_prim) return;
+        BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = get_prim_at_path(prim_path, stage);
+            if (!pxr_prim) return;
 
-        auto attrib = pxr_prim.GetAttribute(PXR_NS::TfToken(name.c_str()));
-        if (attrib) {
-            attrib.Block();
-        }
-
+            auto attrib = pxr_prim.GetAttribute(PXR_NS::TfToken(name.c_str()));
+            if (attrib) {
+                attrib.Block();
+            }
+        });
     } catch (std::exception& e) {
         log_exception("block_attribute", e);
     }
@@ -168,26 +176,27 @@ void USD::Attribute::block_attribute(BifrostUsd::Stage& stage,
 
 bool USD::Attribute::create_primvar(
     BifrostUsd::Stage&                            stage,
-    const Amino::String&                            prim_path,
-    const Amino::String&                            name,
+    const Amino::String&                          prim_path,
+    const Amino::String&                          name,
     const BifrostUsd::SdfValueTypeName            type_name,
     const BifrostUsd::UsdGeomPrimvarInterpolation interpolation,
-    const int                                       element_size) {
+    const int                                     element_size) {
     if (!stage) return false;
 
     try {
-        VariantEditContext ctx(stage);
+        return BifrostUsd::WithVariantContext(stage, [&]() {
+            bool success  = false;
+            auto pxr_prim = get_prim_at_path(prim_path, stage);
+            if (!pxr_prim) return false;
 
-        auto pxr_prim = get_prim_at_path(prim_path, stage);
-        if (!pxr_prim) return false;
+            auto primvar_api = PXR_NS::UsdGeomPrimvarsAPI(pxr_prim);
+            PXR_NS::UsdGeomPrimvar primvar = primvar_api.CreatePrimvar(
+                PXR_NS::TfToken(name.c_str()), GetSdfValueTypeName(type_name),
+                GetUsdGeomPrimvarInterpolation(interpolation), element_size);
 
-        auto                primvar_api = PXR_NS::UsdGeomPrimvarsAPI(pxr_prim);
-        PXR_NS::UsdGeomPrimvar primvar     = primvar_api.CreatePrimvar(
-            PXR_NS::TfToken(name.c_str()), GetSdfValueTypeName(type_name),
-            GetUsdGeomPrimvarInterpolation(interpolation), element_size);
-
-        if (primvar) return true;
-
+            if (primvar) success = true;
+            return success;
+        });
     } catch (std::exception& e) {
         log_exception("create_primvar", e);
     }
@@ -196,7 +205,7 @@ bool USD::Attribute::create_primvar(
 
 bool USD::Attribute::get_prim_attribute(
     Amino::Ptr<BifrostUsd::Prim>              prim,
-    const Amino::String&                        attribute_name,
+    const Amino::String&                      attribute_name,
     Amino::MutablePtr<BifrostUsd::Attribute>& attribute) {
     assert(prim);
     attribute = Amino::newMutablePtr<BifrostUsd::Attribute>();
@@ -216,11 +225,26 @@ bool USD::Attribute::get_prim_attribute(
     return false;
 }
 
+bool USD::Attribute::get_prim_attribute_type(
+    const BifrostUsd::Attribute&  attribute,
+    BifrostUsd::SdfValueTypeName& type_name) {
+    bool success = false;
+    try {
+        if (attribute) {
+            success = SetSdfValueTypeName(attribute->GetTypeName(), type_name);
+        }
+
+    } catch (std::exception& e) {
+        log_exception("get_prim_attribute_type", e);
+    }
+    return success;
+}
+
 namespace {
 template <typename DESTTYPE>
 bool get_attribute_data(const BifrostUsd::Attribute& attribute,
-                        const float                    frame,
-                        DESTTYPE&                      value) {
+                        const float                  frame,
+                        DESTTYPE&                    value) {
     PxrType_t<DESTTYPE> result;
     bool success = attribute->Get(&result, static_cast<double>(frame));
     value        = fromPxr(result);
@@ -228,8 +252,8 @@ bool get_attribute_data(const BifrostUsd::Attribute& attribute,
 }
 template <>
 bool get_attribute_data(const BifrostUsd::Attribute& attribute,
-                        const float                    frame,
-                        Amino::String&                 value) {
+                        const float                  frame,
+                        Amino::String&               value) {
     value          = Amino::String(); // set default
     auto type_name = attribute->GetTypeName();
     if (type_name == PXR_NS::SdfValueTypeNames->Asset) {
@@ -250,8 +274,8 @@ bool get_attribute_data(const BifrostUsd::Attribute& attribute,
 }
 template <>
 bool get_attribute_data(const BifrostUsd::Attribute& attribute,
-                        const float                    frame,
-                        Amino::Array<Amino::String>&   value) {
+                        const float                  frame,
+                        Amino::Array<Amino::String>& value) {
     value          = Amino::Array<Amino::String>(); // set default
     auto type_name = attribute->GetTypeName();
     // get as asset array, token array or regular string array
@@ -313,8 +337,7 @@ bool get_attribute_data(const BifrostUsd::Attribute& attribute,
         bool success = attribute->Get(&result, static_cast<double>(frame));
         if (success) {
             auto out = Amino::Array<float>(result.size());
-            for (unsigned i = 0; i < result.size(); ++i)
-                out[i] = result[i];
+            for (unsigned i = 0; i < result.size(); ++i) out[i] = result[i];
             value = out;
         }
         return success;
@@ -359,8 +382,8 @@ bool get_attribute_data(const BifrostUsd::Attribute&         attribute,
             auto out = Amino::Array<Bifrost::Math::float2>(result.size());
             for (unsigned i = 0; i < result.size(); ++i) {
                 auto const& src = result[i];
-                out[i].x = src[0];
-                out[i].y = src[1];
+                out[i].x        = src[0];
+                out[i].y        = src[1];
             }
             value = out;
         }
@@ -407,9 +430,9 @@ bool get_attribute_data(const BifrostUsd::Attribute&         attribute,
             auto out = Amino::Array<Bifrost::Math::float3>(result.size());
             for (unsigned i = 0; i < result.size(); ++i) {
                 auto const& src = result[i];
-                out[i].x = src[0];
-                out[i].y = src[1];
-                out[i].z = src[2];
+                out[i].x        = src[0];
+                out[i].y        = src[1];
+                out[i].z        = src[2];
             }
             value = out;
         }
@@ -512,10 +535,10 @@ bool get_attribute_data(const BifrostUsd::Attribute&         attribute,
             auto out = Amino::Array<Bifrost::Math::float4>(result.size());
             for (unsigned i = 0; i < result.size(); ++i) {
                 auto const& src = result[i];
-                out[i].x = src[0];
-                out[i].y = src[1];
-                out[i].z = src[2];
-                out[i].w = src[3];
+                out[i].x        = src[0];
+                out[i].y        = src[1];
+                out[i].z        = src[2];
+                out[i].w        = src[3];
             }
             value = out;
         }
@@ -529,8 +552,8 @@ bool get_attribute_data(const BifrostUsd::Attribute&         attribute,
 }
 template <>
 bool get_attribute_data(const BifrostUsd::Attribute& attribute,
-                        const float                    frame,
-                        Bifrost::Math::double4&        value) {
+                        const float                  frame,
+                        Bifrost::Math::double4&      value) {
     value          = Bifrost::Math::double4(); // set default
     auto type_name = attribute->GetTypeName();
     if (type_name == PXR_NS::SdfValueTypeNames->Quatd) {
@@ -552,7 +575,7 @@ bool get_attribute_data(const BifrostUsd::Attribute& attribute,
     return success;
 }
 template <>
-bool get_attribute_data(const BifrostUsd::Attribute&        attribute,
+bool get_attribute_data(const BifrostUsd::Attribute&          attribute,
                         const float                           frame,
                         Amino::Array<Bifrost::Math::double4>& value) {
     value          = Amino::Array<Bifrost::Math::double4>(); // set default
@@ -582,8 +605,8 @@ bool get_attribute_data(const BifrostUsd::Attribute&        attribute,
 }
 template <typename DESTTYPE>
 bool get_prim_attribute_data_impl(const BifrostUsd::Attribute& attribute,
-                                  const float                    frame,
-                                  DESTTYPE&                      value) {
+                                  const float                  frame,
+                                  DESTTYPE&                    value) {
     if (!attribute) return false;
     try {
         return get_attribute_data(attribute, frame, value);
@@ -594,30 +617,30 @@ bool get_prim_attribute_data_impl(const BifrostUsd::Attribute& attribute,
 }
 } // namespace
 
-#define IMPLEMENT_GET_PRIM_ATTRIBUTE_DATA(TYPE)                            \
-    bool USD::Attribute::get_prim_attribute_data(                          \
+#define IMPLEMENT_GET_PRIM_ATTRIBUTE_DATA(TYPE)                          \
+    bool USD::Attribute::get_prim_attribute_data(                        \
         const BifrostUsd::Attribute& attribute, TYPE, const float frame, \
-        TYPE& value) {                                                     \
-        return get_prim_attribute_data_impl(attribute, frame, value);      \
+        TYPE& value) {                                                   \
+        return get_prim_attribute_data_impl(attribute, frame, value);    \
     }
 FOR_EACH_SUPPORTED_BUILTIN_ATTRIBUTE(IMPLEMENT_GET_PRIM_ATTRIBUTE_DATA)
 #undef IMPLEMENT_GET_PRIM_ATTRIBUTE_DATA
 
 #define IMPLEMENT_GET_PRIM_ATTRIBUTE_DATA(TYPE)                       \
     bool USD::Attribute::get_prim_attribute_data(                     \
-        const BifrostUsd::Attribute& attribute, const TYPE&,        \
+        const BifrostUsd::Attribute& attribute, const TYPE&,          \
         const float frame, TYPE& value) {                             \
         return get_prim_attribute_data_impl(attribute, frame, value); \
     }
 FOR_EACH_SUPPORTED_STRUCT_ATTRIBUTE(IMPLEMENT_GET_PRIM_ATTRIBUTE_DATA)
 #undef IMPLEMENT_GET_PRIM_ATTRIBUTE_DATA
 
-#define IMPLEMENT_GET_PRIM_ATTRIBUTE_DATA(TYPE)                              \
-    bool USD::Attribute::get_prim_attribute_data(                            \
+#define IMPLEMENT_GET_PRIM_ATTRIBUTE_DATA(TYPE)                            \
+    bool USD::Attribute::get_prim_attribute_data(                          \
         const BifrostUsd::Attribute& attribute, const Amino::Array<TYPE>&, \
-        const float frame, Amino::MutablePtr<Amino::Array<TYPE>>& value) {   \
-        value = Amino::newMutablePtr<Amino::Array<TYPE>>();                  \
-        return get_prim_attribute_data_impl(attribute, frame, *value);       \
+        const float frame, Amino::MutablePtr<Amino::Array<TYPE>>& value) { \
+        value = Amino::newMutablePtr<Amino::Array<TYPE>>();                \
+        return get_prim_attribute_data_impl(attribute, frame, *value);     \
     }
 FOR_EACH_SUPPORTED_ARRAY_ATTRIBUTE(IMPLEMENT_GET_PRIM_ATTRIBUTE_DATA)
 #undef IMPLEMENT_GET_PRIM_ATTRIBUTE_DATA
@@ -625,14 +648,14 @@ FOR_EACH_SUPPORTED_ARRAY_ATTRIBUTE(IMPLEMENT_GET_PRIM_ATTRIBUTE_DATA)
 namespace {
 template <typename TYPE>
 bool set_attribute(PXR_NS::UsdAttribute& pxr_attribute,
-                   const TYPE&        value,
+                   const TYPE&           value,
                    PXR_NS::UsdTimeCode   time) {
     return pxr_attribute.Set(toPxr(value), time);
 }
 template <>
-bool set_attribute(PXR_NS::UsdAttribute&   pxr_attribute,
-                   const Amino::String& value,
-                   PXR_NS::UsdTimeCode     time) {
+bool set_attribute(PXR_NS::UsdAttribute& pxr_attribute,
+                   const Amino::String&  value,
+                   PXR_NS::UsdTimeCode   time) {
     auto type_name = pxr_attribute.GetTypeName();
     // set as asset, token or regular string
     if (type_name == PXR_NS::SdfValueTypeNames->Asset) {
@@ -643,9 +666,9 @@ bool set_attribute(PXR_NS::UsdAttribute&   pxr_attribute,
     return pxr_attribute.Set(toPxr(value), time);
 }
 template <>
-bool set_attribute(PXR_NS::UsdAttribute&                 pxr_attribute,
+bool set_attribute(PXR_NS::UsdAttribute&              pxr_attribute,
                    const Amino::Array<Amino::String>& value,
-                   PXR_NS::UsdTimeCode                   time) {
+                   PXR_NS::UsdTimeCode                time) {
     auto type_name = pxr_attribute.GetTypeName();
     // set as asset array, token array or regular string array
     if (type_name == PXR_NS::SdfValueTypeNames->AssetArray) {
@@ -667,7 +690,7 @@ bool set_attribute(PXR_NS::UsdAttribute&                 pxr_attribute,
 }
 template <>
 bool set_attribute(PXR_NS::UsdAttribute& pxr_attribute,
-                   const float&       value,
+                   const float&          value,
                    PXR_NS::UsdTimeCode   time) {
     auto type_name = pxr_attribute.GetTypeName();
     // Set as half or other float types
@@ -678,12 +701,12 @@ bool set_attribute(PXR_NS::UsdAttribute& pxr_attribute,
     return pxr_attribute.Set(toPxr(value), time);
 }
 template <>
-bool set_attribute(PXR_NS::UsdAttribute&         pxr_attribute,
+bool set_attribute(PXR_NS::UsdAttribute&      pxr_attribute,
                    const Amino::Array<float>& value,
-                   PXR_NS::UsdTimeCode           time) {
+                   PXR_NS::UsdTimeCode        time) {
     auto type_name = pxr_attribute.GetTypeName();
     // Set as HalfArray or regular floatArray
-    if ( type_name == PXR_NS::SdfValueTypeNames->HalfArray) {
+    if (type_name == PXR_NS::SdfValueTypeNames->HalfArray) {
         PXR_NS::VtHalfArray pxr_array(value.size());
         for (unsigned i = 0; i < value.size(); ++i) {
             pxr_array[i] = PXR_NS::GfHalf(value[i]);
@@ -693,9 +716,9 @@ bool set_attribute(PXR_NS::UsdAttribute&         pxr_attribute,
     return pxr_attribute.Set(toPxr(value), time);
 }
 template <>
-bool set_attribute(PXR_NS::UsdAttribute&           pxr_attribute,
+bool set_attribute(PXR_NS::UsdAttribute&        pxr_attribute,
                    const Bifrost::Math::float2& value,
-                   PXR_NS::UsdTimeCode             time) {
+                   PXR_NS::UsdTimeCode          time) {
     auto type_name = pxr_attribute.GetTypeName();
     if (type_name == PXR_NS::SdfValueTypeNames->Half2) {
         auto pxr_value = PXR_NS::GfVec2h(value.x, value.y);
@@ -704,12 +727,12 @@ bool set_attribute(PXR_NS::UsdAttribute&           pxr_attribute,
     return pxr_attribute.Set(toPxr(value), time);
 }
 template <>
-bool set_attribute(PXR_NS::UsdAttribute&                         pxr_attribute,
+bool set_attribute(PXR_NS::UsdAttribute&                      pxr_attribute,
                    const Amino::Array<Bifrost::Math::float2>& value,
-                   PXR_NS::UsdTimeCode                           time) {
+                   PXR_NS::UsdTimeCode                        time) {
     auto type_name = pxr_attribute.GetTypeName();
     // Set as half2 or other float2 array based types
-    if ( type_name == PXR_NS::SdfValueTypeNames->Half2Array) {
+    if (type_name == PXR_NS::SdfValueTypeNames->Half2Array) {
         PXR_NS::VtVec2hArray pxr_array(value.size());
         for (unsigned i = 0; i < value.size(); ++i) {
             auto const& src = value[i];
@@ -720,9 +743,9 @@ bool set_attribute(PXR_NS::UsdAttribute&                         pxr_attribute,
     return pxr_attribute.Set(toPxr(value), time);
 }
 template <>
-bool set_attribute(PXR_NS::UsdAttribute&           pxr_attribute,
+bool set_attribute(PXR_NS::UsdAttribute&        pxr_attribute,
                    const Bifrost::Math::float3& value,
-                   PXR_NS::UsdTimeCode             time) {
+                   PXR_NS::UsdTimeCode          time) {
     auto type_name = pxr_attribute.GetTypeName();
     // Set as half3 or other float3 based types
     if (type_name == PXR_NS::SdfValueTypeNames->Half3) {
@@ -732,12 +755,12 @@ bool set_attribute(PXR_NS::UsdAttribute&           pxr_attribute,
     return pxr_attribute.Set(toPxr(value), time);
 }
 template <>
-bool set_attribute(PXR_NS::UsdAttribute&                         pxr_attribute,
+bool set_attribute(PXR_NS::UsdAttribute&                      pxr_attribute,
                    const Amino::Array<Bifrost::Math::float3>& value,
-                   PXR_NS::UsdTimeCode                           time) {
+                   PXR_NS::UsdTimeCode                        time) {
     auto type_name = pxr_attribute.GetTypeName();
     // Set as half3Array or other float3 array based types
-    if ( type_name == PXR_NS::SdfValueTypeNames->Half3Array) {
+    if (type_name == PXR_NS::SdfValueTypeNames->Half3Array) {
         PXR_NS::VtVec3hArray pxr_array(value.size());
         for (unsigned i = 0; i < value.size(); ++i) {
             auto const& src = value[i];
@@ -748,9 +771,9 @@ bool set_attribute(PXR_NS::UsdAttribute&                         pxr_attribute,
     return pxr_attribute.Set(toPxr(value), time);
 }
 template <>
-bool set_attribute(PXR_NS::UsdAttribute&           pxr_attribute,
+bool set_attribute(PXR_NS::UsdAttribute&        pxr_attribute,
                    const Bifrost::Math::float4& value,
-                   PXR_NS::UsdTimeCode             time) {
+                   PXR_NS::UsdTimeCode          time) {
     auto type_name = pxr_attribute.GetTypeName();
     // set as quaternion or regular vec4 array
     if (type_name == PXR_NS::SdfValueTypeNames->Quatf) {
@@ -766,9 +789,9 @@ bool set_attribute(PXR_NS::UsdAttribute&           pxr_attribute,
     return pxr_attribute.Set(toPxr(value), time);
 }
 template <>
-bool set_attribute(PXR_NS::UsdAttribute&                         pxr_attribute,
+bool set_attribute(PXR_NS::UsdAttribute&                      pxr_attribute,
                    const Amino::Array<Bifrost::Math::float4>& value,
-                   PXR_NS::UsdTimeCode                           time) {
+                   PXR_NS::UsdTimeCode                        time) {
     auto type_name = pxr_attribute.GetTypeName();
     // set as quaternion or regular vec4 array
     if (type_name == PXR_NS::SdfValueTypeNames->QuatfArray) {
@@ -785,7 +808,7 @@ bool set_attribute(PXR_NS::UsdAttribute&                         pxr_attribute,
             pxr_array[i]    = PXR_NS::GfQuath(src.w, src.x, src.y, src.z);
         }
         return pxr_attribute.Set(pxr_array, time);
-    } else if ( type_name == PXR_NS::SdfValueTypeNames->Half4Array) {
+    } else if (type_name == PXR_NS::SdfValueTypeNames->Half4Array) {
         PXR_NS::VtVec4hArray pxr_array(value.size());
         for (unsigned i = 0; i < value.size(); ++i) {
             auto const& src = value[i];
@@ -798,9 +821,9 @@ bool set_attribute(PXR_NS::UsdAttribute&                         pxr_attribute,
     return false;
 }
 template <>
-bool set_attribute(PXR_NS::UsdAttribute&            pxr_attribute,
+bool set_attribute(PXR_NS::UsdAttribute&         pxr_attribute,
                    const Bifrost::Math::double4& value,
-                   PXR_NS::UsdTimeCode              time) {
+                   PXR_NS::UsdTimeCode           time) {
     auto type_name = pxr_attribute.GetTypeName();
     // set as quaternion or regular vec4 array
     if (type_name == PXR_NS::SdfValueTypeNames->Quatd) {
@@ -810,9 +833,9 @@ bool set_attribute(PXR_NS::UsdAttribute&            pxr_attribute,
     return pxr_attribute.Set(toPxr(value), time);
 }
 template <>
-bool set_attribute(PXR_NS::UsdAttribute&                          pxr_attribute,
+bool set_attribute(PXR_NS::UsdAttribute&                       pxr_attribute,
                    const Amino::Array<Bifrost::Math::double4>& value,
-                   PXR_NS::UsdTimeCode                            time) {
+                   PXR_NS::UsdTimeCode                         time) {
     auto type_name = pxr_attribute.GetTypeName();
     // set as quaternion or regular vec4 array
     if (type_name == PXR_NS::SdfValueTypeNames->QuatdArray) {
@@ -831,18 +854,20 @@ bool set_prim_attribute_impl(const Amino::String& prim_path,
                              const TYPE&          value,
                              const bool           use_frame,
                              const float          frame,
-                             BifrostUsd::Stage& stage) {
+                             BifrostUsd::Stage&   stage) {
     if (!stage) return false;
     try {
-        VariantEditContext ctx(stage);
-
-        auto pxr_prim = get_prim_at_path(prim_path, stage);
-        if (!pxr_prim) return false;
-        auto pxr_attribute = pxr_prim.GetAttribute(PXR_NS::TfToken(name.c_str()));
-        if (!pxr_attribute) return false;
-        auto time = use_frame ? PXR_NS::UsdTimeCode(static_cast<double>(frame))
-                              : PXR_NS::UsdTimeCode::Default();
-        return set_attribute(pxr_attribute, value, time);
+        return BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_prim = get_prim_at_path(prim_path, stage);
+            if (!pxr_prim) return false;
+            auto pxr_attribute =
+                pxr_prim.GetAttribute(PXR_NS::TfToken(name.c_str()));
+            if (!pxr_attribute) return false;
+            auto time = use_frame
+                            ? PXR_NS::UsdTimeCode(static_cast<double>(frame))
+                            : PXR_NS::UsdTimeCode::Default();
+            return set_attribute(pxr_attribute, value, time);
+        });
     } catch (std::exception& e) {
         log_exception("get_prim_attribute_data", e);
     }
@@ -854,7 +879,7 @@ bool set_prim_attribute_impl(const Amino::String& prim_path,
 /// Doxygen is confused with those macros...
 #define IMPLEMENT_SET_PRIM_ATTRIBUTE(TYPE)                                \
     bool USD::Attribute::set_prim_attribute(                              \
-        BifrostUsd::Stage& stage, const Amino::String& prim_path,       \
+        BifrostUsd::Stage& stage, const Amino::String& prim_path,         \
         const Amino::String& name, TYPE value, const bool use_frame,      \
         const float frame) {                                              \
         return set_prim_attribute_impl(prim_path, name, value, use_frame, \
@@ -865,7 +890,7 @@ FOR_EACH_SUPPORTED_BUILTIN_ATTRIBUTE(IMPLEMENT_SET_PRIM_ATTRIBUTE)
 
 #define IMPLEMENT_SET_PRIM_ATTRIBUTE(TYPE)                                  \
     bool USD::Attribute::set_prim_attribute(                                \
-        BifrostUsd::Stage& stage, const Amino::String& prim_path,         \
+        BifrostUsd::Stage& stage, const Amino::String& prim_path,           \
         const Amino::String& name, const TYPE& value, const bool use_frame, \
         const float frame) {                                                \
         return set_prim_attribute_impl(prim_path, name, value, use_frame,   \
@@ -876,7 +901,7 @@ FOR_EACH_SUPPORTED_STRUCT_ATTRIBUTE(IMPLEMENT_SET_PRIM_ATTRIBUTE)
 
 #define IMPLEMENT_SET_PRIM_ATTRIBUTE(TYPE)                                \
     bool USD::Attribute::set_prim_attribute(                              \
-        BifrostUsd::Stage& stage, const Amino::String& prim_path,       \
+        BifrostUsd::Stage& stage, const Amino::String& prim_path,         \
         const Amino::String& name, const Amino::Array<TYPE>& value,       \
         const bool use_frame, const float frame) {                        \
         return set_prim_attribute_impl(prim_path, name, value, use_frame, \
@@ -888,17 +913,18 @@ FOR_EACH_SUPPORTED_ARRAY_ATTRIBUTE(IMPLEMENT_SET_PRIM_ATTRIBUTE)
 
 bool USD::Attribute::add_attribute_connection(
     BifrostUsd::Stage&                stage,
-    const Amino::String&                prim_path,
-    const Amino::String&                attribute_name,
-    const Amino::String&                source,
+    const Amino::String&              prim_path,
+    const Amino::String&              attribute_name,
+    const Amino::String&              source,
     const BifrostUsd::UsdListPosition position) {
     if (!stage) return false;
     try {
-        VariantEditContext ctx(stage);
-        auto               pxr_attribute =
-            get_attribute_or_throw(prim_path, attribute_name, stage);
-        return pxr_attribute.AddConnection(PXR_NS::SdfPath(source.c_str()),
-                                           GetUsdListPosition(position));
+        return BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_attribute =
+                get_attribute_or_throw(prim_path, attribute_name, stage);
+            return pxr_attribute.AddConnection(PXR_NS::SdfPath(source.c_str()),
+                                               GetUsdListPosition(position));
+        });
 
     } catch (std::exception& e) {
         log_exception("add_attribute_connection", e);
@@ -913,11 +939,12 @@ bool USD::Attribute::remove_attribute_connection(
     const Amino::String& source) {
     if (!stage) return false;
     try {
-        VariantEditContext ctx(stage);
-        auto               pxr_attribute =
-            get_attribute_or_throw(prim_path, attribute_name, stage);
-        return pxr_attribute.RemoveConnection(PXR_NS::SdfPath(source.c_str()));
-
+        return BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_attribute =
+                get_attribute_or_throw(prim_path, attribute_name, stage);
+            return pxr_attribute.RemoveConnection(
+                PXR_NS::SdfPath(source.c_str()));
+        });
     } catch (std::exception& e) {
         log_exception("remove_attribute_connection", e);
     }
@@ -930,18 +957,18 @@ bool USD::Attribute::clear_attribute_connections(
     const Amino::String& attribute_name) {
     if (!stage) return false;
     try {
-        VariantEditContext ctx(stage);
-        auto               pxr_attribute =
-            get_attribute_or_throw(prim_path, attribute_name, stage);
-        return pxr_attribute.ClearConnections();
-
+        return BifrostUsd::WithVariantContext(stage, [&]() {
+            auto pxr_attribute =
+                get_attribute_or_throw(prim_path, attribute_name, stage);
+            return pxr_attribute.ClearConnections();
+        });
     } catch (std::exception& e) {
         log_exception("clear_attribute_connections", e);
     }
     return false;
 }
 
-bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
+bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage&   stage,
                                             const Amino::String& prim_path,
                                             const Amino::String& attribute_name,
                                             const Amino::String& key,
@@ -950,7 +977,7 @@ bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
                                        stage);
 }
 
-bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
+bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage&   stage,
                                             const Amino::String& prim_path,
                                             const Amino::String& attribute_name,
                                             const Amino::String& key,
@@ -959,7 +986,7 @@ bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
                                        stage);
 }
 
-bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
+bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage&   stage,
                                             const Amino::String& prim_path,
                                             const Amino::String& attribute_name,
                                             const Amino::String& key,
@@ -968,7 +995,7 @@ bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
                                        stage);
 }
 
-bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
+bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage&   stage,
                                             const Amino::String& prim_path,
                                             const Amino::String& attribute_name,
                                             const Amino::String& key,
@@ -977,7 +1004,7 @@ bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
                                        stage);
 }
 
-bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
+bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage&   stage,
                                             const Amino::String& prim_path,
                                             const Amino::String& attribute_name,
                                             const Amino::String& key,
@@ -986,7 +1013,7 @@ bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
                                        stage);
 }
 
-bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
+bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage&   stage,
                                             const Amino::String& prim_path,
                                             const Amino::String& attribute_name,
                                             const Amino::String& key,
@@ -995,7 +1022,7 @@ bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
                                        stage);
 }
 
-bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
+bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage&   stage,
                                             const Amino::String& prim_path,
                                             const Amino::String& attribute_name,
                                             const Amino::String& key,
@@ -1006,24 +1033,24 @@ bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage& stage,
 
 bool USD::Attribute::get_attribute_metadata(
     const BifrostUsd::Stage& stage,
-    const Amino::String&       prim_path,
-    const Amino::String&       attribute_name,
-    const Amino::String&       key,
-    const Amino::String&       default_and_type,
-    Amino::String&             value) {
+    const Amino::String&     prim_path,
+    const Amino::String&     attribute_name,
+    const Amino::String&     key,
+    const Amino::String&     default_and_type,
+    Amino::String&           value) {
     if (!stage) return false;
 
     try {
-        VariantEditContext ctx(stage);
-        auto               pxr_attribute =
-            get_attribute_or_throw(prim_path, attribute_name, stage);
-        std::string tempVal;
-        if (pxr_attribute.GetMetadata(GetSdfFieldKey(key), &tempVal)) {
-            value = tempVal.c_str();
-            return true;
-        } else {
-            value = default_and_type;
-        }
+            auto pxr_attribute =
+                get_attribute_or_throw(prim_path, attribute_name, stage);
+            std::string tempVal;
+            if (pxr_attribute.GetMetadata(GetSdfFieldKey(key), &tempVal)) {
+                value = tempVal.c_str();
+                return true;
+            } else {
+                value = default_and_type;
+            }
+            return false;
     } catch (std::exception& e) {
         log_exception("get_attribute_metadata", e);
         value = default_and_type;
@@ -1033,61 +1060,61 @@ bool USD::Attribute::get_attribute_metadata(
 
 bool USD::Attribute::get_attribute_metadata(
     const BifrostUsd::Stage& stage,
-    const Amino::String&       prim_path,
-    const Amino::String&       attribute_name,
-    const Amino::String&       key,
-    const Amino::bool_t&       default_and_type,
-    Amino::bool_t&             value) {
+    const Amino::String&     prim_path,
+    const Amino::String&     attribute_name,
+    const Amino::String&     key,
+    const Amino::bool_t&     default_and_type,
+    Amino::bool_t&           value) {
     return get_attribute_metadata_impl(stage, prim_path, attribute_name, key,
                                        default_and_type, value);
 }
 
 bool USD::Attribute::get_attribute_metadata(
     const BifrostUsd::Stage& stage,
-    const Amino::String&       prim_path,
-    const Amino::String&       attribute_name,
-    const Amino::String&       key,
-    const Amino::float_t&      default_and_type,
-    Amino::float_t&            value) {
+    const Amino::String&     prim_path,
+    const Amino::String&     attribute_name,
+    const Amino::String&     key,
+    const Amino::float_t&    default_and_type,
+    Amino::float_t&          value) {
     return get_attribute_metadata_impl(stage, prim_path, attribute_name, key,
                                        default_and_type, value);
 }
 
 bool USD::Attribute::get_attribute_metadata(
     const BifrostUsd::Stage& stage,
-    const Amino::String&       prim_path,
-    const Amino::String&       attribute_name,
-    const Amino::String&       key,
-    const Amino::double_t&     default_and_type,
-    Amino::double_t&           value) {
+    const Amino::String&     prim_path,
+    const Amino::String&     attribute_name,
+    const Amino::String&     key,
+    const Amino::double_t&   default_and_type,
+    Amino::double_t&         value) {
     return get_attribute_metadata_impl(stage, prim_path, attribute_name, key,
                                        default_and_type, value);
 }
 
 bool USD::Attribute::get_attribute_metadata(
     const BifrostUsd::Stage& stage,
-    const Amino::String&       prim_path,
-    const Amino::String&       attribute_name,
-    const Amino::String&       key,
-    const Amino::int_t&        default_and_type,
-    Amino::int_t&              value) {
+    const Amino::String&     prim_path,
+    const Amino::String&     attribute_name,
+    const Amino::String&     key,
+    const Amino::int_t&      default_and_type,
+    Amino::int_t&            value) {
     return get_attribute_metadata_impl(stage, prim_path, attribute_name, key,
                                        default_and_type, value);
 }
 
 bool USD::Attribute::get_attribute_metadata(
     const BifrostUsd::Stage& stage,
-    const Amino::String&       prim_path,
-    const Amino::String&       attribute_name,
-    const Amino::String&       key,
-    const Amino::long_t&       default_and_type,
-    Amino::long_t&             value) {
+    const Amino::String&     prim_path,
+    const Amino::String&     attribute_name,
+    const Amino::String&     key,
+    const Amino::long_t&     default_and_type,
+    Amino::long_t&           value) {
     return get_attribute_metadata_impl(stage, prim_path, attribute_name, key,
                                        default_and_type, value);
 }
 
 bool USD::Attribute::get_attribute_metadata(
-    const BifrostUsd::Stage&         stage,
+    const BifrostUsd::Stage&           stage,
     const Amino::String&               prim_path,
     const Amino::String&               attribute_name,
     const Amino::String&               key,
@@ -1099,17 +1126,16 @@ bool USD::Attribute::get_attribute_metadata(
     if (!stage) return false;
 
     try {
-        VariantEditContext ctx(stage);
-        auto               pxr_attribute =
-            get_attribute_or_throw(prim_path, attribute_name, stage);
-        PXR_NS::VtDictionary temp;
-        if (pxr_attribute.GetMetadata(GetSdfFieldKey(key), &temp)) {
-            value = fromPxr(temp);
-            return true;
-        } else {
-            value = default_and_type;
-        }
-
+            auto pxr_attribute =
+                get_attribute_or_throw(prim_path, attribute_name, stage);
+            PXR_NS::VtDictionary temp;
+            if (pxr_attribute.GetMetadata(GetSdfFieldKey(key), &temp)) {
+                value = fromPxr(temp);
+                return true;
+            } else {
+                value = default_and_type;
+            }
+            return false;
     } catch (std::exception& e) {
         log_exception("get_attribute_metadata", e);
     }

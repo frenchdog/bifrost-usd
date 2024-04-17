@@ -88,9 +88,26 @@ void set_variant_selection(BifrostUsd::Stage& stage
                            const Amino::String& prim_path,
                            const Amino::String& variant_set_name,
                            const Amino::String& variant_name,
-                           bool clear) USDNODE_DOC_ICON("set_variant_selection",
+                           bool clear=false) USDNODE_DOC_ICON("set_variant_selection",
                                                         "set_variant_selection",
                                                         "usd.svg");
+
+/// \ingroup VariantSet
+/// \defgroup clear_variant_selection clear_variant_selection node
+///
+/// \brief This node clear the variant set selection.
+///
+/// \param [in] stage The USD stage on which to clear the given variant set.
+/// \param [in] prim_path The path to the prim with the variant set.
+/// \param [in] variant_set_name The variant set for which to clear the selection.
+USD_NODEDEF_DECL
+void clear_variant_selection(BifrostUsd::Stage& stage
+                                                  USDPORT_INOUT("out_stage"),
+                             const Amino::String& prim_path,
+                             const Amino::String& variant_set_name)
+    USDNODE_DOC_ICON("clear_variant_selection",
+                     "clear_variant_selection",
+                     "usd.svg");
 
 /// \ingroup VariantSet
 /// \defgroup get_variant_sets get_variant_sets node

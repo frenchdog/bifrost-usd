@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,10 +25,8 @@
 #include <utils/test/testUtils.h>
 
 // Bifrost Hydra
-#include <BifrostHydra/Engine/Container.h>
 #include <BifrostHydra/Engine/Engine.h>
 #include <BifrostHydra/Engine/Parameters.h>
-#include <BifrostHydra/Engine/Runtime.h>
 #include <BifrostHydra/Engine/Workspace.h>
 #include <BifrostHydra/Translators/GeometryFn.h>
 #include <BifrostHydra/Translators/Instances.h>
@@ -45,15 +43,15 @@ PXR_NAMESPACE_USING_DIRECTIVE
 
 using namespace BifrostHdTest;
 
-TEST_F(TestSceneIndexPrim, runtime) {
-    auto& workspace = BifrostHd::Workspace::getInstance();
-    ASSERT_TRUE(workspace.isValid());
-
-    auto& runtime = BifrostHd::Runtime::getInstance();
+TEST_F(TestSceneIndexPrim, workspace) {
+    BifrostHd::Engine           engine;
+    const BifrostHd::Workspace* workspace = engine.getWorkspace();
+    ASSERT_NE(workspace, nullptr);
+    ASSERT_TRUE(workspace->isValid());
 
     // test if our configs are loaded.
     auto check_config_is_loaded = [&workspace](const Amino::String& message) {
-        auto const& messages = workspace.getMessages();
+        auto const& messages = workspace->getMessages();
         EXPECT_NE(messages.end(), std::find(messages.begin(), messages.end(), message));
     };
 
@@ -63,16 +61,6 @@ TEST_F(TestSceneIndexPrim, runtime) {
     check_config_is_loaded(
         "[Library] Bifrost: Loading library: test_bifrost_hd_graph, "
         "from: Autodesk.");
-
-    Amino::Type           floatType;
-    const Amino::Library& lib          = runtime.getAmLibrary();
-    auto                  builtInTypes = lib.getBuiltInNamespace().getTypes();
-    ASSERT_TRUE(builtInTypes.findByName("float", floatType));
-
-    auto           nodeDefs = lib.getNodeDefs();
-    Amino::NodeDef simpleAddNodeDef;
-    EXPECT_TRUE(
-        nodeDefs.findByName("Hydra::Testing::simple_add", simpleAddNodeDef));
 }
 
 TEST_F(TestSceneIndexPrim, parameters) {
@@ -93,7 +81,7 @@ TEST_F(TestSceneIndexPrim, parameters) {
     EXPECT_EQ(hdParams.compoundName(),
               std::string{"Modeling::Primitive::create_mesh_cube"});
 
-    auto inputs = hdParams.inputs();
+    auto& inputs = hdParams.inputs();
     EXPECT_EQ(inputs.size(), 3);
 
     auto check_float_input = [&inputs](const std::string& name,
@@ -128,8 +116,8 @@ TEST_F(TestSceneIndexPrim, create_mesh_cube) {
 
     BifrostHd::Engine engine;
     engine.setInputs(graphPrim);
-    ASSERT_EQ(engine.execute(), Amino::Job::State::kSuccess);
-    const auto& output = engine.output();
+    ASSERT_TRUE(engine.execute());
+    const auto& output = engine.getOutput();
     EXPECT_EQ(output.first, "cube_mesh");
 
     const auto& objectArray = output.second;
@@ -176,8 +164,8 @@ TEST_F(TestSceneIndexPrim, create_mesh_array) {
 
     BifrostHd::Engine engine;
     engine.setInputs(graphPrim);
-    ASSERT_EQ(engine.execute(), Amino::Job::State::kSuccess);
-    const auto& output = engine.output();
+    ASSERT_TRUE(engine.execute());
+    const auto& output = engine.getOutput();
     EXPECT_EQ(output.first, "meshes");
 
     const auto& objectArray = output.second;
@@ -198,8 +186,8 @@ TEST_F(TestSceneIndexPrim, create_colored_mesh_cube) {
 
     BifrostHd::Engine engine;
     engine.setInputs(graphPrim);
-    ASSERT_EQ(engine.execute(), Amino::Job::State::kSuccess);
-    const auto& output = engine.output();
+    ASSERT_TRUE(engine.execute());
+    const auto& output = engine.getOutput();
     EXPECT_EQ(output.first, "mesh");
     
     const auto& objectArray = output.second;
@@ -232,7 +220,7 @@ TEST_F(TestSceneIndexPrim, create_colored_mesh_cube) {
     TestHdSceneIndexMesh(hdMeshPrim);
 }
 
-// TODO(laforgg): Implement Instancing. Currenyly it is broken.
+// TODO(laforgg): Implement Instancing. Currently it is broken.
 #if 0
 TEST_F(TestSceneIndexPrim, create_simple_instances_test) {
     // open stage
@@ -259,9 +247,9 @@ TEST_F(TestSceneIndexPrim, create_simple_instances_test) {
 
     BifrostHd::Engine engine;
     engine.setInputs(graphPrim);
-    ASSERT_EQ(engine.execute(), Amino::Job::State::kSuccess);
+    ASSERT_TRUE(engine.execute());
 
-    const auto& output = engine.output();
+    const auto& output = engine.getOutput();
     EXPECT_EQ(output.first, "instances");
 
     const auto& objectArray = output.second;
@@ -318,8 +306,8 @@ TEST_F(TestSceneIndexPrim, create_strands_test1) {
 
     BifrostHd::Engine engine;
     engine.setInputs(graphPrim);
-    ASSERT_EQ(engine.execute(), Amino::Job::State::kSuccess);
-    const auto& output = engine.output();
+    ASSERT_TRUE(engine.execute());
+    const auto& output = engine.getOutput();
     EXPECT_EQ(output.first, "strands");
 
     const auto& objectArray = output.second;
@@ -365,8 +353,8 @@ TEST_F(TestSceneIndexPrim, create_mesh_plane_with_animated_pt) {
         // Execute at frame 0
         BifrostHd::Engine engine;
         engine.setInputs(graphPrim);
-        ASSERT_EQ(engine.execute(), Amino::Job::State::kSuccess);
-        const auto& objectArray = engine.output().second;
+        ASSERT_TRUE(engine.execute());
+        const auto& objectArray = engine.getOutput().second;
         EXPECT_EQ(objectArray.size(), 1);
         const auto& object = objectArray[0];
         const auto vtPoints =
@@ -378,8 +366,8 @@ TEST_F(TestSceneIndexPrim, create_mesh_plane_with_animated_pt) {
         // Execute at frame 24
         BifrostHd::Engine engine;
         engine.setInputs(graphPrim);
-        ASSERT_EQ(engine.execute(24.0), Amino::Job::State::kSuccess);
-        const auto& objectArray = engine.output().second;
+        ASSERT_TRUE(engine.execute(24.0));
+        const auto& objectArray = engine.getOutput().second;
         EXPECT_EQ(objectArray.size(), 1);
         const auto& object = objectArray[0];        
         const auto vtPoints =
@@ -402,8 +390,8 @@ TEST_F(TestSceneIndexPrim, re_render) {
     engine.setInputs(getHdPrim(primPath));
 
     {
-        ASSERT_EQ(engine.execute(), Amino::Job::State::kSuccess);
-        const auto& output = engine.output();
+        ASSERT_TRUE(engine.execute());
+        const auto& output      = engine.getOutput();
         const auto& objectArray = output.second;
         EXPECT_EQ(objectArray.size(), 1);
         const auto& object = objectArray[0];
@@ -430,8 +418,8 @@ TEST_F(TestSceneIndexPrim, re_render) {
 
         // BifrostHd::Engine engine{getHdPrim(primPath)};
         engine.setInputs(getHdPrim(primPath));
-        ASSERT_EQ(engine.execute(), Amino::Job::State::kSuccess);
-        const auto& output = engine.output();
+        ASSERT_TRUE(engine.execute());
+        const auto& output      = engine.getOutput();
         const auto& objectArray = output.second;
         EXPECT_EQ(objectArray.size(), 1);
         const auto& object = objectArray[0];

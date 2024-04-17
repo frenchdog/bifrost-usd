@@ -1,0 +1,31 @@
+#usda 1.0
+(
+    defaultPrim = "mtl"
+)
+
+def Scope "mtl"
+{
+    def Material "Red"
+    {
+        token outputs:surface.connect = </mtl/Red/UsdPreviewSurface1.outputs:surface>
+
+        def Shader "UsdPreviewSurface1"
+        {
+            uniform token info:id = "UsdPreviewSurface"
+            color3f inputs:diffuseColor = (0.734, 0.03523203, 0.121972285)
+            token outputs:surface
+        }
+    }
+
+    def Material "Blue"
+    {
+        token outputs:surface.connect = </mtl/Blue/UsdPreviewSurface1.outputs:surface>
+
+        def Shader "UsdPreviewSurface1"
+        {
+            uniform token info:id = "UsdPreviewSurface"
+            color3f inputs:diffuseColor = (0, 0.41820002, 1)
+            token outputs:surface
+        }
+    }
+}

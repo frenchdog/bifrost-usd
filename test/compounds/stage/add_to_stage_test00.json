@@ -12,7 +12,7 @@
     "compounds": [
         {
             "name": "USD::Test::Stage::add_to_stage_test00",
-            "uriImported": "stream:/stream",
+            "uriImported": "stream:/bifrostGraphShape1",
             "metadata": [
                 {
                     "metaName": "io_nodes",
@@ -49,6 +49,11 @@
                                                     "metaName": "failure_msgs"
                                                 }
                                             ]
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "56.000000"
                                         }
                                     ]
                                 }
@@ -65,11 +70,6 @@
                             "metaValue": "backdrop"
                         },
                         {
-                            "metaName": "title",
-                            "metaType": "string",
-                            "metaValue": "backdrop"
-                        },
-                        {
                             "metaName": "color",
                             "metaType": "string",
                             "metaValue": "#28b2b2b5"
@@ -78,6 +78,11 @@
                             "metaName": "coords",
                             "metaType": "string",
                             "metaValue": "-552.579 -1068.65 1465 1047.13"
+                        },
+                        {
+                            "metaName": "title",
+                            "metaType": "string",
+                            "metaValue": "Backdrop"
                         }
                     ]
                 },
@@ -115,11 +120,6 @@
                             "metaValue": "backdrop"
                         },
                         {
-                            "metaName": "title",
-                            "metaType": "string",
-                            "metaValue": "backdrop1"
-                        },
-                        {
                             "metaName": "color",
                             "metaType": "string",
                             "metaValue": "#28b2b2b5"
@@ -128,6 +128,11 @@
                             "metaName": "coords",
                             "metaType": "string",
                             "metaValue": "-538.992 101.707 1595.96 1116.86"
+                        },
+                        {
+                            "metaName": "title",
+                            "metaType": "string",
+                            "metaValue": "Backdrop 1"
                         }
                     ]
                 },
@@ -184,7 +189,7 @@
                 {
                     "metaName": "ViewportRect",
                     "metaType": "string",
-                    "metaValue": "-633.004 -1210.22 3378.56 3169.21"
+                    "metaValue": "893.406 -452.426 2185.16 1235.86"
                 },
                 {
                     "metaName": "DisplayMode",
@@ -194,7 +199,12 @@
                 {
                     "metaName": "LayoutPos",
                     "metaType": "string",
-                    "metaValue": "-486.175 -83.0229"
+                    "metaValue": "-129.415 1315.31"
+                },
+                {
+                    "metaName": "zValue",
+                    "metaType": "string",
+                    "metaValue": "142.000000"
                 }
             ],
             "terminalStates": [
@@ -223,7 +233,7 @@
             "compounds": [
                 {
                     "name": "test_pseudo_root_prim_children_count",
-                    "uriImported": "stream:/stream",
+                    "uriImported": "stream:/bifrostGraphShape1",
                     "metadata": [
                         {
                             "metaName": "io_nodes",
@@ -454,7 +464,7 @@
                 },
                 {
                     "name": "test_pseudo_root_prim_descendant_count",
-                    "uriImported": "stream:/stream",
+                    "uriImported": "stream:/bifrostGraphShape1",
                     "metadata": [
                         {
                             "metaName": "io_nodes",
@@ -685,7 +695,7 @@
                 },
                 {
                     "name": "test_attribute_foo_on_prim_A",
-                    "uriImported": "stream:/stream",
+                    "uriImported": "stream:/bifrostGraphShape1",
                     "metadata": [
                         {
                             "metaName": "io_nodes",
@@ -1266,7 +1276,7 @@
                 },
                 {
                     "name": "test_red_variant_on_prim_A",
-                    "uriImported": "stream:/stream",
+                    "uriImported": "stream:/bifrostGraphShape1",
                     "metadata": [
                         {
                             "metaName": "io_nodes",
@@ -1945,7 +1955,7 @@
                 },
                 {
                     "name": "test_blue_variant_on_prim_A",
-                    "uriImported": "stream:/stream",
+                    "uriImported": "stream:/bifrostGraphShape1",
                     "metadata": [
                         {
                             "metaName": "_recentNode_",
@@ -2637,6 +2647,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "1778 70"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "31.000000"
                         }
                     ]
                 },
@@ -2653,6 +2668,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "1772 341"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "32.000000"
                         }
                     ]
                 },
@@ -2689,6 +2709,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "1200 -57"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "33.000000"
                         }
                     ]
                 },
@@ -2723,6 +2748,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "2169 641"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "34.000000"
                         }
                     ]
                 },
@@ -2761,6 +2791,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "822 381"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "35.000000"
                         }
                     ]
                 },
@@ -2786,6 +2821,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "372 -1003"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "59.000000"
                         }
                     ]
                 },
@@ -2802,6 +2842,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "1736 -422"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "70.000000"
                         }
                     ]
                 },
@@ -2818,6 +2863,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "2091 -238"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "69.000000"
                         }
                     ]
                 },
@@ -2834,6 +2884,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "67 -808"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "61.000000"
                         }
                     ]
                 },
@@ -2856,6 +2911,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "1766 594"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "38.000000"
                         }
                     ]
                 },
@@ -2879,6 +2939,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "67 -979"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "60.000000"
                         }
                     ]
                 },
@@ -2895,6 +2960,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "-543 -525"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "68.000000"
                         }
                     ]
                 },
@@ -2920,6 +2990,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "67 -637"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "63.000000"
                         }
                     ]
                 },
@@ -2945,6 +3020,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "-238 -549"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "65.000000"
                         }
                     ]
                 },
@@ -2986,6 +3066,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "67 -298"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "64.000000"
                         }
                     ]
                 },
@@ -3005,6 +3090,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "-238 -354"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "66.000000"
                         }
                     ]
                 },
@@ -3021,6 +3111,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "-195 887"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "39.000000"
                         }
                     ]
                 },
@@ -3037,6 +3132,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "415 236"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "40.000000"
                         }
                     ]
                 },
@@ -3056,6 +3156,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "-238 -183"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "67.000000"
                         }
                     ]
                 },
@@ -3072,6 +3177,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "-235 466"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "41.000000"
                         }
                     ]
                 },
@@ -3088,6 +3198,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "83 168"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "42.000000"
                         }
                     ]
                 },
@@ -3104,6 +3219,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "72 640"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "43.000000"
                         }
                     ]
                 },
@@ -3120,6 +3240,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "110 1058"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "44.000000"
                         }
                     ]
                 },
@@ -3142,6 +3267,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "1769 918"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "45.000000"
                         }
                     ]
                 },
@@ -3158,6 +3288,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "1518.41 1317.28"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "46.000000"
                         }
                     ]
                 },
@@ -3174,6 +3309,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "1772 1260"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "47.000000"
                         }
                     ]
                 },
@@ -3211,6 +3351,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "653 -854"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "48.000000"
                         }
                     ]
                 },
@@ -3249,6 +3394,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "372 -725"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "62.000000"
                         }
                     ]
                 },
@@ -3289,6 +3439,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "415 431"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "49.000000"
                         }
                     ]
                 },
@@ -3314,6 +3469,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "76 441"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "50.000000"
                         }
                     ]
                 },
@@ -3354,6 +3514,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "415 750"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "51.000000"
                         }
                     ]
                 },
@@ -3379,6 +3544,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "110 863"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "52.000000"
                         }
                     ]
                 },
@@ -3395,6 +3565,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "1218 1279"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "53.000000"
                         }
                     ]
                 },
@@ -3411,6 +3586,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "1219 1458"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "54.000000"
                         }
                     ]
                 },
@@ -3427,6 +3607,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "1237.02 1634.15"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "55.000000"
                         }
                     ]
                 }
@@ -3459,22 +3644,6 @@
                 {
                     "source": "add_to_stage.out_stage",
                     "target": "test_attribute_foo_on_prim_A.stage"
-                },
-                {
-                    "source": "define_usd_prim3.prim_definition",
-                    "target": "define_usd_prim2.children.prim_definition"
-                },
-                {
-                    "source": "define_usd_prim5.prim_definition",
-                    "target": "define_usd_prim4.children.prim_definition"
-                },
-                {
-                    "source": "define_usd_preview_surface.material_definition",
-                    "target": "define_usd_prim6.children.material_definition"
-                },
-                {
-                    "source": "define_usd_reference.reference_definitions",
-                    "target": "define_usd_prim5.reference_definitions.reference_definitions"
                 },
                 {
                     "source": "add_to_stage.out_stage",
@@ -3561,44 +3730,8 @@
                     "target": "define_usd_variant_set.variant_set_name"
                 },
                 {
-                    "source": "define_usd_prim2.prim_definition",
-                    "target": "add_to_stage1.prim_definitions.prim_definition"
-                },
-                {
-                    "source": "define_usd_prim10.prim_definition",
-                    "target": "add_to_stage1.prim_definitions.prim_definition1"
-                },
-                {
-                    "source": "define_usd_attribute.attribute_definition",
-                    "target": "define_usd_prim10.attribute_definitions.attribute_definition"
-                },
-                {
-                    "source": "define_usd_preview_surface1.material_definition",
-                    "target": "define_usd_prim6.children.material_definition1"
-                },
-                {
                     "source": "add_to_stage1.out_stage",
                     "target": "add_to_stage.stage"
-                },
-                {
-                    "source": "define_usd_prim4.prim_definition",
-                    "target": "define_usd_prim10.children.prim_definition1"
-                },
-                {
-                    "source": "define_usd_prim6.prim_definition",
-                    "target": "define_usd_prim10.children.prim_definition"
-                },
-                {
-                    "source": "define_usd_prim.prim_definition",
-                    "target": "add_to_stage.prim_definitions.prim_definition"
-                },
-                {
-                    "source": "define_usd_variant_set.variant_set_definition",
-                    "target": "define_usd_prim.variant_set_definitions.variant_set_definition"
-                },
-                {
-                    "source": "define_usd_prim11.prim_definition",
-                    "target": "define_usd_prim.children.prim_definition"
                 },
                 {
                     "source": "value.output",
@@ -3609,32 +3742,12 @@
                     "target": "define_usd_prim11.variant_name"
                 },
                 {
-                    "source": "define_usd_prim12.prim_definition",
-                    "target": "define_usd_prim11.children.prim_definition"
-                },
-                {
-                    "source": "define_usd_relationship1.relationship_definition",
-                    "target": "define_usd_prim12.relationship_definitions.relationship_definition"
-                },
-                {
-                    "source": "define_usd_prim14.prim_definition",
-                    "target": "define_usd_prim13.children.prim_definition"
-                },
-                {
                     "source": "value.output",
                     "target": "define_usd_prim13.variant_set_name"
                 },
                 {
                     "source": "value2.output",
                     "target": "define_usd_prim13.variant_name"
-                },
-                {
-                    "source": "define_usd_prim13.prim_definition",
-                    "target": "define_usd_prim.children.prim_definition1"
-                },
-                {
-                    "source": "define_usd_relationship.relationship_definition",
-                    "target": "define_usd_prim14.relationship_definitions.relationship_definition"
                 },
                 {
                     "source": "value3.output",
@@ -3647,6 +3760,78 @@
                 {
                     "source": "value5.output",
                     "target": "set_variant_selection.variant_name"
+                },
+                {
+                    "source": "define_usd_prim14.prim_definition",
+                    "target": "define_usd_prim13.children.prim_definition"
+                },
+                {
+                    "source": "define_usd_relationship1.relationship_definition",
+                    "target": "define_usd_prim12.relationship_definitions.relationship_definition"
+                },
+                {
+                    "source": "define_usd_attribute.attribute_definition",
+                    "target": "define_usd_prim10.attribute_definitions.attribute_definition"
+                },
+                {
+                    "source": "define_usd_prim4.prim_definition",
+                    "target": "define_usd_prim10.children.prim_definition1"
+                },
+                {
+                    "source": "define_usd_prim6.prim_definition",
+                    "target": "define_usd_prim10.children.prim_definition"
+                },
+                {
+                    "source": "define_usd_preview_surface.material_definition",
+                    "target": "define_usd_prim6.children.material_definition"
+                },
+                {
+                    "source": "define_usd_preview_surface1.material_definition",
+                    "target": "define_usd_prim6.children.material_definition1"
+                },
+                {
+                    "source": "define_usd_prim12.prim_definition",
+                    "target": "define_usd_prim11.children.prim_definition"
+                },
+                {
+                    "source": "define_usd_prim5.prim_definition",
+                    "target": "define_usd_prim4.children.prim_definition"
+                },
+                {
+                    "source": "define_usd_prim3.prim_definition",
+                    "target": "define_usd_prim2.children.prim_definition"
+                },
+                {
+                    "source": "define_usd_variant_set.variant_set_definition",
+                    "target": "define_usd_prim.variant_set_definitions.variant_set_definition"
+                },
+                {
+                    "source": "define_usd_prim11.prim_definition",
+                    "target": "define_usd_prim.children.prim_definition"
+                },
+                {
+                    "source": "define_usd_prim13.prim_definition",
+                    "target": "define_usd_prim.children.prim_definition1"
+                },
+                {
+                    "source": "define_usd_relationship.relationship_definition",
+                    "target": "define_usd_prim14.relationship_definitions.relationship_definition"
+                },
+                {
+                    "source": "define_usd_reference.reference_definitions",
+                    "target": "define_usd_prim5.reference_definitions.reference_definitions"
+                },
+                {
+                    "source": "define_usd_prim.prim_definition",
+                    "target": "add_to_stage.prim_definitions.prim_definition"
+                },
+                {
+                    "source": "define_usd_prim2.prim_definition",
+                    "target": "add_to_stage1.prim_definitions.prim_definition"
+                },
+                {
+                    "source": "define_usd_prim10.prim_definition",
+                    "target": "add_to_stage1.prim_definitions.prim_definition1"
                 }
             ],
             "values": [
@@ -3661,9 +3846,9 @@
                     "value": {}
                 },
                 {
-                    "valueName": "add_to_stage.enable",
-                    "valueType": "bool",
-                    "value": "true"
+                    "valueName": "add_to_stage.layer_index",
+                    "valueType": "int",
+                    "value": "0L"
                 },
                 {
                     "valueName": "add_to_stage.prim_definitions",
@@ -3671,14 +3856,14 @@
                     "value": []
                 },
                 {
+                    "valueName": "add_to_stage.enable",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
                     "valueName": "add_to_stage.parent_path",
                     "valueType": "string",
                     "value": ""
-                },
-                {
-                    "valueName": "add_to_stage.layer_index",
-                    "valueType": "int",
-                    "value": "0L"
                 },
                 {
                     "valueName": "add_to_stage.use_material_name_or_tag",
@@ -3751,12 +3936,12 @@
                     "value": {}
                 },
                 {
-                    "valueName": "define_usd_prim.variant_set_name",
+                    "valueName": "define_usd_prim.variant_name",
                     "valueType": "string",
                     "value": ""
                 },
                 {
-                    "valueName": "define_usd_prim.variant_name",
+                    "valueName": "define_usd_prim.variant_set_name",
                     "valueType": "string",
                     "value": ""
                 },
@@ -3826,12 +4011,12 @@
                     "value": {}
                 },
                 {
-                    "valueName": "define_usd_prim2.variant_set_name",
+                    "valueName": "define_usd_prim2.variant_name",
                     "valueType": "string",
                     "value": ""
                 },
                 {
-                    "valueName": "define_usd_prim2.variant_name",
+                    "valueName": "define_usd_prim2.variant_set_name",
                     "valueType": "string",
                     "value": ""
                 },
@@ -3843,7 +4028,7 @@
                 {
                     "valueName": "expect_true.msg_if_failed",
                     "valueType": "string",
-                    "value": "Error: No prim \"/a\" found"
+                    "value": "Error: No prim \"/A\" found"
                 },
                 {
                     "valueName": "define_usd_attribute.name",
@@ -3891,14 +4076,14 @@
                     "value": "Scope"
                 },
                 {
-                    "valueName": "define_usd_prim4.variant_set_name",
-                    "valueType": "string",
-                    "value": "look"
-                },
-                {
                     "valueName": "define_usd_prim4.variant_name",
                     "valueType": "string",
-                    "value": "blue"
+                    "value": ""
+                },
+                {
+                    "valueName": "define_usd_prim4.variant_set_name",
+                    "valueType": "string",
+                    "value": ""
                 },
                 {
                     "valueName": "define_usd_prim5.type",
@@ -3906,12 +4091,12 @@
                     "value": ""
                 },
                 {
-                    "valueName": "define_usd_prim5.variant_set_name",
+                    "valueName": "define_usd_prim5.variant_name",
                     "valueType": "string",
                     "value": ""
                 },
                 {
-                    "valueName": "define_usd_prim5.variant_name",
+                    "valueName": "define_usd_prim5.variant_set_name",
                     "valueType": "string",
                     "value": ""
                 },
@@ -3981,12 +4166,12 @@
                     "value": {}
                 },
                 {
-                    "valueName": "define_usd_prim6.variant_set_name",
+                    "valueName": "define_usd_prim6.variant_name",
                     "valueType": "string",
                     "value": ""
                 },
                 {
-                    "valueName": "define_usd_prim6.variant_name",
+                    "valueName": "define_usd_prim6.variant_set_name",
                     "valueType": "string",
                     "value": ""
                 },
@@ -4138,9 +4323,9 @@
                     "value": {}
                 },
                 {
-                    "valueName": "add_to_stage1.enable",
-                    "valueType": "bool",
-                    "value": "true"
+                    "valueName": "add_to_stage1.layer_index",
+                    "valueType": "int",
+                    "value": "0L"
                 },
                 {
                     "valueName": "add_to_stage1.prim_definitions",
@@ -4148,14 +4333,14 @@
                     "value": []
                 },
                 {
+                    "valueName": "add_to_stage1.enable",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
                     "valueName": "add_to_stage1.parent_path",
                     "valueType": "string",
                     "value": ""
-                },
-                {
-                    "valueName": "add_to_stage1.layer_index",
-                    "valueType": "int",
-                    "value": "0L"
                 },
                 {
                     "valueName": "add_to_stage1.use_material_name_or_tag",
@@ -4228,12 +4413,12 @@
                     "value": {}
                 },
                 {
-                    "valueName": "define_usd_prim10.variant_set_name",
+                    "valueName": "define_usd_prim10.variant_name",
                     "valueType": "string",
                     "value": ""
                 },
                 {
-                    "valueName": "define_usd_prim10.variant_name",
+                    "valueName": "define_usd_prim10.variant_set_name",
                     "valueType": "string",
                     "value": ""
                 },
@@ -4318,12 +4503,12 @@
                     "value": {}
                 },
                 {
-                    "valueName": "define_usd_prim12.variant_set_name",
+                    "valueName": "define_usd_prim12.variant_name",
                     "valueType": "string",
                     "value": ""
                 },
                 {
-                    "valueName": "define_usd_prim12.variant_name",
+                    "valueName": "define_usd_prim12.variant_set_name",
                     "valueType": "string",
                     "value": ""
                 },
@@ -4393,12 +4578,12 @@
                     "value": {}
                 },
                 {
-                    "valueName": "define_usd_prim13.variant_set_name",
+                    "valueName": "define_usd_prim13.variant_name",
                     "valueType": "string",
                     "value": ""
                 },
                 {
-                    "valueName": "define_usd_prim13.variant_name",
+                    "valueName": "define_usd_prim13.variant_set_name",
                     "valueType": "string",
                     "value": ""
                 },
@@ -4468,12 +4653,12 @@
                     "value": {}
                 },
                 {
-                    "valueName": "define_usd_prim14.variant_set_name",
+                    "valueName": "define_usd_prim14.variant_name",
                     "valueType": "string",
                     "value": ""
                 },
                 {
-                    "valueName": "define_usd_prim14.variant_name",
+                    "valueName": "define_usd_prim14.variant_set_name",
                     "valueType": "string",
                     "value": ""
                 },

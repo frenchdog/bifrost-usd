@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2023 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,10 +34,8 @@ bifusd_install_headers(
 
 set(private_libs
     Amino::Core
-    Bifrost::Object::Preview
-    Amino::SDK::Preview
-    Bifrost::Geometry::Preview
-    Bifrost::VTT::Preview
+    Bifrost::Object
+    Bifrost::Geometry
     hd
     hdGraphTranslatorsHeadersInstall
 )

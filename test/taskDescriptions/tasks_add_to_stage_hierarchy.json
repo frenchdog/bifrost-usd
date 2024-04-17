@@ -1,0 +1,116 @@
+{
+    "schemaVersion": "1.0.0",
+    "comment": [
+        "The add_to_stage_component_hierarchy00 compound creates the",
+        "following prim hierarchy:",
+        "                                                       ",
+        " `--root [def Xform] (kind = component)                ",
+        "     |--geo [def Scope] (kind = group)                 ",
+        "     |   `--xform1 [def Xform] (kind = group)          ",
+        "     |       |--imageable1 [def Xform] (kind = group)  ",
+        "     |       |   |--mesh1 [def Mesh]                   ",
+        "     |       |   `--mesh#...                           ",
+        "     |       `--imageable#...                          ",
+        "     `--mtl [def Scope] (kind = group)                 ",
+        "         |--material1 [def Material]                   ",
+        "         |   |--shader1 [def Shader]                   ",
+        "         |   `--shader#...                             ",
+        "         `--material#...                               "
+    ],
+    "options": {
+        "definitionFiles": [
+            "add_to_stage_component_hierarchy00.json"
+        ],
+        "compound": "USD::Test::Stage::add_to_stage_component_hierarchy00"
+    },
+    "task": {
+        "type": "sequence",
+        "tasks": [
+            {
+                "type": "single",
+                "name": "Smallest prim hierarchy",
+                "options": {
+                    "comment": "All inputs set to 1",
+                    "inputPorts": [
+                        {
+                            "name": "xform_count",
+                            "value": "1"
+                        },
+                        {
+                            "name": "imageable_count",
+                            "value": "1"
+                        },
+                        {
+                            "name": "mesh_count",
+                            "value": "1"
+                        },
+                        {
+                            "name": "material_count",
+                            "value": "1"
+                        },
+                        {
+                            "name": "shader_count",
+                            "value": "1"
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "single",
+                "name": "Medium prim hierarchy",
+                "options": {
+                    "inputPorts": [
+                        {
+                            "name": "xform_count",
+                            "value": "4"
+                        },
+                        {
+                            "name": "imageable_count",
+                            "value": "6"
+                        },
+                        {
+                            "name": "mesh_count",
+                            "value": "8"
+                        },
+                        {
+                            "name": "material_count",
+                            "value": "2"
+                        },
+                        {
+                            "name": "shader_count",
+                            "value": "4"
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "single",
+                "name": "Large prim hierarchy",
+                "options": {
+                    "inputPorts": [
+                        {
+                            "name": "xform_count",
+                            "value": "8"
+                        },
+                        {
+                            "name": "imageable_count",
+                            "value": "12"
+                        },
+                        {
+                            "name": "mesh_count",
+                            "value": "16"
+                        },
+                        {
+                            "name": "material_count",
+                            "value": "4"
+                        },
+                        {
+                            "name": "shader_count",
+                            "value": "8"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

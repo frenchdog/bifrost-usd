@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,8 @@
 
 namespace BifrostHd {
 
-class BIFROST_HD_TRANSLATION_SHARED_DECL TypeTranslation final : public BifrostGraph::Executor::TypeTranslation {
+class BIFROST_HD_TRANSLATION_SHARED_DECL TypeTranslation final
+    : public BifrostGraph::Executor::TypeTranslation {
 public:
     TypeTranslation() noexcept;
 
@@ -34,12 +35,12 @@ public:
     void getSupportedTypeNames(StringArray& out_names) const noexcept override;
 
     bool convertValueFromHost(
-        Amino::Type const& type,
+        const Amino::Type& type,
         Amino::Any&        value,
-        BifrostGraph::Executor::TypeTranslation::ValueData const*
+        const BifrostGraph::Executor::TypeTranslation::ValueData*
             valueTranslationData) const noexcept override;
 
-    bool convertValueToHost(Amino::Any const& value,
+    bool convertValueToHost(const Amino::Any& value,
                             BifrostGraph::Executor::TypeTranslation::ValueData*
                                 valueTranslationData) const noexcept override;
 };

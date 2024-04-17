@@ -19,6 +19,7 @@
 #include <nodedefs/usd_pack/usd_geom_nodedefs.h>
 #include <nodedefs/usd_pack/usd_prim_nodedefs.h>
 #include <nodedefs/usd_pack/usd_stage_nodedefs.h>
+#include <nodedefs/usd_pack/usd_utils.h>
 #include <utils/test/testUtils.h>
 
 BIFUSD_WARNING_PUSH
@@ -526,78 +527,119 @@ TEST(AttributeNodeDefs, set_and_get_prim_attribute) {
         ASSERT_EQ(attribValue.c3.w, attribValueResult.c3.w);
     };
 
+    auto test_get_attribute_type =
+        [&](const Amino::String&                attribName,
+            const BifrostUsd::SdfValueTypeName& expectedTypeName) {
+            auto attribute =
+                prim.GetAttribute(PXR_NS::TfToken(attribName.c_str()));
+            const auto primInterface =
+                Amino::newClassPtr<BifrostUsd::Prim>(prim, stage);
+
+            BifrostUsd::Attribute attributeInterface{attribute, primInterface};
+
+            BifrostUsd::SdfValueTypeName typeName;
+            ASSERT_TRUE(USD::Attribute::get_prim_attribute_type(
+                attributeInterface, typeName));
+            ASSERT_EQ(typeName, expectedTypeName);
+        };
+
     auto assetValueResult = Amino::String{""};
     test_get_attribute("my_asset", assetValue, assetValueResult);
+    test_get_attribute_type("my_asset", BifrostUsd::SdfValueTypeName::Asset);
 
     auto boolValueResult = Amino::bool_t{false};
     test_get_attribute("my_bool", boolValue, boolValueResult);
+    test_get_attribute_type("my_bool", BifrostUsd::SdfValueTypeName::Bool);
 
     auto color3fValueResult = Bifrost::Math::float3();
     test_get_scalar3_attribute("my_color3f", color3fValue, color3fValueResult);
+    test_get_attribute_type("my_color3f", BifrostUsd::SdfValueTypeName::Color3f);
 
     auto doubleValueResult = Amino::double_t{0};
     test_get_attribute("my_double", doubleValue, doubleValueResult);
+    test_get_attribute_type("my_double", BifrostUsd::SdfValueTypeName::Double);
 
     auto double2ValueResult = Bifrost::Math::double2();
     test_get_scalar2_attribute("my_double2", double2Value, double2ValueResult);
+    test_get_attribute_type("my_double2", BifrostUsd::SdfValueTypeName::Double2);
 
     auto double3ValueResult = Bifrost::Math::double3();
     test_get_scalar3_attribute("my_double3", double3Value, double3ValueResult);
+    test_get_attribute_type("my_double3", BifrostUsd::SdfValueTypeName::Double3);
 
     auto double4ValueResult = Bifrost::Math::double4();
     test_get_scalar4_attribute("my_double4", double4Value, double4ValueResult);
+    test_get_attribute_type("my_double4", BifrostUsd::SdfValueTypeName::Double4);
 
     auto floatValueResult = Amino::float_t{0};
     test_get_attribute("my_float", floatValue, floatValueResult);
+    test_get_attribute_type("my_float", BifrostUsd::SdfValueTypeName::Float);
 
     auto float2ValueResult = Bifrost::Math::float2();
     test_get_scalar2_attribute("my_float2", float2Value, float2ValueResult);
+    test_get_attribute_type("my_float2", BifrostUsd::SdfValueTypeName::Float2);
+
 
     auto float3ValueResult = Bifrost::Math::float3();
     test_get_scalar3_attribute("my_float3", float3Value, float3ValueResult);
+    test_get_attribute_type("my_float3", BifrostUsd::SdfValueTypeName::Float3);
 
     auto float4ValueResult = Bifrost::Math::float4();
     test_get_scalar4_attribute("my_float4", float4Value, float4ValueResult);
+    test_get_attribute_type("my_float4", BifrostUsd::SdfValueTypeName::Float4);
 
     auto intValueResult = Amino::int_t{0};
     test_get_attribute("my_int", intValue, intValueResult);
+    test_get_attribute_type("my_int", BifrostUsd::SdfValueTypeName::Int);
 
     auto int64ValueResult = Amino::long_t{0};
     test_get_attribute("my_int64", int64Value, int64ValueResult);
+    test_get_attribute_type("my_int64", BifrostUsd::SdfValueTypeName::Int64);
 
     auto normal3fValueResult = Bifrost::Math::float3();
     test_get_scalar3_attribute("my_normal3f", float3Value, normal3fValueResult);
+    test_get_attribute_type("my_normal3f", BifrostUsd::SdfValueTypeName::Normal3f);
 
     auto quatdValueResult = Bifrost::Math::double4();
     test_get_scalar4_attribute("my_quatd", double4Value, quatdValueResult);
+    test_get_attribute_type("my_quatd", BifrostUsd::SdfValueTypeName::Quatd);
 
     auto quatfValueResult = Bifrost::Math::float4();
     test_get_scalar4_attribute("my_quatf", float4Value, quatfValueResult);
+    test_get_attribute_type("my_quatf", BifrostUsd::SdfValueTypeName::Quatf);
 
     auto quathValueResult = Bifrost::Math::float4();
     test_get_scalar4_attribute("my_quath", float4Value, quathValueResult);
+    test_get_attribute_type("my_quath", BifrostUsd::SdfValueTypeName::Quath);
 
     auto stringValueResult = Amino::String{""};
     test_get_attribute("my_string", stringValue, stringValueResult);
+    test_get_attribute_type("my_string", BifrostUsd::SdfValueTypeName::String);
 
     auto texcoord2fValueResult = Bifrost::Math::float2();
     test_get_scalar2_attribute("my_texcoord2f", float2Value,
                                texcoord2fValueResult);
+    test_get_attribute_type("my_texcoord2f", BifrostUsd::SdfValueTypeName::TexCoord2f);
 
     auto tokenValueResult = Amino::String{""};
     test_get_attribute("my_token", tokenValue, tokenValueResult);
+    test_get_attribute_type("my_token", BifrostUsd::SdfValueTypeName::Token);
 
     auto ucharValueResult = Amino::uchar_t{0};
     test_get_attribute("my_uchar", ucharValue, ucharValueResult);
+    test_get_attribute_type("my_uchar", BifrostUsd::SdfValueTypeName::UChar);
 
     auto uintValueResult = Amino::uint_t{0};
     test_get_attribute("my_uint", uintValue, uintValueResult);
+    test_get_attribute_type("my_uint", BifrostUsd::SdfValueTypeName::UInt);
 
     auto uint64ValueResult = Amino::ulong_t{0};
     test_get_attribute("my_uint64", uint64Value, uint64ValueResult);
+    test_get_attribute_type("my_uint64", BifrostUsd::SdfValueTypeName::UInt64);
 
     auto double4x4ValueResult = Bifrost::Math::double4x4{};
     test_get_scalar4x4_attribute("my_double4x4", double4x4Value, double4x4ValueResult);
+    test_get_attribute_type("my_double4x4", BifrostUsd::SdfValueTypeName::Matrix4d);
 
 
     // Array tests
@@ -725,111 +767,135 @@ TEST(AttributeNodeDefs, set_and_get_prim_attribute) {
     Amino::MutablePtr<Amino::Array<Amino::String>> assetArrayValueResult;
     test_get_scalar_attribute_array("my_assetArray", stringArrayValue,
                                     assetArrayValueResult);
+    test_get_attribute_type("my_assetArray", BifrostUsd::SdfValueTypeName::AssetArray);
 
     Amino::MutablePtr<Amino::Array<Amino::bool_t>> boolArrayValueResult;
     test_get_scalar_attribute_array("my_boolArray", boolArrayValue,
                                     boolArrayValueResult);
+    test_get_attribute_type("my_boolArray", BifrostUsd::SdfValueTypeName::BoolArray);
 
     Amino::MutablePtr<Amino::Array<Bifrost::Math::float3>>
         color3fArrayValueResult;
     test_get_scalar3_attribute_array("my_color3fArray", float3ArrayValue,
                                      color3fArrayValueResult);
+    test_get_attribute_type("my_color3fArray", BifrostUsd::SdfValueTypeName::Color3fArray);
 
     Amino::MutablePtr<Amino::Array<Amino::double_t>> doubleArrayValueResult;
     test_get_scalar_attribute_array("my_doubleArray", doubleArrayValue,
                                     doubleArrayValueResult);
+    test_get_attribute_type("my_doubleArray", BifrostUsd::SdfValueTypeName::DoubleArray);
 
     Amino::MutablePtr<Amino::Array<Bifrost::Math::double2>>
         double2ArrayValueResult;
     test_get_scalar2_attribute_array("my_double2Array", double2ArrayValue,
                                      double2ArrayValueResult);
+    test_get_attribute_type("my_double2Array", BifrostUsd::SdfValueTypeName::Double2Array);
 
     Amino::MutablePtr<Amino::Array<Bifrost::Math::double3>>
         double3ArrayValueResult;
     test_get_scalar3_attribute_array("my_double3Array", double3ArrayValue,
                                      double3ArrayValueResult);
+    test_get_attribute_type("my_double3Array", BifrostUsd::SdfValueTypeName::Double3Array);
 
     Amino::MutablePtr<Amino::Array<Bifrost::Math::double4>>
         double4ArrayValueResult;
     test_get_scalar4_attribute_array("my_double4Array", double4ArrayValue,
                                      double4ArrayValueResult);
+    test_get_attribute_type("my_double4Array", BifrostUsd::SdfValueTypeName::Double4Array);
 
     Amino::MutablePtr<Amino::Array<Amino::float_t>> floatArrayValueResult;
     test_get_scalar_attribute_array("my_floatArray", floatArrayValue,
                                     floatArrayValueResult);
+    test_get_attribute_type("my_floatArray", BifrostUsd::SdfValueTypeName::FloatArray);
 
     Amino::MutablePtr<Amino::Array<Bifrost::Math::float2>>
         float2ArrayValueResult;
     test_get_scalar2_attribute_array("my_float2Array", float2ArrayValue,
                                      float2ArrayValueResult);
+    test_get_attribute_type("my_float2Array", BifrostUsd::SdfValueTypeName::Float2Array);
 
     Amino::MutablePtr<Amino::Array<Bifrost::Math::float3>>
         float3ArrayValueResult;
     test_get_scalar3_attribute_array("my_float3Array", float3ArrayValue,
                                      float3ArrayValueResult);
+    test_get_attribute_type("my_float3Array", BifrostUsd::SdfValueTypeName::Float3Array);
 
     Amino::MutablePtr<Amino::Array<Bifrost::Math::float4>>
         float4ArrayValueResult;
     test_get_scalar4_attribute_array("my_float4Array", float4ArrayValue,
                                      float4ArrayValueResult);
+    test_get_attribute_type("my_float4Array", BifrostUsd::SdfValueTypeName::Float4Array);
 
     Amino::MutablePtr<Amino::Array<Amino::int_t>> intArrayValueResult;
     test_get_scalar_attribute_array("my_intArray", intArrayValue,
                                     intArrayValueResult);
+    test_get_attribute_type("my_intArray", BifrostUsd::SdfValueTypeName::IntArray);
 
     Amino::MutablePtr<Amino::Array<Amino::long_t>> int64ArrayValueResult;
     test_get_scalar_attribute_array("my_int64Array", int64ArrayValue,
                                     int64ArrayValueResult);
+    test_get_attribute_type("my_int64Array", BifrostUsd::SdfValueTypeName::Int64Array);
 
     Amino::MutablePtr<Amino::Array<Bifrost::Math::float3>>
         normal3fArrayValueResult;
     test_get_scalar3_attribute_array("my_normal3fArray", float3ArrayValue,
                                      normal3fArrayValueResult);
+    test_get_attribute_type("my_float3Array", BifrostUsd::SdfValueTypeName::Float3Array);
 
     Amino::MutablePtr<Amino::Array<Bifrost::Math::double4>>
         quatdArrayValueResult;
     test_get_scalar4_attribute_array("my_quatdArray", double4ArrayValue,
                                      quatdArrayValueResult);
+    test_get_attribute_type("my_quatdArray", BifrostUsd::SdfValueTypeName::QuatdArray);
 
     Amino::MutablePtr<Amino::Array<Bifrost::Math::float4>>
         quatfArrayValueResult;
     test_get_scalar4_attribute_array("my_quatfArray", float4ArrayValue,
                                      quatfArrayValueResult);
+    test_get_attribute_type("my_quatfArray", BifrostUsd::SdfValueTypeName::QuatfArray);
 
     Amino::MutablePtr<Amino::Array<Bifrost::Math::float4>>
         quathArrayValueResult;
     test_get_scalar4_attribute_array("my_quathArray", float4ArrayValue,
                                      quathArrayValueResult);
+    test_get_attribute_type("my_quathArray", BifrostUsd::SdfValueTypeName::QuathArray);
 
     Amino::MutablePtr<Amino::Array<Amino::String>> stringArrayValueResult;
     test_get_scalar_attribute_array("my_stringArray", stringArrayValue,
                                     stringArrayValueResult);
+    test_get_attribute_type("my_stringArray", BifrostUsd::SdfValueTypeName::StringArray);
 
     Amino::MutablePtr<Amino::Array<Bifrost::Math::float2>>
         texcoord2fArrayValueResult;
     test_get_scalar2_attribute_array("my_texcoord2fArray", float2ArrayValue,
                                      texcoord2fArrayValueResult);
+    test_get_attribute_type("my_texcoord2fArray", BifrostUsd::SdfValueTypeName::TexCoord2fArray);
 
     Amino::MutablePtr<Amino::Array<Amino::String>> tokenArrayValueResult;
     test_get_scalar_attribute_array("my_tokenArray", stringArrayValue,
                                     tokenArrayValueResult);
+    test_get_attribute_type("my_tokenArray", BifrostUsd::SdfValueTypeName::TokenArray);
 
     Amino::MutablePtr<Amino::Array<Amino::uchar_t>> ucharArrayValueResult;
     test_get_scalar_attribute_array("my_ucharArray", ucharArrayValue,
                                     ucharArrayValueResult);
+    test_get_attribute_type("my_ucharArray", BifrostUsd::SdfValueTypeName::UCharArray);
 
     Amino::MutablePtr<Amino::Array<Amino::uint_t>> uintArrayValueResult;
     test_get_scalar_attribute_array("my_uintArray", uintArrayValue,
                                     uintArrayValueResult);
+    test_get_attribute_type("my_uintArray", BifrostUsd::SdfValueTypeName::UIntArray);
 
     Amino::MutablePtr<Amino::Array<Amino::ulong_t>> uint64ArrayValueResult;
     test_get_scalar_attribute_array("my_uint64Array", uint64ArrayValue,
                                     uint64ArrayValueResult);
+    test_get_attribute_type("my_uint64Array", BifrostUsd::SdfValueTypeName::UInt64Array);
 
     Amino::MutablePtr<Amino::Array<Bifrost::Math::double4x4>>
         double4x4ArrayValueResult;
     test_get_scalar4x4_attribute_array("my_double4x4Array", double4x4ArrayValue,
                                        double4x4ArrayValueResult);
+    test_get_attribute_type("my_double4x4Array", BifrostUsd::SdfValueTypeName::Matrix4dArray);
 }
 
 TEST(PrimNodeDefs, attribute_metadata) {

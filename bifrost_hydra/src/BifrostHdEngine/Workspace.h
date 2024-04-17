@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,16 +19,15 @@
 
 #include <BifrostHydra/Engine/Export.h>
 
-#include <BifrostGraph/Executor/WorkspacePreview.h>
+#include <BifrostGraph/Executor/Workspace.h>
 
-#include <memory>
+#include <Amino/Core/String.h>
 
 namespace BifrostHd {
 
-class BIFROST_HD_ENGINE_SHARED_DECL Workspace final : public BifrostGraph::Executor::WorkspacePreview {
+class BIFROST_HD_ENGINE_SHARED_DECL Workspace final
+    : public BifrostGraph::Executor::Workspace {
 public:
-    static Workspace& getInstance();
-
     explicit Workspace(const Amino::String& name);
     ~Workspace() override;
 
@@ -36,29 +35,16 @@ public:
                            BifrostGraph::Executor::MessageCategory category,
                            const Amino::String&                    message) const noexcept override;
 
-    StringArray const& getMessages() const;
-
-    bool hasMessages() const;
-
-    void clearMessages();
-
-    void reportMessage(Amino::String const& message) const;
+    const BifrostGraph::Executor::StringArray& getMessages() const {
+        return m_messages;
+    }
+    bool hasMessages() const { return !m_messages.empty(); }
+    void clearMessages() { m_messages.clear(); }
 
 private:
-    mutable StringArray m_messages;
+    // Store all reported messages. This is used for testing.
+    mutable BifrostGraph::Executor::StringArray m_messages;
 };
-
-inline Workspace::StringArray const& Workspace::getMessages() const {
-    return m_messages;
-}
-
-inline bool Workspace::hasMessages() const { return !m_messages.empty(); }
-
-inline void Workspace::clearMessages() { m_messages.clear(); }
-
-inline void Workspace::reportMessage(Amino::String const& message) const {
-    m_messages.push_back(message);
-}
 
 } // namespace BifrostHd
 

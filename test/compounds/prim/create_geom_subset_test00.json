@@ -1,0 +1,2737 @@
+{
+    "header": {
+        "metadata": [
+            {
+                "metaName": "adskFileFormatVersion",
+                "metaValue": "100L"
+            }
+        ]
+    },
+    "namespaces": [],
+    "types": [],
+    "compounds": [
+        {
+            "name": "USD::Test::Prim::create_geom_subset_test00",
+            "uriImported": "stream:/bifrostGraphShape1",
+            "metadata": [
+                {
+                    "metaName": "io_nodes",
+                    "metadata": [
+                        {
+                            "metaName": "io_inodes",
+                            "metadata": [
+                                {
+                                    "metaName": "input",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "130.000000"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "-2749.03 169.219"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "io_onodes",
+                            "metadata": [
+                                {
+                                    "metaName": "output",
+                                    "metadata": [
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "test_info"
+                                                },
+                                                {
+                                                    "metaName": "failure_msgs"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "142.000000"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "-236.915 497.756"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,Core::Array,build_array"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "output"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,Core::Compound_Tests,expect_equal"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Attribute,get_prim_attribute_data"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,Core::Logic,equal"
+                },
+                {
+                    "metaName": "ViewportRect",
+                    "metaType": "string",
+                    "metaValue": "-2717.86 -274.64 3002.74 2090.86"
+                },
+                {
+                    "metaName": "DisplayMode",
+                    "metaType": "string",
+                    "metaValue": "2"
+                },
+                {
+                    "metaName": "LayoutPos",
+                    "metaType": "string",
+                    "metaValue": "8.36855 63.7079"
+                },
+                {
+                    "metaName": "zValue",
+                    "metaType": "string",
+                    "metaValue": "38.000000"
+                }
+            ],
+            "ports": [
+                {
+                    "portName": "test_info",
+                    "portDirection": "output",
+                    "portType": "string"
+                },
+                {
+                    "portName": "failure_msgs",
+                    "portDirection": "output",
+                    "portType": "array<string>"
+                }
+            ],
+            "compounds": [
+                {
+                    "name": "test_int_array_overload",
+                    "uriImported": "stream:/bifrostGraphShape1",
+                    "metadata": [
+                        {
+                            "metaName": "io_nodes",
+                            "metadata": [
+                                {
+                                    "metaName": "io_inodes",
+                                    "metadata": [
+                                        {
+                                            "metaName": "input",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "DisplayMode",
+                                                    "metaType": "string",
+                                                    "metaValue": "2"
+                                                },
+                                                {
+                                                    "metaName": "io_ports",
+                                                    "metadata": [
+                                                        {
+                                                            "metaName": "stage"
+                                                        },
+                                                        {
+                                                            "metaName": "prim_path"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "metaName": "zValue",
+                                                    "metaType": "string",
+                                                    "metaValue": "65.000000"
+                                                },
+                                                {
+                                                    "metaName": "LayoutPos",
+                                                    "metaType": "string",
+                                                    "metaValue": "-1191.22 86.5385"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "metaName": "input1",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "io_ports",
+                                                    "metadata": [
+                                                        {
+                                                            "metaName": "expected_indices"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "metaName": "DisplayMode",
+                                                    "metaType": "string",
+                                                    "metaValue": "2"
+                                                },
+                                                {
+                                                    "metaName": "zValue",
+                                                    "metaType": "string",
+                                                    "metaValue": "64.000000"
+                                                },
+                                                {
+                                                    "metaName": "LayoutPos",
+                                                    "metaType": "string",
+                                                    "metaValue": "-44.8282 1861.62"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "metaName": "io_onodes",
+                                    "metadata": [
+                                        {
+                                            "metaName": "output",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "io_ports",
+                                                    "metadata": [
+                                                        {
+                                                            "metaName": "array"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "metaName": "DisplayMode",
+                                                    "metaType": "string",
+                                                    "metaValue": "2"
+                                                },
+                                                {
+                                                    "metaName": "LayoutPos",
+                                                    "metaType": "string",
+                                                    "metaValue": "1254.03 643.996"
+                                                },
+                                                {
+                                                    "metaName": "zValue",
+                                                    "metaType": "string",
+                                                    "metaValue": "50.000000"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "ViewportRect",
+                            "metaType": "string",
+                            "metaValue": "-1418.1 -97.5499 3127.24 2177.56"
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "portName": "array",
+                            "portDirection": "output"
+                        },
+                        {
+                            "portName": "stage",
+                            "portDirection": "input",
+                            "portType": "BifrostUsd::Stage"
+                        },
+                        {
+                            "portName": "prim_path",
+                            "portDirection": "input",
+                            "portType": "string"
+                        },
+                        {
+                            "portName": "expected_indices",
+                            "portDirection": "input"
+                        }
+                    ],
+                    "compounds": [
+                        {
+                            "name": "string_type",
+                            "uriImported": "stream:/bifrostGraphShape1",
+                            "metadata": [
+                                {
+                                    "metaName": "io_nodes",
+                                    "metadata": [
+                                        {
+                                            "metaName": "io_inodes",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "input",
+                                                    "metadata": [
+                                                        {
+                                                            "metaName": "io_ports"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "metaName": "io_onodes",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "output",
+                                                    "metadata": [
+                                                        {
+                                                            "metaName": "io_ports",
+                                                            "metadata": [
+                                                                {
+                                                                    "metaName": "output"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "ports": [
+                                {
+                                    "portName": "output",
+                                    "portDirection": "output",
+                                    "portType": "string"
+                                }
+                            ],
+                            "compoundNodes": [
+                                {
+                                    "nodeName": "value11",
+                                    "valueType": "string",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "1"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "94.000000"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "-426.43 755.842"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "connections": [
+                                {
+                                    "source": "value11.output",
+                                    "target": ".output"
+                                }
+                            ],
+                            "values": [
+                                {
+                                    "valueName": "value11.value",
+                                    "valueType": "string",
+                                    "value": ""
+                                }
+                            ],
+                            "reservedNodeNames": [
+                                {
+                                    "name": "input"
+                                },
+                                {
+                                    "name": "output"
+                                }
+                            ]
+                        }
+                    ],
+                    "compoundNodes": [
+                        {
+                            "nodeName": "string_type",
+                            "nodeType": "string_type",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "0"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-398.948 766.412"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "33.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "build_array",
+                            "nodeType": "Core::Array::build_array",
+                            "multiInPortNames": [
+                                "result1",
+                                "result",
+                                "result2",
+                                "result3",
+                                "result4",
+                                "result5",
+                                "result6"
+                            ],
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "954.457 713.96"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "49.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "equal",
+                            "nodeType": "Core::Logic::equal",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "147 419"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "39.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "equal1",
+                            "nodeType": "Core::Logic::equal",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "177.403 1309.07"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "42.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_equal",
+                            "nodeType": "Core::Compound_Tests::expect_equal",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "424 624"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "45.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_equal1",
+                            "nodeType": "Core::Compound_Tests::expect_equal",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "465.867 1593.39"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "46.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_true",
+                            "nodeType": "Core::Compound_Tests::expect_true",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "414 -57"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "31.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_true1",
+                            "nodeType": "Core::Compound_Tests::expect_true",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "416 167"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "35.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_true2",
+                            "nodeType": "Core::Compound_Tests::expect_true",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "414 392"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "38.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_true3",
+                            "nodeType": "Core::Compound_Tests::expect_true",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "424.789 998.051"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "40.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_true4",
+                            "nodeType": "Core::Compound_Tests::expect_true",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "435.009 1285.93"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "41.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_at_path",
+                            "nodeType": "USD::Prim::get_prim_at_path",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-845.482 131.644"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "51.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_attribute",
+                            "nodeType": "USD::Attribute::get_prim_attribute",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-497 208"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "34.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_attribute1",
+                            "nodeType": "USD::Attribute::get_prim_attribute",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "61.000000"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-437.909 994.644"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_attribute_data",
+                            "nodeType": "USD::Attribute::get_prim_attribute_data",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-132 672"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "44.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_attribute_data1",
+                            "nodeType": "USD::Attribute::get_prim_attribute_data",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-54.9546 1548.61"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "47.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_attribute_type",
+                            "nodeType": "USD::Attribute::get_prim_attribute_type",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-135.518 419.658"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "37.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_attribute_type1",
+                            "nodeType": "USD::Attribute::get_prim_attribute_type",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-96.5368 1306.43"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "43.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "value10",
+                            "valueType": "string",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "150 886"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "32.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "value11",
+                            "valueType": "array<int>",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-359.554 1621.03"
+                                },
+                                {
+                                    "metaName": "NodeValueDisplay",
+                                    "metadata": [
+                                        {
+                                            "metaName": "format",
+                                            "metaType": "string",
+                                            "metaValue": "{value}"
+                                        },
+                                        {
+                                            "metaName": "show",
+                                            "metaType": "string",
+                                            "metaValue": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "48.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "value7",
+                            "valueType": "string",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "58.000000"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-843.966 416.42"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "value9",
+                            "valueType": "string",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "66.000000"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-709.363 1126.17"
+                                }
+                            ]
+                        }
+                    ],
+                    "connections": [
+                        {
+                            "source": "expect_true.result",
+                            "target": "build_array.first.result1"
+                        },
+                        {
+                            "source": "expect_true1.result",
+                            "target": "build_array.first.result"
+                        },
+                        {
+                            "source": "expect_true2.result",
+                            "target": "build_array.first.result2"
+                        },
+                        {
+                            "source": "expect_equal.result",
+                            "target": "build_array.first.result3"
+                        },
+                        {
+                            "source": "expect_true3.result",
+                            "target": "build_array.first.result4"
+                        },
+                        {
+                            "source": "expect_true4.result",
+                            "target": "build_array.first.result5"
+                        },
+                        {
+                            "source": "expect_equal1.result",
+                            "target": "build_array.first.result6"
+                        },
+                        {
+                            "source": "build_array.array",
+                            "target": ".array"
+                        },
+                        {
+                            "source": "get_prim_attribute_type.type_name",
+                            "target": "equal.first"
+                        },
+                        {
+                            "source": "equal.output",
+                            "target": "expect_true2.condition"
+                        },
+                        {
+                            "source": "get_prim_attribute_type1.type_name",
+                            "target": "equal1.first"
+                        },
+                        {
+                            "source": "equal1.output",
+                            "target": "expect_true4.condition"
+                        },
+                        {
+                            "source": "get_prim_attribute_data.value",
+                            "target": "expect_equal.first"
+                        },
+                        {
+                            "source": "value10.output",
+                            "target": "expect_equal.second"
+                        },
+                        {
+                            "source": "get_prim_attribute_data1.value",
+                            "target": "expect_equal1.first"
+                        },
+                        {
+                            "source": ".expected_indices",
+                            "target": "expect_equal1.second"
+                        },
+                        {
+                            "source": "get_prim_at_path.success",
+                            "target": "expect_true.condition"
+                        },
+                        {
+                            "source": "get_prim_attribute.success",
+                            "target": "expect_true1.condition"
+                        },
+                        {
+                            "source": "get_prim_attribute1.success",
+                            "target": "expect_true3.condition"
+                        },
+                        {
+                            "source": ".stage",
+                            "target": "get_prim_at_path.stage"
+                        },
+                        {
+                            "source": ".prim_path",
+                            "target": "get_prim_at_path.path"
+                        },
+                        {
+                            "source": "get_prim_at_path.prim",
+                            "target": "get_prim_attribute.prim"
+                        },
+                        {
+                            "source": "get_prim_at_path.prim",
+                            "target": "get_prim_attribute1.prim"
+                        },
+                        {
+                            "source": "get_prim_attribute.attribute",
+                            "target": "get_prim_attribute_type.attribute"
+                        },
+                        {
+                            "source": "get_prim_attribute.attribute",
+                            "target": "get_prim_attribute_data.attribute"
+                        },
+                        {
+                            "source": "get_prim_attribute.attribute",
+                            "target": "get_prim_attribute_data1.attribute"
+                        },
+                        {
+                            "source": "get_prim_attribute1.attribute",
+                            "target": "get_prim_attribute_type1.attribute"
+                        },
+                        {
+                            "source": "string_type.output",
+                            "target": "get_prim_attribute_data.type"
+                        },
+                        {
+                            "source": "value11.output",
+                            "target": "get_prim_attribute_data1.type"
+                        },
+                        {
+                            "source": "value7.output",
+                            "target": "get_prim_attribute.attribute_name"
+                        },
+                        {
+                            "source": "value9.output",
+                            "target": "get_prim_attribute1.attribute_name"
+                        }
+                    ],
+                    "values": [
+                        {
+                            "valueName": "equal.second",
+                            "valueType": "BifrostUsd::SdfValueTypeName",
+                            "value": "Token"
+                        },
+                        {
+                            "valueName": "equal1.second",
+                            "valueType": "BifrostUsd::SdfValueTypeName",
+                            "value": "IntArray"
+                        },
+                        {
+                            "valueName": "expect_equal.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: elemType value is not equal to \"face\""
+                        },
+                        {
+                            "valueName": "expect_equal1.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: indices values are not matching"
+                        },
+                        {
+                            "valueName": "expect_true.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: No prim at path \"/int_to_indices\""
+                        },
+                        {
+                            "valueName": "expect_true1.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: No attribute \"elementType\" found"
+                        },
+                        {
+                            "valueName": "expect_true2.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: Attribute type should be \"Token\""
+                        },
+                        {
+                            "valueName": "expect_true3.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: No attribute \"indices\" found"
+                        },
+                        {
+                            "valueName": "expect_true4.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: Attribute type should be \"intArray\""
+                        },
+                        {
+                            "valueName": "get_prim_attribute.attribute_name",
+                            "valueType": "string",
+                            "value": "elementType"
+                        },
+                        {
+                            "valueName": "get_prim_attribute1.attribute_name",
+                            "valueType": "string",
+                            "value": "familyName"
+                        },
+                        {
+                            "valueName": "get_prim_attribute_data.type",
+                            "valueType": "string",
+                            "value": ""
+                        },
+                        {
+                            "valueName": "get_prim_attribute_data1.type",
+                            "valueType": "array<int>",
+                            "value": []
+                        },
+                        {
+                            "valueName": "value10.value",
+                            "valueType": "string",
+                            "value": "face"
+                        },
+                        {
+                            "valueName": "value11.value",
+                            "valueType": "array<int>",
+                            "value": []
+                        },
+                        {
+                            "valueName": "value7.value",
+                            "valueType": "string",
+                            "value": "elementType"
+                        },
+                        {
+                            "valueName": "value9.value",
+                            "valueType": "string",
+                            "value": "indices"
+                        }
+                    ],
+                    "reservedNodeNames": [
+                        {
+                            "name": "input"
+                        },
+                        {
+                            "name": "output"
+                        },
+                        {
+                            "name": "input1"
+                        }
+                    ]
+                },
+                {
+                    "name": "test_long_array_overload",
+                    "uriImported": "stream:/bifrostGraphShape1",
+                    "metadata": [
+                        {
+                            "metaName": "io_nodes",
+                            "metadata": [
+                                {
+                                    "metaName": "io_inodes",
+                                    "metadata": [
+                                        {
+                                            "metaName": "input",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "DisplayMode",
+                                                    "metaType": "string",
+                                                    "metaValue": "2"
+                                                },
+                                                {
+                                                    "metaName": "LayoutPos",
+                                                    "metaType": "string",
+                                                    "metaValue": "-1191.22 86.5385"
+                                                },
+                                                {
+                                                    "metaName": "io_ports",
+                                                    "metadata": [
+                                                        {
+                                                            "metaName": "stage"
+                                                        },
+                                                        {
+                                                            "metaName": "prim_path"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "metaName": "zValue",
+                                                    "metaType": "string",
+                                                    "metaValue": "54.000000"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "metaName": "input1",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "DisplayMode",
+                                                    "metaType": "string",
+                                                    "metaValue": "2"
+                                                },
+                                                {
+                                                    "metaName": "io_ports",
+                                                    "metadata": [
+                                                        {
+                                                            "metaName": "expected_indices"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "metaName": "zValue",
+                                                    "metaType": "string",
+                                                    "metaValue": "59.000000"
+                                                },
+                                                {
+                                                    "metaName": "LayoutPos",
+                                                    "metaType": "string",
+                                                    "metaValue": "-60.5954 1828.11"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "metaName": "io_onodes",
+                                    "metadata": [
+                                        {
+                                            "metaName": "output",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "DisplayMode",
+                                                    "metaType": "string",
+                                                    "metaValue": "2"
+                                                },
+                                                {
+                                                    "metaName": "LayoutPos",
+                                                    "metaType": "string",
+                                                    "metaValue": "1254.03 643.996"
+                                                },
+                                                {
+                                                    "metaName": "io_ports",
+                                                    "metadata": [
+                                                        {
+                                                            "metaName": "array"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "metaName": "zValue",
+                                                    "metaType": "string",
+                                                    "metaValue": "49.000000"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "ViewportRect",
+                            "metaType": "string",
+                            "metaValue": "-1192.21 233.525 2570.05 1789.58"
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "portName": "stage",
+                            "portDirection": "input",
+                            "portType": "BifrostUsd::Stage"
+                        },
+                        {
+                            "portName": "prim_path",
+                            "portDirection": "input",
+                            "portType": "string"
+                        },
+                        {
+                            "portName": "expected_indices",
+                            "portDirection": "input"
+                        },
+                        {
+                            "portName": "array",
+                            "portDirection": "output"
+                        }
+                    ],
+                    "compounds": [
+                        {
+                            "name": "string_type",
+                            "uriImported": "stream:/bifrostGraphShape1",
+                            "metadata": [
+                                {
+                                    "metaName": "io_nodes",
+                                    "metadata": [
+                                        {
+                                            "metaName": "io_inodes",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "input",
+                                                    "metadata": [
+                                                        {
+                                                            "metaName": "io_ports"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "metaName": "io_onodes",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "output",
+                                                    "metadata": [
+                                                        {
+                                                            "metaName": "io_ports",
+                                                            "metadata": [
+                                                                {
+                                                                    "metaName": "output"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "ports": [
+                                {
+                                    "portName": "output",
+                                    "portDirection": "output",
+                                    "portType": "string"
+                                }
+                            ],
+                            "compoundNodes": [
+                                {
+                                    "nodeName": "value11",
+                                    "valueType": "string",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "1"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "94.000000"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "-426.43 755.842"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "connections": [
+                                {
+                                    "source": "value11.output",
+                                    "target": ".output"
+                                }
+                            ],
+                            "values": [
+                                {
+                                    "valueName": "value11.value",
+                                    "valueType": "string",
+                                    "value": ""
+                                }
+                            ],
+                            "reservedNodeNames": [
+                                {
+                                    "name": "input"
+                                },
+                                {
+                                    "name": "output"
+                                }
+                            ]
+                        }
+                    ],
+                    "compoundNodes": [
+                        {
+                            "nodeName": "string_type",
+                            "nodeType": "string_type",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "0"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-398.948 766.412"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "33.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "build_array",
+                            "nodeType": "Core::Array::build_array",
+                            "multiInPortNames": [
+                                "result1",
+                                "result",
+                                "result2",
+                                "result3",
+                                "result4",
+                                "result5",
+                                "result6"
+                            ],
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "954.457 713.96"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "48.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "equal",
+                            "nodeType": "Core::Logic::equal",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "147 419"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "38.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "equal1",
+                            "nodeType": "Core::Logic::equal",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "177.403 1309.07"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "57.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_equal",
+                            "nodeType": "Core::Compound_Tests::expect_equal",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "424 624"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "44.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_equal1",
+                            "nodeType": "Core::Compound_Tests::expect_equal",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "465.867 1593.39"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "45.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_true",
+                            "nodeType": "Core::Compound_Tests::expect_true",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "414 -57"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "31.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_true1",
+                            "nodeType": "Core::Compound_Tests::expect_true",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "416 167"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "35.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_true2",
+                            "nodeType": "Core::Compound_Tests::expect_true",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "414 392"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "37.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_true3",
+                            "nodeType": "Core::Compound_Tests::expect_true",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "424.789 998.051"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "39.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "expect_true4",
+                            "nodeType": "Core::Compound_Tests::expect_true",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "435.009 1285.93"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "40.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_at_path",
+                            "nodeType": "USD::Prim::get_prim_at_path",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-845.482 131.644"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "50.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_attribute",
+                            "nodeType": "USD::Attribute::get_prim_attribute",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-497 208"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "34.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_attribute1",
+                            "nodeType": "USD::Attribute::get_prim_attribute",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-437.909 994.644"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "52.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_attribute_data",
+                            "nodeType": "USD::Attribute::get_prim_attribute_data",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-132 672"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "43.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_attribute_data1",
+                            "nodeType": "USD::Attribute::get_prim_attribute_data",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-54.9546 1548.61"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "58.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_attribute_type",
+                            "nodeType": "USD::Attribute::get_prim_attribute_type",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-135.518 419.658"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "36.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "get_prim_attribute_type1",
+                            "nodeType": "USD::Attribute::get_prim_attribute_type",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "2"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-96.5368 1306.43"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "42.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "value10",
+                            "valueType": "string",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "150 886"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "32.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "value11",
+                            "valueType": "array<int>",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-359.554 1621.03"
+                                },
+                                {
+                                    "metaName": "NodeValueDisplay",
+                                    "metadata": [
+                                        {
+                                            "metaName": "format",
+                                            "metaType": "string",
+                                            "metaValue": "{value}"
+                                        },
+                                        {
+                                            "metaName": "show",
+                                            "metaType": "string",
+                                            "metaValue": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "47.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "value7",
+                            "valueType": "string",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-843.966 416.42"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "51.000000"
+                                }
+                            ]
+                        },
+                        {
+                            "nodeName": "value9",
+                            "valueType": "string",
+                            "metadata": [
+                                {
+                                    "metaName": "DisplayMode",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                },
+                                {
+                                    "metaName": "LayoutPos",
+                                    "metaType": "string",
+                                    "metaValue": "-709.363 1126.17"
+                                },
+                                {
+                                    "metaName": "zValue",
+                                    "metaType": "string",
+                                    "metaValue": "55.000000"
+                                }
+                            ]
+                        }
+                    ],
+                    "connections": [
+                        {
+                            "source": "string_type.output",
+                            "target": "get_prim_attribute_data.type"
+                        },
+                        {
+                            "source": "build_array.array",
+                            "target": ".array"
+                        },
+                        {
+                            "source": "equal.output",
+                            "target": "expect_true2.condition"
+                        },
+                        {
+                            "source": "equal1.output",
+                            "target": "expect_true4.condition"
+                        },
+                        {
+                            "source": "expect_equal.result",
+                            "target": "build_array.first.result3"
+                        },
+                        {
+                            "source": "expect_equal1.result",
+                            "target": "build_array.first.result6"
+                        },
+                        {
+                            "source": "expect_true.result",
+                            "target": "build_array.first.result1"
+                        },
+                        {
+                            "source": "expect_true1.result",
+                            "target": "build_array.first.result"
+                        },
+                        {
+                            "source": "expect_true2.result",
+                            "target": "build_array.first.result2"
+                        },
+                        {
+                            "source": "expect_true3.result",
+                            "target": "build_array.first.result4"
+                        },
+                        {
+                            "source": "expect_true4.result",
+                            "target": "build_array.first.result5"
+                        },
+                        {
+                            "source": "get_prim_at_path.success",
+                            "target": "expect_true.condition"
+                        },
+                        {
+                            "source": "get_prim_at_path.prim",
+                            "target": "get_prim_attribute.prim"
+                        },
+                        {
+                            "source": "get_prim_at_path.prim",
+                            "target": "get_prim_attribute1.prim"
+                        },
+                        {
+                            "source": "get_prim_attribute.success",
+                            "target": "expect_true1.condition"
+                        },
+                        {
+                            "source": "get_prim_attribute.attribute",
+                            "target": "get_prim_attribute_type.attribute"
+                        },
+                        {
+                            "source": "get_prim_attribute.attribute",
+                            "target": "get_prim_attribute_data.attribute"
+                        },
+                        {
+                            "source": "get_prim_attribute.attribute",
+                            "target": "get_prim_attribute_data1.attribute"
+                        },
+                        {
+                            "source": "get_prim_attribute1.success",
+                            "target": "expect_true3.condition"
+                        },
+                        {
+                            "source": "get_prim_attribute1.attribute",
+                            "target": "get_prim_attribute_type1.attribute"
+                        },
+                        {
+                            "source": "get_prim_attribute_data.value",
+                            "target": "expect_equal.first"
+                        },
+                        {
+                            "source": "get_prim_attribute_data1.value",
+                            "target": "expect_equal1.first"
+                        },
+                        {
+                            "source": "get_prim_attribute_type.type_name",
+                            "target": "equal.first"
+                        },
+                        {
+                            "source": "get_prim_attribute_type1.type_name",
+                            "target": "equal1.first"
+                        },
+                        {
+                            "source": "value10.output",
+                            "target": "expect_equal.second"
+                        },
+                        {
+                            "source": "value11.output",
+                            "target": "get_prim_attribute_data1.type"
+                        },
+                        {
+                            "source": "value7.output",
+                            "target": "get_prim_attribute.attribute_name"
+                        },
+                        {
+                            "source": "value9.output",
+                            "target": "get_prim_attribute1.attribute_name"
+                        },
+                        {
+                            "source": ".stage",
+                            "target": "get_prim_at_path.stage"
+                        },
+                        {
+                            "source": ".prim_path",
+                            "target": "get_prim_at_path.path"
+                        },
+                        {
+                            "source": ".expected_indices",
+                            "target": "expect_equal1.second"
+                        }
+                    ],
+                    "values": [
+                        {
+                            "valueName": "equal.second",
+                            "valueType": "BifrostUsd::SdfValueTypeName",
+                            "value": "Token"
+                        },
+                        {
+                            "valueName": "equal1.second",
+                            "valueType": "BifrostUsd::SdfValueTypeName",
+                            "value": "IntArray"
+                        },
+                        {
+                            "valueName": "expect_equal.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: elemType value is not equal to \"face\""
+                        },
+                        {
+                            "valueName": "expect_equal1.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: indices values are not matching"
+                        },
+                        {
+                            "valueName": "expect_true.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: No prim at path \"/int_to_indices\""
+                        },
+                        {
+                            "valueName": "expect_true1.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: No attribute \"elementType\" found"
+                        },
+                        {
+                            "valueName": "expect_true2.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: Attribute type should be \"Token\""
+                        },
+                        {
+                            "valueName": "expect_true3.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: No attribute \"indices\" found"
+                        },
+                        {
+                            "valueName": "expect_true4.msg_if_failed",
+                            "valueType": "string",
+                            "value": "Error: Attribute type should be \"intArray\""
+                        },
+                        {
+                            "valueName": "get_prim_attribute.attribute_name",
+                            "valueType": "string",
+                            "value": "elementType"
+                        },
+                        {
+                            "valueName": "get_prim_attribute1.attribute_name",
+                            "valueType": "string",
+                            "value": "familyName"
+                        },
+                        {
+                            "valueName": "get_prim_attribute_data.type",
+                            "valueType": "string",
+                            "value": ""
+                        },
+                        {
+                            "valueName": "get_prim_attribute_data1.type",
+                            "valueType": "array<int>",
+                            "value": []
+                        },
+                        {
+                            "valueName": "value10.value",
+                            "valueType": "string",
+                            "value": "face"
+                        },
+                        {
+                            "valueName": "value11.value",
+                            "valueType": "array<int>",
+                            "value": []
+                        },
+                        {
+                            "valueName": "value7.value",
+                            "valueType": "string",
+                            "value": "elementType"
+                        },
+                        {
+                            "valueName": "value9.value",
+                            "valueType": "string",
+                            "value": "indices"
+                        }
+                    ],
+                    "reservedNodeNames": [
+                        {
+                            "name": "input"
+                        },
+                        {
+                            "name": "output"
+                        },
+                        {
+                            "name": "input1"
+                        }
+                    ]
+                }
+            ],
+            "compoundNodes": [
+                {
+                    "nodeName": "test_info",
+                    "valueType": "string",
+                    "metadata": [
+                        {
+                            "metaName": "valuenode_defaultvalue",
+                            "metaType": "string",
+                            "metaValue": "Test description goes here"
+                        },
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "143.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-514.153 344.643"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "add_to_stage",
+                    "nodeType": "USD::Stage::add_to_stage",
+                    "fanInPortNames": {
+                        "prim_definitions": [
+                            "prim_definition",
+                            "prim_definition1"
+                        ]
+                    },
+                    "terminalStates": [
+                        {
+                            "name": "Core::Graph::terminal::diagnostic",
+                            "enabled": "true"
+                        }
+                    ],
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "PortExpandedState",
+                            "metadata": [
+                                {
+                                    "metaName": "prim_definitions",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "149.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-1458.97 -34.9249"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_geom_subset",
+                    "nodeType": "USD::Prim::define_usd_geom_subset",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "NodeValueDisplay",
+                            "metadata": [
+                                {
+                                    "metaName": "format",
+                                    "metaType": "string",
+                                    "metaValue": "Define GeomSubset {path}"
+                                },
+                                {
+                                    "metaName": "show",
+                                    "metaType": "string",
+                                    "metaValue": "0"
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "148.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-1875.33 -184.428"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "define_usd_geom_subset1",
+                    "nodeType": "USD::Prim::define_usd_geom_subset",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "NodeValueDisplay",
+                            "metadata": [
+                                {
+                                    "metaName": "format",
+                                    "metaType": "string",
+                                    "metaValue": "Define GeomSubset {path}"
+                                },
+                                {
+                                    "metaName": "show",
+                                    "metaType": "string",
+                                    "metaValue": "0"
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "147.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-1843.7 408.265"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "sequence_array",
+                    "nodeType": "Core::Array::sequence_array",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "44.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-2167 -49"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "sequence_array1",
+                    "nodeType": "Core::Array::sequence_array",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "48.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-2193 570"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "value",
+                    "valueType": "int",
+                    "metadata": [
+                        {
+                            "metaName": "valuenode_defaultvalue",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "45.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-2494 -4"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "value1",
+                    "valueType": "int",
+                    "metadata": [
+                        {
+                            "metaName": "valuenode_defaultvalue",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-2505 -192"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "109.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "value2",
+                    "valueType": "int",
+                    "metadata": [
+                        {
+                            "metaName": "valuenode_defaultvalue",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "47.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-2475 179"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "value4",
+                    "valueType": "long",
+                    "metadata": [
+                        {
+                            "metaName": "valuenode_defaultvalue",
+                            "metaType": "string",
+                            "metaValue": "10"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-2532 428"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "110.000000"
+                        },
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "value3",
+                    "valueType": "long",
+                    "metadata": [
+                        {
+                            "metaName": "valuenode_defaultvalue",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "50.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-2521 615"
+                        },
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "value5",
+                    "valueType": "long",
+                    "metadata": [
+                        {
+                            "metaName": "valuenode_defaultvalue",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "51.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-2502 799"
+                        },
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "value6",
+                    "valueType": "string",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "146.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-2155.24 -336.048"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "value8",
+                    "valueType": "string",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "145.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-2145.91 276.369"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "test_int_array_overload",
+                    "nodeType": "test_int_array_overload",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-831.319 513.934"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "136.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "test_long_array_overload",
+                    "nodeType": "test_long_array_overload",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "151.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-828.342 841.115"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "build_array",
+                    "nodeType": "Core::Array::build_array",
+                    "multiInPortNames": [
+                        "array1",
+                        "array2"
+                    ],
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "141.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-498.308 642.148"
+                        }
+                    ]
+                }
+            ],
+            "connections": [
+                {
+                    "source": "define_usd_geom_subset.prim_definition",
+                    "target": "add_to_stage.prim_definitions.prim_definition"
+                },
+                {
+                    "source": "define_usd_geom_subset1.prim_definition",
+                    "target": "add_to_stage.prim_definitions.prim_definition1"
+                },
+                {
+                    "source": "sequence_array.sequence",
+                    "target": "define_usd_geom_subset.indices"
+                },
+                {
+                    "source": "sequence_array1.sequence",
+                    "target": "define_usd_geom_subset1.indices"
+                },
+                {
+                    "source": "value.output",
+                    "target": "sequence_array.start"
+                },
+                {
+                    "source": "value1.output",
+                    "target": "sequence_array.size"
+                },
+                {
+                    "source": "value2.output",
+                    "target": "sequence_array.step"
+                },
+                {
+                    "source": "value4.output",
+                    "target": "sequence_array1.size"
+                },
+                {
+                    "source": "value3.output",
+                    "target": "sequence_array1.start"
+                },
+                {
+                    "source": "value5.output",
+                    "target": "sequence_array1.step"
+                },
+                {
+                    "source": "value6.output",
+                    "target": "define_usd_geom_subset.path"
+                },
+                {
+                    "source": "value8.output",
+                    "target": "define_usd_geom_subset1.path"
+                },
+                {
+                    "source": "test_info.output",
+                    "target": ".test_info"
+                },
+                {
+                    "source": "sequence_array.sequence",
+                    "target": "test_int_array_overload.expected_indices"
+                },
+                {
+                    "source": "add_to_stage.out_stage",
+                    "target": "test_int_array_overload.stage"
+                },
+                {
+                    "source": "value6.output",
+                    "target": "test_int_array_overload.prim_path"
+                },
+                {
+                    "source": "add_to_stage.out_stage",
+                    "target": "test_long_array_overload.stage"
+                },
+                {
+                    "source": "sequence_array1.sequence",
+                    "target": "test_long_array_overload.expected_indices"
+                },
+                {
+                    "source": "test_int_array_overload.array",
+                    "target": "build_array.first.array1"
+                },
+                {
+                    "source": "test_long_array_overload.array",
+                    "target": "build_array.first.array2"
+                },
+                {
+                    "source": "build_array.array",
+                    "target": ".failure_msgs"
+                },
+                {
+                    "source": "value8.output",
+                    "target": "test_long_array_overload.prim_path"
+                }
+            ],
+            "values": [
+                {
+                    "valueName": "test_info.value",
+                    "valueType": "string",
+                    "value": "Test define_usd_geom_subset compound"
+                },
+                {
+                    "valueName": "add_to_stage.stage",
+                    "valueType": "BifrostUsd::Stage",
+                    "value": {}
+                },
+                {
+                    "valueName": "add_to_stage.layer_index",
+                    "valueType": "int",
+                    "value": "-1L"
+                },
+                {
+                    "valueName": "add_to_stage.prim_definitions",
+                    "valueType": "array<Object>",
+                    "value": []
+                },
+                {
+                    "valueName": "add_to_stage.enable",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "add_to_stage.parent_path",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "add_to_stage.use_material_name_or_tag",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "define_usd_geom_subset.path",
+                    "valueType": "string",
+                    "value": "/int_to_indices"
+                },
+                {
+                    "valueName": "define_usd_geom_subset.element_type",
+                    "valueType": "string",
+                    "value": "face"
+                },
+                {
+                    "valueName": "define_usd_geom_subset.family_name",
+                    "valueType": "string",
+                    "value": "materialBind"
+                },
+                {
+                    "valueName": "define_usd_geom_subset1.path",
+                    "valueType": "string",
+                    "value": "/long_to_indices"
+                },
+                {
+                    "valueName": "define_usd_geom_subset1.element_type",
+                    "valueType": "string",
+                    "value": "face"
+                },
+                {
+                    "valueName": "define_usd_geom_subset1.family_name",
+                    "valueType": "string",
+                    "value": "materialBind"
+                },
+                {
+                    "valueName": "sequence_array.size",
+                    "valueType": "long",
+                    "value": "100"
+                },
+                {
+                    "valueName": "sequence_array.start",
+                    "valueType": "int",
+                    "value": "0L"
+                },
+                {
+                    "valueName": "sequence_array.step",
+                    "valueType": "int",
+                    "value": "1L"
+                },
+                {
+                    "valueName": "sequence_array1.size",
+                    "valueType": "long",
+                    "value": "100"
+                },
+                {
+                    "valueName": "sequence_array1.start",
+                    "valueType": "long",
+                    "value": "0"
+                },
+                {
+                    "valueName": "sequence_array1.step",
+                    "valueType": "int",
+                    "value": "1L"
+                },
+                {
+                    "valueName": "value.value",
+                    "valueType": "int",
+                    "value": "0L"
+                },
+                {
+                    "valueName": "value1.value",
+                    "valueType": "int",
+                    "value": "2L"
+                },
+                {
+                    "valueName": "value2.value",
+                    "valueType": "int",
+                    "value": "1L"
+                },
+                {
+                    "valueName": "value4.value",
+                    "valueType": "long",
+                    "value": "2"
+                },
+                {
+                    "valueName": "value3.value",
+                    "valueType": "long",
+                    "value": "0"
+                },
+                {
+                    "valueName": "value5.value",
+                    "valueType": "long",
+                    "value": "1"
+                },
+                {
+                    "valueName": "value6.value",
+                    "valueType": "string",
+                    "value": "/int_to_indices"
+                },
+                {
+                    "valueName": "value8.value",
+                    "valueType": "string",
+                    "value": "/long_to_indices"
+                },
+                {
+                    "valueName": "test_int_array_overload.stage",
+                    "valueType": "BifrostUsd::Stage",
+                    "value": {}
+                },
+                {
+                    "valueName": "test_int_array_overload.prim_path",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "test_int_array_overload.expected_indices",
+                    "valueType": "array<int>",
+                    "value": []
+                },
+                {
+                    "valueName": "test_long_array_overload.stage",
+                    "valueType": "BifrostUsd::Stage",
+                    "value": {}
+                },
+                {
+                    "valueName": "test_long_array_overload.prim_path",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "test_long_array_overload.expected_indices",
+                    "valueType": "array<int>",
+                    "value": []
+                }
+            ],
+            "reservedNodeNames": [
+                {
+                    "name": "output"
+                }
+            ]
+        }
+    ]
+}

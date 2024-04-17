@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2023 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,13 +17,10 @@
 #+
 
 set(hd_Engine_headers
-    Container.h
     Engine.h
     Export.h
     JobTranslationData.h
     Parameters.h
-    Requirement.h
-    Runtime.h
     ValueTranslationData.h
     Workspace.h
 )
@@ -36,8 +33,7 @@ bifusd_install_headers(
 )
 
 set(public_libs
-    Amino::SDK::Preview
-    BifrostGraph::Executor::Preview
+    BifrostGraph::Executor
     hdEngineHeadersInstall
 )
 
@@ -49,12 +45,9 @@ set(private_libs
 )
 
 set(src_files
-    Container.cpp
     Engine.cpp
     JobTranslationData.cpp
     Parameters.cpp
-    Requirement.cpp
-    Runtime.cpp
     ValueTranslationData.cpp
     Workspace.cpp
 )

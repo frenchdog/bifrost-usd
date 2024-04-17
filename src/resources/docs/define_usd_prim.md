@@ -70,6 +70,10 @@ Declares whether the defined prim can be used for instances. Only prims that hav
 - `False`: The prim is not a candidate for instancing.
 - `True`: The prim is a candidate for instancing. The prim becomes an instance of an implicit master when composed on a stage, if it also contains one or more direct composition arcs.
 
+### `applied_schema_names`
+
+Coma-separated names of USD Applied API Schemas.
+
 ## Variant Selection
 
 These parameters are optional.

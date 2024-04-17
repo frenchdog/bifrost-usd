@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2023 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,9 +25,7 @@ add_subdirectory(testUtils)
 set(libs
     bifusd_gtest
     Amino::Core
-    Amino::SDK::Preview
-    Bifrost::Geometry::Preview
-    Bifrost::VTT::Preview
+    Bifrost::Geometry
     BifrostGraph::Executor
     BifrostHdTranslators
     BifrostHdEngine

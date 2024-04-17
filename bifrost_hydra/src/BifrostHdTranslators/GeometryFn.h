@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,10 @@
 #include <BifrostHydra/Translators/Export.h>
 
 #include <Bifrost/Object/Object.h>
+
+#include <Amino/Core/Array.h>
+#include <Amino/Core/BuiltInTypes.h>
+#include <Amino/Core/Ptr.h>
 
 #include <pxr/imaging/hd/sceneIndex.h>
 

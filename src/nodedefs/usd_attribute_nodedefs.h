@@ -199,6 +199,22 @@ bool get_prim_attribute(Amino::Ptr<BifrostUsd::Prim> prim,
                        "outName=success");
 
 /// \ingroup Attribute
+/// \defgroup get_prim_attribute_type get_prim_attribute_type node
+///
+/// \brief This node returns the attribute with the specified name.
+///
+/// \param [in] attribute The attribute from which to get the type.
+/// \param [out] type_name The attribute type name.
+/// \param returns true if the attribute type is available in BifrostUsd::SdfValueTypeName enum.
+USD_NODEDEF_DECL
+bool get_prim_attribute_type(const BifrostUsd::Attribute&  attribute,
+                             BifrostUsd::SdfValueTypeName& type_name)
+    USDNODE_DOC_ICON_X("get_prim_attribute_type",
+                       "get_prim_attribute_type",
+                       "usd.svg",
+                       "outName=success");
+
+/// \ingroup Attribute
 /// \defgroup get_prim_attribute_data get_prim_attribute_data node
 ///
 /// \brief This node returns the data of the attribute with the specified name.

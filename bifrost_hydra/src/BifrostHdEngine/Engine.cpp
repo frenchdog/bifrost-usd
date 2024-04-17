@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,79 +16,167 @@
 
 #include <BifrostHydra/Engine/Engine.h>
 
-#include <BifrostHydra/Engine/Container.h>
-#include <BifrostHydra/Engine/Runtime.h>
-#include <BifrostHydra/Engine/Workspace.h>
-
 #include <BifrostHydra/Engine/JobTranslationData.h>
 #include <BifrostHydra/Engine/Parameters.h>
+#include <BifrostHydra/Engine/ValueTranslationData.h>
+#include <BifrostHydra/Engine/Workspace.h>
+
+#include <BifrostGraph/Executor/Factory.h>
+#include <BifrostGraph/Executor/GraphContainer.h>
+#include <BifrostGraph/Executor/Job.h>
+#include <BifrostGraph/Executor/Owner.h>
+#include <BifrostGraph/Executor/Utility.h>
+
+#include <Amino/Core/String.h>
+
+using namespace BifrostGraph::Executor;
 
 namespace BifrostHd {
 
 class Engine::Impl {
 public:
     Impl() = default;
+    ~Impl() noexcept {
+        m_container = nullptr;
+        // Let the Workspace delete its GraphContainer
+    }
 
-    Amino::Job::State execute(const double frame) {
-        auto qualifiedName = Amino::String{m_parameters.compoundName().c_str()};
-
-        // Since for now we can't change the graph at runtime (no Bifrost Graph
-        // Editor "attached" to our runtime), loading of the graph should happen
-        // just once. Then, the user can only change input values so we only
-        // need execution.
-        if (m_container.graphExecutionCounter() == 0) {
-            if (!m_container.loadGraph(
-                    qualifiedName,
-                    BifrostGraph::Executor::GraphContainerPreview::GraphMode::kLoadAsReference)) {
-                return Amino::Job::State::kErrors;
+    bool initWorkspace() {
+        if (!m_workspace) {
+            m_workspace =
+                BifrostGraph::Executor::makeOwner<BifrostHd::Workspace>(
+                    "BifrostHd");
+            if (!m_workspace) {
+                return false;
             }
-            if (!m_container.updateJob()) {
-                return Amino::Job::State::kErrors;
+            // Use the environment variables BIFROST_LIB_CONFIG_FILES and
+            // BIFROST_DISABLE_PACKS to determine the required Bifrost resources
+            // to be loaded.
+            auto configEnv = BifrostGraph::Executor::makeOwner<
+                BifrostGraph::Executor::Utility::ConfigEnv>();
+            if (!configEnv) {
+                return false;
+            }
+            if (!m_workspace->loadConfigFiles(configEnv->values("bifrost_pack_config_files"),
+                                              configEnv->values("bifrost_disable_packs"))) {
+                return false;
             }
         }
+        return true;
+    }
 
-        const double currentTime = frame / m_fps;
-        const double frameLength = 1.0 / m_fps;
+    BifrostHd::Workspace* getWorkspace() {
+        if (!initWorkspace()) {
+            return nullptr;
+        }
+        return m_workspace.get();
+    }
 
-        BifrostHd::JobTranslationData jobTranslationData{
-            m_parameters,
-            /*logVerbose*/ true,
-            /*Time data*/ {currentTime, frame, frameLength}};
-        return m_container.executeJob(jobTranslationData);
+    bool initContainer() {
+        assert(m_workspace);
+        if (!m_container) {
+            // Add a single GraphContainer within our Workspace:
+            BifrostGraph::Executor::GraphContainer& container =
+                m_workspace->addGraphContainer();
+            if (!container.isValid()) {
+                return false;
+            }
+            m_container = &container;
+
+            // Since for now we can't change the 'graph topology' at runtime
+            // (like connect/disconnect/add node) because there is no Bifrost
+            // Graph Editor "attached" to our engine, then loading of
+            // the graph and compiling it should happen just once.
+            Amino::String name{m_parameters.compoundName().c_str()};
+            if (!m_container->setGraph(name)) {
+                return false;
+            }
+            auto status = m_container->compile(GraphCompilationMode::kInit);
+            if (status == GraphCompilationStatus::kFailure) {
+                // Note that in order to compile/run the graph, none of its
+                // inputs/outputs can have its type set to 'auto'.
+                // See BIFROST-3651.
+                return false;
+            }
+        }
+        return true;
     }
 
     void setInputScene(PXR_NS::HdSceneIndexBaseRefPtr inputScene) {
         m_parameters.setInputScene(std::move(inputScene));
     }
 
-    void setInputs(PXR_NS::HdSceneIndexPrim const& prim) {
+    void setInputs(const PXR_NS::HdSceneIndexPrim& prim) {
         m_parameters.setInputs(prim);
     }
 
-    const Output& output() { return m_parameters.output(); }
+    bool execute(const double frame) {
+        if (!initWorkspace() || !initContainer()) {
+            return false;
+        }
+        Job& job = m_container->getJob();
+        if (!job.isValid()) {
+            return false;
+        }
+
+        // Prepare input values
+        const double                  currentTime = frame / m_fps;
+        const double                  frameLength = 1.0 / m_fps;
+        BifrostHd::JobTranslationData jobData{
+            m_parameters,
+            /*Time data*/ {currentTime, frame, frameLength}};
+
+        // Set inputs.
+        // For each input, the Executor will call convertValueFromHost() on
+        // our TypeTranslation class.
+        for (const auto& input : job.getInputs()) {
+            InputValueData inputData(jobData, input.name.c_str(), input.defaultValue);
+            job.setInputValue(input, &inputData);
+        }
+
+        // Execute the graph
+        auto status  = job.execute();
+        bool success = status == JobExecutionStatus::kSuccess;
+
+        if (success) {
+            // Get outputs.
+            // For each output, the Executor will call convertValueToHost() on
+            // our TypeTranslation class.
+            for (const auto& output : job.getOutputs()) {
+                OutputValueData outputData(jobData, output.name.c_str());
+                job.getOutputValue(output, &outputData);
+            }
+        }
+
+        return success;
+    }
+
+    const Output& getOutput() const { return m_parameters.output(); }
 
 private:
-    double               m_fps{24.0};
-    Parameters           m_parameters;
-    BifrostHd::Container m_container{BifrostHd::Runtime::getInstance()};
+    BifrostGraph::Executor::Owner<BifrostHd::Workspace> m_workspace{};
+    BifrostGraph::Executor::GraphContainer*             m_container{nullptr};
+
+    double     m_fps{24.0};
+    Parameters m_parameters;
 };
 
 Engine::Engine() : m_impl(std::make_unique<Impl>()) {}
 
 Engine::~Engine() = default;
 
+BifrostHd::Workspace* Engine::getWorkspace() { return m_impl->getWorkspace(); }
+
 void Engine::setInputScene(PXR_NS::HdSceneIndexBaseRefPtr inputScene) {
     m_impl->setInputScene(std::move(inputScene));
 }
 
-void Engine::setInputs(PXR_NS::HdSceneIndexPrim const& prim) {
+void Engine::setInputs(const PXR_NS::HdSceneIndexPrim& prim) {
     m_impl->setInputs(prim);
 }
 
-Amino::Job::State Engine::execute(const double frame) {
-    return m_impl->execute(frame);
-}
+bool Engine::execute(const double frame) { return m_impl->execute(frame); }
 
-const Output& Engine::output() { return m_impl->output(); }
+const Output& Engine::getOutput() const { return m_impl->getOutput(); }
 
 } // namespace BifrostHd

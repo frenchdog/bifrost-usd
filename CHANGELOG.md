@@ -1,3 +1,53 @@
+## [1.2.3] - 2024-04-17 (Bifrost 2.10)
+
+### Build
+ - BIFROST-9342 - Update to Bifrost 2.10 SDK. BifrostHd::Container is now managed by Workspace.
+
+
+### Feature
+ - BIFROST-9565 - Add nested Variant Sets support.
+
+    Allow to create a VariantSet inside an existing VariantSet on its prim.
+    It changes the _set_variant_selection_ operator behavior.
+    Previously the "clear" parameter was used to mimic a clear variant set.
+    In the new implementation, the "clear" parameter clear the current variant
+    selection and add a new one in current VariantSet.
+    To only clear the variant selection without setting a new one, use the
+    _clear_variant_selection_ operator.
+
+    This change allow users to create a variant set and a variant by just specifying it in the Variant Selection section of the _define_usd_prim_.
+    Creating a _define_usd_variant_set_ on the parent prim is needed only to set the variant selection in a particular variant set.
+
+ - BIFROST-9637 - Add clear_variant_selection operator.
+ - BIFROST-9638 - Add "Variant Selection" group in _define_usd_curves_ and _define_usd_point_instancer_ compounds.
+ - BIFROST-9611 - Add _get_prim_kind_ operator.
+ - BIFROST-8154 - Add _get_prim_attribute_type_ operator.
+ - BIFROST-8099 - Add _get_applied_schemas_ operator.
+ - BIFROST-9186 - Add _applied_schema_names_ parameter to the _define_usd_prim_ compound.
+    You can pass coma-separated names of USD Applied API Schemas.
+ - BIFROST-9674 - Add _define_usd_geom_subset_ compound.
+ - BIFROST-9686 - Add UI logic on _define_usd_mesh_ to disable "Subdiv" when "Normal Per Vertex" is enabled.
+ - BIFROST-9673 - Add USD graphs and scenes to Bifrost Browser.
+ - BIFROST-9770 - Add the "Bifrost USD Examples" plugin for Maya showing how Bifrost USD can be used to create high level workflows like:
+     - Creating a Bifrost graph dedicated to USD workflows.
+     - Importing a Maya hierachy in a Bifrost Graph as USD prims.
+     - Creating a USD variant from a Maya hierarchy.
+     - Creating a USD Model Component with variants from multiple USD files.
+
+    In the install folder of the project, you will find the _bifrostUSDExamples.mod_ file in "examples/maya_plugin".
+    You will need to add its directory path to your _MAYA_MODULE_PATH_ environment variable. An easy way is by editing the Maya.env file in your user preferences as bellow:
+
+    `MAYA_MODULE_PATH=<your Bifrost USD install path>\examples\maya_plugin`
+
+
+### Bugfix
+ - BIFROST-9608 - Fix wrong parameters layout order in the Variant Selection group.
+
+    The _variant_set_name_ and _variant_name_ parameters order is changed in the _define_usd_prim_ and _define_usd_mesh_ compounds.
+
+ - BIFROST-9056 - Collapse ports grouping on the _define_usd_prim_attribute_ compound.
+ - BIFROST-9334 - Remove compound duplicate in _save_usd_stage.json_ file.
+
 ## [1.2.2] - 2024-03-27 (Bifrost 2.9)
 
 ### Build
@@ -125,7 +175,7 @@
     - _define_usd_transform_
     - _duplicate_usd_prim_definition_
 
- - BIFROST-8319 - Add _get_authored_attribute_names_ node, to get all authored attributes names 
+ - BIFROST-8319 - Add _get_authored_attribute_names_ node, to get all authored attributes names
 
  - BIFROST-8100 - Add _get_all_attribute_names_ node, to get all prim attributes names
 
@@ -134,9 +184,9 @@
  - BIFROST-8426 - Inconsistent UI in define_usd_prim
 
  - BIFROST-8273 - fix sublayers not saved if relative_path is on
-	- Use the layer's save file path (m_filePath) instead of the sdfLayerIdentifier in the recursive call to Layer::exportToFile().
-	- Add new more complete unit test for export_layer_to_file() that covers multiple cases for relative and absolute paths to sublayers.
-	- removed call to changeDir() that has side effect and is not required anymore for unit tests.
+   - Use the layer's save file path (m_filePath) instead of the sdfLayerIdentifier in the recursive call to Layer::exportToFile().
+   - Add new more complete unit test for export_layer_to_file() that covers multiple cases for relative and absolute paths to sublayers.
+   - removed call to changeDir() that has side effect and is not required anymore for unit tests.
 
 
 ## [1.1.0] - 2023-03-29 (Bifrost 2.7)
@@ -154,8 +204,8 @@
 ### Feature
 
 - BIFROST-7955 - Add applied schema nodes
-	- add_applied_schema: This node adds the applied API schema name to the apiSchema metadata of the prim
-	- remove_applied_schema: This node removes the applied API schema name from the apiSchema metadata of the prim
+   - add_applied_schema: This node adds the applied API schema name to the apiSchema metadata of the prim
+   - remove_applied_schema: This node removes the applied API schema name from the apiSchema metadata of the prim
 
 
 ### Bugfix

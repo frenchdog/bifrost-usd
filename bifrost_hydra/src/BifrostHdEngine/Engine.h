@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,8 +19,10 @@
 
 #include <BifrostHydra/Engine/Export.h>
 
-#include <Amino/AminoJob.h>
 #include <Bifrost/Object/Object.h>
+
+#include <Amino/Core/Array.h>
+#include <Amino/Core/Ptr.h>
 
 #include <pxr/imaging/hd/sceneIndex.h>
 
@@ -41,14 +43,15 @@ using Output =
 class BIFROST_HD_ENGINE_SHARED_DECL Engine {
 public:
     Engine();
-
     ~Engine();
 
-    void setInputScene(PXR_NS::HdSceneIndexBaseRefPtr inputScene);
-    void setInputs(PXR_NS::HdSceneIndexPrim const& prim);
+    BifrostHd::Workspace* getWorkspace();
 
-    Amino::Job::State execute(const double frame = 0);
-    const Output&     output();
+    void setInputScene(PXR_NS::HdSceneIndexBaseRefPtr inputScene);
+    void setInputs(const PXR_NS::HdSceneIndexPrim& prim);
+
+    bool          execute(const double frame = 0);
+    const Output& getOutput() const;
 
 public:
     /// Disabled

@@ -1,0 +1,9 @@
+#usda 1.0
+(
+    defaultPrim = "obj"
+)
+
+def Capsule "obj"
+{
+}
+

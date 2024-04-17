@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 
 #include <Bifrost/Geometry/GeoProperty.h>
 #include <Bifrost/Geometry/Primitives.h>
-#include <Bifrost/Object/bifrost_what_is.h>
 
 #include <pxr/base/gf/quath.h>
 #include <pxr/base/gf/rotation.h>
@@ -171,7 +170,7 @@ HdContainerDataSourceHandle BuildMeshTopologyDataSource(
     const Bifrost::Object& object) {
     auto face_offsets =
         Bifrost::Geometry::getDataGeoPropValues<Bifrost::Geometry::Index>(
-            object, Bifrost::Geometry::sFaceOffsets);
+            object, Bifrost::Geometry::sFaceOffset);
 
     if (!face_offsets) {
         return nullptr;
@@ -183,7 +182,7 @@ HdContainerDataSourceHandle BuildMeshTopologyDataSource(
         IntArrayDataSource::New(BifrostOffsetsToUsdVertexCount(face_offsets));
 
     IntArrayDataSource::Handle fviDs = IntArrayDataSource::New(
-        GetIntArray(object, Bifrost::Geometry::sFaceVertices));
+        GetIntArray(object, Bifrost::Geometry::sFaceVertex));
 
     return HdMeshSchema::Builder()
         .SetTopology(HdMeshTopologySchema::Builder()
@@ -197,7 +196,7 @@ HdContainerDataSourceHandle BuildBasisCurveTopologyDataSource(
     const Bifrost::Object& object) {
     auto strands_offsets =
         Bifrost::Geometry::getDataGeoPropValues<Bifrost::Geometry::Index>(
-            object, Bifrost::Geometry::sStrandOffsets);
+            object, Bifrost::Geometry::sStrandOffset);
 
     if (!strands_offsets) {
         return nullptr;
@@ -209,7 +208,7 @@ HdContainerDataSourceHandle BuildBasisCurveTopologyDataSource(
         BifrostOffsetsToUsdVertexCount(strands_offsets));
 
     IntArrayDataSource::Handle ciDs = IntArrayDataSource::New(
-        GetIntArray(object, Bifrost::Geometry::sFaceVertices));
+        GetIntArray(object, Bifrost::Geometry::sFaceVertex));
 
     return HdBasisCurvesSchema::Builder()
         .SetTopology(HdBasisCurvesTopologySchema::Builder()
@@ -425,7 +424,7 @@ bool AddScalarArrayToMesh(const Amino::String&                name,
 
     if (data.size() > 0) {
         auto obj = Bifrost::createObject();
-        Bifrost::Geometry::populateDataGeoProp<T>(T{}, *obj);
+        Bifrost::Geometry::populateDataGeoProperty<T>(T{}, *obj);
         obj->setProperty(Bifrost::Geometry::sTarget,
                          Bifrost::Geometry::sPointComp);
         mesh.setProperty(name, std::move(obj));
@@ -449,7 +448,7 @@ bool AddVec3ArrayToMesh(const Amino::String&                name,
 
     if (data.size() > 0) {
         auto obj = Bifrost::createObject();
-        Bifrost::Geometry::populateDataGeoProp<T2>(T2{}, *obj);
+        Bifrost::Geometry::populateDataGeoProperty<T2>(T2{}, *obj);
         obj->setProperty(Bifrost::Geometry::sTarget,
                          Bifrost::Geometry::sPointComp);
         mesh->setProperty(name, std::move(obj));
@@ -469,32 +468,35 @@ bool AddVec3ArrayToMesh(const Amino::String&                name,
 
 namespace BifrostHd {
 
-BifrostHdGeoTypes GetGeoType(const Bifrost::Object& object) {
+BifrostHdGeoTypes GetGeoType(const Bifrost::Object& object)
+{
+    using Bifrost::Geometry::Common::GeometryType;
 
-    auto objType = Amino::whatIs(object, Bifrost::Geometry::getGeometryTypes());
+    auto objType = Bifrost::Geometry::resolveType(object);
 
-    if(object.empty()) {
-        return BifrostHdGeoTypes::Empty;
-    } else if (objType == Bifrost::Geometry::getMeshPrototype()) {
-        return BifrostHdGeoTypes::Mesh;
-    } else if (objType == Bifrost::Geometry::getStrandPrototype()) {
-        return BifrostHdGeoTypes::Strands;
-    } else if (objType == Bifrost::Geometry::getPointCloudPrototype()) {
-        return BifrostHdGeoTypes::PointCloud;
-    } else if (objType == Bifrost::Geometry::getInstancesPrototype()) {
-        return BifrostHdGeoTypes::PointCloud;
+    switch( objType ) {
+        case GeometryType::mesh:
+            return BifrostHdGeoTypes::Mesh;
+        case GeometryType::strands:
+            return BifrostHdGeoTypes::Strands;
+        case GeometryType::points:
+            return BifrostHdGeoTypes::PointCloud;
+        case GeometryType::instances:
+            return BifrostHdGeoTypes::PointCloud;
+        case GeometryType::not_a_geometry:
+            return BifrostHdGeoTypes::Empty;
+        default:
+            return BifrostHdGeoTypes::Empty;
     }
-
-    return BifrostHdGeoTypes::Empty;
 }
 
 size_t GetPointCount(const Bifrost::Object& object) {
-    return Bifrost::Geometry::getNumberOfElements(object,
-                                           Bifrost::Geometry::sPointComp);
+    return Bifrost::Geometry::getElementCount(object,
+                                              Bifrost::Geometry::sPointComp);
 }
 
 VtVec3fArray GetPoints(const Bifrost::Object& object) {
-    return GetVec3fArray(object, Bifrost::Geometry::sPositions);
+    return GetVec3fArray(object, Bifrost::Geometry::sPointPosition);
 }
 
 VtVec3fArray GetDisplayColor(const Bifrost::Object& object) {
@@ -504,7 +506,7 @@ VtVec3fArray GetDisplayColor(const Bifrost::Object& object) {
 }
 
 VtIntArray GetFaceVertexIndices(const Bifrost::Object& object) {
-    return GetIntArray(object, Bifrost::Geometry::sFaceVertices);
+    return GetIntArray(object, Bifrost::Geometry::sFaceVertex);
 }
 
 VtFloatArray GetWidth(const Bifrost::Object& object) {

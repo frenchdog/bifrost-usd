@@ -1,0 +1,102 @@
+# -
+# *****************************************************************************
+# Copyright 2024 Autodesk, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# *****************************************************************************
+# +
+from maya import cmds
+import maya.api.OpenMaya as om
+
+from bifrost_usd import maya_commands as buc
+
+
+def maya_useNewAPI():
+    pass
+
+
+def initializePlugin(plugin):
+    om.MFnPlugin(
+        plugin,
+        "Autodesk",
+        "@BIFUSD_MAJOR_VERSION@.@BIFUSD_MINOR_VERSION@.@BIFUSD_PATCH_LEVEL@",
+    )
+
+    pluginFn = om.MFnPlugin(plugin)
+    pluginFn.registerCommand(
+        buc.BifrostUsdCmd.kPluginCmdName,
+        buc.BifrostUsdCmd.creator,
+        buc.BifrostUsdCmd.createSyntax,
+    )
+
+    # Add runtime commands
+    import bifrost_usd.component_creator.runtime_cmds as rtc
+
+    rtc.component_creator_cmd()
+    rtc.refresh_cmd()
+    rtc.export_geometry_cmd()
+    rtc.open_materials_in_lookdevx_cmd()
+    rtc.create_material_library_cmd()
+    rtc.rename_current_model_variant_cmd()
+    rtc.add_model_cmd()
+    rtc.add_look_cmd()
+    rtc.add_new_material_cmd()
+    rtc.unassign_material_cmd()
+    rtc.duplicate_selected_material_cmd()
+    rtc.open_bifrost_usd_graph_editor_cmd()
+    rtc.open_bifrost_graph_editor_cmd()
+    rtc.create_set_selection_to_bounds_mode_cmd()
+    rtc.create_set_selection_to_inherited_mode_cmd()
+    rtc.show_guide_purposes_cmd()
+    rtc.show_proxy_purposes_cmd()
+    rtc.show_render_purposes_cmd()
+    rtc.create_new_stage_cmd()
+    rtc.create_stage_from_sublayers_cmd()
+    rtc.export_geometry_cmd()
+    rtc.add_material_hint_attrib_cmd()
+    rtc.save_component_cmd()
+    rtc.help_cmd()
+
+    # Add "Bifrost USD" menu
+    from bifrost_usd import maya_main_window_menu
+
+    maya_main_window_menu.create_usd_menu()
+
+    # Register Ufe Observer
+    from bifrost_usd import prim_path_observer
+
+    prim_path_observer.register()
+
+    from bifrost_usd.component_creator import material_library_observer
+
+    material_library_observer.register()
+
+    # Load required plugins that are Bifrost, MayaUSD and LookdevX (loading Bifrost will load MayaUSD).
+    from bifrost_usd.component_creator import component
+
+    component.load_plugin_if_needed("LookdevXMaya")
+    component.load_plugin_if_needed("bifrostGraph")
+
+    # Callback to remove the USD Variants HUD on new scene.
+    def removeHUDCallback(data):
+        if cmds.headsUpDisplay(
+            component.kHUD_UsdComponentVariants, query=True, exists=True
+        ):
+            cmds.headsUpDisplay(component.kHUD_UsdComponentVariants, rem=True)
+
+    om.MSceneMessage.addCallback(om.MSceneMessage.kBeforeNew, removeHUDCallback)
+
+
+def uninitializePlugin(plugin):
+    pluginFn = om.MFnPlugin(plugin)
+    pluginFn.deregisterCommand(buc.BifrostUsdCmd.kPluginCmdName)

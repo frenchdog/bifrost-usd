@@ -1,5 +1,5 @@
 //-
-// Copyright 2022 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 #include <BifrostUsd/Layer.h>
 #include <BifrostUsd/Stage.h>
 
+#include <Amino/Core/String.h>
 #include <Amino/Cpp/ClassDefine.h>
 
 // Note: To silence warnings coming from USD library
@@ -38,7 +39,6 @@ BIFUSD_WARNING_DISABLE_MSC(4800)
 
 BIFUSD_WARNING_POP
 
-#include <Amino/Cpp/ClassDefine.h>
 
 namespace {
 
@@ -94,9 +94,7 @@ Stage::Stage(const Stage& other) : Stage(*other.m_rootLayer) {
     setEditLayerIndex(other.m_editLayerIndex, true);
 
     last_modified_prim             = other.last_modified_prim;
-    last_modified_variant_set_prim = other.last_modified_variant_set_prim;
-    last_modified_variant_set_name = other.last_modified_variant_set_name;
-    last_modified_variant_name     = other.last_modified_variant_name;
+    m_variantSelection = other.m_variantSelection;
 }
 
 Stage& Stage::operator=(const Stage& other) {
@@ -109,35 +107,12 @@ Stage& Stage::operator=(const Stage& other) {
     setEditLayerIndex(other.m_editLayerIndex, true);
 
     last_modified_prim             = other.last_modified_prim;
-    last_modified_variant_set_prim = other.last_modified_variant_set_prim;
-    last_modified_variant_set_name = other.last_modified_variant_set_name;
-    last_modified_variant_name     = other.last_modified_variant_name;
+    m_variantSelection = other.m_variantSelection;
 
     return *this;
 }
 
 Stage::Stage(Stage&& other) noexcept { *this = std::move(other); }
-
-Stage& Stage::operator=(Stage&& other) noexcept {
-    if (this != &other) {
-        m_rootLayer = std::move(other.m_rootLayer);
-        m_stage     = std::move(other.m_stage);
-
-        // We just moved entirely the given UsdStage into this object.
-        // We don't need to set the EditTarget again in UsdStage since it is
-        // already done. We just need to copy the m_editLayerIndex:
-        m_editLayerIndex = other.m_editLayerIndex;
-
-        last_modified_prim = std::move(other.last_modified_prim);
-        last_modified_variant_set_prim =
-            std::move(other.last_modified_variant_set_prim);
-        last_modified_variant_set_name =
-            std::move(other.last_modified_variant_set_name);
-        last_modified_variant_name =
-            std::move(other.last_modified_variant_name);
-    }
-    return *this;
-}
 
 bool Stage::setEditLayerIndex(const int layerIndex,
                               bool      defaultToRoot) {
@@ -166,26 +141,28 @@ bool Stage::setEditLayerIndex(const int layerIndex,
     return false;
 }
 
-PXR_NS::UsdVariantSet Stage::getLastModifedVariantSet() const {
-    PXR_NS::UsdPrim variant_prim;
-    if (this->hasLastModifiedVariantSetPrim()) {
-        variant_prim = m_stage->GetPrimAtPath(
-            PXR_NS::SdfPath(this->last_modified_variant_set_prim.c_str()));
-    }
-    return variant_prim.GetVariantSet(
-        this->last_modified_variant_set_name.c_str());
-}
-
 bool Stage::save(const Amino::String& filePath) const {
     return m_rootLayer->exportToFile(filePath.c_str());
 }
 
-} // namespace BifrostUsd
+Amino::String Stage::lastModifiedVariantSet() const {
+    if (m_variantSelection.empty()) {
+        return Amino::String{};
+    }
+    return m_variantSelection.variantSet();
+}
+
+Amino::String Stage::lastModifiedVariant() const {
+    if (m_variantSelection.empty()) {
+        return Amino::String{};
+    }
+    return m_variantSelection.variant();
+}
 
 //------------------------------------------------------------------------------
 //
-template <>
-Amino::Ptr<BifrostUsd::Stage> Amino::createDefaultClass() {
+namespace {
+Amino::Ptr<BifrostUsd::Stage> createDefaultStage() {
     // Destructor of USD instances are lauching threads. This result in
     // a deadlock on windows when unloading the library (which destroys the
     // default constructed object held in static variables).
@@ -193,4 +170,7 @@ Amino::Ptr<BifrostUsd::Stage> Amino::createDefaultClass() {
     PXR_NS::Work_EnsureDetachedTaskProgress();
     return Amino::newClassPtr<BifrostUsd::Stage>();
 }
-AMINO_DEFINE_DEFAULT_CLASS(BifrostUsd::Stage);
+} // namespace
+} // namespace BifrostUsd
+
+AMINO_DEFINE_DEFAULT_CLASS(BifrostUsd::Stage, BifrostUsd::createDefaultStage());

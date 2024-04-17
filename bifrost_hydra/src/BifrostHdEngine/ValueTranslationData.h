@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,45 +14,82 @@
 // limitations under the License.
 //+
 
-#ifndef BIFROST_HD_ENGINE_TRANSLATION_DATA_H
-#define BIFROST_HD_ENGINE_TRANSLATION_DATA_H
+#ifndef BIFROST_HD_ENGINE_VALUE_TRANSLATION_DATA_H
+#define BIFROST_HD_ENGINE_VALUE_TRANSLATION_DATA_H
 
 #include <BifrostHydra/Engine/Export.h>
 
-#include <BifrostGraph/Executor/JobPreview.h>
+#include <BifrostGraph/Executor/TypeTranslation.h>
+
+#include <Amino/Core/Any.h>
 
 namespace BifrostHd {
 
 class JobTranslationData;
 
-class BIFROST_HD_ENGINE_SHARED_DECL ValueTranslationData final
-    : public BifrostGraph::Executor::JobPreview::ValueData {
+/// \brief Specialization of Bifrost TypeTranslation::ValueData for graph inputs.
+///
+/// This class holds the data that will be passed to the Job's setInputValue()
+/// method, and the Job will pass it to the TypeTranslation table.
+///
+/// See BifrostGraph::Executor::Job::setInputValue()
+/// \see BifrostHd::TypeTranslation::convertValueFromHost()
+class BIFROST_HD_ENGINE_SHARED_DECL InputValueData final
+    : public BifrostGraph::Executor::TypeTranslation::ValueData {
 public:
-    ValueTranslationData(JobTranslationData& jobTranslationData,
-                         Amino::Any          defaultVal,
-                         std::string         name);
-    ~ValueTranslationData() override;
+    InputValueData(JobTranslationData& jobTranslationData,
+                   std::string         name,
+                   Amino::Any          defaultVal);
+    ~InputValueData() override;
 
-    Amino::Any getInput(Amino::Type const& type) const;
-    bool       setOutput(const Amino::Any& value);
-
+    Amino::Any                getInput() const;
     const JobTranslationData& jobTranslationData() const;
 
 public:
     /// Disabled
     /// \{
-    ValueTranslationData(const ValueTranslationData&)            = delete;
-    ValueTranslationData(ValueTranslationData&&)                 = delete;
-    ValueTranslationData& operator=(const ValueTranslationData&) = delete;
-    ValueTranslationData& operator=(ValueTranslationData&&)      = delete;
+    InputValueData(const InputValueData&)            = delete;
+    InputValueData(InputValueData&&)                 = delete;
+    InputValueData& operator=(const InputValueData&) = delete;
+    InputValueData& operator=(InputValueData&&)      = delete;
     /// \}
 
 private:
+    JobTranslationData& m_jobTranslationData;
+    std::string         m_name;
     Amino::Any          m_defaultVal;
+};
+
+/// \brief Specialization of Bifrost TypeTranslation::ValueData for graph outputs.
+///
+/// This class holds the data that will be passed to the Job's getOutputValue()
+/// method, and the Job will pass it to the TypeTranslation table.
+///
+/// See BifrostGraph::Executor::Job::getOutputValue()
+/// \see BifrostHd::TypeTranslation::convertValueToHost()
+class BIFROST_HD_ENGINE_SHARED_DECL OutputValueData final
+    : public BifrostGraph::Executor::TypeTranslation::ValueData {
+public:
+    OutputValueData(JobTranslationData& jobTranslationData, std::string name);
+    ~OutputValueData() override;
+
+    bool                      setOutput(const Amino::Any& value);
+    const JobTranslationData& jobTranslationData() const;
+
+public:
+    /// Disabled
+    /// \{
+    OutputValueData(const OutputValueData&)            = delete;
+    OutputValueData(OutputValueData&&)                 = delete;
+    OutputValueData& operator=(const OutputValueData&) = delete;
+    OutputValueData& operator=(OutputValueData&&)      = delete;
+    /// \}
+
+private:
     JobTranslationData& m_jobTranslationData;
     std::string         m_name;
 };
 
 } // namespace BifrostHd
 
-#endif // BIFROST_HD_ENGINE_TRANSLATION_DATA_H
+#endif // BIFROST_HD_ENGINE_VALUE_TRANSLATION_DATA_H

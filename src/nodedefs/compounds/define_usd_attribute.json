@@ -146,21 +146,6 @@
                     "metaValue": "BifrostGraph,USD::Attribute,define_usd_attribute"
                 },
                 {
-                    "metaName": "UILayout",
-                    "metaType": "string",
-                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"name\"\n            },\n            {\n                \"port\": \"custom\"\n            },\n            {\n                \"expanded\": true,\n                \"group\": \"Type\",\n                \"items\": [\n                    {\n                        \"port\": \"type\"\n                    },\n                    {\n                        \"port\": \"enable_value\"\n                    },\n                    {\n                        \"port\": \"value\"\n                    }\n                ]\n            },\n            {\n                \"expanded\": true,\n                \"group\": \"Connections\",\n                \"items\": [\n                    {\n                        \"port\": \"enable_connection\"\n                    },\n                    {\n                        \"port\": \"connection_mode\"\n                    },\n                    {\n                        \"port\": \"target_prim\"\n                    },\n                    {\n                        \"port\": \"target_attribute\"\n                    }\n                ]\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Primvars\",\n                \"items\": [\n                    {\n                        \"port\": \"enable_primvar\"\n                    },\n                    {\n                        \"port\": \"interpolation\"\n                    }\n                ]\n            },\n            {\n                \"group\": \"Time Sample\",\n                \"items\": [\n                    {\n                        \"port\": \"frame\"\n                    },\n                    {\n                        \"port\": \"use_frame\"\n                    }\n                ]\n            }\n        ]\n    }\n}\n"
-                },
-                {
-                    "metaName": "PortExpandedState",
-                    "metadata": [
-                        {
-                            "metaName": "Connections",
-                            "metaType": "string",
-                            "metaValue": "1"
-                        }
-                    ]
-                },
-                {
                     "metaName": "ViewportRect",
                     "metaType": "string",
                     "metaValue": "-1754 -915.725 4616 3165.45"
@@ -171,9 +156,39 @@
                     "metaValue": "2"
                 },
                 {
+                    "metaName": "zValue",
+                    "metaType": "string",
+                    "metaValue": "42.000000"
+                },
+                {
                     "metaName": "LayoutPos",
                     "metaType": "string",
-                    "metaValue": "-274.074 -632.05"
+                    "metaValue": "-1045.94 159.991"
+                },
+                {
+                    "metaName": "UILayout",
+                    "metaType": "string",
+                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"name\"\n            },\n            {\n                \"port\": \"custom\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Type\",\n                \"items\": [\n                    {\n                        \"port\": \"type\"\n                    },\n                    {\n                        \"port\": \"enable_value\"\n                    },\n                    {\n                        \"port\": \"value\"\n                    }\n                ],\n                \"unique_id\": 3\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Connections\",\n                \"items\": [\n                    {\n                        \"port\": \"enable_connection\"\n                    },\n                    {\n                        \"port\": \"connection_mode\"\n                    },\n                    {\n                        \"port\": \"target_prim\"\n                    },\n                    {\n                        \"port\": \"target_attribute\"\n                    }\n                ],\n                \"unique_id\": 7\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Primvars\",\n                \"items\": [\n                    {\n                        \"port\": \"enable_primvar\"\n                    },\n                    {\n                        \"port\": \"interpolation\"\n                    }\n                ],\n                \"unique_id\": 12\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Time Sample\",\n                \"items\": [\n                    {\n                        \"port\": \"frame\"\n                    },\n                    {\n                        \"port\": \"use_frame\"\n                    }\n                ],\n                \"unique_id\": 15\n            }\n        ]\n    }\n}\n"
+                },
+                {
+                    "metaName": "PortExpandedState",
+                    "metadata": [
+                        {
+                            "metaName": "Type",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "Connections",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "Time Sample",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        }
+                    ]
                 }
             ],
             "ports": [

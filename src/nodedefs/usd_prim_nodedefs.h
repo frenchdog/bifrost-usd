@@ -225,6 +225,18 @@ bool remove_applied_schema(BifrostUsd::Stage& stage USDPORT_INOUT("out_stage"),
                        "outName=success");
 
 /// \ingroup Prim
+/// \defgroup get_applied_schemas get_applied_schemas node
+///
+/// \brief Get the names of API schemas which have been applied to this prim.
+///
+/// \param [in] prim The USD prim.
+/// \param [out] names The array of schema names.
+USD_NODEDEF_DECL
+void get_applied_schemas(const BifrostUsd::Prim&                         prim,
+                         Amino::MutablePtr<Amino::Array<Amino::String>>& names)
+    USDNODE_DOC_ICON("get_applied_schemas", "get_applied_schemas", "usd.svg");
+
+/// \ingroup Prim
 /// \defgroup add_reference_prim add_reference_prim node
 ///
 /// \brief Adds a prim reference in the given stage.
@@ -767,6 +779,17 @@ void set_prim_kind(const Amino::String&       path,
                    const Amino::String&       kind,
                    BifrostUsd::Stage& stage USDPORT_INOUT("out_stage"))
     USDNODE_INTERNAL("set_prim_kind", "set_prim_kind");
+
+/// \ingroup Prim
+/// \defgroup get_prim_kind get_prim_kind node
+///
+/// \brief Get the kind for the specified prim.
+///
+/// \param [in] prim The USD prim.
+/// \param [out] kind The kind of that USD prim.
+USD_NODEDEF_DECL
+void get_prim_kind(const BifrostUsd::Prim& prim, Amino::String& kind)
+    USDNODE_DOC_ICON("get_prim_kind", "get_prim_kind", "usd.svg");
 
 /// \ingroup Prim
 /// \defgroup set_prim_asset_info set_prim_asset_info node

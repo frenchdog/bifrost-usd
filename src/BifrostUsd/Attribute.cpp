@@ -1,5 +1,5 @@
 //-
-// Copyright 2022 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,12 +28,11 @@ Attribute::Attribute(PXR_NS::UsdAttribute attribute, Amino::Ptr<Prim> prim)
     assert((prim_ptr != nullptr) == (pxr_attribute.IsValid()));
 }
 Attribute::~Attribute() = default;
-} // namespace BifrostUsd
 
 //------------------------------------------------------------------------------
 //
-template <>
-Amino::Ptr<BifrostUsd::Attribute> Amino::createDefaultClass() {
+namespace {
+Amino::Ptr<BifrostUsd::Attribute> createDefaultAttribute() {
     // Destructor of USD instances are lauching threads. This result in
     // a deadlock on windows when unloading the library (which destroys the
     // default constructed object held in static variables).
@@ -42,8 +41,12 @@ Amino::Ptr<BifrostUsd::Attribute> Amino::createDefaultClass() {
     auto stage    = Amino::newClassPtr<BifrostUsd::Stage>();
     auto pxr_prim = stage->get().GetPseudoRoot();
     auto prim     = Amino::newClassPtr<BifrostUsd::Prim>(pxr_prim, stage);
-    auto pxr_attr =
-        pxr_prim.CreateAttribute(PXR_NS::TfToken(""), PXR_NS::SdfValueTypeName());
+    auto pxr_attr = pxr_prim.CreateAttribute(PXR_NS::TfToken(""),
+                                             PXR_NS::SdfValueTypeName());
     return Amino::newClassPtr<BifrostUsd::Attribute>(pxr_attr, prim);
 }
-AMINO_DEFINE_DEFAULT_CLASS(BifrostUsd::Attribute);
+} // namespace
+} // namespace BifrostUsd
+
+AMINO_DEFINE_DEFAULT_CLASS(BifrostUsd::Attribute,
+                           BifrostUsd::createDefaultAttribute());

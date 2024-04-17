@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,10 +21,15 @@
 
 #include <Bifrost/Object/Object.h>
 
+#include <Amino/Core/Array.h>
+#include <Amino/Core/Ptr.h>
+
 #include <pxr/imaging/hd/sceneIndex.h>
 
 #include <memory>
+#include <string>
 #include <unordered_map>
+#include <utility>
 
 namespace BifrostHd {
 
@@ -47,12 +52,14 @@ public:
 
     PXR_NS::HdSceneIndexBaseRefPtr inputScene() const;
 
-    void setInputs(PXR_NS::HdSceneIndexPrim const& prim);
+    void setInputs(const PXR_NS::HdSceneIndexPrim& prim);
 
     const std::string& compoundName() const;
 
     const Inputs& inputs() const;
+    Inputs& inputs();
 
+    const Output& output() const;
     Output& output();
 
 public:

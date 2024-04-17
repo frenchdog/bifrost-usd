@@ -1,0 +1,43 @@
+{
+    "schemaVersion": "1.0.0",
+    "comment": [
+        "Test the authoring of USD variantSet and variants",
+        "    - 'create_variants_test00' compound tests variants using USD operators.",
+        "    - 'define_variants_test00' compound tests variants using add_to_stage compound workflow",
+        "    - 'select_variants_test00' compound tests selecting variants on prim",
+        "      used as prototypes in a define_usd_point_instancer workflow"
+    ],
+    "options": {
+        "definitionFiles": [
+            "create_variants_test00.json",
+            "define_variants_test00.json",
+            "select_variants_test00.json"
+        ]
+    },
+   "task": {
+        "type": "sequence",
+        "tasks": [
+            {
+                "type": "single",
+                "name": "Test variants using USD operators",
+                "options": {
+                    "compound": "USD::Test::VariantSet::create_variants_test00"
+                }
+            },
+            {
+                "type": "single",
+                "name": "Test variants using add_to_stage compound workflow",
+                "options": {
+                    "compound": "USD::Test::VariantSet::define_variants_test00"
+                }
+            },
+            {
+                "type": "single",
+                "name": "Test selecting variants on prim used as prototypes in a define_usd_point_instancer workflow",
+                "options": {
+                    "compound": "USD::Test::VariantSet::select_variants_test00"
+                }
+            }
+        ]
+    }
+}

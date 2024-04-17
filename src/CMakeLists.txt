@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2022 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,8 @@
 #+
 
 add_subdirectory(BifrostUsd)
+add_subdirectory(graphs)
+add_subdirectory(config)
 add_subdirectory(nodedefs)
 add_subdirectory(resources)
 add_subdirectory(watchpoints)
-add_subdirectory(config)

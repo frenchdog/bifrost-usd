@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,23 +23,27 @@
 #include <Bifrost/Math/Types.h>
 #include <Bifrost/Object/Object.h>
 
+#include <Amino/Core/Any.h>
+#include <Amino/Core/Array.h>
+#include <Amino/Core/Ptr.h>
+#include <Amino/Core/String.h>
+
 #include <pxr/usd/sdf/types.h>
 #include "pxr/imaging/hd/tokens.h"
 
 namespace BifrostHd {
 
-ValueTranslationData::ValueTranslationData(
-    JobTranslationData& jobTranslationData,
-    Amino::Any          defaultVal,
-    std::string         name)
-    : BifrostGraph::Executor::JobPreview::ValueData(),
-      m_defaultVal(std::move(defaultVal)),
+InputValueData::InputValueData(JobTranslationData& jobTranslationData,
+                               std::string         name,
+                               Amino::Any          defaultVal)
+    : BifrostGraph::Executor::TypeTranslation::ValueData(),
       m_jobTranslationData(jobTranslationData),
-      m_name(std::move(name)) {}
+      m_name(std::move(name)),
+      m_defaultVal(std::move(defaultVal)) {}
 
-ValueTranslationData::~ValueTranslationData() = default;
+InputValueData::~InputValueData() = default;
 
-Amino::Any ValueTranslationData::getInput(Amino::Type const& /*type*/) const {
+Amino::Any InputValueData::getInput() const {
     const auto& inputs     = m_jobTranslationData.getParameters().inputs();
     const auto& inputScene = m_jobTranslationData.getParameters().inputScene();
 
@@ -80,7 +84,19 @@ Amino::Any ValueTranslationData::getInput(Amino::Type const& /*type*/) const {
     return m_defaultVal;
 }
 
-bool ValueTranslationData::setOutput(const Amino::Any& value) {
+const JobTranslationData& InputValueData::jobTranslationData() const {
+    return m_jobTranslationData;
+}
+
+OutputValueData::OutputValueData(JobTranslationData& jobTranslationData,
+                                 std::string         name)
+    : BifrostGraph::Executor::TypeTranslation::ValueData(),
+      m_jobTranslationData(jobTranslationData),
+      m_name(std::move(name)) {}
+
+OutputValueData::~OutputValueData() = default;
+
+bool OutputValueData::setOutput(const Amino::Any& value) {
     auto& output = m_jobTranslationData.getParameters().output();
     if (output.first == m_name) {
         if (value.type() == Amino::getTypeId<Amino::Ptr<Amino::Array<Amino::Ptr<Bifrost::Object>>>>()) {
@@ -103,7 +119,8 @@ bool ValueTranslationData::setOutput(const Amino::Any& value) {
     return false;
 }
 
-const JobTranslationData& ValueTranslationData::jobTranslationData() const {
+const JobTranslationData& OutputValueData::jobTranslationData() const {
     return m_jobTranslationData;
 }
+
 } // namespace BifrostHd

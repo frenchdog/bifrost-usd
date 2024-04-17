@@ -356,12 +356,15 @@ class TestGraphs(unittest.TestCase):
             "tasks_export_layer_to_file.json",
             # Primitive Tests
             "tasks_create_prim_hierarchy.json",
+            "tasks_create_geom_subset.json",
             # Stage Tests
             "tasks_add_to_stage.json",
+            "tasks_add_to_stage_create_variants.json",
+            "tasks_add_to_stage_hierarchy.json",
             "tasks_fan_out_stages.json",
             "tasks_save_stage.json",
             # VariantSet Tests
-            "tasks_create_variants.json",
+            "tasks_variants.json",
         ]
         cmd = [
             self.bifcmd_exec,
@@ -369,6 +372,9 @@ class TestGraphs(unittest.TestCase):
             "verbose",
             "--print-count",
             "1000",
+            # bifcmd needs a scene-file path for compounds using the scene_info node
+            "--scene-file",
+            os.path.join(self.resource_dir, "dummy_scene_file.ma"),
             # Redirect all reporting to a specific JSON log file:
             "--log-file",
             json_log_file,
