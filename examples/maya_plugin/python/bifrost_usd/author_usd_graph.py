@@ -282,7 +282,7 @@ def _add_maya_mesh_to_stage(
     info: GraphEditorSelection,
     add_to_stage_path: str,
     index: int,
-    mergeTransformAndShape: bool = True,
+    mergeTransformAndShape: Optional[bool] = True,
 ) -> None:
     ioNode = cmds.vnnCompound(
         info.dgContainerFullPath, info.currentCompound, addIONode=True
@@ -598,7 +598,7 @@ def to_prim_path(ufe_path: str) -> str:
 
     mayaPath = "|" + "|".join(ufe_path.split("|")[2:])
 
-    # Since we merge transfrom and shape on Bifrost side,
+    # Since we merge transform and shape on the Bifrost side,
     # remove last name of te path if it is a mesh
     if cmds.ls(mayaPath, type="mesh"):
         mayaPath = "|".join(mayaPath.split("|")[:-1])

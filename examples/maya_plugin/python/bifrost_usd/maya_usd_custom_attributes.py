@@ -15,7 +15,7 @@
 # limitations under the License.
 # *****************************************************************************
 # +
-from typing import Any
+from typing import Any, Optional
 from dataclasses import dataclass
 from maya import cmds
 
@@ -27,12 +27,12 @@ class MayaUSDAttribute:
     typeName: str
 
 
-def get_mayausd_attributes(dag_path: str) -> list[Any]:
-    attrNames = cmds.listAttr(dag_path, userDefined=True)
+def get_mayausd_attributes(dag_path: str) -> list[MayaUSDAttribute]:
+    result: list[MayaUSDAttribute] = []
+    attrNames: list[str] = cmds.listAttr(dag_path, userDefined=True)
     if attrNames is None:
-        return []
+        return result
 
-    result: list[Any] = []
     for name in attrNames:
         if name.startswith("USD_"):
             value = cmds.getAttr(f"{dag_path}.{name}")
@@ -45,7 +45,6 @@ def get_mayausd_attributes(dag_path: str) -> list[Any]:
                     typeName == "string" or typeName == "bool"
                 ), f"Maya USD attribute should be a string or a bool on {dag_path}"
                 result.append(MayaUSDAttribute(name, value, typeName))
-
     return result
 
 
@@ -66,7 +65,7 @@ def get_parent_dag_path(dag_path: str) -> str:
     return parent[0]
 
 
-def get_all_prim_types(dag_path: str, defaultType="Xform") -> list[str]:
+def get_all_prim_types(dag_path: str, defaultType: Optional[str] = "Xform") -> list[str]:
     """Gives all the USD prim types from a Maya hierarchy.
     The prim type is found from the 'USD_typeName' attribute on every DAG nodes of the hierarchy.
     If this attribute is not found, it uses the defaultType.
