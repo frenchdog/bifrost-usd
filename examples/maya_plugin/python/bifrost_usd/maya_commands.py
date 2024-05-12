@@ -15,10 +15,12 @@
 # limitations under the License.
 # *****************************************************************************
 # +
+
 import maya.api.OpenMaya as om
 from maya import cmds
 
 from bifrost_usd import create_stage
+from bifrost_usd import graph_api
 from bifrost_usd import author_usd_graph
 
 
@@ -61,6 +63,15 @@ class BifrostUsdCmd(om.MPxCommand):
 
     kImportModelToStageFlag = "-im"
     kImportModelToStageFlagLong = "-importModel"
+
+    kVariantSetPrimFlag = "-vp"
+    kVariantSetPrimFlagLong = "-variantSetPrim"
+
+    kVariantSetFlag = "-vs"
+    kVariantSetFlagLong = "-variantSet"
+
+    kInsertVariantFlag = "-iv"
+    kInsertVariantFlagLong = "-insertVariant"
 
     def __init__(self):
         om.MPxCommand.__init__(self)
@@ -116,6 +127,20 @@ class BifrostUsdCmd(om.MPxCommand):
             BifrostUsdCmd.kImportModelToStageFlag,
             BifrostUsdCmd.kImportModelToStageFlagLong,
         )
+        syntax.addFlag(
+            BifrostUsdCmd.kVariantSetPrimFlag,
+            BifrostUsdCmd.kVariantSetPrimFlagLong,
+            om.MSyntax.kString,
+        )
+        syntax.addFlag(
+            BifrostUsdCmd.kVariantSetFlag,
+            BifrostUsdCmd.kVariantSetFlagLong,
+            om.MSyntax.kString,
+        )
+        syntax.addFlag(
+            BifrostUsdCmd.kInsertVariantFlag,
+            BifrostUsdCmd.kInsertVariantFlagLong,
+        )
 
         return syntax
 
@@ -137,81 +162,91 @@ class BifrostUsdCmd(om.MPxCommand):
 
         importModel = argdb.isFlagSet(BifrostUsdCmd.kImportModelToStageFlag)
 
+        variantSetPrim = argdb.isFlagSet(BifrostUsdCmd.kVariantSetPrimFlag)
+        variantSet = argdb.isFlagSet(BifrostUsdCmd.kVariantSetFlag)
+
+        insertVariantFlag = argdb.isFlagSet(BifrostUsdCmd.kInsertVariantFlag)
+
         if newStage:
             if importModel:
-                currentSelection = cmds.ls(selection=True)
-                graph = create_stage.create_new_stage_graph(as_shape=True)
+                graph = create_stage.create_graph_with_add_to_stage()
+                author_usd_graph.add_maya_selection_to_stage()
 
-                selection = author_usd_graph.GraphEditorSelection(
-                    cmds.ls(selection=True, long=True)[0],  # dgContainerFullPath
-                    cmds.ls(selection=True)[0],  # dgContainerName
-                    "/",  # currentCompound
-                    "stage",  # output
-                    ["create_usd_stage"],  # nodeSelection
+            elif variantSetPrim:
+                primPath = argdb.flagArgumentString(
+                    BifrostUsdCmd.kVariantSetPrimFlag, 0
                 )
-                addToStageNodeDef = {
-                    "type_name": "BifrostGraph,USD::Stage,add_to_stage",
-                    "input": "stage",
-                    "output": "out_stage",
-                }
 
-                selection.nodeSelection = [
-                    author_usd_graph.insert_stage_node(selection, addToStageNodeDef)
-                ]
-                cmds.select(currentSelection, replace=True)
-                author_usd_graph.add_maya_selection_to_stage(selection)
-                self.setResult(graph)
+                variantSetName = "VSet"
+                if variantSet:
+                    variantSetName = argdb.flagArgumentString(
+                        BifrostUsdCmd.kVariantSetFlag, 0
+                    )
+                with author_usd_graph.CurrentMayaSelection(cmds.ls(selection=True)):
+                    graph = create_stage.create_graph_with_add_to_stage()
+
+                    author_usd_graph.add_maya_selection_as_variants_to_stage(
+                        primPath, variantSetName
+                    )
             else:
-                self.setResult(create_stage.create_new_stage_graph(as_shape=asShape))
+                graph = create_stage.create_new_stage_graph(as_shape=asShape)
 
-        elif openStage:
-            if argdb.isFlagSet(BifrostUsdCmd.kFilesFlag):
+            author_usd_graph.graphAPI.auto_layout_all_nodes()
+            self.setResult(graph)
+
+        else:
+            if openStage and argdb.isFlagSet(BifrostUsdCmd.kFilesFlag):
                 files = argdb.flagArgumentString(BifrostUsdCmd.kFilesFlag, 0)
                 filePaths = files.split(",")
-                self.setResult(
-                    create_stage.create_graph_from_usd_files(filePaths, as_shape=True)
+                graph = create_stage.create_graph_from_usd_files(filePaths, as_shape=True)
+
+            elif insertNode:
+                dgContainerFullPath = ""
+                dgContainerName = ""
+                currentCompound = argdb.flagArgumentString(
+                    BifrostUsdCmd.kCurrentCompoundFlag, 0
                 )
-        elif insertNode:
-            dgContainerFullPath = ""
-            dgContainerName = ""
-            currentCompound = argdb.flagArgumentString(
-                BifrostUsdCmd.kCurrentCompoundFlag, 0
-            )
-            nodeSelection = argdb.flagArgumentString(
-                BifrostUsdCmd.kNodeSelectionFlag, 0
-            )
-            portSelection = argdb.flagArgumentString(
-                BifrostUsdCmd.kPortSelectionFlag, 0
-            )
-            nodeType = argdb.flagArgumentString(BifrostUsdCmd.kNodeTypeFlag, 0)
-            inputPort = argdb.flagArgumentString(BifrostUsdCmd.kInputPortFlag, 0)
-            outputPort = argdb.flagArgumentString(BifrostUsdCmd.kOutputPortFlag, 0)
+                nodeSelection = argdb.flagArgumentString(
+                    BifrostUsdCmd.kNodeSelectionFlag, 0
+                )
+                portSelection = argdb.flagArgumentString(
+                    BifrostUsdCmd.kPortSelectionFlag, 0
+                )
+                nodeType = argdb.flagArgumentString(BifrostUsdCmd.kNodeTypeFlag, 0)
+                inputPort = argdb.flagArgumentString(BifrostUsdCmd.kInputPortFlag, 0)
+                outputPort = argdb.flagArgumentString(BifrostUsdCmd.kOutputPortFlag, 0)
 
-            if currentCompound and argdb.getObjectList():
-                dgContainerName = argdb.getObjectList().getSelectionStrings()[0]
-                dgContainerFullPath = cmds.ls(dgContainerName, long=True)[0]
+                if currentCompound and argdb.getObjectList():
+                    dgContainerName = argdb.getObjectList().getSelectionStrings()[0]
+                    dgContainerFullPath = cmds.ls(dgContainerName, long=True)[0]
 
-            if nodeSelection == "":
-                nodeSelection = []
-            else:
-                nodeSelection = [nodeSelection]
+                if nodeSelection == "":
+                    nodeSelection = []
+                else:
+                    nodeSelection = [nodeSelection]
 
-            nodeInfo = author_usd_graph.GraphEditorSelection(
-                dgContainerFullPath,
-                dgContainerName,
-                currentCompound,
-                portSelection,
-                nodeSelection,
-            )
+                nodeInfo = graph_api.GraphEditorSelection(
+                    dgContainerFullPath,
+                    dgContainerName,
+                    currentCompound,
+                    portSelection,
+                    nodeSelection,
+                )
 
-            newNodeDef = {
-                "type_name": nodeType,
-                "input": inputPort,
-                "output": outputPort,
-            }
+                newNodeDef = {
+                    "type_name": nodeType,
+                    "input": inputPort,
+                    "output": outputPort,
+                }
 
-            self.setResult(author_usd_graph.insert_stage_node(nodeInfo, newNodeDef))
-            return
+                graph = author_usd_graph.insert_stage_node(nodeInfo, newNodeDef)
+
+            elif insertVariantFlag:
+                graph = ""
+                author_usd_graph.insert_maya_variant(graph_api.GraphEditorSelection("", "", "", "out_stage", []))
+
+            author_usd_graph.graphAPI.auto_layout_selected_nodes()
+            self.setResult(graph)
 
     def redoIt(self):
         self.dgmod.doIt()

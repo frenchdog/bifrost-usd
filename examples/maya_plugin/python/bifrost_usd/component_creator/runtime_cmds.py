@@ -160,22 +160,6 @@ def duplicate_selected_material_cmd():
         )
 
 
-def open_bifrost_usd_graph_editor_cmd():
-    name = "bifrostUsdRtc_OpenBifrostUsdGraphEditor"
-    if not cmds.runTimeCommand(name, exists=True):
-        cmds.runTimeCommand(
-            name,
-            default=True,
-            label="BifrostUSD: Open Bifrost Graph Editor from Selected MayaUsdProxyShape",
-            annotation="Open Bifrost Graph Editor from Selected USD Prim",
-            tags="BifrostUSD",
-            command="from bifrost_usd import author_usd_graph; author_usd_graph.open_bifrost_graph_from_prim_selection()",
-            image=os.path.join(
-                thisDir, "..", "..", "icons", "out_bifrostGraphShape.png"
-            ),
-        )
-
-
 def open_bifrost_graph_editor_cmd():
     name = "bifrostUsdRtc_OpenComponentCreatorGraphEditor"
     if not cmds.runTimeCommand(name, exists=True):
@@ -185,7 +169,7 @@ def open_bifrost_graph_editor_cmd():
             label="BifrostUSD: Open Component Creator in Bifrost Graph Editor ",
             annotation="Open the Component Creator in Bifrost Graph Editor",
             tags="BifrostUSD",
-            command="from bifrost_usd.component_creator import component; component.open_bifrost_graph()",
+            command="from bifrost_usd.component_creator import component; component.open_bifrost_usd_component_graph()",
             image=os.path.join(
                 thisDir, "..", "..", "icons", "out_bifrostGraphShape.png"
             ),
@@ -259,34 +243,6 @@ def show_render_purposes_cmd():
             tags="BifrostUSD",
             command="from bifrost_usd.component_creator import purpose; purpose.showRenderPurposes()",
             image="sphere.png",
-        )
-
-
-def create_new_stage_cmd():
-    name = "bifrostUsdRtc_CreateNewStage"
-    if not cmds.runTimeCommand(name, exists=True):
-        cmds.runTimeCommand(
-            name,
-            default=True,
-            label="BifrostUSD: Create New Stage",
-            annotation="Creates a stage with a new root layer",
-            tags="BifrostUSD",
-            command="bifrostUsd -newStage -shape",
-            image="USD_generic_200.png",
-        )
-
-
-def create_stage_from_sublayers_cmd():
-    name = "bifrostUsdRtc_CreateStageFromSublayers"
-    if not cmds.runTimeCommand(name, exists=True):
-        cmds.runTimeCommand(
-            name,
-            default=True,
-            label="BifrostUSD: Create Stage from Sublayers...",
-            annotation="Creates a stage with a new root layer and (read-only) sublayers from files",
-            tags="BifrostUSD",
-            command="from bifrost_usd.component_creator.ui import create_from_sublayers_dialog; create_from_sublayers_dialog.show()",
-            image="USD_generic_200.png",
         )
 
 

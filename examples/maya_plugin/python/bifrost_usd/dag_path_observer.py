@@ -18,12 +18,12 @@
 import ufe
 
 from bifrost_usd.author_usd_graph import delete_node
-from bifrost_usd.author_usd_graph import has_bifrost_usd_graph
 from bifrost_usd.author_usd_graph import is_supported_prim_type
 from bifrost_usd.author_usd_graph import rename_nodes_path_parameter
 from bifrost_usd.author_usd_graph import reparent_nodes_path_parameter
 from bifrost_usd.author_usd_graph import to_prim_path
 from bifrost_usd.author_usd_graph import graphAPI
+from bifrost_usd.graph_api import has_bifrost_usd_graph
 
 from bifrost_usd.constants import kDefinePrimHierarchy
 

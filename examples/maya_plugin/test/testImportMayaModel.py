@@ -16,7 +16,7 @@
 # *****************************************************************************
 # +
 import unittest
-from unittest.mock import create_autospec
+from unittest.mock import patch
 
 import ufe
 from maya import cmds
@@ -26,19 +26,23 @@ from bifrost_usd.constants import kGraphName, kDefinePrimHierarchy
 from bifrost_usd import author_usd_graph
 from bifrost_usd.author_usd_graph import graphAPI
 
-# mock "get_graph_editor_selection" the Bifrost Graph Editor can't be open
-# in unitests.
+from bifrost_usd.graph_api import GraphEditorSelection
 
-author_usd_graph.get_graph_editor_selection = create_autospec(
-    author_usd_graph.get_graph_editor_selection,
-    return_value=author_usd_graph.GraphEditorSelection(
+
+def mock_get_graph_selection() -> GraphEditorSelection:
+    """Used to patch "bifrost_usd.author_usd_graph.get_graph_selection" since the Bifrost Graph Editor can't be open in unitests.
+
+    To be passed to the side_effect argument of a unittest.mock.Mock.
+
+    :return: An hard coded selection instead of the one from the Bifrost Graph Editor.
+    """
+    return GraphEditorSelection(
         f"|{kGraphName}|{kGraphName}Shape",
         f"{kGraphName}Shape",
         "/",
         "",
         ["add_to_stage"],
-    ),
-)
+    )
 
 
 def _path() -> str:
@@ -109,8 +113,13 @@ class ImportMayaModelTestCase(unittest.TestCase):
         cmds.select("Model", replace=True)
         graphAPI.ufe_observer = True
 
-    def testImportModelUnderPseudoRoot(self):
+    @patch(
+        "bifrost_usd.author_usd_graph.get_graph_selection",
+        side_effect=mock_get_graph_selection,
+    )
+    def testImportModelUnderPseudoRoot(self, mock_get_graph_selection):
         self.assertTrue(author_usd_graph.add_maya_selection_to_stage())
+        mock_get_graph_selection.assert_called_once_with()
 
         self.assertEqual(
             graphAPI.find_nodes(kDefinePrimHierarchy),
@@ -156,12 +165,20 @@ class ImportMayaModelTestCase(unittest.TestCase):
             graphAPI.find_nodes(kDefinePrimHierarchy), ["define_prim_hierarchy1"]
         )
 
-    def testGroupMesh(self):
+    @patch(
+        "bifrost_usd.author_usd_graph.get_graph_selection",
+        side_effect=mock_get_graph_selection,
+    )
+    def testGroupMesh(self, side_effect):
         author_usd_graph.add_maya_selection_to_stage()
         cmds.group("pCube1", name="NEW_GROUP")
         self.assertEqual(_path(), "/Model/geo/NEW_GROUP/pCube1")
 
-    def testGroupGeo(self):
+    @patch(
+        "bifrost_usd.author_usd_graph.get_graph_selection",
+        side_effect=mock_get_graph_selection,
+    )
+    def testGroupGeo(self, side_effect):
         author_usd_graph.add_maya_selection_to_stage()
 
         cmds.parent("pCube1", "other_geo")
@@ -170,13 +187,21 @@ class ImportMayaModelTestCase(unittest.TestCase):
         cmds.parent("pCube1", "geo")
         self.assertEqual(_path(), "/Model/geo/pCube1")
 
-    def DISABLED_testGroupNonLeafNode(self):
+    @patch(
+        "bifrost_usd.author_usd_graph.get_graph_selection",
+        side_effect=mock_get_graph_selection,
+    )
+    def DISABLED_testGroupNonLeafNode(self, side_effect):
         author_usd_graph.add_maya_selection_to_stage()
 
         cmds.group("geo", name="NEW_GROUP")
         self.assertEqual(_path(), "/Model/NEW_GROUP/geo/pCube1")
 
-    def testImportModelUnderGeoPrim(self):
+    @patch(
+        "bifrost_usd.author_usd_graph.get_graph_selection",
+        side_effect=mock_get_graph_selection,
+    )
+    def testImportModelUnderGeoPrim(self, side_effect):
         cmds.vnnNode(
             f"{kGraphName}Shape",
             "/add_to_stage",

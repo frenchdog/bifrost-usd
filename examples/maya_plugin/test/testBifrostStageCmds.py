@@ -17,10 +17,13 @@
 # +
 import os
 import unittest
+import tempfile
+import shutil
 
 from maya import cmds
 from maya import standalone
 
+from bifrost_usd import graph_api
 from bifrost_usd import create_stage
 from bifrost_usd import author_usd_graph
 
@@ -50,7 +53,12 @@ class BifrostStageCmdsTestCase(unittest.TestCase):
         standalone.uninitialize()
 
     def setUp(self):
+        self.test_dir = tempfile.mkdtemp()
         cmds.file(f=True, new=True)
+
+    def tearDown(self):
+        # Remove the directory after the test
+        shutil.rmtree(self.test_dir)
 
     def testCreateEmptyGraphShape(self):
         graph = create_stage._create_empty_graph(as_shape=True)
@@ -114,6 +122,9 @@ class BifrostStageCmdsTestCase(unittest.TestCase):
         self.assertEqual(graph, [f"{kGraphName}Shape"])
 
     def testCreateGraphFromTwoFilesCommand(self):
+        cmds.file(rename=os.path.join(self.test_dir, "testCreateGraphFromTwoFilesCommand.ma"))
+        cmds.file(save=True, type="mayaAscii")
+
         resourcesDir = os.path.join(
             os.path.dirname(os.path.realpath(__file__)), "resources"
         )
@@ -150,7 +161,7 @@ class BifrostStageCmdsTestCase(unittest.TestCase):
             ["output", "create_usd_stage"],
         )
 
-        nodeInfo = author_usd_graph.GraphEditorSelection(
+        nodeInfo = graph_api.GraphEditorSelection(
             f"|{kGraphName}|{kGraphName}Shape",
             f"{kGraphName}Shape",
             "/",
