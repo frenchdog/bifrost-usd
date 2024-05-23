@@ -73,9 +73,9 @@ def initializePlugin(plugin):
     maya_main_window_menu.create_usd_menu()
 
     # Register Ufe Observer
-    from bifrost_usd import prim_path_observer
+    from bifrost_usd import dag_path_observer
 
-    prim_path_observer.register()
+    dag_path_observer.register()
 
     from bifrost_usd.component_creator import material_library_observer
 

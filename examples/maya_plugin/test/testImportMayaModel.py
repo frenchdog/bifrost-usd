@@ -18,6 +18,7 @@
 import unittest
 from unittest.mock import create_autospec
 
+import ufe
 from maya import cmds
 from maya import standalone
 
@@ -57,6 +58,13 @@ def _connected_nodes(connected_to: str) -> list:
     )
 
 
+def _is_prim_type_match(ufe_selection: str, prim_type_to_match: str) -> bool:
+    cmds.select(ufe_selection, replace=True)
+    ufePath = ufe.PathString.path(ufe_selection[0])
+    sceneItem = ufe.Hierarchy.createItem(ufePath)
+    return sceneItem.nodeType() == prim_type_to_match
+
+
 class ImportMayaModelTestCase(unittest.TestCase):
     plugins_loaded = False
 
@@ -94,6 +102,10 @@ class ImportMayaModelTestCase(unittest.TestCase):
         cmds.createNode("transform", name="other_geo")
         cmds.parent("other_geo", "Model")
 
+        cmds.select("geo", replace=True)
+        cmds.addAttr(longName="USD_typeName", dataType="string", keyable=False)
+        cmds.setAttr("geo.USD_typeName", "Scope", type="string")
+
         cmds.select("Model", replace=True)
         graphAPI.ufe_observer = True
 
@@ -112,6 +124,21 @@ class ImportMayaModelTestCase(unittest.TestCase):
         )
 
         self.assertEqual(_path(), "/Model/geo/pCube1")
+
+        # Check the prims type
+        self.assertTrue(
+            _is_prim_type_match(["|mayaUsdProxy1|mayaUsdProxyShape1,/Model"], "Xform")
+        )
+        self.assertTrue(
+            _is_prim_type_match(
+                ["|mayaUsdProxy1|mayaUsdProxyShape1,/Model/geo"], "Scope"
+            )
+        )
+        self.assertTrue(
+            _is_prim_type_match(
+                ["|mayaUsdProxy1|mayaUsdProxyShape1,/Model/geo/pCube1"], "Mesh"
+            )
+        )
 
         # Check prim path after renaming Maya model
         cmds.rename("Model", "CUBE")
@@ -181,7 +208,9 @@ class ImportMayaModelTestCase(unittest.TestCase):
 
         # check that compound is deleted when Maya node is delete
         cmds.delete("SHAPE")
-        self.assertEqual(graphAPI.find_nodes(kDefinePrimHierarchy), ["define_prim_hierarchy1"])
+        self.assertEqual(
+            graphAPI.find_nodes(kDefinePrimHierarchy), ["define_prim_hierarchy1"]
+        )
 
 
 if __name__ == "__main__":

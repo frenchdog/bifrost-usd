@@ -36,53 +36,47 @@ def log(args):
         print(args)
 
 
-class PrimPathObserver(ufe.Observer):
+class DagPathObserver(ufe.Observer):
+    """Update a prim path when a DAG path is changed.
+    If there is no Bifrost USD graph in the scene, do nothing."""
+
     def __init__(self):
-        super(PrimPathObserver, self).__init__()
+        super(DagPathObserver, self).__init__()
 
     def __call__(self, notification):
         if not has_bifrost_usd_graph():
             return
 
-        changedPath = notification.changedPath()
+        ufeChangedPath = notification.changedPath()
 
         if isinstance(notification, ufe.ObjectReparent):
-            log(
-                f"ObjectReparent: {notification.changedPath()}, {notification.item().path()}"
-            )
+            log(f"ObjectReparent: {ufeChangedPath}, {notification.item().path()}")
             newPrimPath = str(notification.item().path())
             if is_supported_prim_type(newPrimPath):
                 reparent_nodes_path_parameter(
-                    to_prim_path(str(changedPath)), to_prim_path(newPrimPath))
+                    to_prim_path(str(ufeChangedPath)), to_prim_path(newPrimPath)
+                )
 
         if isinstance(notification, ufe.ObjectPathRemove):
-            log(
-                f"ObjectPathRemove: {notification.changedPath()}, {notification.item().path()}"
-            )
+            log(f"ObjectPathRemove: {ufeChangedPath}, {notification.item().path()}")
 
         if isinstance(notification, ufe.ObjectRename):
-            log(
-                f"ObjectRename: {notification.changedPath()}, {notification.item().path()}"
-            )
+            log(f"ObjectRename: {ufeChangedPath}, {notification.item().path()}")
             newPath = str(notification.item().path())
             if is_supported_prim_type(newPath):
                 rename_nodes_path_parameter(
-                    to_prim_path(str(changedPath)), to_prim_path(newPath)
+                    to_prim_path(str(ufeChangedPath)), to_prim_path(newPath)
                 )
 
         if isinstance(notification, ufe.ObjectPathAdd):
-            log(
-                f"ObjectPathAdd: {notification.changedPath()}, {notification.item().path()}"
-            )
+            log(f"ObjectPathAdd: {ufeChangedPath}, {notification.item().path()}")
 
         if isinstance(notification, ufe.ObjectAdd):
-            log(
-                f"ObjectAdd: {notification.changedPath()}, {notification.item().path()}"
-            )
+            log(f"ObjectAdd: {ufeChangedPath}, {notification.item().path()}")
 
         if isinstance(notification, ufe.ObjectDelete):
-            log(f"ObjectDelete: {notification.changedPath()}")
-            if primPath := to_prim_path(str(changedPath)):
+            log(f"ObjectDelete: {ufeChangedPath}")
+            if primPath := to_prim_path(str(ufeChangedPath)):
                 delete_node(
                     primPath,
                     node_type=kDefinePrimHierarchy,
@@ -91,7 +85,7 @@ class PrimPathObserver(ufe.Observer):
 
 def register():
     global OBSERVER
-    OBSERVER = PrimPathObserver()
+    OBSERVER = DagPathObserver()
     ufe.Scene.addObserver(OBSERVER)
 
 

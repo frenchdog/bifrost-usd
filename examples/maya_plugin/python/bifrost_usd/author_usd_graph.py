@@ -15,7 +15,7 @@
 # limitations under the License.
 # *****************************************************************************
 # +
-from typing import Dict, List
+from typing import Dict, List, Optional
 from dataclasses import dataclass
 
 from maya import cmds
@@ -29,6 +29,8 @@ from bifrost_usd.constants import (
 )
 
 from bifrost_usd.graph_api import GraphAPI
+from bifrost_usd.maya_usd_custom_attributes import get_parent_dag_path
+from bifrost_usd.maya_usd_custom_attributes import get_all_prim_types
 
 
 def log(args):
@@ -216,7 +218,6 @@ def _get_maya_paths_from_selection() -> tuple[list, list]:
     for transform in transformList:
         paths: list = []
         _get_children(transform, paths)
-
         for item in paths:
             meshes = cmds.listRelatives(
                 item, type="mesh", noIntermediate=True, fullPath=True
@@ -281,7 +282,7 @@ def _add_maya_mesh_to_stage(
     info: GraphEditorSelection,
     add_to_stage_path: str,
     index: int,
-    mergeTransformAndShape=True,
+    mergeTransformAndShape: Optional[bool] = True,
 ) -> None:
     ioNode = cmds.vnnCompound(
         info.dgContainerFullPath, info.currentCompound, addIONode=True
@@ -322,6 +323,12 @@ def _add_maya_mesh_to_stage(
     )
 
     graphAPI.set_param(defineHierarchy, ("path", primPath))
+
+    primTypesList = get_all_prim_types(get_parent_dag_path(mesh_path))
+    primTypesList.reverse()
+    primTypesStr = " ".join(primTypesList)
+    graphAPI.set_param(defineHierarchy, ("types", primTypesStr))
+
     graphAPI.set_param(defineHierarchy, ("parent_is_scope", "1" if parentPath else "0"))
 
     # TODO: Use graphAPI
@@ -372,6 +379,13 @@ def _add_maya_leaf_xform_to_stage(
         ),
     )
 
+    primTypesList = get_all_prim_types(xform_path)
+    primTypesList.reverse()
+    primTypesStr = " ".join(primTypesList)
+    graphAPI.set_param(defineHierarchy, ("types", primTypesStr))
+
+    graphAPI.set_param(defineHierarchy, ("parent_is_scope", "0"))
+
 
 def _add_maya_selection_to_stage(info: GraphEditorSelection, add_to_stage_path: str):
     meshSelection, xfoLeafSelection = _get_maya_paths_from_selection()
@@ -384,7 +398,7 @@ def _add_maya_selection_to_stage(info: GraphEditorSelection, add_to_stage_path: 
         _add_maya_leaf_xform_to_stage(xfoPath, info, add_to_stage_path, index)
 
 
-def add_maya_selection_to_stage(selection=None) -> bool:
+def add_maya_selection_to_stage(selection: Optional[GraphEditorSelection] = None) -> bool:
     if not selection:
         selection = get_graph_editor_selection()
 
@@ -584,7 +598,7 @@ def to_prim_path(ufe_path: str) -> str:
 
     mayaPath = "|" + "|".join(ufe_path.split("|")[2:])
 
-    # Since we merge transfrom and shape on Bifrost side,
+    # Since we merge transform and shape on the Bifrost side,
     # remove last name of te path if it is a mesh
     if cmds.ls(mayaPath, type="mesh"):
         mayaPath = "|".join(mayaPath.split("|")[:-1])
@@ -673,4 +687,4 @@ def open_bifrost_graph_from_prim_selection() -> None:
 
 
 if __name__ == "__main__":
-    open_bifrost_usd_graph()
+    add_maya_selection_to_stage()
