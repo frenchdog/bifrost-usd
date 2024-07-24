@@ -91,7 +91,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/relationship.svg"
                 },
                 {
                     "metaName": "NodeValueDisplay",
@@ -116,7 +116,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/relationship.svg"
                 }
             ],
             "isDefaultOverload": "true",
@@ -376,7 +376,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/relationship.svg"
                 },
                 {
                     "metaName": "NodeValueDisplay",
@@ -406,7 +406,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/relationship.svg"
                 }
             ],
             "ports": [

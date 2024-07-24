@@ -16,7 +16,6 @@
 # *****************************************************************************
 # +
 import os
-
 from maya import cmds
 
 from bifrost_usd.constants import (
@@ -31,9 +30,23 @@ from bifrost_usd.constants import (
     kOpenUsdLayer,
     kSceneInfo,
     kStringJoin,
+    kAddToStageNodeDef,
+    kOpenGraphToModifyStageMsg,
 )
 
-from bifrost_usd.author_usd_graph import find_bifrost_usd_graph, open_bifrost_usd_graph
+from bifrost_usd.graph_api import (
+    find_bifrost_usd_graph,
+    GraphAPI,
+    get_graph_selection,
+    open_bifrost_usd_graph,
+)
+
+from bifrost_usd.author_usd_graph import (
+    insert_stage_node,
+    CurrentMayaSelection,
+)
+
+graphAPI = GraphAPI()
 
 
 def _create_empty_graph(as_shape: bool) -> str:
@@ -43,7 +56,7 @@ def _create_empty_graph(as_shape: bool) -> str:
     :returns:       The name of the new graph.
     """
     if graph := find_bifrost_usd_graph():
-        cmds.warning(f"{graph} graph is already in this scene")
+        cmds.warning(f"{graph} found. {kOpenGraphToModifyStageMsg}.")
         return graph
 
     if not graph:
@@ -56,6 +69,8 @@ def _create_empty_graph(as_shape: bool) -> str:
     else:
         graph = cmds.rename(graph, kGraphName)
 
+    # To know if a graph was created using the Bifrost USD commands.
+    # Not used anymore but kept as an information.
     cmds.addAttr(
         graph,
         shortName="usdw",
@@ -65,7 +80,7 @@ def _create_empty_graph(as_shape: bool) -> str:
         hidden=True,
     )
 
-    cmds.vnnCompound(graph, "/", removeNode="input")
+    graphAPI.remove_node("input", graph)
     return graph
 
 
@@ -77,7 +92,6 @@ def _set_shared_stage(graph: str, value: bool) -> None:
 
 
 def _output_stage_to_maya(graph: str, node: str) -> str:
-
     graphAttribs = cmds.listAttr(graph, readOnly=True, scalar=True, fromPlugin=True)
     hasStageOutput = False
     if graphAttribs:
@@ -85,17 +99,8 @@ def _output_stage_to_maya(graph: str, node: str) -> str:
             hasStageOutput = True
 
     if not hasStageOutput:
-        cmds.vnnNode(
-            graph,
-            "/output",
-            createInputPort=("stage", "BifrostUsd::Stage"),
-        )
-
-    cmds.vnnConnect(
-        graph,
-        f"/{node}.stage",
-        ".stage",
-    )
+        graphAPI.create_input_port("output", ("stage", "BifrostUsd::Stage"), graph)
+    graphAPI.connect(node, "stage", "", "stage", graph)
 
     _set_shared_stage(graph, False)
     return graph
@@ -109,18 +114,12 @@ def create_new_stage_graph(as_shape: bool = True) -> str:
     """
 
     if graph := find_bifrost_usd_graph():
-        cmds.warning(f"{graph} already in this scene")
+        cmds.warning(f"{graph} found. {kOpenGraphToModifyStageMsg}.")
         return graph
 
     graph = _create_empty_graph(as_shape)
-    createStageNode = cmds.vnnCompound(graph, "/", addNode=kCreateUsdStage)[0]
-
-    cmds.vnnNode(
-        graph,
-        f"/{createStageNode}",
-        setPortDefaultValues=("layer", kDefaultLayerIdentifier),
-    )
-
+    createStageNode = graphAPI.add_node(kCreateUsdStage, graph)
+    graphAPI.set_param(createStageNode, ("layer", kDefaultLayerIdentifier), graph)
     _output_stage_to_maya(graph, createStageNode)
 
     open_bifrost_usd_graph()
@@ -145,125 +144,86 @@ def _create_sublayers_loader_graph(
 ) -> None:
     """Creates a stage with a new root layer and (read-only) sublayers from files.
     The resulting stage is the output of the graph."""
-    createStageNode = cmds.vnnCompound(graph, "/", addNode=kCreateUsdStage)[0]
+    createStageNode = graphAPI.add_node(kCreateUsdStage, graph)
 
     relativePath = cmds.file(query=True, sceneName=True) and relative_path
     if relativePath:
-        sceneInfoNode = cmds.vnnCompound(graph, "/", addNode=kSceneInfo)[0]
+        sceneInfoNode = graphAPI.add_node(kSceneInfo, graph)
 
-    cmds.vnnNode(
-        graph,
-        f"/{createStageNode}",
-        setPortDefaultValues=("layer", kDefaultLayerIdentifier),
-    )
+    graphAPI.set_param(createStageNode, ("layer", kDefaultLayerIdentifier), graph)
 
     i = ""
     for fpath in file_paths:
-        openLayerNode = cmds.vnnCompound(graph, "/", addNode=kOpenUsdLayer)[0]
-        cmds.vnnNode(graph, f"/{openLayerNode}", setMetaData=("DisplayMode", "1"))
+        openLayerNode = graphAPI.add_node(kOpenUsdLayer, graph)
+        graphAPI.set_metadata(openLayerNode, ("DisplayMode", "1"), graph)
 
         if relativePath:
-            stringJoinNode = cmds.vnnCompound(graph, "/", addNode=kStringJoin)[0]
-            cmds.vnnNode(graph, f"/{stringJoinNode}", setMetaData=("DisplayMode", "1"))
-            cmds.vnnNode(
-                graph, f"/{stringJoinNode}", setPortDefaultValues=("separator", "")
+            stringJoinNode = graphAPI.add_node(kStringJoin, graph)
+            graphAPI.set_metadata(stringJoinNode, ("DisplayMode", "1"), graph)
+            graphAPI.set_param(stringJoinNode, ("separator", ""), graph)
+            graphAPI.enable_fanin_port(
+                stringJoinNode, port_name="strings", graph_name=graph
             )
-            # enable fan-in on strings input port
-            cmds.vnnPort(graph, f"/{stringJoinNode}.strings", 0, 1, set=2)
 
             # connect scene_info to string_join
-            cmds.vnnNode(
-                graph,
-                f"/{stringJoinNode}",
-                createInputPort=("strings.scene_directory", "string"),
+            graphAPI.create_input_port(
+                stringJoinNode, ("strings.scene_directory", "string"), graph
             )
-            cmds.vnnConnect(
+            graphAPI.connect(
+                sceneInfoNode,
+                "scene_directory",
+                stringJoinNode,
+                "strings.scene_directory",
                 graph,
-                f"/{sceneInfoNode}.scene_directory",
-                f"/{stringJoinNode}.strings.scene_directory",
             )
 
-            valueNode = cmds.vnnCompound(graph, "/", addNode=kConstantString)[0]
-            cmds.vnnNode(graph, f"/{valueNode}", setMetaData=("DisplayMode", "1"))
-            cmds.vnnNode(
-                graph,
-                f"/{valueNode}",
-                setPortDefaultValues=("value", _as_relative_path(fpath)),
+            valueNode = graphAPI.add_node(kConstantString, graph)
+            graphAPI.set_metadata(valueNode, ("DisplayMode", "1"), graph)
+            graphAPI.set_param(valueNode, ("value", _as_relative_path(fpath), graph))
+            graphAPI.create_input_port(
+                stringJoinNode, ("strings.relative_path", "string"), graph
             )
+            graphAPI.connect(
+                valueNode, "output", stringJoinNode, "strings.relative_path", graph
+            )
+            graphAPI.connect(stringJoinNode, "joined", openLayerNode, "file", graph)
 
-            cmds.vnnNode(
-                graph,
-                f"/{stringJoinNode}",
-                createInputPort=("strings.relative_path", "string"),
-            )
-            cmds.vnnConnect(
-                graph,
-                f"/{valueNode}.output",
-                f"/{stringJoinNode}.strings.relative_path",
-            )
-
-            cmds.vnnConnect(
-                graph, f"/{stringJoinNode}.joined", f"/{openLayerNode}.file"
-            )
-
-        cmds.vnnNode(
-            graph,
-            f"/{openLayerNode}",
-            setPortDefaultValues=("file", fpath),
+        graphAPI.set_param(openLayerNode, ("file", fpath), graph)
+        graphAPI.create_input_port(
+            createStageNode, (f"sublayers.layer{i}", "auto"), graph
         )
-
-        cmds.vnnNode(
-            graph,
-            f"/{createStageNode}",
-            createInputPort=(f"sublayers.layer{i}", "auto"),
-        )
-
-        cmds.vnnConnect(
-            graph,
-            f"/{openLayerNode}.layer",
-            f"/{createStageNode}.sublayers.layer{i}",
+        graphAPI.connect(
+            openLayerNode, "layer", createStageNode, f"sublayers.layer{i}", graph
         )
 
         i = str(int(i) + 1) if i else "1"
 
     # Output stage to Maya
-    cmds.vnnNode(
-        graph,
-        "/output",
-        createInputPort=("stage", "BifrostUsd::Stage"),
-    )
-    cmds.vnnConnect(
-        graph,
-        f"/{createStageNode}.stage",
-        ".stage",
-    )
+    graphAPI.create_input_port("output", ("stage", "BifrostUsd::Stage"), graph)
+    graphAPI.connect(createStageNode, "stage", "", "stage", graph)
 
     _set_shared_stage(graph, False)
 
 
 def _create_open_stage_graph(graph: str, file_path: str) -> None:
     """Creates a stage from a USD file and output it from the graph."""
-    openStageNode = cmds.vnnCompound(graph, "/", addNode=kOpenStage)[0]
-
-    cmds.vnnNode(
-        graph,
-        f"/{openStageNode}",
-        setPortDefaultValues=("file", file_path),
-    )
-
+    openStageNode = graphAPI.add_node(kOpenStage, graph)
+    graphAPI.set_param(openStageNode, ("file", file_path), graph)
     _output_stage_to_maya(graph, openStageNode)
 
 
-def create_graph_from_usd_files(file_paths: list[str], as_shape: bool) -> str:
+def create_graph_from_usd_files(
+    file_paths: list[str], as_shape: bool = True, as_sublayers: bool = True
+) -> str:
     if not file_paths:
         cmds.warning("No file paths found")
         return ""
 
     graph = _create_empty_graph(as_shape=as_shape)
 
-    if len(file_paths) == 1:
+    if len(file_paths) == 1 and not as_sublayers:
         _create_open_stage_graph(graph, file_paths[0])
-    elif len(file_paths) > 1:
+    else:
         _create_sublayers_loader_graph(graph, file_paths)
 
     open_bifrost_usd_graph()
@@ -271,5 +231,18 @@ def create_graph_from_usd_files(file_paths: list[str], as_shape: bool) -> str:
     return graph
 
 
+def create_graph_with_add_to_stage() -> str:
+    with CurrentMayaSelection(cmds.ls(selection=True)):
+        # Create a Bifrost USD graph with a create_usd_stage connected to an add_to_stage
+        graph = create_new_stage_graph(as_shape=True)
+        selection = get_graph_selection()
+        selection.nodeSelection = ["create_usd_stage"]
+        selection.output = "stage"
+
+        selection.nodeSelection = [insert_stage_node(selection, kAddToStageNodeDef)]
+
+        return graph
+
+
 if __name__ == "__main__":
-    pass
+    create_graph_with_add_to_stage()

@@ -19,7 +19,33 @@
 add_subdirectory( docs )
 
 set(usd_icons
-    usd.svg
+    add_layer.svg
+    bind_material.svg
+    def_point_instancer.svg
+    define_reference.svg
+    export_layer.svg
+    file_usd.svg
+    import_layer.svg
+    make_target.svg
+    move.svg
+    point_instancer.svg
+    prim_active.svg
+    prim_att.svg
+    relationship.svg
+    rotate.svg
+    scale.svg
+    usd_add.svg
+    usd_curve.svg
+    usd_default.svg
+    usd_get.svg
+    usd_layers.svg
+    usd_mesh.svg
+    usd_pill.svg
+    usd_set.svg
+    usd_stage.svg
+    usd_transform.svg
+    usd_variant.svg
+    write_usd_file.svg
 )
 
 foreach(icon_file ${usd_icons})

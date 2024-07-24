@@ -12,17 +12,16 @@
     "compounds": [
         {
             "name": "USD::Prim::define_usd_curves",
-            "uriImported": "file:///define_usd_curves.json",
             "metadata": [
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/define_usd_curves.md"
+                    "metaValue": "../docs/${language}/USD_Prim_define_usd_curves.md"
                 },
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_curve.svg"
                 },
                 {
                     "metaName": "format",
@@ -47,16 +46,6 @@
                                             "metaName": "DisplayMode",
                                             "metaType": "string",
                                             "metaValue": "2"
-                                        },
-                                        {
-                                            "metaName": "LayoutPos",
-                                            "metaType": "string",
-                                            "metaValue": "208.479 171.291"
-                                        },
-                                        {
-                                            "metaName": "zValue",
-                                            "metaType": "string",
-                                            "metaValue": "33.000000"
                                         },
                                         {
                                             "metaName": "io_ports",
@@ -89,12 +78,25 @@
                                                     "metaName": "type"
                                                 },
                                                 {
+                                                    "metaName": "applied_schema_names"
+                                                },
+                                                {
                                                     "metaName": "variant_set_name"
                                                 },
                                                 {
                                                     "metaName": "variant_name"
                                                 }
                                             ]
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "177.757 271.651"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "34.000000"
                                         }
                                     ]
                                 }
@@ -136,34 +138,9 @@
                     ]
                 },
                 {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::Logic,if"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::Logic,equal"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,USD::Attribute,define_usd_attribute"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,Geometry::Mesh,get_mesh_structure"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,USD::Prim,define_usd_prim"
-                },
-                {
                     "metaName": "ViewportRect",
                     "metaType": "string",
-                    "metaValue": "75.0595 59.9527 1720.58 903"
+                    "metaValue": "-55.0602 153.262 1611.57 650.415"
                 },
                 {
                     "metaName": "DisplayMode",
@@ -171,32 +148,47 @@
                     "metaValue": "2"
                 },
                 {
+                    "metaName": "NodeWidthOffset",
+                    "metaType": "string",
+                    "metaValue": "0"
+                },
+                {
                     "metaName": "LayoutPos",
                     "metaType": "string",
-                    "metaValue": "-354.088 -267.55"
+                    "metaValue": "-163.892 -188.848"
                 },
                 {
                     "metaName": "zValue",
                     "metaType": "string",
-                    "metaValue": "50.000000"
+                    "metaValue": "91.000000"
                 },
                 {
                     "metaName": "UILayout",
                     "metaType": "string",
-                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"strands\"\n            },\n            {\n                \"port\": \"path\"\n            },\n            {\n                \"port\": \"normal_per_vertex\"\n            },\n            {\n                \"port\": \"subdivision_scheme\"\n            },\n            {\n                \"port\": \"reference_definitions\"\n            },\n            {\n                \"port\": \"attribute_definitions\"\n            },\n            {\n                \"port\": \"children\"\n            },\n            {\n                \"port\": \"relationship_definitions\"\n            },\n            {\n                \"port\": \"material\"\n            },\n            {\n                \"port\": \"basis\"\n            },\n            {\n                \"port\": \"type\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Variant Selection\",\n                \"items\": [\n                    {\n                        \"port\": \"variant_set_name\"\n                    },\n                    {\n                        \"port\": \"variant_name\"\n                    }\n                ],\n                \"unique_id\": 10\n            }\n        ]\n    }\n}\n"
+                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"path\"\n            },\n            {\n                \"port\": \"strands\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"General\",\n                \"items\": [\n                    {\n                        \"port\": \"basis\"\n                    },\n                    {\n                        \"port\": \"type\"\n                    },\n                    {\n                        \"port\": \"applied_schema_names\"\n                    },\n                    {\n                        \"expanded\": false,\n                        \"group\": \"Variant Selection\",\n                        \"items\": [\n                            {\n                                \"port\": \"variant_set_name\"\n                            },\n                            {\n                                \"port\": \"variant_name\"\n                            }\n                        ],\n                        \"unique_id\": 10\n                    }\n                ],\n                \"unique_id\": 25\n            },\n            {\n                \"port\": \"reference_definitions\"\n            },\n            {\n                \"port\": \"attribute_definitions\"\n            },\n            {\n                \"port\": \"children\"\n            },\n            {\n                \"port\": \"relationship_definitions\"\n            },\n            {\n                \"port\": \"material\"\n            }\n        ]\n    }\n}"
                 },
                 {
                     "metaName": "PortExpandedState",
                     "metadata": [
                         {
-                            "metaName": "attribute_definitions",
+                            "metaName": "General",
                             "metaType": "string",
                             "metaValue": "0"
+                        }
+                    ]
+                },
+                {
+                    "metaName": "NodeValueDisplay",
+                    "metadata": [
+                        {
+                            "metaName": "show",
+                            "metaType": "string",
+                            "metaValue": "1"
                         },
                         {
-                            "metaName": "Variant Selection",
+                            "metaName": "format",
                             "metaType": "string",
-                            "metaValue": "0"
+                            "metaValue": "Define Curves {path}"
                         }
                     ]
                 }
@@ -210,68 +202,6 @@
                 },
                 {
                     "portName": "strands",
-                    "portDirection": "input",
-                    "portType": "Object",
-                    "portDefault": {}
-                },
-                {
-                    "portName": "attribute_definitions",
-                    "portDirection": "input",
-                    "portType": "array<Object>",
-                    "portDefault": [],
-                    "isDefaultFanIn": "true",
-                    "metadata": [
-                        {
-                            "metaName": "quick_create",
-                            "metaType": "string",
-                            "metaValue": "USD::Attribute::define_usd_attribute;USD::Attribute::define_usd_transform;USD::Attribute::define_usd_display_color"
-                        }
-                    ]
-                },
-                {
-                    "portName": "reference_definitions",
-                    "portDirection": "input",
-                    "portType": "array<Object>",
-                    "portDefault": [],
-                    "isDefaultFanIn": "true",
-                    "metadata": [
-                        {
-                            "metaName": "quick_create",
-                            "metaType": "string",
-                            "metaValue": "USD::Prim::define_usd_reference"
-                        }
-                    ]
-                },
-                {
-                    "portName": "relationship_definitions",
-                    "portDirection": "input",
-                    "portType": "array<Object>",
-                    "portDefault": [],
-                    "isDefaultFanIn": "true",
-                    "metadata": [
-                        {
-                            "metaName": "quick_create",
-                            "metaType": "string",
-                            "metaValue": "USD::Prim::define_usd_relationship"
-                        }
-                    ]
-                },
-                {
-                    "portName": "children",
-                    "portDirection": "input",
-                    "portType": "array<Object>",
-                    "portDefault": [],
-                    "isDefaultFanIn": "true",
-                    "metadata": [
-                        {
-                            "metaName": "quick_create",
-                            "metaType": "string",
-                            "metaValue": "USD::Prim::define_usd_prim;USD::Prim::define_usd_mesh;USD::Prim::define_usd_curves;USD::Shading::define_usd_preview_surface;USD::Prim::define_usd_point_instancer"
-                        }
-                    ]
-                },
-                {
-                    "portName": "material",
                     "portDirection": "input",
                     "portType": "Object",
                     "portDefault": {}
@@ -323,9 +253,10 @@
                     ]
                 },
                 {
-                    "portName": "curves_definition",
-                    "portDirection": "output",
-                    "portType": "Object"
+                    "portName": "applied_schema_names",
+                    "portDirection": "input",
+                    "portType": "string",
+                    "portDefault": ""
                 },
                 {
                     "portName": "variant_set_name",
@@ -338,12 +269,78 @@
                     "portDirection": "input",
                     "portType": "string",
                     "portDefault": ""
+                },
+                {
+                    "portName": "reference_definitions",
+                    "portDirection": "input",
+                    "portType": "array<Object>",
+                    "portDefault": [],
+                    "isDefaultFanIn": "true",
+                    "metadata": [
+                        {
+                            "metaName": "quick_create",
+                            "metaType": "string",
+                            "metaValue": "USD::Prim::define_usd_reference"
+                        }
+                    ]
+                },
+                {
+                    "portName": "attribute_definitions",
+                    "portDirection": "input",
+                    "portType": "array<Object>",
+                    "portDefault": [],
+                    "isDefaultFanIn": "true",
+                    "metadata": [
+                        {
+                            "metaName": "quick_create",
+                            "metaType": "string",
+                            "metaValue": "USD::Attribute::define_usd_attribute;USD::Attribute::define_usd_transform;USD::Attribute::define_usd_display_color"
+                        }
+                    ]
+                },
+                {
+                    "portName": "children",
+                    "portDirection": "input",
+                    "portType": "array<Object>",
+                    "portDefault": [],
+                    "isDefaultFanIn": "true",
+                    "metadata": [
+                        {
+                            "metaName": "quick_create",
+                            "metaType": "string",
+                            "metaValue": "USD::Prim::define_usd_prim;USD::Prim::define_usd_mesh;USD::Prim::define_usd_curves;USD::Shading::define_usd_preview_surface;USD::Prim::define_usd_point_instancer"
+                        }
+                    ]
+                },
+                {
+                    "portName": "relationship_definitions",
+                    "portDirection": "input",
+                    "portType": "array<Object>",
+                    "portDefault": [],
+                    "isDefaultFanIn": "true",
+                    "metadata": [
+                        {
+                            "metaName": "quick_create",
+                            "metaType": "string",
+                            "metaValue": "USD::Prim::define_usd_relationship"
+                        }
+                    ]
+                },
+                {
+                    "portName": "material",
+                    "portDirection": "input",
+                    "portType": "Object",
+                    "portDefault": {}
+                },
+                {
+                    "portName": "curves_definition",
+                    "portDirection": "output",
+                    "portType": "Object"
                 }
             ],
             "compounds": [
                 {
                     "name": "create_curves_attributes",
-                    "uriImported": "file:///define_usd_curves.json",
                     "metadata": [
                         {
                             "metaName": "io_nodes",
@@ -423,31 +420,6 @@
                             ]
                         },
                         {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,Core::Randomization,random_value_array"
-                        },
-                        {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,Core::Array,array_size"
-                        },
-                        {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,Core::Math,multiply"
-                        },
-                        {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,Geometry::Properties,set_geo_property"
-                        },
-                        {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,Geometry::Properties,get_geo_property"
-                        },
-                        {
                             "metaName": "ViewportRect",
                             "metaType": "string",
                             "metaValue": "-390.857 -31.6482 2552.18 1639.91"
@@ -489,7 +461,6 @@
                     "compounds": [
                         {
                             "name": "build_vertex_counts",
-                            "uriImported": "file:///define_usd_curves.json",
                             "metadata": [
                                 {
                                     "metaName": "ViewportRect",
@@ -572,18 +543,7 @@
                             "compounds": [
                                 {
                                     "name": "for_each",
-                                    "uriImported": "file:///define_usd_curves.json",
                                     "metadata": [
-                                        {
-                                            "metaName": "icon",
-                                            "metaType": "string",
-                                            "metaValue": "<NATIVE>../icons/LoopForEach.svg"
-                                        },
-                                        {
-                                            "metaName": "icon",
-                                            "metaType": "string",
-                                            "metaValue": "<NATIVE>../icons/LoopForEach.svg"
-                                        },
                                         {
                                             "metaName": "icon",
                                             "metaType": "string",
@@ -1097,7 +1057,6 @@
                         },
                         {
                             "name": "define_usd_display_color",
-                            "uriImported": "file:///define_usd_curves.json",
                             "metadata": [
                                 {
                                     "metaName": "documentation",
@@ -1117,32 +1076,7 @@
                                 {
                                     "metaName": "icon",
                                     "metaType": "string",
-                                    "metaValue": "../icons/usd.svg"
-                                },
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Core::Array,array_is_empty"
-                                },
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Geometry::Properties,get_geo_property"
-                                },
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Geometry::Common,interpret_auto_port_as_vector"
-                                },
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Geometry::Common,interpret_auto_port_as_scalar"
-                                },
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Core::Array,resize_array"
+                                    "metaValue": "../icons/usd_default.svg"
                                 },
                                 {
                                     "metaName": "io_nodes",
@@ -2173,6 +2107,11 @@
                             "value": "1f"
                         },
                         {
+                            "valueName": "interpret_auto_port_as_scalar.indices",
+                            "valueType": "array<long>",
+                            "value": []
+                        },
+                        {
                             "valueName": "interpret_auto_port_as_scalar.geometry_component",
                             "valueType": "string",
                             "value": "point_component"
@@ -2181,11 +2120,6 @@
                             "valueName": "interpret_auto_port_as_scalar.position_property",
                             "valueType": "string",
                             "value": "point_position"
-                        },
-                        {
-                            "valueName": "interpret_auto_port_as_scalar.indices",
-                            "valueType": "array<long>",
-                            "value": []
                         },
                         {
                             "valueName": "define_usd_attribute3.name",
@@ -2389,9 +2323,9 @@
                             "metaValue": "826.968 246.174"
                         },
                         {
-                            "metaName": "zValue",
+                            "metaName": "DisplayMode",
                             "metaType": "string",
-                            "metaValue": "45.000000"
+                            "metaValue": "2"
                         },
                         {
                             "metaName": "PortExpandedState",
@@ -2407,21 +2341,21 @@
                                     "metaValue": "0"
                                 },
                                 {
-                                    "metaName": "General",
+                                    "metaName": "General.Variant Selection",
                                     "metaType": "string",
                                     "metaValue": "1"
                                 },
                                 {
-                                    "metaName": "General.Variant Selection",
+                                    "metaName": "General",
                                     "metaType": "string",
                                     "metaValue": "1"
                                 }
                             ]
                         },
                         {
-                            "metaName": "DisplayMode",
+                            "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "1"
+                            "metaValue": "33.000000"
                         }
                     ]
                 },
@@ -2442,7 +2376,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "34.000000"
+                            "metaValue": "32.000000"
                         }
                     ]
                 }
@@ -2499,6 +2433,10 @@
                 {
                     "source": ".variant_name",
                     "target": "define_usd_prim.variant_name"
+                },
+                {
+                    "source": ".applied_schema_names",
+                    "target": "define_usd_prim.applied_schema_names"
                 }
             ],
             "values": [

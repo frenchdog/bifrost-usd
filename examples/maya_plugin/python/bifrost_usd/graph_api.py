@@ -15,17 +15,118 @@
 # limitations under the License.
 # *****************************************************************************
 # +
+import contextlib
+from dataclasses import dataclass, field
 from maya import cmds
+
+from bifrost_usd.constants import kMayaUsdProxyShape
 
 
 def bifrost_version() -> str:
     return cmds.pluginInfo("bifrostGraph", query=True, version=True)
 
 
+def warning(msg):
+    cmds.warning(f"[Bifrost USD] {msg}")
+
+
+def error(msg):
+    cmds.error(f"[Bifrost USD] {msg}")
+
+
+@contextlib.contextmanager
+def GraphPaused(graph):
+    runOnDemandValue = cmds.getAttr(f"{graph}.runOnDemand")
+
+    cmds.setAttr(f"{graph}.runOnDemand", True)
+    yield
+    cmds.setAttr(f"{graph}.runOnDemand", runOnDemandValue)
+
+
+def find_bifrost_usd_graph() -> str:
+    """We consider a Bifrost graph to be a USD graph if there is one output
+    of a bifrostGraphShape connected to the stageCacheId plug of a mayaUsdProxyShape node"""
+    graphList = cmds.ls(type="bifrostGraphShape")
+    for graph in graphList:
+        cnx = cmds.listConnections(graph, type=kMayaUsdProxyShape, shapes=True)
+        if cnx:
+            usdProxyShapeName = cnx[0]
+            plugList = cmds.listConnections(graph, type=kMayaUsdProxyShape, plugs=True)
+            if plugList:
+                if f"{usdProxyShapeName}.stageCacheId" in plugList:
+                    return graph
+
+    return ""
+
+
+def has_bifrost_usd_graph() -> bool:
+    if find_bifrost_usd_graph():
+        return True
+    return False
+
+
+def open_bifrost_graph(graph) -> None:
+    if cmds.about(batch=True):
+        warning("Can not open Bifrost Graph Editor in batch mode")
+        return
+
+    cmds.vnnCompoundEditor(
+        name="bifrostGraphEditorControl",
+        title="Bifrost Graph Editor",
+        edit=graph,
+    )
+
+
+def open_bifrost_usd_graph() -> None:
+    if cmds.about(batch=1):
+        return
+
+    if graph := find_bifrost_usd_graph():
+        open_bifrost_graph(graph)
+
+
+@dataclass
+class GraphEditorSelection:
+    dgContainerFullPath: str = ""
+    dgContainerName: str = ""
+    currentCompound: str = ""
+    output: str = ""
+    nodeSelection: list[str] = field(default_factory=list)
+
+
+def get_graph_selection(refresh: bool = True) -> GraphEditorSelection:
+    selection = GraphEditorSelection()
+
+    if refresh:
+        cmds.refresh(force=True)
+
+    try:
+        rtn = cmds.vnnCompoundEditor(
+            query=True, dgContainer=True, currentCompound=True, nodeSelection=True
+        )
+        selection.dgContainerFullPath = rtn[0]
+        selection.dgContainerName = rtn[0].split("|")[-1]
+        selection.currentCompound = rtn[1]
+
+        if len(rtn) == 2:
+            selection.nodeSelection = []
+        elif len(rtn) == 3:
+            selection.nodeSelection = [rtn[-1]]
+        else:
+            selection.nodeSelection = rtn[(len(rtn) - 2) :]
+
+    except RuntimeError:
+        cmds.error("You need to open a Bifrost Graph.")
+
+    return selection
+
+
 class GraphAPI:
-    def __init__(self, get_graph_name_fn):
+    def __init__(self, get_graph_name_fn=None):
         super(GraphAPI, self).__init__()
-        self.get_graph_name_fn = get_graph_name_fn
+        self.get_graph_name_fn = (
+            get_graph_name_fn if get_graph_name_fn else find_bifrost_usd_graph
+        )
         self.ufe_observer = False
 
     def _getGraphName(self, graph_name: str = "") -> str:
@@ -42,9 +143,12 @@ class GraphAPI:
     def type_name(
         self, node_name: str, graph_name: str = "", current_compound: str = "/"
     ) -> str:
+        nodeName = node_name
+        if node_name.startswith("/"):
+            nodeName = node_name[1:]
         return cmds.vnnNode(
             self._getGraphName(graph_name),
-            current_compound + node_name,
+            current_compound + nodeName,
             queryTypeName=1,
         )
 
@@ -71,10 +175,33 @@ class GraphAPI:
         graph_name: str = "",
         current_compound: str = "/",
     ) -> None:
+        value = param[1]
+        if isinstance(value, bool):
+            if value:
+                value = "1"
+            else:
+                value = "0"
+
         cmds.vnnNode(
             self._getGraphName(graph_name),
             current_compound + node_name,
-            setPortDefaultValues=(param[0], param[1]),
+            setPortDefaultValues=(param[0], value),
+        )
+
+    def metadata(
+        self,
+        node_name: str,
+        metadata_name: str,
+        graph_name: str = "",
+        current_compound: str = "/",
+    ) -> str:
+        nodeName = node_name
+        if node_name.startswith("/"):
+            nodeName = node_name[1:]
+        return cmds.vnnNode(
+            self._getGraphName(graph_name),
+            current_compound + nodeName,
+            queryMetaData=metadata_name,
         )
 
     def set_metadata(
@@ -135,9 +262,31 @@ class GraphAPI:
     def add_node(
         self, node_type_name: str, graph_name: str = "", current_compound: str = "/"
     ) -> str:
-        return cmds.vnnCompound(
-            self._getGraphName(graph_name), current_compound, addNode=node_type_name
-        )[0]
+        """
+        :param [node_type_name]: "Input" for Input by Path node, "Output" for Output node and
+                                 Bifrost fully qualified type name for other nodes.
+        """
+        result = ""
+        try:
+            if node_type_name == "Input":
+                result = cmds.vnnCompound(
+                    self._getGraphName(graph_name), current_compound, addIONode=True
+                )
+            elif node_type_name == "Output":
+                result = cmds.vnnCompound(
+                    self._getGraphName(graph_name), current_compound, addIONode=False
+                )
+            else:
+                result = cmds.vnnCompound(
+                    self._getGraphName(graph_name),
+                    current_compound,
+                    addNode=node_type_name,
+                )
+        except RuntimeError as e:
+            cmds.warning(e)
+            return ""
+
+        return result[0]
 
     def rename_node(
         self,
@@ -198,17 +347,18 @@ class GraphAPI:
         if target_node.startswith("/"):
             targetNode = target_node[1:]
 
-        targetCurrentCompound = current_compound
+        currentCompound = current_compound
         if not target_node:
-            targetCurrentCompound = ""
+            currentCompound = ""
 
+        srcNodeFullPath = current_compound + srcNode
         if not src_node:
-            targetCurrentCompound = ""
+            srcNodeFullPath = ""
 
         cmds.vnnConnect(
             self._getGraphName(graph_name),
-            current_compound + srcNode + "." + out_port,
-            targetCurrentCompound + targetNode + "." + in_port,
+            srcNodeFullPath + "." + out_port,
+            currentCompound + targetNode + "." + in_port,
         )
 
     def disconnect(self, port1: str, port2: str) -> None:
@@ -221,7 +371,7 @@ class GraphAPI:
         cmds.vnnConnect(self._getGraphName(), f"/{port1}", f"/{port2}", disconnect=True)
 
     def connected_ports(
-        self, node, graph_name: str = "", current_compound: str = "/"
+        self, node: str, graph_name: str = "", current_compound: str = "/"
     ) -> list:
         return cmds.vnnNode(
             self._getGraphName(graph_name),
@@ -263,6 +413,11 @@ class GraphAPI:
             fanInName = from_port + suffix
 
         return fanInName
+
+    def enable_fanin_port(self, node: str, port_name: str, graph_name: str) -> None:
+        cmds.vnnPort(
+            self._getGraphName(graph_name), f"/{node}.{port_name}", 0, 1, set=2
+        )
 
     def connect_to_fanin_port(
         self, from_node: str, to_node: str, parent_port: str, from_port: str
@@ -317,3 +472,42 @@ class GraphAPI:
             rtn = []
 
         return rtn
+
+    def auto_layout_all_nodes(self, graph_name: str = ""):
+        """It will clear the node selection in order to auto-layout the entire graph."""
+        if cmds.about(batch=1):
+            return
+
+        # [BIFROST-10282] Workaround to clear the node selection since there is no vnn command for that.
+        # We create a temporary node to change the selection and then delete it to clear the selection.
+        graphName = self._getGraphName(graph_name)
+        mayaCmd = (
+            f'cmds.vnnCompound("{graphName}", "/", create="_tmp_node_to_be_deleted_")'
+        )
+        mayaCmd += ";" + "cmds.refresh(force=True)"
+        mayaCmd += (
+            ";"
+            + f'cmds.vnnCompound("{graphName}", "/", removeNode="_tmp_node_to_be_deleted_")'
+        )
+        # Use the "L" keyboard shortcut to run the auto-layout
+        mayaCmd += (
+            ";"
+            + 'cmds.vnnCompoundEditor(sendKey=(ord("L"), 0), name="bifrostGraphEditorControl")'
+        )
+        cmds.evalDeferred(mayaCmd)
+
+    def auto_layout_selected_nodes(self, graph_name: str = ""):
+        """It will clear the node selection in order to auto-layout the entire graph."""
+        if cmds.about(batch=1):
+            return
+
+        # Use the "L" keyboard shortcut to run the auto-layout
+        cmds.evalDeferred(
+            'cmds.vnnCompoundEditor(sendKey=(ord("L"), 0), name="bifrostGraphEditorControl")'
+        )
+
+    def copy(self, source_node: str, graph_name: str = "") -> None:
+        cmds.vnnCopy(self._getGraphName(graph_name), ".", sourceNode=source_node)
+
+    def paste(self, location: str = ".", graph_name: str = "") -> None:
+        cmds.vnnPaste(self._getGraphName(graph_name), location)

@@ -17,7 +17,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_mesh.svg"
                 },
                 {
                     "metaName": "io_nodes",
@@ -1961,7 +1961,7 @@
                                 {
                                     "metaName": "icon",
                                     "metaType": "string",
-                                    "metaValue": "../icons/usd.svg"
+                                    "metaValue": "../icons/usd_default.svg"
                                 },
                                 {
                                     "metaName": "ViewportRect",

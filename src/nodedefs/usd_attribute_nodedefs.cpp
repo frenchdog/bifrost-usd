@@ -968,6 +968,31 @@ bool USD::Attribute::clear_attribute_connections(
     return false;
 }
 
+bool USD::Attribute::get_prim_attribute_connections(const BifrostUsd::Attribute&  attribute,
+                             Amino::MutablePtr<Amino::Array<Amino::String>>& connections) {
+    connections = Amino::newMutablePtr<Amino::Array<Amino::String>>();
+    bool success = false;
+    try {
+        if (attribute) {
+            PXR_NS::SdfPathVector sources;
+            success = attribute->GetConnections(&sources);
+            if(!success) {
+                return false;
+            }
+            const size_t numSources = sources.size();
+            connections->resize(numSources);
+            for (size_t i = 0; i < numSources; ++i) {
+                (*connections)[i]  = sources[i].GetText();
+            }
+        }
+    } catch (std::exception& e) {
+        log_exception("get_prim_attribute_connections", e);
+    }
+    assert(connections);
+    return success;
+}
+
+
 bool USD::Attribute::set_attribute_metadata(BifrostUsd::Stage&   stage,
                                             const Amino::String& prim_path,
                                             const Amino::String& attribute_name,

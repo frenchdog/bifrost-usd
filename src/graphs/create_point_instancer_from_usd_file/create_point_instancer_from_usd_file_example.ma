@@ -93,8 +93,6 @@ createNode bifrostGraphShape -n "createPointInstancerFromUsdFileShape" -p "creat
 		-ln "JobPorts__scene_info_project_directory" -dt "string" -p "JobPorts__scene_info";
 	addAttr -ci true -sn "JobPorts__scene_info_has_project" -ln "JobPorts__scene_info_has_project" 
 		-dv 1 -min 0 -max 1 -at "bool" -p "JobPorts__scene_info";
-	addAttr -r false -ci true -k true -sn "JobPorts__Math_epsilonFloat" -ln "JobPorts__Math_epsilonFloat" 
-		-at "float";
 	setAttr -k off ".v";
 	setAttr ".covm[0]"  0 1 1;
 	setAttr ".cdvm[0]"  0 1 1;

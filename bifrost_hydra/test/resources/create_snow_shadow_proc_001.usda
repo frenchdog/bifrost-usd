@@ -15,7 +15,7 @@ def Scope "Bifrost"
 
         # Input parameters
         bool primvars:enable_snow = false
-        int64 primvars:number_of_spheres = 20
+        int primvars:number_of_spheres = 20
         float primvars:sun_direction_x = 0
         float primvars:sun_direction_y = -1
         float primvars:sun_direction_z = -0.5

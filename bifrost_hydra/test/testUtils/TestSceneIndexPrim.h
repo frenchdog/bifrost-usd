@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,8 @@ using UsdImagingGLEngineSharedPtr =
 
 namespace BifrostHdTest {
 
-class BIFROST_HD_TESTUTILS_SHARED_DECL TestSceneIndexPrim : public ::testing::Test {
+class BIFROST_HD_TESTUTILS_SHARED_DECL TestSceneIndexPrim
+    : public ::testing::Test {
 protected:
     /// \brief Method that is called before a unit test is executed.
     void SetUp() override;
@@ -41,28 +42,35 @@ protected:
     /// \brief Method that is called after a unit test is executed.
     void TearDown() override;
 
-    PXR_NS::UsdStageRefPtr openStage(const std::string& stageFilePath);
+    bool openStage(const std::string& stageFilePath);
 
     bool render();
 
     void reRender();
 
-    PXR_NS::HdSceneIndexPrim getHdPrim(const PXR_NS::SdfPath& bifrostProcPrimPath);
+    PXR_NS::UsdPrim getUsdPrim(const PXR_NS::SdfPath& primPath);
+
+    PXR_NS::HdSceneIndexPrim getHdPrim(
+        const PXR_NS::SdfPath& bifrostProcPrimPath);
+
+    PXR_NS::HdSceneIndexBaseRefPtr getSceneIndex() const;
+
+    RecordingSceneIndexObserver& getObserver();
 
     static void ExportAsString(const PXR_NS::HdSceneIndexPrim& prim,
-                               const std::string&           filePath = "");
+                               const std::string&              filePath = "");
 
     static void TestHdSceneIndexMesh(const PXR_NS::HdSceneIndexPrim& prim,
                                      bool hasDisplayColor = true);
 
-    static void TestHdSceneIndexBasisCurves(const PXR_NS::HdSceneIndexPrim& prim);
-
-    PXR_NS::UsdStageRefPtr         stage;
-    UsdImagingGLEngineSharedPtr engine;
-    PXR_NS::HdSceneIndexBaseRefPtr sceneIndex;
-    RecordingSceneIndexObserver observer;
+    static void TestHdSceneIndexBasisCurves(
+        const PXR_NS::HdSceneIndexPrim& prim);
 
 private:
+    PXR_NS::UsdStageRefPtr         m_stage;
+    UsdImagingGLEngineSharedPtr    m_engine;
+    PXR_NS::HdSceneIndexBaseRefPtr m_sceneIndex;
+    RecordingSceneIndexObserver    m_observer;
 };
 
 } // namespace BifrostHdTest

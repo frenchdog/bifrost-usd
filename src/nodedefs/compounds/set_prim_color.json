@@ -114,7 +114,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_set.svg"
                 }
             ],
             "ports": [

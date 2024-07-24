@@ -17,7 +17,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_default.svg"
                 },
                 {
                     "metaName": "io_nodes",
@@ -152,7 +152,7 @@
                 {
                     "metaName": "UILayout",
                     "metaType": "string",
-                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"prim_definition\"\n            },\n            {\n                \"expanded\": true,\n                \"group\": \"Settings\",\n                \"items\": [\n                    {\n                        \"port\": \"arc_type\"\n                    },\n                    {\n                        \"port\": \"instanceable\"\n                    },\n                    {\n                        \"port\": \"duplicate_name\"\n                    },\n                    {\n                        \"port\": \"count\"\n                    },\n                    {\n                        \"port\": \"translation\"\n                    },\n                    {\n                        \"port\": \"rotation\"\n                    },\n                    {\n                        \"port\": \"scale\"\n                    },\n                    {\n                        \"port\": \"uniform_scale\"\n                    }\n                ]\n            }\n        ]\n    }\n}\n"
+                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"prim_definition\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Settings\",\n                \"items\": [\n                    {\n                        \"port\": \"arc_type\"\n                    },\n                    {\n                        \"port\": \"instanceable\"\n                    },\n                    {\n                        \"port\": \"duplicate_name\"\n                    },\n                    {\n                        \"port\": \"count\"\n                    },\n                    {\n                        \"port\": \"translation\"\n                    },\n                    {\n                        \"port\": \"rotation\"\n                    },\n                    {\n                        \"port\": \"scale\"\n                    },\n                    {\n                        \"port\": \"uniform_scale\"\n                    }\n                ]\n            }\n        ]\n    }\n}"
                 },
                 {
                     "metaName": "LayoutPos",
@@ -492,7 +492,7 @@
                         {
                             "metaName": "icon",
                             "metaType": "string",
-                            "metaValue": "../icons/usd.svg"
+                            "metaValue": "../icons/usd_default.svg"
                         },
                         {
                             "metaName": "DisplayMode",

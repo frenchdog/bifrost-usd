@@ -62,7 +62,7 @@
                                         {
                                             "metaName": "zValue",
                                             "metaType": "string",
-                                            "metaValue": "51.000000"
+                                            "metaValue": "48.000000"
                                         }
                                     ]
                                 },
@@ -90,7 +90,7 @@
                                         {
                                             "metaName": "zValue",
                                             "metaType": "string",
-                                            "metaValue": "52.000000"
+                                            "metaValue": "49.000000"
                                         }
                                     ]
                                 },
@@ -118,7 +118,7 @@
                                         {
                                             "metaName": "zValue",
                                             "metaType": "string",
-                                            "metaValue": "64.000000"
+                                            "metaValue": "52.000000"
                                         }
                                     ]
                                 }
@@ -151,7 +151,7 @@
                                         {
                                             "metaName": "zValue",
                                             "metaType": "string",
-                                            "metaValue": "54.000000"
+                                            "metaValue": "50.000000"
                                         }
                                     ]
                                 }
@@ -341,7 +341,7 @@
                 {
                     "metaName": "ViewportRect",
                     "metaType": "string",
-                    "metaValue": "513.128 -911.341 2623.46 2053.76"
+                    "metaValue": "-573.471 -1236.12 3818.02 2770.97"
                 },
                 {
                     "metaName": "DisplayMode",
@@ -351,12 +351,12 @@
                 {
                     "metaName": "LayoutPos",
                     "metaType": "string",
-                    "metaValue": "-66.5 -137"
+                    "metaValue": "-139.5 19"
                 },
                 {
                     "metaName": "zValue",
                     "metaType": "string",
-                    "metaValue": "39.000000"
+                    "metaValue": "35.000000"
                 }
             ],
             "terminalStates": [
@@ -377,8 +377,8 @@
                 {
                     "portName": "number_of_spheres",
                     "portDirection": "input",
-                    "portType": "long",
-                    "portDefault": "20",
+                    "portType": "int",
+                    "portDefault": "20L",
                     "metadata": [
                         {
                             "metaName": "UiSoftMin",
@@ -2402,16 +2402,6 @@
                             "value": "true"
                         },
                         {
-                            "valueName": "location_scope.size",
-                            "valueType": "float",
-                            "value": "0.0500000007f"
-                        },
-                        {
-                            "valueName": "location_scope.miss_size_factor",
-                            "valueType": "float",
-                            "value": "0.5f"
-                        },
-                        {
                             "valueName": "location_scope.circles_at_origin",
                             "valueType": "bool",
                             "value": "true"
@@ -2420,6 +2410,16 @@
                             "valueName": "location_scope.circles_at_sample",
                             "valueType": "bool",
                             "value": "true"
+                        },
+                        {
+                            "valueName": "location_scope.size",
+                            "valueType": "float",
+                            "value": "0.0500000007f"
+                        },
+                        {
+                            "valueName": "location_scope.miss_size_factor",
+                            "valueType": "float",
+                            "value": "0.5f"
                         }
                     ],
                     "reservedNodeNames": [
@@ -3410,12 +3410,12 @@
                                     "value": "1.5f"
                                 },
                                 {
-                                    "valueName": "create_mesh_sphere.height_segments",
+                                    "valueName": "create_mesh_sphere.axis_segments",
                                     "valueType": "int",
                                     "value": "20L"
                                 },
                                 {
-                                    "valueName": "create_mesh_sphere.axis_segments",
+                                    "valueName": "create_mesh_sphere.height_segments",
                                     "valueType": "int",
                                     "value": "20L"
                                 },
@@ -3573,20 +3573,20 @@
                             "value": "50L"
                         },
                         {
-                            "valueName": "create_mesh_plane.up_axis",
-                            "valueType": "Math::float3",
-                            "value": {
-                                "x": "0f",
-                                "y": "1f",
-                                "z": "0f"
-                            }
-                        },
-                        {
                             "valueName": "create_mesh_plane.position",
                             "valueType": "Math::float3",
                             "value": {
                                 "x": "0f",
                                 "y": "0f",
+                                "z": "0f"
+                            }
+                        },
+                        {
+                            "valueName": "create_mesh_plane.up_axis",
+                            "valueType": "Math::float3",
+                            "value": {
+                                "x": "0f",
+                                "y": "1f",
                                 "z": "0f"
                             }
                         }
@@ -4224,14 +4224,14 @@
                                     "value": "1f"
                                 },
                                 {
-                                    "valueName": "standard_surface_mat.subsurface_anisotropy",
-                                    "valueType": "float",
-                                    "value": "0f"
-                                },
-                                {
                                     "valueName": "standard_surface_mat.subsurface_type",
                                     "valueType": "char",
                                     "value": "0"
+                                },
+                                {
+                                    "valueName": "standard_surface_mat.subsurface_anisotropy",
+                                    "valueType": "float",
+                                    "value": "0f"
                                 },
                                 {
                                     "valueName": "standard_surface_mat.coat",
@@ -4807,14 +4807,14 @@
                             "value": "1f"
                         },
                         {
-                            "valueName": "create_mesh_sphere.height_segments",
-                            "valueType": "int",
-                            "value": "14L"
-                        },
-                        {
                             "valueName": "create_mesh_sphere.axis_segments",
                             "valueType": "int",
                             "value": "20L"
+                        },
+                        {
+                            "valueName": "create_mesh_sphere.height_segments",
+                            "valueType": "int",
+                            "value": "14L"
                         },
                         {
                             "valueName": "create_mesh_sphere.position",
@@ -4915,21 +4915,6 @@
                             "value": "0.125f"
                         },
                         {
-                            "valueName": "points_to_volume.enable_bandwidth",
-                            "valueType": "bool",
-                            "value": "false"
-                        },
-                        {
-                            "valueName": "points_to_volume.bandwidth",
-                            "valueType": "float",
-                            "value": "0f"
-                        },
-                        {
-                            "valueName": "points_to_volume.volume_subdivision_structure",
-                            "valueType": "Geometry::Volume::AutoSubdivisionStructure",
-                            "value": "Automatic"
-                        },
-                        {
                             "valueName": "points_to_volume.adaptivity",
                             "valueType": "Geometry::Volume::Adaptivity",
                             "value": "Off"
@@ -4943,6 +4928,21 @@
                             "valueName": "points_to_volume.enable_resolution_bounds",
                             "valueType": "bool",
                             "value": "false"
+                        },
+                        {
+                            "valueName": "points_to_volume.enable_bandwidth",
+                            "valueType": "bool",
+                            "value": "false"
+                        },
+                        {
+                            "valueName": "points_to_volume.bandwidth",
+                            "valueType": "float",
+                            "value": "0f"
+                        },
+                        {
+                            "valueName": "points_to_volume.volume_subdivision_structure",
+                            "valueType": "Geometry::Volume::AutoSubdivisionStructure",
+                            "value": "Automatic"
                         },
                         {
                             "valueName": "points_to_volume.base_resolution",
@@ -5477,6 +5477,11 @@
                                     "value": "1f"
                                 },
                                 {
+                                    "valueName": "interpret_auto_port_as_scalar.indices",
+                                    "valueType": "array<long>",
+                                    "value": []
+                                },
+                                {
                                     "valueName": "interpret_auto_port_as_scalar.geometry_component",
                                     "valueType": "string",
                                     "value": "point_component"
@@ -5485,11 +5490,6 @@
                                     "valueName": "interpret_auto_port_as_scalar.position_property",
                                     "valueType": "string",
                                     "value": "point_position"
-                                },
-                                {
-                                    "valueName": "interpret_auto_port_as_scalar.indices",
-                                    "valueType": "array<long>",
-                                    "value": []
                                 },
                                 {
                                     "valueName": "set_geo_property1.property",
@@ -5507,6 +5507,11 @@
                                     "value": "1f"
                                 },
                                 {
+                                    "valueName": "interpret_auto_port_as_scalar1.indices",
+                                    "valueType": "array<long>",
+                                    "value": []
+                                },
+                                {
                                     "valueName": "interpret_auto_port_as_scalar1.geometry_component",
                                     "valueType": "string",
                                     "value": "point_component"
@@ -5515,11 +5520,6 @@
                                     "valueName": "interpret_auto_port_as_scalar1.position_property",
                                     "valueType": "string",
                                     "value": "point_position"
-                                },
-                                {
-                                    "valueName": "interpret_auto_port_as_scalar1.indices",
-                                    "valueType": "array<long>",
-                                    "value": []
                                 }
                             ],
                             "reservedNodeNames": [
@@ -6249,14 +6249,14 @@
                             "value": "1f"
                         },
                         {
-                            "valueName": "standard_surface_mat.subsurface_anisotropy",
-                            "valueType": "float",
-                            "value": "0f"
-                        },
-                        {
                             "valueName": "standard_surface_mat.subsurface_type",
                             "valueType": "char",
                             "value": "0"
+                        },
+                        {
+                            "valueName": "standard_surface_mat.subsurface_anisotropy",
+                            "valueType": "float",
+                            "value": "0f"
                         },
                         {
                             "valueName": "standard_surface_mat.coat",
@@ -6759,14 +6759,14 @@
                             "metaValue": "2"
                         },
                         {
-                            "metaName": "zValue",
-                            "metaType": "string",
-                            "metaValue": "66.000000"
-                        },
-                        {
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "2056.73 366.616"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "53.000000"
                         }
                     ]
                 },
@@ -6787,7 +6787,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "39.000000"
+                            "metaValue": "38.000000"
                         }
                     ]
                 },
@@ -6818,7 +6818,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "40.000000"
+                            "metaValue": "39.000000"
                         }
                     ]
                 },
@@ -6839,7 +6839,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "41.000000"
+                            "metaValue": "40.000000"
                         }
                     ]
                 },
@@ -6860,7 +6860,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "42.000000"
+                            "metaValue": "41.000000"
                         }
                     ]
                 },
@@ -6881,7 +6881,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "43.000000"
+                            "metaValue": "42.000000"
                         }
                     ]
                 },
@@ -6917,7 +6917,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "44.000000"
+                            "metaValue": "43.000000"
                         }
                     ]
                 },
@@ -6968,7 +6968,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "45.000000"
+                            "metaValue": "44.000000"
                         }
                     ]
                 },
@@ -6994,7 +6994,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "46.000000"
+                            "metaValue": "45.000000"
                         }
                     ]
                 },
@@ -7020,7 +7020,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "47.000000"
+                            "metaValue": "46.000000"
                         }
                     ]
                 },
@@ -7041,7 +7041,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "71.000000"
+                            "metaValue": "55.000000"
                         }
                     ]
                 },
@@ -7062,7 +7062,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "69.000000"
+                            "metaValue": "54.000000"
                         }
                     ]
                 },
@@ -7083,7 +7083,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "50.000000"
+                            "metaValue": "47.000000"
                         }
                     ]
                 },
@@ -7101,14 +7101,14 @@
                             "metaValue": "2"
                         },
                         {
-                            "metaName": "zValue",
-                            "metaType": "string",
-                            "metaValue": "63.000000"
-                        },
-                        {
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "2784.71 75.9422"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "51.000000"
                         }
                     ]
                 }
@@ -7223,10 +7223,6 @@
                     "target": "if.condition"
                 },
                 {
-                    "source": ".number_of_spheres",
-                    "target": "dummy_geometry.number_of_spheres"
-                },
-                {
                     "source": "add_point_color1.out_geometry",
                     "target": "build_array.first.out_geometry"
                 },
@@ -7237,6 +7233,10 @@
                 {
                     "source": "build_array.array",
                     "target": ".meshes"
+                },
+                {
+                    "source": ".number_of_spheres",
+                    "target": "dummy_geometry.number_of_spheres"
                 }
             ],
             "values": [

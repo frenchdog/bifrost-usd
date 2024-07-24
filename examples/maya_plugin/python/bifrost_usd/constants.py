@@ -17,10 +17,14 @@
 # +
 from typing import Final
 
+from bifrost_usd.node_def import NodeDef
 
 kBifrostBoard: Final = "bifrostBoard"
 kBifrostGraphShape: Final = "bifrostGraphShape"
 kConstantString: Final = "BifrostGraph,Core::Constants,string"
+kOpenGraphToModifyStageMsg: Final = (
+    "Open the Bifrost Graph Editor to modify the USD stage"
+)
 kCreateUsdStage: Final = "BifrostGraph,USD::Stage,create_usd_stage"
 kDefaultLayerIdentifier: Final = "untitled.usd"
 kGraphName: Final = "bifrostUsd"
@@ -29,4 +33,46 @@ kOpenStage: Final = "BifrostGraph,USD::Stage,open_usd_stage"
 kOpenUsdLayer: Final = "BifrostGraph,USD::Layer,open_usd_layer"
 kSceneInfo: Final = "BifrostGraph,File::Project,scene_info"
 kStringJoin: Final = "BifrostGraph,Core::String,string_join"
-kDefinePrimHierarchy: Final = "BifrostGraph,USD::Prim,define_prim_hierarchy"
+
+kDefinePrim: Final = "BifrostGraph,USD::Prim,define_usd_prim"
+kDefineUsdMesh: Final = "BifrostGraph,USD::Prim,define_usd_mesh"
+kDefineUsdCurves: Final = "BifrostGraph,USD::define_usd_curves"
+kDefineUsdPointInstancer: Final = "BifrostGraph,USD::Prim,define_usd_point_instancer"
+kDefineUsdPreviewSurface: Final = "BifrostGraph,USD::Shading,define_usd_preview_surface"
+kCreateUsdPrim: Final = "BifrostGraph,USD::Prim,create_usd_prim"
+kOverridePrim: Final = "BifrostGraph,USD::Prim,override_prim"
+kDefinePrimHierarchy: Final = "BifrostGraph,USD::Prim,define_usd_prim_hierarchy"
+
+kPrimNodeList: Final = [
+    kDefinePrim,
+    kDefineUsdMesh,
+    kDefineUsdCurves,
+    kDefineUsdPointInstancer,
+    kDefineUsdPreviewSurface,
+    kCreateUsdPrim,
+    kOverridePrim,
+]
+
+kAddToStage: Final = "BifrostGraph,USD::Stage,add_to_stage"
+kAddToStageInVariant: Final = "BifrostGraph,USD::VariantSet,add_to_stage_in_variant"
+
+kAddToStageNodeDef: Final = NodeDef(
+    type_name=kAddToStage,
+    input_name="stage",
+    output_name="out_stage",
+    prim_path_param_name="parent_path",
+)
+
+kAddVariantSetNodeDef: Final = NodeDef(
+    type_name="BifrostGraph,USD::VariantSet,add_variant_set",
+    input_name="stage",
+    output_name="out_stage",
+    prim_path_param_name="prim_path",
+)
+
+kAddToStageInVariantNodeDef: Final = NodeDef(
+    type_name=kAddToStageInVariant,
+    input_name="stage",
+    output_name="out_stage",
+    prim_path_param_name="parent_path",
+)

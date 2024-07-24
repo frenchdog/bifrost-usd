@@ -15,20 +15,43 @@
 # limitations under the License.
 # *****************************************************************************
 # +
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Set
 from dataclasses import dataclass
+import contextlib
 
 from maya import cmds
 import ufe
+import mayaUsd
 
 from bifrost_usd.constants import (
-    kDefinePrimHierarchy,
-    kMayaUsdProxyShape,
+    kAddToStage,
+    kAddToStageInVariant,
+    kAddToStageInVariantNodeDef,
     kBifrostBoard,
     kBifrostGraphShape,
+    kCreateUsdPrim,
+    kDefinePrim,
+    kDefinePrimHierarchy,
+    kDefineUsdCurves,
+    kDefineUsdMesh,
+    kDefineUsdPointInstancer,
+    kDefineUsdPreviewSurface,
+    kMayaUsdProxyShape,
+    kOverridePrim,
 )
 
-from bifrost_usd.graph_api import GraphAPI
+from bifrost_usd.node_def import NodeDef
+
+from bifrost_usd.graph_api import (
+    error,
+    get_graph_selection,
+    GraphAPI,
+    GraphEditorSelection,
+    GraphPaused,
+    open_bifrost_graph,
+    warning,
+)
+
 from bifrost_usd.maya_usd_custom_attributes import get_parent_dag_path
 from bifrost_usd.maya_usd_custom_attributes import get_all_prim_types
 
@@ -38,58 +61,14 @@ def log(args):
     # print(args)
 
 
-def find_bifrost_usd_graph() -> str:
-    for graph in cmds.ls(type="bifrostGraphShape"):
-        if "USDWorkflow" in cmds.listAttr(graph):
-            return graph
-
-    return ""
-
-
-def has_bifrost_usd_graph() -> bool:
-    if find_bifrost_usd_graph():
-        return True
-    return False
+@contextlib.contextmanager
+def CurrentMayaSelection(sel):
+    """Restore original Maya selection"""
+    yield
+    cmds.select(sel, replace=True)
 
 
-graphAPI = GraphAPI(find_bifrost_usd_graph)
-
-
-@dataclass
-class GraphEditorSelection:
-    dgContainerFullPath: str
-    dgContainerName: str
-    currentCompound: str
-    output: str
-    nodeSelection: List
-
-
-def get_graph_editor_selection() -> GraphEditorSelection:
-    """Get the DG container, the current compound (that the graph editor is viewing)
-    and the current node selection in this compound.
-    """
-    selection = GraphEditorSelection("", "", "", "", [])
-    try:
-        cmds.refresh(force=True)
-        rtn = cmds.vnnCompoundEditor(
-            query=True, dgContainer=True, currentCompound=True, nodeSelection=True
-        )
-
-        selection.dgContainerFullPath = rtn[0]
-        selection.dgContainerName = rtn[0].split("|")[-1]
-        selection.currentCompound = rtn[1]
-
-        if len(rtn) == 2:
-            selection.nodeSelection = []
-        elif len(rtn) == 3:
-            selection.nodeSelection = [rtn[-1]]
-        else:
-            selection.nodeSelection = rtn[(len(rtn) - 2) :]
-
-    except RuntimeError:
-        cmds.error("You need to open a Bifrost Graph.")
-
-    return selection
+graphAPI = GraphAPI()
 
 
 @dataclass
@@ -115,87 +94,117 @@ def get_connected_stage_port(
     return stagePortData
 
 
-def insert_stage_node(graph_selection: GraphEditorSelection, new_node_def: dict) -> str:
+def insert_stage_node(
+    graph_selection: GraphEditorSelection, new_node_def: NodeDef
+) -> str:
     """Insert a node downstream of the selected node.
 
     :return: The inserted node.
     """
-    sel = graph_selection
-    if not sel.nodeSelection:
-        # keep the port name since it can't be deduced from the selection.
-        output = sel.output
-        sel = get_graph_editor_selection()
-        if not sel.nodeSelection:
-            cmds.warning(
-                "You must select a node upstream (with a stage output) in the Bifrost Graph Editor"
-            )
-            return ""
+    graphSelection = _get_graph_selection_if_needed(graph_selection)
+    if not graphSelection.nodeSelection:
+        return ""
 
-        sel.output = output
-
-    srcNode = sel.nodeSelection[0]
+    srcNode = graphSelection.nodeSelection[0]
 
     # no explicit output, then take last output of the node.
-    if not sel.output:
+    if not graphSelection.output:
         if connectedPorts := graphAPI.connected_ports(srcNode):
             # assume there is only one connected output
             # TODO: Add query of port type to vnnNode command.
             output = connectedPorts[-1]
-            sel.output = output.split(".")[-1]
+            graphSelection.output = output.split(".")[-1]
         else:
-            cmds.warning("Selected node is not connected")
+            warning("Selected node is not connected")
             return ""
 
-    if not sel.output:
-        cmds.warning("Selected node is not connected")
+    if not graphSelection.output:
+        warning("Selected node is not connected")
         return ""
 
-    if not (
-        newNode := graphAPI.add_node(
-            new_node_def["type_name"],
-            current_compound=sel.currentCompound,
-        )
-    ):
+    if not (newNode := graphAPI.add_node(new_node_def.type_name)):
         # if there is no new node, Maya should print an error.
         return ""
 
-    # store the connection info of source node before connecting it to a new node downstream
+    # store the connection graph_selection of source node before connecting it to a new node downstream
     cnxInfo = get_connected_stage_port(
-        sel.dgContainerFullPath, sel.currentCompound, srcNode
+        graphSelection.dgContainerFullPath, graphSelection.currentCompound, srcNode
     )
 
     # Connect output of source node to input of new node
-    graphAPI.connect(srcNode, sel.output, newNode, new_node_def["input"])
+    graphAPI.connect(srcNode, graphSelection.output, newNode, new_node_def.input_name)
 
-    # Connect output of new node to input of node connected to source node
-    if cnxInfo.node == sel.dgContainerName:
-        graphAPI.connect(newNode, new_node_def["output"], "", cnxInfo.port)
-    else:
-        newNodeName = cnxInfo.node
-        graphAPI.connect(newNode, new_node_def["output"], newNodeName, cnxInfo.port)
+    if not new_node_def.is_terminal:
+        # Connect output of new node to input of node connected to source node
+        if cnxInfo.node == graphSelection.dgContainerName:
+            graphAPI.connect(newNode, new_node_def.output_name, "", cnxInfo.port)
+        else:
+            newNodeName = cnxInfo.node
+            graphAPI.connect(newNode, new_node_def.output_name, newNodeName, cnxInfo.port)
 
     return newNode
 
 
-# TODO: add test
-def insert_prim_node(graph_selection: GraphEditorSelection, new_node_def: dict) -> str:
+def insert_prim_node(
+    graph_selection: GraphEditorSelection, new_node_def: NodeDef
+) -> str:
     primPath = ""
-    sel = cmds.ls(selection=True, ufe=True)
-    if sel:
-        primPath = sel[0].split(",")[-1]
+    if ufeSelection := cmds.ls(selection=True, ufe=True):
+        segments = ufeSelection[0].split(",")
+        if len(segments) > 1:
+            primPath = segments[-1]
 
-    if not primPath:
-        cmds.warning("Please select a USD prim")
-
+    graphSelection = _get_graph_selection_if_needed(graph_selection)
     newNode = insert_stage_node(graph_selection, new_node_def)
-    info = get_graph_editor_selection()
+    if not newNode:
+        error(f"Unexpected error. Can't not insert node {new_node_def.type_name}")
 
-    primPathParamName = new_node_def.get("prim_path_param_name", "path")
+    if primPath:
+        graphAPI.set_param(
+            newNode,
+            (new_node_def.prim_path_param_name, primPath),
+            current_compound=graphSelection.currentCompound,
+        )
+    else:
+        warning(
+            f"No prim selected, can't set '{new_node_def.prim_path_param_name}' parameter in '{newNode}' node."
+        )
 
-    graphAPI.set_param(
-        newNode, (primPathParamName, primPath), current_compound=info.currentCompound
-    )
     return newNode
+
+
+def set_point_instancer_invisible_ids(
+    graph_selection: GraphEditorSelection = GraphEditorSelection(),
+) -> bool:
+    graphSelection = _get_graph_selection_if_needed(graph_selection)
+    if not graphSelection.nodeSelection:
+        return False
+
+    pInstancerPath, ids = get_point_instancer_instance_id_from_selection()
+    if not ids:
+        warning("No Instances selected")
+        return False
+
+    setPointInstancesInvisibleNodeDef = NodeDef(
+        type_name="BifrostGraph,USD::PointInstancer,set_usd_point_instances_invisible",
+        input_name="stage",
+        output_name="out_stage",
+        prim_path_param_name="prim_path",
+    )
+    setPointInstancesInvisibleNode = insert_stage_node(
+        graphSelection, setPointInstancesInvisibleNodeDef
+    )
+    stringToArrayNode = graphAPI.add_node("BifrostGraph,Core::String,string_to_array")
+    graphAPI.connect(
+        stringToArrayNode,
+        "long_int_array",
+        setPointInstancesInvisibleNode,
+        "invisible_ids",
+    )
+    graphAPI.set_param(setPointInstancesInvisibleNode, ("prim_path", pInstancerPath))
+    graphAPI.set_param(stringToArrayNode, ("comma_separated_string", ",".join(ids)))
+
+    return True
 
 
 def _get_maya_paths_from_selection() -> tuple[list, list]:
@@ -213,7 +222,7 @@ def _get_maya_paths_from_selection() -> tuple[list, list]:
 
     transformList = cmds.ls(type="transform", selection=True, long=True)
     if not transformList:
-        cmds.warning("Please select a Maya transform node")
+        warning("Please select a Maya transform node")
 
     for transform in transformList:
         paths: list = []
@@ -272,30 +281,30 @@ def resolve_prim_path(
     parentPath = graphAPI.param(add_to_stage_path, "parent_path")
     parentPartsLenght = len(parentPath.split("/"))
     if parentPath and parentPath != "/":
-        primPath = "/" + "/".join(prim_path.split("/")[parentPartsLenght:])
+        tokens = primPath.split("/")
+        if len(tokens) > 2:
+            primPath = "/" + "/".join(prim_path.split("/")[parentPartsLenght:])
 
     return parentPath, primPath
 
 
 def _add_maya_mesh_to_stage(
     mesh_path: str,
-    info: GraphEditorSelection,
+    graph_selection: GraphEditorSelection,
     add_to_stage_path: str,
     index: int,
     mergeTransformAndShape: Optional[bool] = True,
 ) -> None:
-    ioNode = cmds.vnnCompound(
-        info.dgContainerFullPath, info.currentCompound, addIONode=True
-    )[0]
+    ioNode = graphAPI.add_node("Input")
 
     # TODO: vnn command renaming a node should return the new name.
     ioNodeName = "Input_by_Path_USD" + str(index)
-    suffix = str(index)
+    suffix = index
     while ioNodeName in find_all_input_by_path_nodes():
-        suffix += str(index)
-        ioNodeName += suffix
+        suffix += index
+        ioNodeName = "Input_by_Path_USD" + str(suffix)
 
-    meshName = "mesh" + suffix
+    meshName = "mesh" + str(suffix)
 
     graphAPI.rename_node(ioNode, ioNodeName)
 
@@ -303,7 +312,7 @@ def _add_maya_mesh_to_stage(
     graphAPI.create_output_port(ioNodeName, (meshName, "Object"), pathInfo)
     graphAPI.set_metadata(ioNodeName, ("bifrostUSD", "input_by_path"))
     graphAPI.create_input_port(
-        add_to_stage_path, (f"prim_definitions.mesh{suffix}", "auto")
+        add_to_stage_path, (f"prim_definitions.mesh{str(suffix)}", "auto")
     )
 
     defineHierarchy = graphAPI.add_node(kDefinePrimHierarchy)
@@ -311,7 +320,7 @@ def _add_maya_mesh_to_stage(
         src_node=defineHierarchy,
         out_port="prim_definitions",
         target_node=add_to_stage_path,
-        in_port=f"prim_definitions.mesh{suffix}",
+        in_port=f"prim_definitions.mesh{str(suffix)}",
     )
 
     primPath = mesh_path.replace("|", "/")
@@ -319,7 +328,7 @@ def _add_maya_mesh_to_stage(
         primPath = "/".join(primPath.split("/")[:-1])
 
     parentPath, primPath = resolve_prim_path(
-        info.dgContainerFullPath, add_to_stage_path, primPath
+        graph_selection.dgContainerFullPath, add_to_stage_path, primPath
     )
 
     graphAPI.set_param(defineHierarchy, ("path", primPath))
@@ -331,10 +340,7 @@ def _add_maya_mesh_to_stage(
 
     graphAPI.set_param(defineHierarchy, ("parent_is_scope", "1" if parentPath else "0"))
 
-    # TODO: Use graphAPI
-    cmds.vnnConnect(
-        info.dgContainerFullPath, f".{meshName}", f"/{defineHierarchy}.leaf_mesh"
-    )
+    graphAPI.connect("", meshName, defineHierarchy, "leaf_mesh")
 
     # collapse node
     graphAPI.set_metadata(defineHierarchy, ("DisplayMode", "1"))
@@ -342,42 +348,28 @@ def _add_maya_mesh_to_stage(
 
 def _add_maya_leaf_xform_to_stage(
     xform_path: str,
-    info: GraphEditorSelection,
+    graph_selection: GraphEditorSelection,
     add_to_stage_path: str,
     index: int,
 ) -> None:
     suffix = str(index)
-    cmds.vnnNode(
-        info.dgContainerFullPath,
-        add_to_stage_path,
-        createInputPort=(f"prim_definitions.xform{suffix}", "auto"),
+    graphAPI.create_input_port(
+        add_to_stage_path, (f"prim_definitions.xform{suffix}", "auto")
     )
-
-    defineHierarchy = cmds.vnnCompound(
-        info.dgContainerFullPath,
-        info.currentCompound,
-        addNode=kDefinePrimHierarchy,
-    )[0]
-
-    cmds.vnnConnect(
-        info.dgContainerFullPath,
-        f"/{defineHierarchy}.prim_definitions",
-        f"{add_to_stage_path}.prim_definitions.xform{suffix}",
+    defineHierarchy = graphAPI.add_node(kDefinePrimHierarchy)
+    graphAPI.connect(
+        defineHierarchy,
+        "prim_definitions",
+        add_to_stage_path,
+        f"prim_definitions.xform{suffix}",
     )
 
     primPath = xform_path.replace("|", "/")
     _, primPath = resolve_prim_path(
-        info.dgContainerFullPath, add_to_stage_path, primPath
+        graph_selection.dgContainerFullPath, add_to_stage_path, primPath
     )
 
-    cmds.vnnNode(
-        info.dgContainerFullPath,
-        f"/{defineHierarchy}",
-        setPortDefaultValues=(
-            "path",
-            primPath,
-        ),
-    )
+    graphAPI.set_param(defineHierarchy, ("path", primPath))
 
     primTypesList = get_all_prim_types(xform_path)
     primTypesList.reverse()
@@ -387,40 +379,193 @@ def _add_maya_leaf_xform_to_stage(
     graphAPI.set_param(defineHierarchy, ("parent_is_scope", "0"))
 
 
-def _add_maya_selection_to_stage(info: GraphEditorSelection, add_to_stage_path: str):
+def _add_maya_selection_to_stage(
+    graph_selection: GraphEditorSelection, add_to_stage_path: str
+):
     meshSelection, xfoLeafSelection = _get_maya_paths_from_selection()
     for index, meshPath in enumerate(meshSelection):
         index += 1
-        _add_maya_mesh_to_stage(meshPath, info, add_to_stage_path, index)
+        _add_maya_mesh_to_stage(meshPath, graph_selection, add_to_stage_path, index)
 
     for index, xfoPath in enumerate(xfoLeafSelection):
         index += 1
-        _add_maya_leaf_xform_to_stage(xfoPath, info, add_to_stage_path, index)
+        _add_maya_leaf_xform_to_stage(
+            xfoPath, graph_selection, add_to_stage_path, index
+        )
 
 
-def add_maya_selection_to_stage(selection: Optional[GraphEditorSelection] = None) -> bool:
-    if not selection:
-        selection = get_graph_editor_selection()
+def add_maya_selection_to_stage(
+    graph_selection: Optional[GraphEditorSelection] = None,
+) -> bool:
+    if not graph_selection:
+        graph_selection = get_graph_selection()
 
-    if not (nodeSelection := selection.nodeSelection):
-        cmds.warning("Please select a add_to_stage compound")
+    if not (nodeSelection := graph_selection.nodeSelection):
+        warning("Please select a add_to_stage compound")
+        return False
+
+    def _valid_node_type(node: str) -> bool:
+        if graphAPI.type_name(node) == kAddToStage:
+            return True
+        elif graphAPI.type_name(node) == kAddToStageInVariant:
+            return True
+        return False
+
+    srcNode = nodeSelection[0]
+    if not _valid_node_type(srcNode):
+        warning("Please select a add_to_stage compound")
+        return False
+
+    with GraphPaused(graph_selection.dgContainerFullPath):
+        _add_maya_selection_to_stage(
+            graph_selection, graph_selection.currentCompound + srcNode
+        )
+
+    return True
+
+
+def add_one_maya_selection_as_variant_to_stage(
+    prim_path: str,
+    variant_set_name: str,
+    maya_path: str,
+    graph_selection: GraphEditorSelection,
+) -> str:
+    """:return: The name of the added add_to_stage_in_variant compound"""
+    addToStageInVariantNode = insert_stage_node(
+        graph_selection, kAddToStageInVariantNodeDef
+    )
+    graphAPI.set_param(addToStageInVariantNode, ("parent_path", prim_path))
+    graphAPI.set_param(addToStageInVariantNode, ("variant_set_name", variant_set_name))
+    graphAPI.set_param(addToStageInVariantNode, ("variant_name", maya_path))
+    graph_selection.nodeSelection = [addToStageInVariantNode]
+    cmds.select(maya_path, replace=True)
+    add_maya_selection_to_stage(graph_selection)
+    # and hide Maya selection
+    cmds.setAttr(f"{maya_path}.visibility", False)
+    return addToStageInVariantNode
+
+
+def _get_graph_selection_if_needed(
+    graph_selection: GraphEditorSelection,
+) -> GraphEditorSelection:
+    """When the graph selection is empty, creates a new GraphEditorSelection from
+    Bifrost Graph Editor selection, else do nothing and returns the graph selection unchanged.
+    """
+    if not graph_selection.nodeSelection:
+        # keep the port name since it can't be deduced from the selection.
+        output = graph_selection.output
+        graph_selection = get_graph_selection()
+        if not graph_selection.nodeSelection:
+            warning(
+                "You must select a node upstream (with a stage output) in the Bifrost Graph Editor"
+            )
+
+        graph_selection.output = output
+
+    return graph_selection
+
+
+def insert_maya_variant(graph_selection: GraphEditorSelection) -> str:
+    assert (
+        graph_selection.output == "out_stage"
+    ), "[insert_maya_variant] GraphEditorSelection output should be 'out_stage'"
+
+    graphSelection = _get_graph_selection_if_needed(graph_selection)
+    if not graphSelection.nodeSelection:
+        return ""
+
+    srcNode = graphSelection.nodeSelection[0]
+
+    def _get_select_prim_path() -> str:
+        for item in iter(ufe.GlobalSelection.get()):
+            shapePath = item.path().segments[0]
+            if mayaUsd.ufe.getStage(str(shapePath)):
+                return str(item.path().segments[1])
+        return ""
+
+    parentPath = _get_select_prim_path()
+    if not parentPath:
+        parentPath = graphAPI.param(srcNode, "parent_path")
+
+    variantSetName = "VSet"
+    if graphAPI.type_name(srcNode) == kAddToStageInVariant:
+        variantSetName = graphAPI.param(srcNode, "variant_set_name")
+
+    mayaSelection = cmds.ls(type="transform", selection=True, long=False)
+    if mayaSelection:
+        mayaPath = mayaSelection[0]
+        return add_one_maya_selection_as_variant_to_stage(
+            parentPath, variantSetName, mayaPath, graphSelection
+        )
+    else:
+        warning(
+            "No Maya transform selected, can't add new variant to BifrostUSD graph "
+        )
+
+    return ""
+
+
+def _add_prim_definition(add_to_stage_path: str, prim_path: str) -> str:
+    graphAPI.create_input_port(
+        add_to_stage_path, ("prim_definitions.prim_definition", "auto")
+    )
+    definePrim = graphAPI.add_node(kDefinePrim)
+    graphAPI.connect(
+        definePrim,
+        "prim_definition",
+        add_to_stage_path,
+        "prim_definitions.prim_definition",
+    )
+    graphAPI.set_param(definePrim, ("path", prim_path))
+    graphAPI.set_param(definePrim, ("kind", "2"))  # component kind
+
+    return definePrim
+
+
+def _add_maya_selection_as_variants_to_stage(
+    prim_path: str,
+    variant_set_name: str,
+    graph_selection: GraphEditorSelection,
+    add_to_stage_path: str,
+) -> None:
+    # Store Maya selection
+    mayaSelection = cmds.ls(type="transform", selection=True, long=False)
+    with CurrentMayaSelection(mayaSelection):
+        _add_prim_definition(add_to_stage_path, prim_path)
+        # Add variants
+        lastAddToStageInVariantNode = ""
+        for mayaPath in mayaSelection:
+            lastAddToStageInVariantNode = add_one_maya_selection_as_variant_to_stage(
+                prim_path, variant_set_name, mayaPath, graph_selection
+            )
+        if lastAddToStageInVariantNode:
+            graphAPI.set_param(lastAddToStageInVariantNode, ("select", "1"))
+
+
+def add_maya_selection_as_variants_to_stage(
+    prim_path: str,
+    variant_set_name: str,
+    graph_selection: Optional[GraphEditorSelection] = None,
+) -> bool:
+    if not graph_selection:
+        graph_selection = get_graph_selection()
+
+    if not (nodeSelection := graph_selection.nodeSelection):
+        warning("Please select a add_to_stage compound")
         return False
 
     srcNode = nodeSelection[0]
     if graphAPI.type_name(srcNode) != "BifrostGraph,USD::Stage,add_to_stage":
-        cmds.warning("Please select a add_to_stage compound")
+        warning("Please select a add_to_stage compound")
         return False
 
-    runOnDemandValue = cmds.getAttr(f"{selection.dgContainerFullPath}.runOnDemand")
-    try:
-        # Disable graph while connecting nodes to avoid fan-in port error messages.
-        cmds.setAttr(f"{selection.dgContainerFullPath}.runOnDemand", True)
-        _add_maya_selection_to_stage(selection, selection.currentCompound + srcNode)
-        pass
-    except Exception as e:
-        raise e
-
-    cmds.setAttr(f"{selection.dgContainerFullPath}.runOnDemand", runOnDemandValue)
+    with GraphPaused(graph_selection.dgContainerFullPath):
+        _add_maya_selection_as_variants_to_stage(
+            prim_path,
+            variant_set_name,
+            graph_selection,
+            graph_selection.currentCompound + srcNode,
+        )
     return True
 
 
@@ -436,11 +581,11 @@ def find_all_prim_paths(
 
 def find_all_input_by_path_nodes() -> list[str]:
     """TODO: Remove this workaround to retrieve input by path nodes"""
-    allNodes = cmds.vnnCompound(graphAPI.name, "/", listNodes=True)
+    allNodes = graphAPI.find_nodes()
 
     inputByPathNodes = []
     for node in allNodes:
-        rtn = cmds.vnnNode(graphAPI.name, f"/{node}", queryMetaData="bifrostUSD")
+        rtn = graphAPI.metadata(node, "bifrostUSD")
         if rtn and rtn[0] == "input_by_path":
             inputByPathNodes.append(node)
 
@@ -528,9 +673,7 @@ def reparent_path_parameter(node: str, old_prim_path: str, new_prim_path: str) -
 
 def delete_node(old_prim_path: str, node_type: str) -> None:
     def _delete(node: str) -> bool:
-        pathValue = cmds.vnnNode(
-            graphAPI.name, f"/{node}", queryPortDefaultValues="path"
-        )
+        pathValue = graphAPI.param(node, "path")
 
         addToStage = _get_connected_add_to_stage(node)
 
@@ -589,6 +732,23 @@ def is_supported_prim_type(ufe_path_str: str) -> bool:
     return False
 
 
+def get_point_instancer_instance_id_from_selection() -> tuple[str, list[str]]:
+    """:return: The PointInstancer path and the instances ids"""
+    ids = []
+    pInstancerPath: str = ""
+
+    for sel in cmds.ls(selection=True, ufe=True):
+        primPath = sel.split(",")[-1]
+        tokens = primPath.split("/")
+        leaf = tokens[-1]
+        if leaf.isdigit():
+            ids.append(leaf)
+            if not pInstancerPath:
+                pInstancerPath = "/".join(tokens[:-1])
+
+    return pInstancerPath, ids
+
+
 def to_prim_path(ufe_path: str) -> str:
     """Convert an UFE absolute path to the value stored in the path
     parameter of a "define prim" compound. If the UFE path point to a mesh
@@ -626,21 +786,9 @@ def get_prim_selection() -> Dict[str, List[str]]:
             selection[node] = selection.get(node, []) + [prim]
 
     if not selection:
-        cmds.warning("No Usd Prim selected")
+        warning("No Usd Prim selected")
 
     return selection
-
-
-def open_bifrost_usd_graph() -> None:
-    if cmds.about(batch=1):
-        return
-
-    if graph := find_bifrost_usd_graph():
-        cmds.vnnCompoundEditor(
-            name="bifrostGraphEditorControl",
-            title="Bifrost Graph Editor",
-            edit=graph,
-        )
 
 
 def get_bifrost_graph_from_prim_selection() -> tuple[str, str]:
@@ -649,7 +797,7 @@ def get_bifrost_graph_from_prim_selection() -> tuple[str, str]:
     Returns the name of the graph and the name of the output port of the graph.
     """
     if not (selection := get_prim_selection()):
-        cmds.warning("No Usd Prim selected")
+        warning("No Usd Prim selected")
     else:
         usdProxyShape = list(selection.keys())[0]
         assert cmds.nodeType(usdProxyShape) == kMayaUsdProxyShape
@@ -677,14 +825,97 @@ def get_bifrost_graph_from_prim_selection() -> tuple[str, str]:
 
 def open_bifrost_graph_from_prim_selection() -> None:
     graph = get_bifrost_graph_from_prim_selection()[0]
-    if graph:
-        cmds.vnnCompoundEditor(
-            name="bifrostGraphEditorControl",
-            title="Bifrost Graph Editor",
-            edit=graph,
-        )
-        return
+    open_bifrost_graph(graph)
+
+
+def get_variant_set_names() -> Set[str]:
+    names: Set[str] = set()
+    for node in graphAPI.find_nodes(kAddToStageInVariant):
+        names.add(graphAPI.param(node, "variant_set_name"))
+
+    return names
+
+
+def update_variant_set_names(
+    current_variant_set_name: str, new_variant_set_name: str
+) -> None:
+    for node in graphAPI.find_nodes(kAddToStageInVariant):
+        if graphAPI.param(node, "variant_set_name") == current_variant_set_name:
+            graphAPI.set_param(node, ("variant_set_name", new_variant_set_name))
+
+
+def get_prim_paths_from_node_types(node_types: list[str]) -> Set[str]:
+    paths: Set[str] = set()
+
+    portName = ""
+    for typeName in node_types:
+        if (
+            typeName == kDefinePrim
+            or typeName == kDefineUsdMesh
+            or typeName == kDefineUsdCurves
+        ):
+            portName = "path"
+        elif typeName == kDefineUsdPointInstancer:
+            portName = "instancer_path"
+        if typeName == kDefineUsdPreviewSurface:
+            portName = "path"
+        if typeName == kCreateUsdPrim:
+            portName = "path"
+        if typeName == kOverridePrim:
+            portName = "path"
+        if typeName == kAddToStageInVariant:
+            portName = "parent_path"
+
+        assert portName != "", f"Can not resolve port name for type {typeName}"
+
+        for node in graphAPI.find_nodes(typeName):
+            paths.add(graphAPI.param(node, portName))
+
+    return paths
+
+
+def update_prim_path(current_prim_path: str, new_prim_path: str) -> None:
+    for node in graphAPI.find_nodes(kDefinePrim):
+        if graphAPI.param(node, "path") == current_prim_path:
+            graphAPI.set_param(node, ("path", new_prim_path))
+
+    for node in graphAPI.find_nodes(kDefineUsdMesh):
+        if graphAPI.param(node, "path") == current_prim_path:
+            graphAPI.set_param(node, ("path", new_prim_path))
+
+    for node in graphAPI.find_nodes(kDefineUsdCurves):
+        if graphAPI.param(node, "path") == current_prim_path:
+            graphAPI.set_param(node, ("path", new_prim_path))
+
+    for node in graphAPI.find_nodes(kDefineUsdPointInstancer):
+        if graphAPI.param(node, "instancer_path") == current_prim_path:
+            graphAPI.set_param(node, ("instancer_path", new_prim_path))
+
+    for node in graphAPI.find_nodes(kDefineUsdPreviewSurface):
+        if graphAPI.param(node, "path") == current_prim_path:
+            graphAPI.set_param(node, ("path", new_prim_path))
+
+    for node in graphAPI.find_nodes(kCreateUsdPrim):
+        if graphAPI.param(node, "path") == current_prim_path:
+            graphAPI.set_param(node, ("path", new_prim_path))
+
+    for node in graphAPI.find_nodes(kOverridePrim):
+        if graphAPI.param(node, "path") == current_prim_path:
+            graphAPI.set_param(node, ("path", new_prim_path))
+
+    for node in graphAPI.find_nodes(kAddToStageInVariant):
+        if graphAPI.param(node, "parent_path") == current_prim_path:
+            graphAPI.set_param(node, ("parent_path", new_prim_path))
 
 
 if __name__ == "__main__":
-    add_maya_selection_to_stage()
+    insert_prim_node(
+        GraphEditorSelection(),
+        NodeDef(
+            is_terminal=True,
+            type_name="BifrostGraph,USD::PointInstancer,usd_point_instancer_scope",
+            input_name="stage",
+            output_name="",
+            prim_path_param_name="point_instancer_path",
+        ),
+    )

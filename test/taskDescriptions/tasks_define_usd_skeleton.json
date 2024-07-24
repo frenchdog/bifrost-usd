@@ -1,0 +1,14 @@
+{
+    "schemaVersion": "1.0.0",
+    "comment": "Test define_usd_skeleton compound",
+    "options": {
+        "definitionFiles": [
+            "define_usd_skeleton_test00.json"
+        ],
+        "compound": "USD::Test::Prim::define_usd_skeleton_test00"
+    },
+    "task": {
+        "type": "single",
+        "name": "Use Default Params"
+    }
+}

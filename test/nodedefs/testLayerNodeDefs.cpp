@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -725,9 +725,8 @@ TEST(LayerNodeDefs, export_layer_to_file_multicases) {
         // directory to use in this test:
         std::string rootDir = Bifrost::FileUtils::filePath(
                                   (relativeFilePath ? getThisTestOutputDir_rel()
-                                                    : getThisTestOutputDir())
-                                      .c_str(),
-                                  commonTestDir.c_str())
+                                                    : getThisTestOutputDir()),
+                                  commonTestDir)
                                   .c_str();
         rootDir += relativeFilePath ? "/relFilePathCases/" : "/absFilePathCases/";
         rootDir += "dir1/dir2/"; // subdirs required so we can use ../.. in some tests
@@ -753,22 +752,23 @@ TEST(LayerNodeDefs, export_layer_to_file_multicases) {
                 const std::string rootFilename = std::string("ROOT")
                     + suffix() + ".usda";
                 const std::string rootFilePath = Bifrost::FileUtils::filePath(
-                    rootDir.c_str(), rootFilename.c_str()).c_str();
+                    rootDir, rootFilename).c_str();
 
                 const std::string subLayerFilename = std::string("SUBLAYER")
                     + suffix() + ".usda";
-                const std::string subFilePath = Bifrost::FileUtils::filePath(
-                    (rootDir + sublayerDir).c_str(),
-                    subLayerFilename.c_str()).c_str();
+                const std::string sublayerPath = rootDir + sublayerDir;
+                const std::string subFilePath =
+                    Bifrost::FileUtils::filePath(sublayerPath, subLayerFilename)
+                        .c_str();
 
                 // At beginning of the test, the output files should not exist
                 // (see the initial_cleanup test phase above):
                 ASSERT_FALSE(
-                    Bifrost::FileUtils::filePathExists(rootFilePath.c_str()))
+                    Bifrost::FileUtils::filePathExists(rootFilePath))
                     << "The output root layer file " << rootFilePath
                     << " must not already exist when this test runs.\n";
                 ASSERT_FALSE(
-                    Bifrost::FileUtils::filePathExists(subFilePath.c_str()))
+                    Bifrost::FileUtils::filePathExists(subFilePath))
                     << "The output sublayer file " << subFilePath
                     << " must not already exist when this test runs.\n";
 
@@ -820,10 +820,10 @@ TEST(LayerNodeDefs, export_layer_to_file_multicases) {
                     EXPECT_TRUE(success)
                         << "export_layer_to_file failed for root layer "
                         << rootFilename << "\n";
-                    EXPECT_TRUE(Bifrost::FileUtils::filePathExists(rootFilePath.c_str()))
+                    EXPECT_TRUE(Bifrost::FileUtils::filePathExists(rootFilePath))
                         << "filePathExists() returned false for root layer at path:\n"
                         << rootFilePath << "\n";
-                    EXPECT_TRUE(Bifrost::FileUtils::filePathExists(subFilePath.c_str()))
+                    EXPECT_TRUE(Bifrost::FileUtils::filePathExists(subFilePath))
                         << "filePathExists() returned false for subLayer at path:\n"
                         << subFilePath << "\n";
                     if (success) {

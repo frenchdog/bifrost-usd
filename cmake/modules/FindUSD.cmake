@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2022 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ function(init_usd)
     set( USD_MAJOR_VERSION ${PXR_MAJOR_VERSION} PARENT_SCOPE)
     set( USD_MINOR_VERSION ${PXR_MINOR_VERSION} PARENT_SCOPE)
     set( USD_PATCH_VERSION ${PXR_PATCH_VERSION} PARENT_SCOPE)
-    set( USD_VERSION "${PXR_MAJOR_VERSION}.${PXR_MINOR_VERSION}.${PXR_PATCH_VERSION}" PARENT_SCOPE)
+    set( USD_PXR_VERSION ${PXR_VERSION} PARENT_SCOPE)
 endfunction()
 
 # Using a function to scope variables and avoid polluting the global namespace!

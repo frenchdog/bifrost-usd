@@ -55,14 +55,14 @@ from bifrost_usd.component_creator.constants import (
 from bifrost_usd.component_creator import asset_template
 from bifrost_usd.component_creator import purpose
 
-from bifrost_usd.graph_api import bifrost_version, GraphAPI
+from bifrost_usd import graph_api
 
 
 def find_bifrost_component_graph() -> str:
     return kGraphName
 
 
-graphAPI = GraphAPI(find_bifrost_component_graph)
+graphAPI = graph_api.GraphAPI(find_bifrost_component_graph)
 
 
 def source_mel_script() -> None:
@@ -267,15 +267,7 @@ def get_path_in_scope(prim_path: str, scope: str) -> str:
 
 
 def get_port_children(node: str, port_name: str, style: str = "") -> list[str]:
-    ports = cmds.vnnNode(
-        kGraphName,
-        f"/{node}",
-        listPortChildren=port_name,
-    )
-
-    # the vnn command can return None instead of []
-    if ports is None:
-        ports = []
+    ports = graphAPI.port_children(node, port_name)
 
     if style == "node_parentport_port":
         for i in range(len(ports)):
@@ -288,7 +280,7 @@ def get_port_children(node: str, port_name: str, style: str = "") -> list[str]:
 
 
 def get_create_usd_component_node() -> str:
-    if (nodes := graphAPI.find_nodes(kCreateComponentCompound)):
+    if nodes := graphAPI.find_nodes(kCreateComponentCompound):
         return nodes[0]
 
     return ""
@@ -321,14 +313,14 @@ def _create_empty_graph() -> str:
 
 def _create_component_compound(graph) -> None:
     if not get_create_usd_component_node():
-        cmds.vnnCompound(graph, "/", addNode=kCreateComponentCompound)
+        graphAPI.add_node(kCreateComponentCompound)
 
 
 def _create_component_stage(graph) -> None:
-    cmds.vnnNode(graph, "/output", createInputPort=("stage", "BifrostUsd::Stage"))
-    cmds.vnnConnect(graph, "/create_usd_component.stage", ".stage")
+    graphAPI.create_input_port("output", ("stage", "BifrostUsd::Stage"))
+    graphAPI.connect("create_usd_component", "stage", "", "stage")
 
-    if (connected_nodes := cmds.listConnections(graph)):
+    if connected_nodes := cmds.listConnections(graph):
         stageShape = cmds.rename(connected_nodes[0], f"{kGraphName}Stage")
         cmds.setAttr(f"{stageShape}.shareStage", True)
 
@@ -459,7 +451,7 @@ def _create_model_variant_compound(
     render_file: str = "",
     connect=True,
 ) -> None:
-    defineModelVariant = cmds.vnnCompound(graph, "/", addNode=kModelVariantCompound)[0]
+    defineModelVariant = graphAPI.add_node(kModelVariantCompound)
 
     if connect:
         graphAPI.connect_to_fanin_port(
@@ -954,7 +946,7 @@ def current_binding_node_from_geo_path(rel_geo_path: str) -> str:
 
 
 def unassign_material(shape_and_prim: str) -> None:
-    if bifrost_version().startswith("2.8.0.0"):
+    if graph_api.bifrost_version().startswith("2.8.0.0"):
         unassign_material_2_8(shape_and_prim)
     else:
         unassign_material_2_10(shape_and_prim)
@@ -979,7 +971,7 @@ def unassign_material_2_8(shape_and_prim: str) -> None:
                 tokens = pathExprOutput.split(".")
                 bindNode = tokens[0]
                 if bindNode in current_binding_nodes():
-                    if bifrost_version().startswith("2.8.0.0"):
+                    if graph_api.bifrost_version().startswith("2.8.0.0"):
                         inputPort = bindNode + "." + "prim_paths" + "." + tokens[1]
                     else:
                         cmds.error(
@@ -1183,13 +1175,9 @@ def remove_arnold_node(shape_and_prim: str) -> None:
                     graphAPI.remove_node(pathExprNode)
 
 
-def open_bifrost_graph() -> None:
+def open_bifrost_usd_component_graph() -> None:
     if cmds.ls(kGraphName):
-        cmds.vnnCompoundEditor(
-            name="bifrostGraphEditorControl",
-            title="Bifrost Graph Editor",
-            edit=kGraphName,
-        )
+        graph_api.open_bifrost_graph(kGraphName)
     else:
         cmds.error("No Bifrost Component Creator Graph found in this scene")
 
@@ -1207,14 +1195,9 @@ def get_model_variant_nodes() -> list[str]:
     # on fan-in ports, this logic won't be needed anymore. Instead we will
     # be able to search for every nodes connected to the "model_variants" fan-in port
     # of the create_usd_component compound.
-    if bifrost_version().startswith("2.8.0.0"):
+    if graph_api.bifrost_version().startswith("2.8.0.0"):
         for node in graphAPI.find_nodes(kModelVariantCompound):
-            cnx = cmds.vnnNode(
-                kGraphName,
-                f"/{node}",
-                connectedTo="model_variant",
-                listConnectedNodes=1,
-            )
+            cnx = graphAPI.connexions(node, "model_variant")
             if cnx and cnx[0].split(".")[0] == "create_usd_component":
                 modelVariantNodes.append(node)
 
@@ -1246,7 +1229,7 @@ def get_look_variant_nodes(model_variant: str = "") -> list[str]:
         lookVariantCnx = graphAPI.connexions(node, "look_variant")
         for cnx in lookVariantCnx:
             connectedNode = cnx.split(".")[0]
-            typeName = cmds.vnnNode(kGraphName, f"/{connectedNode}", queryTypeName=1)
+            typeName = graphAPI.type_name(connectedNode)
             if typeName == kModelVariantCompound:
                 if model_variant:
                     if model_variant == graphAPI.param(
@@ -1277,12 +1260,9 @@ def get_binding_nodes(variants: tuple = ("", "")) -> list[str]:
         else:
             for cnx in graphAPI.connexions(node, "material_binding"):
                 connectedNode = cnx.split(".")[0]
-                typeName = cmds.vnnNode(
-                    kGraphName, f"/{connectedNode}", queryTypeName=1
-                )
+                typeName = graphAPI.type_name(connectedNode)
                 if typeName == kLookVariantCompound:
                     if look_variant and (connectedNode in lookVariantNodes):
-                        name = graphAPI.param(connectedNode, "variant_name")
                         if look_variant == graphAPI.param(
                             connectedNode, "variant_name"
                         ):
@@ -1313,9 +1293,7 @@ def get_arnold_nodes(variants: tuple = ("", "")) -> list[str]:
         else:
             for cnx in graphAPI.connexions(node, "primvar_definitions"):
                 connectedNode = cnx.split(".")[0]
-                typeName = cmds.vnnNode(
-                    kGraphName, f"/{connectedNode}", queryTypeName=1
-                )
+                typeName = graphAPI.type_name(connectedNode)
                 if typeName == kLookVariantCompound:
                     if look_variant and (connectedNode in lookVariantNodes):
                         if look_variant == graphAPI.param(
@@ -1454,7 +1432,7 @@ def copy_look(
     look_variant: str,
     target_model_variant: str,
     target_look_variant: str,
-) -> None:
+) -> bool:
     nodesToCopy = []
     bindingNodes = get_binding_nodes((model_variant, look_variant))
 
@@ -1465,14 +1443,16 @@ def copy_look(
 
     assert (
         targetModelVariantNode
-    ), f"Could not find material variant {target_model_variant}"
+    ), f"Could not find Model variant {target_model_variant}"
 
     targetLookVariant = None
     for node in get_look_variant_nodes(target_model_variant):
         if graphAPI.param(node, "variant_name") == target_look_variant:
             targetLookVariant = node
 
-    assert targetLookVariant, f"Could not find material variant {target_look_variant}"
+    if not targetLookVariant:
+        cmds.warning(f"Could not find Look Variant '{target_look_variant}' in Model Variant '{target_model_variant}'")
+        return False
 
     pathExprNodes = []
     for pathExprNode in graphAPI.find_nodes(kPathExpressionCompound):
@@ -1483,11 +1463,10 @@ def copy_look(
                 pathExprNodes.append(pathExprNode)
 
     nodesToCopy = bindingNodes + pathExprNodes
-
-    cmds.vnnCopy(kGraphName, ".", sourceNode=nodesToCopy)
+    graphAPI.copy(nodesToCopy)
 
     allNodesBefore = graphAPI.find_nodes()
-    cmds.vnnPaste(kGraphName, ".")
+    graphAPI.paste()
     allNodesAfter = graphAPI.find_nodes()
 
     setDif = set(allNodesBefore).symmetric_difference(set(allNodesAfter))
@@ -1498,6 +1477,8 @@ def copy_look(
             graphAPI.connect_to_fanin_port(
                 node, targetLookVariant, "material_bindings", "material_binding"
             )
+
+    return True
 
 
 def append_path_to_geo_scope_full_path(
@@ -1594,7 +1575,9 @@ def create_thumbnail():
 def get_variants_text() -> str:
     variants = ""
     if hasComponentCreatorGraph():
-        variants = "Model: " + default_model_variant() + " Look: " + default_look_variant()
+        variants = (
+            "Model: " + default_model_variant() + " Look: " + default_look_variant()
+        )
     return variants
 
 

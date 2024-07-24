@@ -1,3 +1,44 @@
+## [1.3.0] - 2024-07-29 (Bifrost 2.11)
+
+### Build
+ - BIFROST-10233 - Update Bifrost Hydra to support USD 24.05
+
+
+### Feature
+ - BIFROST-10457 - Add _get_prim_attribute_connections_ operator
+ - BIFROST-9995 - Add USD Skeleton graphs to the Bifrost Graph Browser
+ - BIFROST-10104 - Add new USD icons
+ - BIFROST-10105 - BifrostUSDExamples updates
+
+    Create prim type from Maya USD attribute "USD_typeName"
+    If the Maya attribute "USD_typeName" is present on the DAG node, it will be used to set the prim type in the imported selection.
+ - BIFROST-10105 - Create variants from Maya selection
+
+    Add "Create New Stage with Variants from Maya Selection" menu in Bifrost USD > Create.
+    Add "Import Maya Variants to Stage" menu in Bifrost USD > Modify.
+ - BIFROST-10016 - Expose applied_schema_names on the "define prim" nodes
+ - BIFROST-10356 - New PointInstancer nodes and menu
+
+    New nodes:
+      - _delete_point_instances_
+      - _get_usd_point_instancer_attributes_
+      - _replace_point_instancer_proto_
+      - _set_point_instances_invisible_
+      - _usd_point_instancer_scope_
+
+    New menus:
+      - Bifrost USD > Modify > Hide Selected PointInstances
+      - Bifrost USD > Modify > Add Point Instancer Scope
+
+    Move _define_usd_point_instancer_ into _USD::PointInstancer_ namespace.
+
+- Add _create_mesh_from_usd_geom_subset_ compound (Experimental)
+
+
+### Bugfix
+ - EMSUSD-1195 - Disable UFE observer if Maya API version is less than 2025.2 to avoid crash in the BifrostUsdExamples plugin.
+
+
 ## [1.2.3] - 2024-04-17 (Bifrost 2.10)
 
 ### Build
@@ -48,6 +89,7 @@
  - BIFROST-9056 - Collapse ports grouping on the _define_usd_prim_attribute_ compound.
  - BIFROST-9334 - Remove compound duplicate in _save_usd_stage.json_ file.
 
+
 ## [1.2.2] - 2024-03-27 (Bifrost 2.9)
 
 ### Build
@@ -73,7 +115,8 @@
  - BIFROST-9334 - Fix save_usd_stage compound errors when current edit target is not the root layer
     - Update the _save_usd_stage_ compound. It is now setting the target layer to the root layer before saving and then restore the current target (using the new get_edit_layer operator).
 
-## [1.2.1] - 2023-11-15 (Bifrost 2.8)
+
+## [1.2.1] - 2023-11-15
 
 ### Build
 
@@ -154,7 +197,7 @@
    - add README.md in test folder
 
 
-## [1.2.0] - 2023-05-12 (Bifrost 2.7)
+## [1.2.0] - 2023-05-12
 
 ### Build
 
@@ -184,12 +227,12 @@
  - BIFROST-8426 - Inconsistent UI in define_usd_prim
 
  - BIFROST-8273 - fix sublayers not saved if relative_path is on
-   - Use the layer's save file path (m_filePath) instead of the sdfLayerIdentifier in the recursive call to Layer::exportToFile().
-   - Add new more complete unit test for export_layer_to_file() that covers multiple cases for relative and absolute paths to sublayers.
-   - removed call to changeDir() that has side effect and is not required anymore for unit tests.
+	- Use the layer's save file path (m_filePath) instead of the sdfLayerIdentifier in the recursive call to Layer::exportToFile().
+	- Add new more complete unit test for export_layer_to_file() that covers multiple cases for relative and absolute paths to sublayers.
+	- removed call to changeDir() that has side effect and is not required anymore for unit tests.
 
 
-## [1.1.0] - 2023-03-29 (Bifrost 2.7)
+## [1.1.0] - 2023-03-29
 
 ### Build
 
@@ -204,12 +247,12 @@
 ### Feature
 
 - BIFROST-7955 - Add applied schema nodes
-   - add_applied_schema: This node adds the applied API schema name to the apiSchema metadata of the prim
-   - remove_applied_schema: This node removes the applied API schema name from the apiSchema metadata of the prim
+	- add_applied_schema: This node adds the applied API schema name to the apiSchema metadata of the prim
+	- remove_applied_schema: This node removes the applied API schema name from the apiSchema metadata of the prim
 
 
 ### Bugfix
 
-## [1.0.0] - 2022-12-12 (Bifrost 2.6)
+## [1.0.0] - 2022-12-12
 
  - Initial release

@@ -1,0 +1,458 @@
+{
+    "header": {
+        "metadata": [
+            {
+                "metaName": "adskFileFormatVersion",
+                "metaValue": "100L"
+            }
+        ]
+    },
+    "namespaces": [],
+    "types": [],
+    "compounds": [
+        {
+            "name": "USD::PointInstancer::get_usd_point_instancer_attributes",
+            "metadata": [
+                {
+                    "metaName": "icon",
+                    "metaType": "string",
+                    "metaValue": "../icons/def_point_instancer.svg"
+                },
+                {
+                    "metaName": "documentation",
+                    "metaType": "string",
+                    "metaValue": "../docs/${language}/USD_PointInstancer_get_usd_point_instancer_attributes.md"
+                },
+                {
+                    "metaName": "io_nodes",
+                    "metadata": [
+                        {
+                            "metaName": "io_inodes",
+                            "metadata": [
+                                {
+                                    "metaName": "input",
+                                    "metadata": [
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "stage"
+                                                },
+                                                {
+                                                    "metaName": "prim_path"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "1"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "32.000000"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "10 482"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "io_onodes",
+                            "metadata": [
+                                {
+                                    "metaName": "output",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "1"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "31.000000"
+                                        },
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "scales"
+                                                },
+                                                {
+                                                    "metaName": "orientations"
+                                                },
+                                                {
+                                                    "metaName": "positions"
+                                                },
+                                                {
+                                                    "metaName": "proto_indices"
+                                                },
+                                                {
+                                                    "metaName": "prototype_paths"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "620 410"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "metaName": "ViewportRect",
+                    "metaType": "string",
+                    "metaValue": "-487.048 -29.5935 1830.1 1229.47"
+                },
+                {
+                    "metaName": "DisplayMode",
+                    "metaType": "string",
+                    "metaValue": "2"
+                },
+                {
+                    "metaName": "zValue",
+                    "metaType": "string",
+                    "metaValue": "38.000000"
+                },
+                {
+                    "metaName": "LayoutPos",
+                    "metaType": "string",
+                    "metaValue": "214.499 -207.476"
+                }
+            ],
+            "ports": [
+                {
+                    "portName": "stage",
+                    "portDirection": "input",
+                    "portType": "BifrostUsd::Stage",
+                    "portDefault": {}
+                },
+                {
+                    "portName": "prim_path",
+                    "portDirection": "input",
+                    "portType": "string",
+                    "portDefault": ""
+                },
+                {
+                    "portName": "scales",
+                    "portDirection": "output",
+                    "portType": "array<Math::float3>"
+                },
+                {
+                    "portName": "orientations",
+                    "portDirection": "output",
+                    "portType": "array<Math::float4>"
+                },
+                {
+                    "portName": "positions",
+                    "portDirection": "output",
+                    "portType": "array<Math::float3>"
+                },
+                {
+                    "portName": "proto_indices",
+                    "portDirection": "output",
+                    "portType": "array<int>"
+                },
+                {
+                    "portName": "prototype_paths",
+                    "portDirection": "output",
+                    "portType": "array<string>"
+                }
+            ],
+            "compoundNodes": [
+                {
+                    "nodeName": "get_usd_attribute_value",
+                    "nodeType": "USD::Attribute::get_usd_attribute_value",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "315 448"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "36.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "get_usd_attribute_value1",
+                    "nodeType": "USD::Attribute::get_usd_attribute_value",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "35.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "315 668"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "get_usd_attribute_value2",
+                    "nodeType": "USD::Attribute::get_usd_attribute_value",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "315 229"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "34.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "get_usd_attribute_value3",
+                    "nodeType": "USD::Attribute::get_usd_attribute_value",
+                    "metadata": [
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "315 10"
+                        },
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "33.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "get_relationship_targets",
+                    "nodeType": "USD::Prim::get_relationship_targets",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "38.000000"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "315 887"
+                        }
+                    ]
+                }
+            ],
+            "connections": [
+                {
+                    "source": ".stage",
+                    "target": "get_usd_attribute_value3.stage"
+                },
+                {
+                    "source": ".stage",
+                    "target": "get_usd_attribute_value2.stage"
+                },
+                {
+                    "source": ".stage",
+                    "target": "get_usd_attribute_value1.stage"
+                },
+                {
+                    "source": ".stage",
+                    "target": "get_usd_attribute_value.stage"
+                },
+                {
+                    "source": ".prim_path",
+                    "target": "get_usd_attribute_value3.prim_path"
+                },
+                {
+                    "source": ".prim_path",
+                    "target": "get_usd_attribute_value2.prim_path"
+                },
+                {
+                    "source": ".prim_path",
+                    "target": "get_usd_attribute_value1.prim_path"
+                },
+                {
+                    "source": ".prim_path",
+                    "target": "get_usd_attribute_value.prim_path"
+                },
+                {
+                    "source": "get_usd_attribute_value3.value",
+                    "target": ".scales"
+                },
+                {
+                    "source": "get_usd_attribute_value2.value",
+                    "target": ".orientations"
+                },
+                {
+                    "source": "get_usd_attribute_value1.value",
+                    "target": ".proto_indices"
+                },
+                {
+                    "source": "get_usd_attribute_value.value",
+                    "target": ".positions"
+                },
+                {
+                    "source": ".stage",
+                    "target": "get_relationship_targets.stage"
+                },
+                {
+                    "source": ".prim_path",
+                    "target": "get_relationship_targets.prim_path"
+                },
+                {
+                    "source": "get_relationship_targets.targets",
+                    "target": ".prototype_paths"
+                }
+            ],
+            "values": [
+                {
+                    "valueName": "get_usd_attribute_value.stage",
+                    "valueType": "BifrostUsd::Stage",
+                    "value": {}
+                },
+                {
+                    "valueName": "get_usd_attribute_value.prim_path",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "get_usd_attribute_value.attribute_name",
+                    "valueType": "string",
+                    "value": "positions"
+                },
+                {
+                    "valueName": "get_usd_attribute_value.type",
+                    "valueType": "array<Math::float3>",
+                    "value": []
+                },
+                {
+                    "valueName": "get_usd_attribute_value.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "get_usd_attribute_value1.stage",
+                    "valueType": "BifrostUsd::Stage",
+                    "value": {}
+                },
+                {
+                    "valueName": "get_usd_attribute_value1.prim_path",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "get_usd_attribute_value1.attribute_name",
+                    "valueType": "string",
+                    "value": "protoIndices"
+                },
+                {
+                    "valueName": "get_usd_attribute_value1.type",
+                    "valueType": "array<int>",
+                    "value": []
+                },
+                {
+                    "valueName": "get_usd_attribute_value1.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "get_usd_attribute_value2.stage",
+                    "valueType": "BifrostUsd::Stage",
+                    "value": {}
+                },
+                {
+                    "valueName": "get_usd_attribute_value2.prim_path",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "get_usd_attribute_value2.attribute_name",
+                    "valueType": "string",
+                    "value": "orientations"
+                },
+                {
+                    "valueName": "get_usd_attribute_value2.type",
+                    "valueType": "array<Math::float4>",
+                    "value": []
+                },
+                {
+                    "valueName": "get_usd_attribute_value2.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "get_usd_attribute_value3.stage",
+                    "valueType": "BifrostUsd::Stage",
+                    "value": {}
+                },
+                {
+                    "valueName": "get_usd_attribute_value3.prim_path",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "get_usd_attribute_value3.attribute_name",
+                    "valueType": "string",
+                    "value": "scales"
+                },
+                {
+                    "valueName": "get_usd_attribute_value3.type",
+                    "valueType": "array<Math::float3>",
+                    "value": []
+                },
+                {
+                    "valueName": "get_usd_attribute_value3.frame",
+                    "valueType": "float",
+                    "value": "0f"
+                },
+                {
+                    "valueName": "get_relationship_targets.rel_name",
+                    "valueType": "string",
+                    "value": "prototypes"
+                }
+            ],
+            "reservedNodeNames": [
+                {
+                    "name": "input"
+                },
+                {
+                    "name": "output"
+                }
+            ]
+        }
+    ]
+}

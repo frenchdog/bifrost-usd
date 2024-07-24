@@ -15,9 +15,13 @@
             "uriImported": "file:///define_usd_point_instancer.json",
             "metadata": [
                 {
+                    "metaName": "internal",
+                    "metaValue": "true"
+                },
+                {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/define_usd_point_instancer.md"
+                    "metaValue": "../docs/${language}/USD_Prim_define_usd_point_instancer.md"
                 },
                 {
                     "metaName": "io_nodes",
@@ -172,7 +176,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/def_point_instancer.svg"
                 },
                 {
                     "metaName": "ViewportRect",

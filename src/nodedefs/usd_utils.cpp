@@ -457,7 +457,7 @@ void setObjectProperty(const std::string&  key,
                        const PXR_NS::VtValue& value,
                        Bifrost::Object&    object) {
     if (value.IsHolding<T>()) {
-        object.setProperty(key.c_str(), fromPxr<T>(value.UncheckedGet<T>()));
+        object.setProperty(key, fromPxr<T>(value.UncheckedGet<T>()));
     }
 }
 
@@ -466,7 +466,7 @@ void setObjectProperty<std::string>(const std::string&  key,
                                     const PXR_NS::VtValue& value,
                                     Bifrost::Object&    object) {
     if (value.IsHolding<std::string>()) {
-        object.setProperty(key.c_str(),
+        object.setProperty(key,
                            fromPxr(value.UncheckedGet<std::string>()));
     }
 }
@@ -476,7 +476,7 @@ void setObjectProperty<PXR_NS::VtDictionary>(const std::string&  key,
                                           const PXR_NS::VtValue& value,
                                           Bifrost::Object&    object) {
     if (value.IsHolding<PXR_NS::VtDictionary>()) {
-        object.setProperty(key.c_str(),
+        object.setProperty(key,
                            VtDictionaryToBifrostObject(
                                value.UncheckedGet<PXR_NS::VtDictionary>()));
     }

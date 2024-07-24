@@ -95,7 +95,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_stage.svg"
                 },
                 {
                     "metaName": "NodeValueDisplay",

@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2023 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,6 +43,17 @@ if(NOT IS_BIFUSD_STANDALONE)
     set(BIFUSD_PRODUCT_NAME  "\"Usd_pack\"")
 
     #==============================================================================
+    # Target/Property for json files
+    #==============================================================================
+    # This target and property needs to be forward declared before utils.cmake.
+    # because bifusd_header_parser refers to them. More deps/properties are added
+    # to the target later, including in setup.cmake.
+    #
+    if( NOT TARGET ${BIFUSD_PACKAGE_NAME}_config_info)
+        add_custom_target(${BIFUSD_PACKAGE_NAME}_config_info)
+    endif()
+
+    #==============================================================================
     # General utility functions
     #==============================================================================
 
@@ -63,12 +74,6 @@ if(NOT IS_BIFUSD_STANDALONE)
 
     include(${BIFUSD_TOOLS_DIR}/package.cmake)
     include(${BIFUSD_TOOLS_DIR}/gtest.cmake)
-
-    # This target is created to accumulate information about bifrost-usd-pack
-    # config file that loads Maya Translation Tables.
-    if( NOT TARGET ${BIFUSD_PACKAGE_NAME}_config_info )
-        add_custom_target( ${BIFUSD_PACKAGE_NAME}_config_info )
-    endif()
 
     # Note: Versioning static lib is currently  exported to be able
     # to add_subdirectory( maya_plugin ) directly and link statically

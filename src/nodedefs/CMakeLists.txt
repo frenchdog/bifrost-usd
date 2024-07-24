@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2023 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -108,8 +108,3 @@ add_subdirectory(compounds)
 add_dependencies(${BIFUSD_PACKAGE_NAME}_config_info
                     generate_usd_pack_node_def_json
                     bifrost_usd_compound_json_files )
-
-# Add properties to be able to merge of json files externally
-set_target_properties( ${BIFUSD_PACKAGE_NAME}_config_info PROPERTIES
-    BIFROST_USD_PACK_ALL_JSON_FILES_DIR   ${BIFROST_USD_OUTPUT_JSON_DIR}
-    BIFROST_USD_PACK_INSTALL_RES_JSON_DIR ${BIFROST_USD_PACK_INSTALL_RES_JSON_DIR})

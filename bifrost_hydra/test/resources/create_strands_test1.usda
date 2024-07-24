@@ -18,7 +18,7 @@ def Xform "Asset"
         float primvars:plane_width = 1
         int primvars:plane_length_segments = 2
         int primvars:plane_width_segments = 2
-        int64 primvars:strands_segments = 2
+        int primvars:strands_segments = 2
         float primvars:strands_length = 1
 
         # Outputs parameter

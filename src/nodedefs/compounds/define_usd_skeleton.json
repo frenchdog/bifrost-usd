@@ -16,12 +16,12 @@
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/define_usd_skeleton.md"
+                    "metaValue": "../docs/${language}/USD_Prim_define_usd_skeleton.md"
                 },
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_default.svg"
                 },
                 {
                     "metaName": "io_nodes",
@@ -69,10 +69,23 @@
                                             "metaValue": "2"
                                         },
                                         {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "678.637 995.337"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "31.000000"
+                                        },
+                                        {
                                             "metaName": "io_ports",
                                             "metadata": [
                                                 {
                                                     "metaName": "path"
+                                                },
+                                                {
+                                                    "metaName": "applied_schema_names"
                                                 },
                                                 {
                                                     "metaName": "variant_name"
@@ -96,16 +109,6 @@
                                                     "metaName": "material"
                                                 }
                                             ]
-                                        },
-                                        {
-                                            "metaName": "LayoutPos",
-                                            "metaType": "string",
-                                            "metaValue": "678.637 995.337"
-                                        },
-                                        {
-                                            "metaName": "zValue",
-                                            "metaType": "string",
-                                            "metaValue": "31.000000"
                                         }
                                     ]
                                 },
@@ -192,7 +195,7 @@
                 {
                     "metaName": "ViewportRect",
                     "metaType": "string",
-                    "metaValue": "-590.159 44 2206.32 2010"
+                    "metaValue": "-928.764 265.457 3152.78 1160.85"
                 },
                 {
                     "metaName": "DisplayMode",
@@ -202,23 +205,23 @@
                 {
                     "metaName": "LayoutPos",
                     "metaType": "string",
-                    "metaValue": "-50.5 -363"
+                    "metaValue": "-106.5 -115"
                 },
                 {
                     "metaName": "zValue",
                     "metaType": "string",
-                    "metaValue": "55.000000"
+                    "metaValue": "81.000000"
                 },
                 {
                     "metaName": "UILayout",
                     "metaType": "string",
-                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"path\"\n            },\n            {\n                \"port\": \"skeleton\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"General\",\n                \"items\": [\n                    {\n                        \"port\": \"define_skeleton_root\"\n                    },\n                    {\n                        \"port\": \"skeleton_root_name\"\n                    },\n                    {\n                        \"port\": \"use_frame\"\n                    },\n                    {\n                        \"port\": \"frame\"\n                    },\n                    {\n                        \"port\": \"skeleton_root_path\"\n                    },\n                    {\n                        \"expanded\": false,\n                        \"group\": \"Variant Selection\",\n                        \"items\": [\n                            {\n                                \"port\": \"variant_name\"\n                            },\n                            {\n                                \"port\": \"variant_set_name\"\n                            }\n                        ],\n                        \"unique_id\": 10\n                    }\n                ],\n                \"unique_id\": 4\n            },\n            {\n                \"port\": \"reference_definitions\"\n            },\n            {\n                \"port\": \"attribute_definitions\"\n            },\n            {\n                \"port\": \"children\"\n            },\n            {\n                \"port\": \"relationship_definitions\"\n            },\n            {\n                \"port\": \"material\"\n            }\n        ]\n    }\n}\n"
+                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"path\"\n            },\n            {\n                \"port\": \"skeleton\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"General\",\n                \"items\": [\n                    {\n                        \"port\": \"applied_schema_names\"\n                    },\n                    {\n                        \"group\": \"Time Sample\",\n                        \"items\": [\n                            {\n                                \"port\": \"use_frame\"\n                            },\n                            {\n                                \"port\": \"frame\"\n                            }\n                        ],\n                        \"unique_id\": 25\n                    },\n                    {\n                        \"expanded\": false,\n                        \"group\": \"Variant Selection\",\n                        \"items\": [\n                            {\n                                \"port\": \"variant_name\"\n                            },\n                            {\n                                \"port\": \"variant_set_name\"\n                            }\n                        ],\n                        \"unique_id\": 10\n                    }\n                ],\n                \"unique_id\": 4\n            },\n            {\n                \"port\": \"reference_definitions\"\n            },\n            {\n                \"port\": \"attribute_definitions\"\n            },\n            {\n                \"port\": \"children\"\n            },\n            {\n                \"port\": \"relationship_definitions\"\n            },\n            {\n                \"port\": \"material\"\n            }\n        ]\n    }\n}"
                 },
                 {
                     "metaName": "PortExpandedState",
                     "metadata": [
                         {
-                            "metaName": "reference_definitions",
+                            "metaName": "General",
                             "metaType": "string",
                             "metaValue": "0"
                         }
@@ -233,21 +236,16 @@
                     "portDefault": "/Skel"
                 },
                 {
-                    "portName": "skeleton_definition",
-                    "portDirection": "output",
-                    "portType": "Object"
+                    "portName": "skeleton",
+                    "portDirection": "input",
+                    "portType": "Object",
+                    "portDefault": {}
                 },
                 {
-                    "portName": "variant_name",
+                    "portName": "applied_schema_names",
                     "portDirection": "input",
                     "portType": "string",
-                    "portDefault": ""
-                },
-                {
-                    "portName": "variant_set_name",
-                    "portDirection": "input",
-                    "portType": "string",
-                    "portDefault": ""
+                    "portDefault": "SkelBindingAPI"
                 },
                 {
                     "portName": "use_frame",
@@ -260,6 +258,18 @@
                     "portDirection": "input",
                     "portType": "float",
                     "portDefault": "0f"
+                },
+                {
+                    "portName": "variant_name",
+                    "portDirection": "input",
+                    "portType": "string",
+                    "portDefault": ""
+                },
+                {
+                    "portName": "variant_set_name",
+                    "portDirection": "input",
+                    "portType": "string",
+                    "portDefault": ""
                 },
                 {
                     "portName": "reference_definitions",
@@ -299,7 +309,7 @@
                         {
                             "metaName": "quick_create",
                             "metaType": "string",
-                            "metaValue": "USD::Prim::define_usd_prim;USD::Prim::define_usd_mesh;USD::Prim::define_usd_curves;USD::Prim::define_usd_point_instancer;USD::Prim::define_usd_skeleton_animation;USD::Shading::define_usd_preview_surface"
+                            "metaValue": "USD::Prim::define_usd_prim;USD::Prim::define_usd_mesh;USD::Prim::define_usd_curves;USD::PointInstancer::define_usd_point_instancer;USD::Prim::define_usd_skeleton_animation;USD::Shading::define_usd_preview_surface"
                         }
                     ]
                 },
@@ -324,10 +334,9 @@
                     "portDefault": {}
                 },
                 {
-                    "portName": "skeleton",
-                    "portDirection": "input",
-                    "portType": "Object",
-                    "portDefault": {}
+                    "portName": "skeleton_definition",
+                    "portDirection": "output",
+                    "portType": "Object"
                 }
             ],
             "compounds": [
@@ -1056,7 +1065,7 @@
                                         },
                                         {
                                             "nodeName": "invalid_index",
-                                            "nodeType": "Geometry::Internal::invalid_index",
+                                            "nodeType": "Geometry::Common::invalid_index",
                                             "metadata": [
                                                 {
                                                     "metaName": "DisplayMode",
@@ -1855,6 +1864,16 @@
                             "metaValue": "2"
                         },
                         {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "1070.66 802.773"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "41.000000"
+                        },
+                        {
                             "metaName": "PortExpandedState",
                             "metadata": [
                                 {
@@ -1880,19 +1899,9 @@
                                 {
                                     "metaName": "General",
                                     "metaType": "string",
-                                    "metaValue": "0"
+                                    "metaValue": "1"
                                 }
                             ]
-                        },
-                        {
-                            "metaName": "LayoutPos",
-                            "metaType": "string",
-                            "metaValue": "1070.66 802.773"
-                        },
-                        {
-                            "metaName": "zValue",
-                            "metaType": "string",
-                            "metaValue": "35.000000"
                         }
                     ]
                 },
@@ -1913,7 +1922,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "40.000000"
+                            "metaValue": "39.000000"
                         }
                     ]
                 },
@@ -1927,14 +1936,14 @@
                             "metaValue": "2"
                         },
                         {
-                            "metaName": "zValue",
-                            "metaType": "string",
-                            "metaValue": "41.000000"
-                        },
-                        {
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "36.3027 673.219"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "40.000000"
                         }
                     ]
                 }
@@ -2031,6 +2040,10 @@
                 {
                     "source": "get_or_update_pivot_and_pivot_local.joint_pivot_matrix",
                     "target": "define_usd_attribute4.value"
+                },
+                {
+                    "source": ".applied_schema_names",
+                    "target": "define_usd_prim1.applied_schema_names"
                 }
             ],
             "values": [

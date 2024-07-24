@@ -17,7 +17,7 @@
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/create_usd_stage.md"
+                    "metaValue": "../docs/${language}/USD_Stage_create_usd_stage.md"
                 },
                 {
                     "metaName": "NodeValueDisplay",
@@ -118,7 +118,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_stage.svg"
                 },
                 {
                     "metaName": "ViewportRect",

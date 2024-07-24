@@ -38,7 +38,6 @@
 #include <pxr/usd/usd/prim.h>
 #include <pxr/usd/usdGeom/primvarsAPI.h>
 
-
 PXR_NAMESPACE_USING_DIRECTIVE
 
 using namespace BifrostHdTest;
@@ -52,7 +51,8 @@ TEST_F(TestSceneIndexPrim, workspace) {
     // test if our configs are loaded.
     auto check_config_is_loaded = [&workspace](const Amino::String& message) {
         auto const& messages = workspace->getMessages();
-        EXPECT_NE(messages.end(), std::find(messages.begin(), messages.end(), message));
+        EXPECT_NE(messages.end(),
+                  std::find(messages.begin(), messages.end(), message));
     };
 
     check_config_is_loaded(
@@ -105,8 +105,7 @@ TEST_F(TestSceneIndexPrim, parameters) {
 TEST_F(TestSceneIndexPrim, create_mesh_cube) {
     // open stage
     std::string stageFilePath =
-        BifrostUsd::TestUtils::getResourcePath("create_mesh_cube.usda")
-            .c_str();
+        BifrostUsd::TestUtils::getResourcePath("create_mesh_cube.usda").c_str();
 
     ASSERT_TRUE(openStage(stageFilePath));
     ASSERT_TRUE(render());
@@ -131,8 +130,7 @@ TEST_F(TestSceneIndexPrim, create_mesh_cube) {
     const auto vtPoints = BifrostHd::GetPoints(*outputGeo);
     EXPECT_EQ(vtPoints.size(), 8);
 
-    const auto vtDisplayColor =
-        BifrostHd::GetDisplayColor(*outputGeo);
+    const auto vtDisplayColor = BifrostHd::GetDisplayColor(*outputGeo);
     EXPECT_TRUE(vtDisplayColor.empty());
 
     // Test on BifrostTranslators::Mesh
@@ -147,7 +145,7 @@ TEST_F(TestSceneIndexPrim, create_mesh_cube) {
 
     // Tests on the Hydra scene index prim
     auto hdMeshPrim = BifrostHd::CreateHdSceneIndexMesh(*outputGeo);
-    TestHdSceneIndexMesh(hdMeshPrim, /*hasDisplayColor*/false);
+    TestHdSceneIndexMesh(hdMeshPrim, /*hasDisplayColor*/ false);
 }
 
 TEST_F(TestSceneIndexPrim, create_mesh_array) {
@@ -189,7 +187,7 @@ TEST_F(TestSceneIndexPrim, create_colored_mesh_cube) {
     ASSERT_TRUE(engine.execute());
     const auto& output = engine.getOutput();
     EXPECT_EQ(output.first, "mesh");
-    
+
     const auto& objectArray = output.second;
     EXPECT_EQ(objectArray.size(), 1);
 
@@ -201,8 +199,7 @@ TEST_F(TestSceneIndexPrim, create_colored_mesh_cube) {
     const auto vtPoints = BifrostHd::GetPoints(*object);
     EXPECT_EQ(vtPoints.size(), 8);
 
-    const auto vtDisplayColor =
-        BifrostHd::GetDisplayColor(*object);
+    const auto vtDisplayColor = BifrostHd::GetDisplayColor(*object);
     EXPECT_EQ(vtDisplayColor.size(), 8);
 
     // Test on BiforstTranslators::Mesh
@@ -314,23 +311,20 @@ TEST_F(TestSceneIndexPrim, create_strands_test1) {
     EXPECT_EQ(objectArray.size(), 1);
     const auto& object = objectArray[0];
 
-
     // Tests on the Bifrost object
     EXPECT_EQ(BifrostHd::GetGeoType(*object), BifrostHdGeoTypes::Strands);
 
     const auto vtPoints = BifrostHd::GetPoints(*object);
     EXPECT_EQ(vtPoints.size(), 18);
 
-    const auto vtDisplayColor =
-        BifrostHd::GetDisplayColor(*object);
+    const auto vtDisplayColor = BifrostHd::GetDisplayColor(*object);
     EXPECT_EQ(vtDisplayColor.size(), 18);
 
     const auto vtWidths = BifrostHd::GetWidth(*object);
     EXPECT_EQ(vtWidths.size(), 18);
 
     // Tests on the Hydra scene index prim
-    auto hdBasisCurvesPrim =
-        BifrostHd::CreateHdSceneIndexBasisCurves(*object);
+    auto hdBasisCurvesPrim = BifrostHd::CreateHdSceneIndexBasisCurves(*object);
     TestHdSceneIndexBasisCurves(hdBasisCurvesPrim);
 }
 
@@ -356,9 +350,8 @@ TEST_F(TestSceneIndexPrim, create_mesh_plane_with_animated_pt) {
         ASSERT_TRUE(engine.execute());
         const auto& objectArray = engine.getOutput().second;
         EXPECT_EQ(objectArray.size(), 1);
-        const auto& object = objectArray[0];
-        const auto vtPoints =
-            BifrostHd::GetPoints(*object);
+        const auto& object   = objectArray[0];
+        const auto  vtPoints = BifrostHd::GetPoints(*object);
         EXPECT_FLOAT_EQ(vtPoints[0][1], 0.50) << "Error for frame 0";
     }
 
@@ -369,9 +362,8 @@ TEST_F(TestSceneIndexPrim, create_mesh_plane_with_animated_pt) {
         ASSERT_TRUE(engine.execute(24.0));
         const auto& objectArray = engine.getOutput().second;
         EXPECT_EQ(objectArray.size(), 1);
-        const auto& object = objectArray[0];        
-        const auto vtPoints =
-            BifrostHd::GetPoints(*object);
+        const auto& object   = objectArray[0];
+        const auto  vtPoints = BifrostHd::GetPoints(*object);
         EXPECT_FLOAT_EQ(vtPoints[0][1], 24.5) << "Error for frame 24";
     }
 }
@@ -382,10 +374,9 @@ TEST_F(TestSceneIndexPrim, re_render) {
         BifrostUsd::TestUtils::getResourcePath("create_strands_test1.usda")
             .c_str();
 
-    auto stage = openStage(stageFilePath);
-    ASSERT_TRUE(stage);
+    ASSERT_TRUE(openStage(stageFilePath));
     ASSERT_TRUE(render());
-    auto primPath = SdfPath{"/Asset/BifrostGraph"};
+    auto              primPath = SdfPath{"/Asset/BifrostGraph"};
     BifrostHd::Engine engine;
     engine.setInputs(getHdPrim(primPath));
 
@@ -394,16 +385,16 @@ TEST_F(TestSceneIndexPrim, re_render) {
         const auto& output      = engine.getOutput();
         const auto& objectArray = output.second;
         EXPECT_EQ(objectArray.size(), 1);
-        const auto& object = objectArray[0];
-        const auto vtPoints = BifrostHd::GetPoints(*object);
+        const auto& object   = objectArray[0];
+        const auto  vtPoints = BifrostHd::GetPoints(*object);
         EXPECT_EQ(vtPoints.size(), 18);
 
         auto pt = PXR_NS::GfVec3f{0.5f, 1.0f, 0.5f};
-        EXPECT_EQ(vtPoints[17], pt);        
+        EXPECT_EQ(vtPoints[17], pt);
     }
 
     {
-        auto prim = stage->GetPrimAtPath(primPath);
+        auto prim = getUsdPrim(primPath);
         EXPECT_TRUE(prim);
         auto primvarAPI = PXR_NS::UsdGeomPrimvarsAPI(prim);
         auto primvar = primvarAPI.GetPrimvar(PXR_NS::TfToken{"strands_length"});
@@ -422,17 +413,17 @@ TEST_F(TestSceneIndexPrim, re_render) {
         const auto& output      = engine.getOutput();
         const auto& objectArray = output.second;
         EXPECT_EQ(objectArray.size(), 1);
-        const auto& object = objectArray[0];
-        const auto vtPoints = BifrostHd::GetPoints(*object);
+        const auto& object   = objectArray[0];
+        const auto  vtPoints = BifrostHd::GetPoints(*object);
         EXPECT_EQ(vtPoints.size(), 18);
 
         auto pt = PXR_NS::GfVec3f{0.5f, 2.0f, 0.5f};
-        EXPECT_EQ(vtPoints[17], pt);        
+        EXPECT_EQ(vtPoints[17], pt);
     }
 
-    EXPECT_EQ(observer.GetEvents().size(), 4);
+    EXPECT_EQ(getObserver().GetEvents().size(), 4);
 
-    // for (const auto &e : observer.GetEvents()) {
+    // for (const auto &e : getObserver().GetEvents()) {
     //     switch(e.eventType) {
     //     case RecordingSceneIndexObserver::EventType_PrimAdded:
     //         printf("EventType_PrimAdded: %s\n", e.primPath.GetText());
@@ -449,11 +440,10 @@ TEST_F(TestSceneIndexPrim, re_render) {
 
 TEST_F(TestSceneIndexPrim, create_strands_from_input_mesh) {
     // open stage
-    std::string stageFilePath =
-        BifrostUsd::TestUtils::getResourcePath("create_strands_from_input_mesh.usda")
-            .c_str();
+    std::string stageFilePath = BifrostUsd::TestUtils::getResourcePath(
+                                    "create_strands_from_input_mesh.usda")
+                                    .c_str();
 
-    auto stage = openStage(stageFilePath);
-    ASSERT_TRUE(stage);
+    ASSERT_TRUE(openStage(stageFilePath));
     ASSERT_TRUE(render());
 }

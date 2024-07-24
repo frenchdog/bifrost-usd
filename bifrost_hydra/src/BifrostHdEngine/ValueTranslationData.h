@@ -23,6 +23,8 @@
 
 #include <Amino/Core/Any.h>
 
+#include <string>
+
 namespace BifrostHd {
 
 class JobTranslationData;
