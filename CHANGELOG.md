@@ -116,7 +116,7 @@
     - Update the _save_usd_stage_ compound. It is now setting the target layer to the root layer before saving and then restore the current target (using the new get_edit_layer operator).
 
 
-## [1.2.1] - 2023-11-15
+## [1.2.1] - 2023-11-15 (Bifrost 2.8)
 
 ### Build
 
@@ -197,7 +197,7 @@
    - add README.md in test folder
 
 
-## [1.2.0] - 2023-05-12
+## [1.2.0] - 2023-05-12 (Bifrost 2.7)
 
 ### Build
 
@@ -232,7 +232,7 @@
 	- removed call to changeDir() that has side effect and is not required anymore for unit tests.
 
 
-## [1.1.0] - 2023-03-29
+## [1.1.0] - 2023-03-29 (Bifrost 2.7)
 
 ### Build
 
@@ -253,6 +253,6 @@
 
 ### Bugfix
 
-## [1.0.0] - 2022-12-12
+## [1.0.0] - 2022-12-12 (Bifrost 2.6)
 
  - Initial release
