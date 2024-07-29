@@ -21,7 +21,7 @@
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/define_usd_attribute.md"
+                    "metaValue": "../docs/${language}/USD_Attribute_define_usd_attribute.md"
                 },
                 {
                     "metaName": "io_nodes",
@@ -133,7 +133,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_set.svg"
                 },
                 {
                     "metaName": "_recentNode_",

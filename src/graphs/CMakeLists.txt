@@ -30,3 +30,4 @@ set(main_content
 install(DIRECTORY ${main_content} DESTINATION ${BIFROST_USD_PACK_INSTALL_RES_JSON_DIR}/graphs )
 
 add_subdirectory(Glossary)
+add_subdirectory(Rigging)

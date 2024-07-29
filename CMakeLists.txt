@@ -70,15 +70,11 @@ set(BIFUSD_PRODUCT_NAME  "\"Bifrost USD pack\"")
 #==============================================================================
 # This target and property needs to be forward declared before utils.cmake.
 # because bifusd_header_parser refers to them. More deps/properties are added
-# to the target later.
+# to the target later, including in setup.cmake.
 #
 if( NOT TARGET ${BIFUSD_PACKAGE_NAME}_config_info)
     add_custom_target(${BIFUSD_PACKAGE_NAME}_config_info)
 endif()
-
-# Add property to collect the list of generated json files.
-set_target_properties(${BIFUSD_PACKAGE_NAME}_config_info PROPERTIES
-                       BIFROST_USD_PACK_ALL_JSON_FILES "")
 
 #==============================================================================
 # General setup

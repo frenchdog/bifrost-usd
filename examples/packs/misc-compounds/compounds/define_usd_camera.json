@@ -17,7 +17,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd_lab.png"
+                    "metaValue": "../icons/usd_default_exp.svg"
                 },
                 {
                     "metaName": "documentation",
@@ -128,7 +128,7 @@
                 {
                     "metaName": "_recentNode_",
                     "metaType": "string",
-                    "metaValue": "BifrostGraph,USD::Prim,define_prim_hierarchy"
+                    "metaValue": "BifrostGraph,USD::Prim,define_usd_prim_hierarchy"
                 },
                 {
                     "metaName": "_recentNode_",

@@ -20,9 +20,9 @@
 
 #include <Bifrost/FileUtils/FileUtils.h>
 #include <BifrostGraph/Executor/Utility.h>
+#include <BifrostUsd/Layer.h>
 
 #include <pxr/usd/sdf/declareHandles.h>
-#include <BifrostUsd/Layer.h>
 
 #include <cstdlib>
 
@@ -49,7 +49,7 @@ inline Amino::String getResourcePath(const Amino::String& filename) {
 inline Amino::String getResourcePath(const Amino::Array<Amino::String>& names) {
     Amino::String path =
         BifrostGraph::Executor::Utility::getEnv("USD_TEST_RESOURCES_DIR");
-    for (auto name : names) {
+    for (const auto& name : names) {
         path = Bifrost::FileUtils::filePath(path, name);
     }
     return path;
@@ -68,10 +68,9 @@ inline Amino::String getResourcePath(const Amino::Array<Amino::String>& names) {
 /// \return true if the sublayers were successfully found and added to the
 ///              root layer; false otherwise.
 USD_TESTUTILS_DECL
-bool addSubLayers(
-    PXR_NS::SdfLayerRefPtr                 sdfRootLayer,
-    const Amino::Array<Amino::String>&  subNames,
-    Amino::String&                      errorMsg);
+bool addSubLayers(PXR_NS::SdfLayerRefPtr             sdfRootLayer,
+                  const Amino::Array<Amino::String>& subNames,
+                  Amino::String&                     errorMsg);
 
 /// Helper to create an array of Bifrost USD layers.
 ///
@@ -81,10 +80,9 @@ bool addSubLayers(
 ///                       if any.
 /// \return true if Bifrost layers were successfully created; false otherwise.
 USD_TESTUTILS_DECL
-bool createBifrostLayers(
-    const Amino::Array<Amino::String>&              names,
-    Amino::Array<Amino::Ptr<BifrostUsd::Layer>>&    newLayers,
-    Amino::String&                                  errorMsg);
+bool createBifrostLayers(const Amino::Array<Amino::String>&           names,
+                         Amino::Array<Amino::Ptr<BifrostUsd::Layer>>& newLayers,
+                         Amino::String&                               errorMsg);
 
 /// Helper to check the Paths of all sublayers of a root SdfLayer.
 ///
@@ -99,10 +97,9 @@ bool createBifrostLayers(
 /// \return true if the root SdfLayer contains sublayers that match the
 ///         given USD names; false otherwise.
 USD_TESTUTILS_DECL
-bool checkSdfSublayerPaths(
-    const PXR_NS::SdfLayer&                sdfRootLayer,
-    const Amino::Array<Amino::String>&  subNames,
-    Amino::String&                      errorMsg);
+bool checkSdfSublayerPaths(const PXR_NS::SdfLayer&            sdfRootLayer,
+                           const Amino::Array<Amino::String>& subNames,
+                           Amino::String&                     errorMsg);
 
 /// Helper to append elements of an Array to another.
 ///
@@ -110,9 +107,10 @@ bool checkSdfSublayerPaths(
 /// \param [in] right    The Array with elements to append.
 /// \return The modified array.
 template <typename T>
-Amino::Array<T>& operator+=(Amino::Array<T>& left, const Amino::Array<T>& right) {
+Amino::Array<T>& operator+=(Amino::Array<T>&       left,
+                            const Amino::Array<T>& right) {
     left.reserve(left.size() + right.size());
-    for(auto it = right.begin(); it != right.end(); ++it) {
+    for (auto it = right.begin(); it != right.end(); ++it) {
         left.push_back(*it);
     }
     return left;

@@ -45,7 +45,10 @@ class ComponentCreatorGraphOnlyTestCase(unittest.TestCase):
 
     def testFindConnectedModelVariantCompounds(self):
         from bifrost_usd.component_creator import component as cpn
-        from bifrost_usd.component_creator import graph_api
+
+        from bifrost_usd.graph_api import GraphAPI
+        from bifrost_usd.component_creator.component import find_bifrost_component_graph
+        graphAPI = GraphAPI(find_bifrost_component_graph)
 
         graph = cpn._create_empty_graph()
         # use the graph name to find it in the Maya scene
@@ -53,15 +56,15 @@ class ComponentCreatorGraphOnlyTestCase(unittest.TestCase):
 
         cpn._create_component_compound(graph)
         self.assertEqual(
-            graph_api.find_nodes(cpn.kCreateComponentCompound), ["create_usd_component"]
+            graphAPI.find_nodes(cpn.kCreateComponentCompound), ["create_usd_component"]
         )
         # it should not create any new "create_usd_component" compound
         cpn._create_component_compound(graph)
         self.assertEqual(
-            graph_api.find_nodes(cpn.kCreateComponentCompound), ["create_usd_component"]
+            graphAPI.find_nodes(cpn.kCreateComponentCompound), ["create_usd_component"]
         )
 
-        self.assertEqual(graph_api.find_nodes(cpn.kModelVariantCompound), [])
+        self.assertEqual(graphAPI.find_nodes(cpn.kModelVariantCompound), [])
         cpn._create_model_variant_compound(graph, variant_name="Model_A", connect=True)
         self.assertEqual(cpn.get_model_variant_nodes(), ["define_usd_model_variant"])
 
@@ -70,7 +73,7 @@ class ComponentCreatorGraphOnlyTestCase(unittest.TestCase):
         cpn._create_model_variant_compound(graph, variant_name="Model_B", connect=False)
         # the node is created
         self.assertEqual(
-            graph_api.find_nodes(cpn.kModelVariantCompound),
+            graphAPI.find_nodes(cpn.kModelVariantCompound),
             ["define_usd_model_variant", "define_usd_model_variant1"],
         )
         # but is not part of the "create_usd_component" graph
@@ -85,7 +88,10 @@ class ComponentCreatorGraphOnlyTestCase(unittest.TestCase):
 
     def testFindConnectedLookVariantCompounds(self):
         from bifrost_usd.component_creator import component as cpn
-        from bifrost_usd.component_creator import graph_api
+
+        from bifrost_usd.graph_api import GraphAPI
+        from bifrost_usd.component_creator.component import find_bifrost_component_graph
+        graphAPI = GraphAPI(find_bifrost_component_graph)
 
         # initialize component graph
         graph = cpn._create_empty_graph()
@@ -118,16 +124,16 @@ class ComponentCreatorGraphOnlyTestCase(unittest.TestCase):
         self.assertEqual(cpn.current_binding_nodes(), ["define_usd_material_binding"])
 
         self.assertEqual(
-            graph_api.port_children("define_usd_look_variant", "material_bindings"),
+            graphAPI.port_children("define_usd_look_variant", "material_bindings"),
             ["material_binding"],
         )
-        graph_api.disconnect(
+        graphAPI.disconnect(
             "define_usd_material_binding.material_binding",
             "define_usd_look_variant.material_bindings.material_binding",
         )
         self.assertEqual(cpn.current_binding_nodes(), [])
 
-        graph_api.connect_to_fanin_port(
+        graphAPI.connect_to_fanin_port(
             from_node="define_usd_material_binding",
             to_node="define_usd_look_variant",
             parent_port="material_bindings",
@@ -138,23 +144,23 @@ class ComponentCreatorGraphOnlyTestCase(unittest.TestCase):
         # add a path expression node storing a relative geo path
         pathExprNode1 = cpn._get_or_create_pathexpr_node("geometry1")
         self.assertEqual(pathExprNode1, "path_expression")
-        self.assertEqual(graph_api.param(pathExprNode1, "prim_path"), "geometry1")
+        self.assertEqual(graphAPI.param(pathExprNode1, "prim_path"), "geometry1")
 
         # connect to the bind node
-        newChildPort = graph_api.get_new_fanin_name(bindNode, "prim_paths", "output")
+        newChildPort = graphAPI.get_new_fanin_name(bindNode, "prim_paths", "output")
         self.assertEqual(newChildPort, "output")
-        graph_api.connect_to_fanin_port(pathExprNode1, bindNode, "prim_paths", "output")
+        graphAPI.connect_to_fanin_port(pathExprNode1, bindNode, "prim_paths", "output")
         childPortNames = cmds.vnnNode(
             cpn.kGraphName, f"/{bindNode}", listPortChildren="prim_paths"
         )
         self.assertEqual(childPortNames, ["output"])
 
         # connect a second path expression node to the bind node
-        newChildPort = graph_api.get_new_fanin_name(bindNode, "prim_paths", "output")
+        newChildPort = graphAPI.get_new_fanin_name(bindNode, "prim_paths", "output")
         self.assertEqual(newChildPort, "output1")
 
         valueNode2 = cpn._get_or_create_pathexpr_node("geometry2")
-        graph_api.connect_to_fanin_port(valueNode2, bindNode, "prim_paths", "output")
+        graphAPI.connect_to_fanin_port(valueNode2, bindNode, "prim_paths", "output")
 
         childPortNames = cmds.vnnNode(
             cpn.kGraphName, f"/{bindNode}", listPortChildren="prim_paths"
@@ -163,7 +169,7 @@ class ComponentCreatorGraphOnlyTestCase(unittest.TestCase):
 
         # disconnect "geometry1" from the binding node
         inputPort = bindNode + "." + "prim_paths" + "." + "output"
-        graph_api.disconnect(f"{pathExprNode1}.output", f"{inputPort}")
+        graphAPI.disconnect(f"{pathExprNode1}.output", f"{inputPort}")
 
         childPortNames = cmds.vnnNode(
             cpn.kGraphName, f"/{bindNode}", listPortChildren="prim_paths"
@@ -171,10 +177,10 @@ class ComponentCreatorGraphOnlyTestCase(unittest.TestCase):
         self.assertEqual(childPortNames, ["output1"])
 
         # reconnect first value node
-        newChildPort = graph_api.get_new_fanin_name(bindNode, "prim_paths", "output")
+        newChildPort = graphAPI.get_new_fanin_name(bindNode, "prim_paths", "output")
         self.assertEqual(newChildPort, "output2")
 
-        graph_api.connect_to_fanin_port(pathExprNode1, bindNode, "prim_paths", "output")
+        graphAPI.connect_to_fanin_port(pathExprNode1, bindNode, "prim_paths", "output")
         childPortNames = cmds.vnnNode(
             cpn.kGraphName, f"/{bindNode}", listPortChildren="prim_paths"
         )

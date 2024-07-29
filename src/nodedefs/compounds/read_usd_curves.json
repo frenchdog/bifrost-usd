@@ -17,7 +17,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_curve.svg"
                 },
                 {
                     "metaName": "io_nodes",
@@ -156,12 +156,6 @@
                     "metaName": "UILayout",
                     "metaType": "string",
                     "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"stage\"\n            },\n            {\n                \"port\": \"prim_path\"\n            },\n            {\n                \"port\": \"exclude_prefixes\"\n            },\n            {\n                \"port\": \"use_display_color\"\n            },\n            {\n                \"port\": \"frame\"\n            }\n        ]\n    }\n}\n"
-                }
-            ],
-            "terminalStates": [
-                {
-                    "name": "Core::Graph::terminal::diagnostic",
-                    "enabled": "true"
                 }
             ],
             "ports": [
@@ -1587,7 +1581,7 @@
                                 {
                                     "metaName": "icon",
                                     "metaType": "string",
-                                    "metaValue": "../icons/usd.svg"
+                                    "metaValue": "../icons/usd_default.svg"
                                 },
                                 {
                                     "metaName": "io_nodes",
@@ -2687,7 +2681,7 @@
                                 {
                                     "metaName": "icon",
                                     "metaType": "string",
-                                    "metaValue": "../icons/usd.svg"
+                                    "metaValue": "../icons/usd_default.svg"
                                 },
                                 {
                                     "metaName": "io_nodes",

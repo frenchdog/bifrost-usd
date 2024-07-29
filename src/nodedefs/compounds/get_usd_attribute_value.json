@@ -17,7 +17,7 @@
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/get_usd_attribute_value.md"
+                    "metaValue": "../docs/${language}/USD_Attribute_get_usd_attribute_value.md"
                 },
                 {
                     "metaName": "io_nodes",
@@ -123,8 +123,8 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
-                }                
+                    "metaValue": "../icons/usd_get.svg"
+                }
             ],
             "ports": [
                 {
@@ -152,13 +152,15 @@
                 {
                     "portName": "type",
                     "portDirection": "input",
+                    "portDefaultType": "float",
+                    "portDefault": "0f",
                     "metadata": [
                         {
                             "metaName": "TypeWranglingSuggestedTypes",
                             "metaType": "string",
                             "metaValue": "string, float, bool, uchar, int, uint, long, ulong, double, Math::float3, Math::float4, array<float>, array<bool>, array<uchar>, array<int>, array<uint>, array<long>, array<ulong>, array<double>, array<string>, array<Math::float2>, array<Math::float3>, array<Math::float4>"
                         }
-                    ]                    
+                    ]
                 },
                 {
                     "portName": "frame",

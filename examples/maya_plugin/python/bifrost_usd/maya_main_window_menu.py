@@ -71,89 +71,6 @@ def create_usd_menu():
         tearOff=True,
     )
 
-    # Edit submenu
-    cmds.menuItem(
-        "BifrostUSDEditMenu", label="Edit", parent=kTopMenu, subMenu=True, tearOff=True
-    )
-
-    cmds.menuItem(
-        "InsertSaveStageNode",
-        parent="BifrostUSDEditMenu",
-        command='bifrostUSDExamples -insertNode -nodeType "BifrostGraph,USD::Stage,save_usd_stage" -currentCompound "" -nodeSelection "" -portSelection "" -inputPort "stage" -outputPort "out_stage"',
-        label="Insert Save Stage Node",
-        sourceType="mel",
-        tearOff=True,
-    )
-    cmds.menuItem(
-        "InsertAddToStageNode",
-        parent="BifrostUSDEditMenu",
-        command='bifrostUSDExamples -insertNode -nodeType "BifrostGraph,USD::Stage,add_to_stage" -currentCompound "" -nodeSelection "" -portSelection "" -inputPort "stage" -outputPort "out_stage"',
-        label="Insert Add to Stage Node",
-        sourceType="mel",
-        tearOff=True,
-    )
-    cmds.menuItem(
-        "InsertSetPrimActiveNode",
-        parent="BifrostUSDEditMenu",
-        command='from bifrost_usd import author_usd_graph; author_usd_graph.insert_prim_node(author_usd_graph.GraphEditorSelection("", "", "", "", []), { "type_name": "BifrostGraph,USD::Prim,set_prim_active", "input": "stage", "output": "out_stage" })',
-        label="Insert Set Prim Active Node",
-        sourceType="python",
-        tearOff=True,
-    )
-    cmds.menuItem(
-        "InsertAddVariantSetNode",
-        parent="BifrostUSDEditMenu",
-        command='from bifrost_usd import author_usd_graph; author_usd_graph.insert_prim_node(author_usd_graph.GraphEditorSelection("", "", "", "", []), { "type_name": "BifrostGraph,USD::VariantSet,add_variant_set", "input": "stage", "output": "out_stage", "prim_path_param_name": "prim_path" })',
-        label="Insert Add VariantSet Node",
-        sourceType="python",
-        tearOff=True,
-    )
-    cmds.menuItem(
-        "InsertAddVariantNode",
-        parent="BifrostUSDEditMenu",
-        command='from bifrost_usd import author_usd_graph; author_usd_graph.insert_prim_node(author_usd_graph.GraphEditorSelection("", "", "", "", []), { "type_name": "BifrostGraph,USD::VariantSet,add_variant", "input": "stage", "output": "out_stage", "prim_path_param_name": "prim_path" })',
-        label="Insert Add Variant Node",
-        sourceType="python",
-        tearOff=True,
-    )
-    cmds.menuItem(
-        parent="BifrostUSDEditMenu", divider=True, dividerLabel="Import/Export"
-    )
-    cmds.menuItem(
-        "ImportMayaModelToStage",
-        parent="BifrostUSDEditMenu",
-        command="from bifrost_usd import author_usd_graph; author_usd_graph.add_maya_selection_to_stage()",
-        label="Import Maya Model to Stage",
-        sourceType="python",
-        tearOff=True,
-    )
-
-    cmds.menuItem(parent="BifrostUSDEditMenu", divider=True, dividerLabel="Component")
-    cmds.menuItem(
-        "RenameCurrentModelVariant",
-        parent="BifrostUSDEditMenu",
-        rtc="bifrostUsdRtc_RenameCurrentModelVariant",
-        label="Rename Current Model Variant",
-        sourceType="mel",
-        tearOff=True,
-    )
-    cmds.menuItem(
-        "UnassignMaterial",
-        parent="BifrostUSDEditMenu",
-        rtc="usdModelCmd_UnassignMaterial",
-        label="Unassign Material",
-        sourceType="mel",
-        tearOff=True,
-    )
-    cmds.menuItem(
-        "DuplicateSelectedMaterial",
-        parent="BifrostUSDEditMenu",
-        rtc="usdModelCmd_DuplicateSelectedMaterial",
-        label="Duplicate Selected Material",
-        sourceType="mel",
-        tearOff=True,
-    )
-
     # Create submenu
     cmds.menuItem(
         "BifrostUSDCreateMenu",
@@ -164,13 +81,22 @@ def create_usd_menu():
     )
 
     cmds.menuItem(
-        parent="BifrostUSDCreateMenu", divider=True, dividerLabel="Import/Export"
+        parent="BifrostUSDCreateMenu", divider=True, dividerLabel="Maya Input"
     )
     cmds.menuItem(
         "ImportMayaModelToNewStage",
         parent="BifrostUSDCreateMenu",
         command="bifrostUSDExamples -newStage -importModel",
         label="Create New Stage from Maya selection",
+        sourceType="mel",
+        tearOff=True,
+    )
+
+    cmds.menuItem(
+        "ImportMayaVariantsToNewStage",
+        parent="BifrostUSDCreateMenu",
+        command='bifrostUSDExamples -newStage -variantSetPrim "/Model" -variantSet "VSet"',
+        label="Create New Stage with Variants from Maya Selection",
         sourceType="mel",
         tearOff=True,
     )
@@ -211,6 +137,178 @@ def create_usd_menu():
         tearOff=True,
     )
 
+    # Modify submenu
+    cmds.menuItem(
+        "BifrostUSDModifyMenu",
+        label="Modify",
+        parent=kTopMenu,
+        subMenu=True,
+        tearOff=True,
+    )
+    cmds.menuItem(
+        parent="BifrostUSDModifyMenu", divider=True, dividerLabel="Maya Input"
+    )
+    cmds.menuItem(
+        "ImportMayaModelToStage",
+        parent="BifrostUSDModifyMenu",
+        command="from bifrost_usd import author_usd_graph; author_usd_graph.add_maya_selection_to_stage()",
+        label="Add Maya Model to Stage",
+        sourceType="python",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        "ImportMayaVariantsToStage",
+        parent="BifrostUSDModifyMenu",
+        command='bifrostUSDExamples -insertVariant',
+        label="Add Maya Variants to Stage",
+        sourceType="mel",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        parent="BifrostUSDModifyMenu", divider=True, dividerLabel="Bifrost Node"
+    )
+
+    cmds.menuItem(
+        "InsertSaveStageNode",
+        parent="BifrostUSDModifyMenu",
+        command='bifrostUSDExamples -insertNode -nodeType "BifrostGraph,USD::Stage,save_usd_stage" -currentCompound "" -nodeSelection "" -portSelection "" -inputPort "stage" -outputPort "out_stage"',
+        label="Save Stage",
+        sourceType="mel",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        "InsertAddToStageNode",
+        parent="BifrostUSDModifyMenu",
+        command='bifrostUSDExamples -insertNode -nodeType "BifrostGraph,USD::Stage,add_to_stage" -currentCompound "" -nodeSelection "" -portSelection "" -inputPort "stage" -outputPort "out_stage"',
+        label="Add to Stage",
+        sourceType="mel",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        "InsertSetEditLayerNode",
+        parent="BifrostUSDModifyMenu",
+        command='bifrostUSDExamples -insertNode -nodeType "BifrostGraph,USD::Stage,set_edit_layer" -currentCompound "" -nodeSelection "" -portSelection "" -inputPort "stage" -outputPort "out_stage"',
+        label="Set Edit Layer",
+        sourceType="mel",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        "InsertSetPrimAttributeNode",
+        parent="BifrostUSDModifyMenu",
+        command='from bifrost_usd.node_def import NodeDef; from bifrost_usd import author_usd_graph; author_usd_graph.insert_prim_node(author_usd_graph.GraphEditorSelection(), NodeDef(type_name="BifrostGraph,USD::Attribute,set_prim_attribute", input_name="stage", output_name="out_stage", prim_path_param_name="prim_path"))',
+        label="Set Prim Attribute",
+        sourceType="python",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        "InsertSetPrimActiveNode",
+        parent="BifrostUSDModifyMenu",
+        command='from bifrost_usd.node_def import NodeDef; from bifrost_usd import author_usd_graph; author_usd_graph.insert_prim_node(author_usd_graph.GraphEditorSelection(), NodeDef(type_name="BifrostGraph,USD::Prim,set_prim_active", input_name="stage", output_name="out_stage"))',
+        label="Deactivate Prim",
+        sourceType="python",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        "InsertAddVariantSetNode",
+        parent="BifrostUSDModifyMenu",
+        command='from bifrost_usd.node_def import NodeDef; from bifrost_usd import author_usd_graph; author_usd_graph.insert_prim_node(author_usd_graph.GraphEditorSelection(), NodeDef(type_name="BifrostGraph,USD::VariantSet,add_variant_set", input_name="stage", output_name="out_stage", prim_path_param_name="prim_path"))',
+        label="Add VariantSet",
+        sourceType="python",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        "InsertAddVariantNode",
+        parent="BifrostUSDModifyMenu",
+        command='from bifrost_usd.node_def import NodeDef; from bifrost_usd import author_usd_graph; author_usd_graph.insert_prim_node(author_usd_graph.GraphEditorSelection(), NodeDef(type_name="BifrostGraph,USD::VariantSet,add_variant", input_name="stage", output_name="out_stage", prim_path_param_name="prim_path"))',
+        label="Add Variant",
+        sourceType="python",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        "PointInstancerMenu",
+        label="Point Instancer Nodes...",
+        parent="BifrostUSDModifyMenu",
+        subMenu=True,
+        tearOff=True,
+    )
+
+    cmds.menuItem(
+        "SetPointInstancerInvisibleIds",
+        parent="PointInstancerMenu",
+        command='from bifrost_usd import author_usd_graph; author_usd_graph.set_point_instancer_invisible_ids(author_usd_graph.GraphEditorSelection())',
+        label="Hide Point Instances",
+        sourceType="python",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        "AddPointInstancerScope",
+        parent="PointInstancerMenu",
+        command='from bifrost_usd.node_def import NodeDef; from bifrost_usd import author_usd_graph; author_usd_graph.insert_prim_node(author_usd_graph.GraphEditorSelection(), NodeDef(is_terminal=True, type_name="BifrostGraph,USD::PointInstancer,usd_point_instancer_scope", input_name="stage", output_name="", prim_path_param_name="point_instancer_path"))',
+        label="Add Point Instancer Scope",
+        sourceType="python",
+        tearOff=True,
+    )
+
+    cmds.menuItem(
+        parent="BifrostUSDModifyMenu", divider=True, dividerLabel="Rename"
+    )
+    cmds.menuItem(
+        "ChangePrimPath",
+        parent="BifrostUSDModifyMenu",
+        command="from bifrost_usd.ui import prim_path_dialog; prim_path_dialog.show()",
+        label="Change Prim Path",
+        sourceType="python",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        "RenameVariantSet",
+        parent="BifrostUSDModifyMenu",
+        command="from bifrost_usd.ui import variant_set_dialog; variant_set_dialog.show()",
+        label="Rename Variant Set",
+        sourceType="python",
+        tearOff=True,
+    )
+
+    cmds.menuItem(parent="BifrostUSDModifyMenu", divider=True, dividerLabel="Component")
+    cmds.menuItem(
+        "RenameCurrentModelVariant",
+        parent="BifrostUSDModifyMenu",
+        rtc="bifrostUsdRtc_RenameCurrentModelVariant",
+        label="Rename Current Model Variant",
+        sourceType="mel",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        "UnassignMaterial",
+        parent="BifrostUSDModifyMenu",
+        rtc="usdModelCmd_UnassignMaterial",
+        label="Unassign Material",
+        sourceType="mel",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        "DuplicateSelectedMaterial",
+        parent="BifrostUSDModifyMenu",
+        rtc="usdModelCmd_DuplicateSelectedMaterial",
+        label="Duplicate Selected Material",
+        sourceType="mel",
+        tearOff=True,
+    )
+
+    cmds.menuItem(
+        parent="BifrostUSDModifyMenu", divider=True, dividerLabel="Maya Attribute"
+    )
+
+    cmds.menuItem(
+        "AddMaterialHintAttrib",
+        parent="BifrostUSDModifyMenu",
+        rtc="bifrostUsdRtc_AddMaterialHintAttrib",
+        label="Add or Modify material_hint Attribute",
+        sourceType="mel",
+        tearOff=True,
+    )
+
+    # Display submenu
     cmds.menuItem(
         "BifrostUSDDisplayMenu",
         label="Display",
@@ -271,22 +369,7 @@ def create_usd_menu():
         tearOff=True,
     )
 
-    cmds.menuItem(
-        "BifrostUSDModifyMenu",
-        label="Modify",
-        parent=kTopMenu,
-        subMenu=True,
-        tearOff=True,
-    )
-    cmds.menuItem(
-        "AddMaterialHintAttrib",
-        parent="BifrostUSDModifyMenu",
-        rtc="bifrostUsdRtc_AddMaterialHintAttrib",
-        label="Add or Modify material_hint Attribute",
-        sourceType="mel",
-        tearOff=True,
-    )
-
+    # Windows submenu
     cmds.menuItem(
         "BifrostUSDWindowsMenu",
         label="Windows",
@@ -323,6 +406,8 @@ def create_usd_menu():
         sourceType="mel",
         tearOff=True,
     )
+
+    # Directly under top menu
     cmds.menuItem(
         "Rebuild",
         parent=kTopMenu,
@@ -333,6 +418,7 @@ def create_usd_menu():
     )
     cmds.menuItem(parent=kTopMenu, divider=True)
 
+    # Help submenu
     cmds.menuItem(
         "BifrostUSDHelpMenu", label="Help", parent=kTopMenu, subMenu=True, tearOff=True
     )

@@ -17,7 +17,7 @@
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/open_usd_layer.md"
+                    "metaValue": "../docs/${language}/USD_Layer_open_usd_layer.md"
                 },
                 {
                     "metaName": "io_nodes",
@@ -89,7 +89,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/import_layer.svg"
                 },
                 {
                     "metaName": "NodeValueDisplay",
@@ -104,7 +104,7 @@
                 {
                     "metaName": "UILayout",
                     "metaType": "string",
-                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"group\": \"Open\"\n            },\n            {\n                \"expanded\": true,\n                \"group\": \"Settings\",\n                \"items\": [\n                    {\n                        \"port\": \"file\"\n                    },\n                    {\n                        \"port\": \"read_only\"\n                    },\n                    {\n                        \"port\": \"save_file\"\n                    },\n                    {\n                        \"port\": \"increment_if_empty\"\n                    }\n                ]\n            }\n        ]\n    }\n}\n"
+                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"group\": \"Open\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Settings\",\n                \"items\": [\n                    {\n                        \"port\": \"file\"\n                    },\n                    {\n                        \"port\": \"read_only\"\n                    },\n                    {\n                        \"port\": \"save_file\"\n                    },\n                    {\n                        \"port\": \"increment_if_empty\"\n                    }\n                ]\n            }\n        ]\n    }\n}"
                 },
                 {
                     "metaName": "PortExpandedState",

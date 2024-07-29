@@ -406,7 +406,7 @@ bool Layer::exportToFile(const Amino::String& filePath,
         Amino::String sdfLayerIdentifier = layer.m_filePath.empty() ?
             layer.m_originalFilePath : layer.m_filePath;
         if (relativePath) {
-            Amino::String parent = Bifrost::FileUtils::extractParentPath(outFilePath.c_str());
+            Amino::String parent = Bifrost::FileUtils::extractParentPath(outFilePath);
             Amino::String relPath = Bifrost::FileUtils::getRelativePath(sdfLayerIdentifier, parent).c_str();
             if (!relPath.empty()) {
                 sdfLayerIdentifier = PXR_NS::TfNormPath(relPath.c_str()).c_str();

@@ -27,6 +27,7 @@ set(node_def_compound_json
     create_usd_layer.json
     create_usd_prim.json
     create_usd_stage.json
+    delete_usd_point_instances.json
     get_attribute_comment.json
     get_attribute_custom_data.json
     get_attribute_documentation.json
@@ -36,14 +37,17 @@ set(node_def_compound_json
     get_stage_comment.json
     get_stage_custom_layer_data.json
     get_stage_documentation.json
+    get_usd_point_instancer_attributes.json
     open_usd_layer.json
     open_usd_stage.json
     read_usd_curves.json
     read_usd_meshes.json
+    replace_usd_point_instancer_proto.json
     save_usd_stage.json
     set_attribute_comment.json
     set_attribute_custom_data.json
     set_attribute_documentation.json
+    set_usd_point_instances_invisible.json
     set_prim_color.json
     set_prim_comment.json
     set_prim_custom_data.json
@@ -55,17 +59,21 @@ set(node_def_compound_json
     set_usd_prim_kind.json
     usd_enums.json
     usd_file_path.json
+    usd_point_instancer_scope.json
     # ---- compounds describing USD actions with Bifrost::Objects ----
     add_to_stage.json
+    add_to_stage_in_variant.json
     build_prim_from_definition.json
-    create_usd_attribute_from_def.json
+    create_usd_attribute_from_def.json # internal
+    define_usd_prim_hierarchy.json
     define_usd_attribute.json
     define_usd_curves.json
     define_usd_display_color.json
     define_usd_geom_subset.json
     define_usd_material_tag.json
     define_usd_mesh.json
-    define_usd_point_instancer.json
+    define_usd_point_instancer.json # internal
+    define_usd_point_instancer_1.json
     define_usd_preview_surface.json
     define_usd_prim.json
     define_usd_reference.json

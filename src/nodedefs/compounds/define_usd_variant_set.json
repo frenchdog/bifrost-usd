@@ -17,7 +17,7 @@
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/define_usd_variant_set.md"
+                    "metaValue": "../docs/${language}/USD_VariantSet_define_usd_variant_set.md"
                 },
                 {
                     "metaName": "io_nodes",
@@ -96,7 +96,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_variant.svg"
                 },
                 {
                     "metaName": "ViewportRect",

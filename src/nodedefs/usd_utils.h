@@ -1,5 +1,5 @@
 //-
-// Copyright 2022 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,8 +13,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //+
-/// \file  usd_utils.h
-/// \brief Bifrost USD utilitites.
 
 #ifndef ADSK_USD_UTILS_H
 #define ADSK_USD_UTILS_H
@@ -93,43 +91,21 @@ void set_volume_field_relationship(VOLUME_FIELD_ASSET_TYPE& fieldPrim,
     volume.CreateFieldRelationship(relationship_name, fieldPrim.GetPath());
 }
 
-/// \brief Try to get a valid prim.
-/// If path is empty, it will return the last prim modified upstream
-/// of the operator graph or an invalid prim if the path is not found in the
-/// stage.
-///
-/// If path starts without a "/", it will append it to the path of last prim
-/// modified upstream of the operator graph and will return matching prim or an
-/// invalid prim if the path is not found in the stage.
-///
-/// If path starts with "/", it will return matching prim or an invalid prim if
-/// the path is not found in the stage.
 PXR_NS::UsdPrim get_prim_at_path(const Amino::String&     path,
                                  const BifrostUsd::Stage& stage);
 
-/// \brief Same as get_prim_at_path but will throw an error if the prim is not found.
 PXR_NS::UsdPrim get_prim_or_throw(Amino::String const&     prim_path,
                                BifrostUsd::Stage const& stage);
 
-/// \brief Get a valid prim path.
-/// If path is empty, it will return the path of the last prim modified upstream
-/// of the operator graph.
-///
-/// If path starts without a "/", it will append it to the path of last prim
-/// modified upstream of the operator graph and will return it.
-///
-/// If path starts with "/", it will return it.
 Amino::String resolve_prim_path(const Amino::String&     path,
                                 const BifrostUsd::Stage& stage);
 
 PXR_NS::SdfVariability GetSdfVariability(
     const BifrostUsd::SdfVariability variablity);
 
-/// \brief Get a Pixar SdfValueTypeName from a BifrostUsd one.
 PXR_NS::SdfValueTypeName GetSdfValueTypeName(
     const BifrostUsd::SdfValueTypeName type_name);
 
-/// \brief Set a BifrostUsd SdfValueTypeName from a Pixar one.
 bool SetSdfValueTypeName(const PXR_NS::SdfValueTypeName& pxr_type_name,
                          BifrostUsd::SdfValueTypeName&   type_name);
 
@@ -143,18 +119,6 @@ PXR_NS::VtDictionary BifrostObjectToVtDictionary(const Bifrost::Object& object);
 auto VtDictionaryToBifrostObject(const PXR_NS::VtDictionary& dict)
     -> decltype(Bifrost::createObject());
 
-/// The sublayer indices in Bifrost USD nodedef functions (where 0
-/// designates the WEAKEST sublayer) are reversed compared to sublayer
-/// indices of a Pixar Layer stack (where 0 designates the STRONGEST
-/// sublayer). This function converts a sublayer index from a Bifrost
-/// USD nodedef function to an index for a Pixar Layer stack,
-/// or vice-versa.
-///
-/// \param [in] index The index of the sublayer to reverse.
-///     This index must be within [0, numLayers-1]. 
-/// \param [in] numLayers The number of sublayers in parent layer.
-///     It must be greater or equal to 0.
-/// \return The converted sublayer index.
 USD_NODEDEF_DECL
 size_t reversedSublayerIndex(const size_t index, const size_t numLayers);
 USD_NODEDEF_DECL

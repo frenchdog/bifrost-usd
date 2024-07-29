@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,15 +23,15 @@
 #include <pxr/imaging/hd/xformSchema.h>
 #include <pxr/usd/usd/prim.h>
 
-#include <fstream>
 #include <cassert>
+#include <fstream>
 
 #if defined(_WIN32)
 #include <Windows.h>
 
-#pragma comment (lib, "User32.lib")
-#pragma comment (lib, "Gdi32.lib")
-#pragma comment (lib, "Opengl32.lib")
+#pragma comment(lib, "User32.lib")
+#pragma comment(lib, "Gdi32.lib")
+#pragma comment(lib, "Opengl32.lib")
 #endif
 
 PXR_NAMESPACE_USING_DIRECTIVE
@@ -43,21 +43,22 @@ void TestSceneIndexPrim::SetUp() {
     WNDCLASS wc;
     ZeroMemory(&wc, sizeof(wc));
     wc.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    wc.lpfnWndProc   = (WNDPROC) DefWindowProc;
+    wc.lpfnWndProc   = (WNDPROC)DefWindowProc;
     wc.lpszClassName = "BifrostHydra_dummy";
 
     RegisterClass(&wc);
 
-    HWND hWnd = CreateWindowEx(
-        0, wc.lpszClassName, "BifrostHydra",
-        WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-        nullptr, nullptr, nullptr, nullptr);
+    HWND hWnd =
+        CreateWindowEx(0, wc.lpszClassName, "BifrostHydra",
+                       WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW,
+                       CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+                       CW_USEDEFAULT, nullptr, nullptr, nullptr, nullptr);
     assert(hWnd);
 
     HDC hDC = GetDC(hWnd);
     assert(hDC);
 
+    // clang-format off
     PIXELFORMATDESCRIPTOR pfd = {
         sizeof(PIXELFORMATDESCRIPTOR),  // Size Of This Pixel Format Descriptor
         1,                              // Version Number
@@ -78,6 +79,7 @@ void TestSceneIndexPrim::SetUp() {
         0,                              // Reserved
         0, 0, 0                         // Layer Masks Ignored
     };
+    // clang-format on
 
     int pixelFormat = ChoosePixelFormat(hDC, &pfd);
     SetPixelFormat(hDC, pixelFormat, &pfd);
@@ -88,33 +90,35 @@ void TestSceneIndexPrim::SetUp() {
 #endif
 }
 
-void TestSceneIndexPrim::TearDown() {
-}
+void TestSceneIndexPrim::TearDown() {}
 
-UsdStageRefPtr TestSceneIndexPrim::openStage(const std::string& stageFilePath) {
-    stage = UsdStage::Open(stageFilePath);
-    return stage;
+bool TestSceneIndexPrim::openStage(const std::string& stageFilePath) {
+    m_stage = UsdStage::Open(stageFilePath);
+    return m_stage;
 }
 
 bool TestSceneIndexPrim::render() {
+    if (!m_stage) {
+        return false;
+    }
     // render the scene
     SdfPathVector excludedPaths;
 
     UsdImagingGLRenderParams params;
     params.frame = 1;
 
-    engine.reset(new UsdImagingGLEngine(stage->GetPseudoRoot().GetPath(),
-                                        excludedPaths));
+    m_engine.reset(new UsdImagingGLEngine(m_stage->GetPseudoRoot().GetPath(),
+                                          excludedPaths));
 
-    engine->Render(stage->GetPseudoRoot(), params);
+    m_engine->Render(m_stage->GetPseudoRoot(), params);
 
     auto registeredSceneIndexNames =
         HdSceneIndexNameRegistry::GetInstance().GetRegisteredNames();
 
-    sceneIndex = HdSceneIndexNameRegistry::GetInstance().GetNamedSceneIndex(
+    m_sceneIndex = HdSceneIndexNameRegistry::GetInstance().GetNamedSceneIndex(
         registeredSceneIndexNames[0]);
-    if (sceneIndex) {
-        sceneIndex->AddObserver(HdSceneIndexObserverPtr(&observer));
+    if (m_sceneIndex) {
+        m_sceneIndex->AddObserver(HdSceneIndexObserverPtr(&m_observer));
         return true;
     }
     return false;
@@ -123,13 +127,26 @@ bool TestSceneIndexPrim::render() {
 void TestSceneIndexPrim::reRender() {
     UsdImagingGLRenderParams params;
     params.frame = 1;
-    observer.Clear();
-    return engine->Render(stage->GetPseudoRoot(), params);
+    m_observer.Clear();
+    return m_engine->Render(m_stage->GetPseudoRoot(), params);
+}
+
+PXR_NS::UsdPrim TestSceneIndexPrim::getUsdPrim(
+    const PXR_NS::SdfPath& primPath) {
+    return m_stage->GetPrimAtPath(primPath);
 }
 
 HdSceneIndexPrim TestSceneIndexPrim::getHdPrim(
     const SdfPath& bifrostProcPrimPath) {
-    return sceneIndex->GetPrim(bifrostProcPrimPath);
+    return m_sceneIndex->GetPrim(bifrostProcPrimPath);
+}
+
+PXR_NS::HdSceneIndexBaseRefPtr TestSceneIndexPrim::getSceneIndex() const {
+    return m_sceneIndex;
+}
+
+RecordingSceneIndexObserver& TestSceneIndexPrim::getObserver() {
+    return m_observer;
 }
 
 // static
@@ -154,7 +171,7 @@ void TestSceneIndexPrim::TestHdSceneIndexMesh(
 
     auto primvarsSchema = HdPrimvarsSchema::GetFromParent(prim.dataSource);
     EXPECT_TRUE(primvarsSchema.IsDefined());
-    EXPECT_TRUE(primvarsSchema.GetPrimvarNames().size() > 0);
+    EXPECT_TRUE(!primvarsSchema.GetPrimvarNames().empty());
     EXPECT_EQ(primvarsSchema.GetPrimvarNames()[0],
               HdPrimvarsSchemaTokens->points);
     auto ptsPv = primvarsSchema.GetPrimvar(HdPrimvarsSchemaTokens->points);
@@ -167,7 +184,7 @@ void TestSceneIndexPrim::TestHdSceneIndexMesh(
     EXPECT_EQ(ptsPv.GetInterpolation()->GetTypedValue(0.0f),
               HdPrimvarSchemaTokens->vertex);
 
-    if(!hasDisplayColor) {
+    if (!hasDisplayColor) {
         return;
     }
 
@@ -232,8 +249,8 @@ void TestSceneIndexPrim::TestHdSceneIndexBasisCurves(
 
 namespace {
 
-std::string dataSourceToString(const HdDataSourceBaseHandle dataSource,
-                               int&                         depth) {
+std::string dataSourceToString(const HdDataSourceBaseHandle& dataSource,
+                               int&                          depth) {
     std::string str;
 
     std::string prefix;
@@ -241,8 +258,6 @@ std::string dataSourceToString(const HdDataSourceBaseHandle dataSource,
         prefix += "    ";
     }
     depth++;
-
-    const HdDataSourceBaseHandle base = dataSource;
 
     auto container = HdContainerDataSource::Cast(dataSource);
     if (!container) {
@@ -263,7 +278,7 @@ std::string dataSourceToString(const HdDataSourceBaseHandle dataSource,
                    value.GetTypeName() + "\n";
 
             if (value.IsHolding<TfToken>()) {
-                auto elem = value.UncheckedGet<TfToken>();
+                const auto& elem = value.UncheckedGet<TfToken>();
                 str += prefix + prefix + "value: " + elem.GetString() + "\n";
             }
 
@@ -348,7 +363,7 @@ std::string dataSourceToString(const HdDataSourceBaseHandle dataSource,
 
             else if (value.IsHolding<VtArray<SdfPath>>()) {
                 auto arrayType = value.UncheckedGet<VtArray<SdfPath>>();
-                for (auto elem : arrayType) {
+                for (const auto& elem : arrayType) {
                     str +=
                         prefix + prefix + "value: " + elem.GetString() + "\n";
                 }
@@ -411,7 +426,7 @@ std::string dataSourceToString(const HdDataSourceBaseHandle dataSource,
 
 // static
 void TestSceneIndexPrim::ExportAsString(const PXR_NS::HdSceneIndexPrim& prim,
-                                        const std::string&           filePath) {
+                                        const std::string& filePath) {
     (void)filePath;
     int         depth = 0;
     std::string result =

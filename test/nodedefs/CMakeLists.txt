@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2023 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -102,13 +102,8 @@ function(configure_bifusd_runtime_unittests)
     endforeach()
 endfunction()
 
-if(BIFUSD_IS_DEBUG OR (BIFUSD_IS_OSX AND NOT CMAKE_SYSTEM_PROCESSOR IN_LIST CMAKE_OSX_ARCHITECTURES) )
+if( NOT BIFUSD_IS_DEBUG )
     # Testing graphs in DEBUG with bifcmd in release will fail.
     # See BIFROST-8039
-    #
-    # On OSX, testing when the processor is not part the target architectures
-    # will not work because amino tools target the native processor.
-    # See BIFROST-8149
-else()
     configure_bifusd_runtime_unittests()
 endif()

@@ -12,7 +12,7 @@
     "compounds": [
         {
             "name": "Hydra::Testing::create_strands_test1",
-            "uriImported": "stream:/stream",
+            "uriImported": "file:///create_strands_test1.json",
             "metadata": [
                 {
                     "metaName": "io_nodes",
@@ -27,11 +27,6 @@
                                             "metaName": "DisplayMode",
                                             "metaType": "string",
                                             "metaValue": "2"
-                                        },
-                                        {
-                                            "metaName": "LayoutPos",
-                                            "metaType": "string",
-                                            "metaValue": "-598.5 -61.5"
                                         },
                                         {
                                             "metaName": "io_ports",
@@ -55,6 +50,16 @@
                                                     "metaName": "strands_length"
                                                 }
                                             ]
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "38.000000"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "-888.96 30.0457"
                                         }
                                     ]
                                 }
@@ -83,6 +88,11 @@
                                             "metaName": "LayoutPos",
                                             "metaType": "string",
                                             "metaValue": "647.24 -268.701"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "37.000000"
                                         }
                                     ]
                                 }
@@ -93,7 +103,7 @@
                 {
                     "metaName": "ViewportRect",
                     "metaType": "string",
-                    "metaValue": "-678 -457.401 1631 1046.8"
+                    "metaValue": "-1082.61 -504.248 1632 1184.44"
                 },
                 {
                     "metaName": "DisplayMode",
@@ -103,7 +113,12 @@
                 {
                     "metaName": "LayoutPos",
                     "metaType": "string",
-                    "metaValue": "-1163.99 -526.268"
+                    "metaValue": "-65.5 -93"
+                },
+                {
+                    "metaName": "zValue",
+                    "metaType": "string",
+                    "metaValue": "39.000000"
                 }
             ],
             "ports": [
@@ -139,8 +154,8 @@
                 {
                     "portName": "strands_segments",
                     "portDirection": "input",
-                    "portType": "long",
-                    "portDefault": "2"
+                    "portType": "int",
+                    "portDefault": "2L"
                 },
                 {
                     "portName": "strands_length",
@@ -152,7 +167,7 @@
             "compounds": [
                 {
                     "name": "set_color",
-                    "uriImported": "stream:/stream",
+                    "uriImported": "file:///create_strands_test1.json",
                     "metadata": [
                         {
                             "metaName": "io_nodes",
@@ -409,9 +424,14 @@
                             ]
                         },
                         {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "39.000000"
+                        },
+                        {
                             "metaName": "LayoutPos",
                             "metaType": "string",
-                            "metaValue": "-295.5 -270"
+                            "metaValue": "-339.578 -458.742"
                         }
                     ]
                 },
@@ -428,6 +448,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "-25.5 -218"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "32.000000"
                         }
                     ]
                 },
@@ -444,6 +469,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "208.545 50.6536"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "33.000000"
                         }
                     ]
                 },
@@ -460,6 +490,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "466.252 3.09112"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "34.000000"
                         }
                     ]
                 },
@@ -476,6 +511,11 @@
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "263.032 -247.628"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "35.000000"
                         }
                     ]
                 }
@@ -502,10 +542,6 @@
                     "target": "create_mesh_plane.width_segments"
                 },
                 {
-                    "source": ".strands_segments",
-                    "target": "create_strands_along_normals.segments"
-                },
-                {
                     "source": ".strands_length",
                     "target": "create_strands_along_normals.length"
                 },
@@ -524,6 +560,10 @@
                 {
                     "source": "set_strands_size_profile.out_strands",
                     "target": ".strands"
+                },
+                {
+                    "source": ".strands_segments",
+                    "target": "create_strands_along_normals.segments"
                 }
             ],
             "values": [
@@ -548,20 +588,20 @@
                     "value": "10L"
                 },
                 {
-                    "valueName": "create_mesh_plane.up_axis",
-                    "valueType": "Math::float3",
-                    "value": {
-                        "x": "0f",
-                        "y": "1f",
-                        "z": "0f"
-                    }
-                },
-                {
                     "valueName": "create_mesh_plane.position",
                     "valueType": "Math::float3",
                     "value": {
                         "x": "0f",
                         "y": "0f",
+                        "z": "0f"
+                    }
+                },
+                {
+                    "valueName": "create_mesh_plane.up_axis",
+                    "valueType": "Math::float3",
+                    "value": {
+                        "x": "0f",
+                        "y": "1f",
                         "z": "0f"
                     }
                 },

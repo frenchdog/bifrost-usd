@@ -17,7 +17,7 @@
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/save_usd_stage.md"
+                    "metaValue": "../docs/${language}/USD_Stage_save_usd_stage.md"
                 },
                 {
                     "metaName": "io_nodes",
@@ -192,7 +192,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/write_usd_file.svg"
                 },
                 {
                     "metaName": "NodeValueDisplay",
@@ -338,12 +338,6 @@
                             "metaValue": "0"
                         }
                     ]
-                }
-            ],
-            "terminalStates": [
-                {
-                    "name": "Core::Graph::terminal::diagnostic",
-                    "enabled": "true"
                 }
             ],
             "ports": [

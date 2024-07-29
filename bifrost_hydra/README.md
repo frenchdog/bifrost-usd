@@ -1,6 +1,6 @@
 
 ## Bifrost Hydra (Experimental)
-Requires a version of the Bifrost SDK that is not released yet.
+Require the [Bifrost Executor SDK](https://help.autodesk.com/view/BIFROST/ENU/?guid=Bifrost_DevHelp_BifrostExecutorSDK_html) introduced in Bifrost 2.10.
 Register a new Hydra Generative Procedural plugin capable of running a Bifrost Graph that will output
 Bifrost geometries to the Hydra Scene Index without using any scene delegate.
 In your Hydra based application (usdview for example), the following variables are needed:

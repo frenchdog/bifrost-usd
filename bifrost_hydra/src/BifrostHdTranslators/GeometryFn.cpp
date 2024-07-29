@@ -32,6 +32,7 @@
 #include <pxr/imaging/hd/retainedDataSource.h>
 #include <pxr/imaging/hd/tokens.h>
 #include <pxr/imaging/hd/xformSchema.h>
+#include <pxr/pxr.h>
 
 #include <iostream>
 
@@ -338,11 +339,20 @@ HdContainerDataSourceHandle GetInstancerInstanceCategoriesDataSource() {
 
 HdContainerDataSourceHandle NewPointInstancerPrimvarsDataSource(
     const Bifrost::Object& object) {
+
+#if (PXR_VERSION >= 2405)
     return HdRetainedContainerDataSource::New(
+        HdInstancerTokens->instanceRotations, BuildInstancerRotateDataSource(object),
+        HdInstancerTokens->instanceScales, BuildInstancerScaleDataSource(object),
+        HdInstancerTokens->instanceTranslations,
+        BuildInstancerTranslateDataSource(object));
+#else
+        return HdRetainedContainerDataSource::New(
         HdInstancerTokens->rotate, BuildInstancerRotateDataSource(object),
         HdInstancerTokens->scale, BuildInstancerScaleDataSource(object),
         HdInstancerTokens->translate,
         BuildInstancerTranslateDataSource(object));
+#endif
 }
 
 HdContainerDataSourceHandle BuildPointInstancerTopologyDataSource(

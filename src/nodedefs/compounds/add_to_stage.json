@@ -17,7 +17,7 @@
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/add_to_stage.md"
+                    "metaValue": "../docs/${language}/USD_Stage_add_to_stage.md"
                 },
                 {
                     "metaName": "io_nodes",
@@ -148,7 +148,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_add.svg"
                 },
                 {
                     "metaName": "_recentNode_",
@@ -211,12 +211,6 @@
                     ]
                 }
             ],
-            "terminalStates": [
-                {
-                    "name": "Core::Graph::terminal::diagnostic",
-                    "enabled": "true"
-                }
-            ],
             "ports": [
                 {
                     "portName": "stage",
@@ -252,7 +246,7 @@
                         {
                             "metaName": "quick_create",
                             "metaType": "string",
-                            "metaValue": "USD::Prim::define_usd_prim;USD::Prim::define_usd_mesh;USD::Prim::define_usd_curves;USD::Prim::define_usd_point_instancer;USD::Shading::define_usd_preview_surface"
+                            "metaValue": "USD::Prim::define_usd_prim;USD::Prim::define_usd_mesh;USD::Prim::define_usd_curves;USD::Prim::define_usd_prim_hierarchy;USD::PointInstancer::define_usd_point_instancer;USD::Shading::define_usd_preview_surface"
                         }
                     ]
                 },

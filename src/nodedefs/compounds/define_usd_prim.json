@@ -17,7 +17,7 @@
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/define_usd_prim.md"
+                    "metaValue": "../docs/${language}/USD_Prim_define_usd_prim.md"
                 },
                 {
                     "metaName": "Properties",
@@ -27,7 +27,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_pill.svg"
                 },
                 {
                     "metaName": "General",
@@ -358,7 +358,7 @@
                         {
                             "metaName": "quick_create",
                             "metaType": "string",
-                            "metaValue": "USD::Prim::define_usd_prim;USD::Prim::define_usd_mesh;USD::Prim::define_usd_curves;USD::Prim::define_usd_point_instancer;USD::Shading::define_usd_preview_surface"
+                            "metaValue": "USD::Prim::define_usd_prim;USD::Prim::define_usd_mesh;USD::Prim::define_usd_curves;USD::Prim::define_usd_prim_hierarchy;USD::PointInstancer::define_usd_point_instancer;USD::Shading::define_usd_preview_surface"
                         }
                     ]
                 },
@@ -4609,7 +4609,7 @@
                         {
                             "metaName": "icon",
                             "metaType": "string",
-                            "metaValue": "../icons/usd.svg"
+                            "metaValue": "../icons/usd_default.svg"
                         },
                         {
                             "metaName": "DisplayMode",

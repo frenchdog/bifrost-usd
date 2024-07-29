@@ -17,7 +17,7 @@
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/define_usd_reference_from_file.md"
+                    "metaValue": "../docs/${language}/USD_Prim_define_usd_reference_from_file.md"
                 },
                 {
                     "metaName": "io_nodes",
@@ -111,7 +111,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/define_reference.svg"
                 },
                 {
                     "metaName": "NodeValueDisplay",

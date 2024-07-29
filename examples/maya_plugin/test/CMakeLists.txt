@@ -25,6 +25,8 @@ set(python_tests
     testCreateComponentGraph.py
     testGetComponentMetadata.py
     testImportMayaModel.py
+    testImportMayaModelInNewStage.py
+    testImportMayaVariants.py
     testMaterialHintAttribute.py
     testModelExporter.py
     testPrimPath.py
@@ -40,8 +42,10 @@ if(IS_BIFUSD_STANDALONE)
     list(APPEND env_vars "BIFROST_LIB_CONFIG_FILES=${CMAKE_INSTALL_PREFIX}/plugin_config.json:${BIFROST_LIB_CONFIG_FILES}")
 endif()
 
+set(USD_PYTHON_PATH "${MAYA_USD_PLUGIN_DIR}/mayausd/USD/lib/python")
+set(MAYA_USD_PYTHON_PATH "${MAYA_USD_PLUGIN_DIR}/mayausd/MayaUSD/lib/python")
 
-list(APPEND env_vars "PYTHONPATH=${CMAKE_INSTALL_PREFIX}/${BIFUSD_INSTALL_ROOT_DIR}/examples/maya_plugin/python")
+list(APPEND env_vars "PYTHONPATH=${USD_PYTHON_PATH}::${MAYA_USD_PYTHON_PATH}:${CMAKE_INSTALL_PREFIX}/${BIFUSD_INSTALL_ROOT_DIR}/examples/maya_plugin/python")
 list(APPEND env_vars "MAYA_MODULE_PATH=${CMAKE_INSTALL_PREFIX}/${BIFUSD_INSTALL_ROOT_DIR}/examples/maya_plugin:${MAYA_USD_PLUGIN_DIR}:${LOOKDEVX_PLUGIN_DIR}:${BIFROST_LOCATION}/../../modules/")
 
 foreach(test_file ${python_tests})

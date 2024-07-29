@@ -597,7 +597,7 @@
                                 {
                                     "metaName": "icon",
                                     "metaType": "string",
-                                    "metaValue": "../icons/usd.svg"
+                                    "metaValue": "../icons/usd_default.svg"
                                 },
                                 {
                                     "metaName": "DisplayMode",
@@ -5861,7 +5861,7 @@
                                 {
                                     "metaName": "icon",
                                     "metaType": "string",
-                                    "metaValue": "../icons/usd.svg"
+                                    "metaValue": "../icons/usd_default.svg"
                                 },
                                 {
                                     "metaName": "ViewportRect",
@@ -7220,7 +7220,7 @@
                                 {
                                     "metaName": "icon",
                                     "metaType": "string",
-                                    "metaValue": "../icons/usd.svg"
+                                    "metaValue": "../icons/usd_default.svg"
                                 },
                                 {
                                     "metaName": "PortExpandedState",
@@ -13721,7 +13721,7 @@
                                 {
                                     "metaName": "icon",
                                     "metaType": "string",
-                                    "metaValue": "../icons/usd.svg"
+                                    "metaValue": "../icons/usd_default.svg"
                                 },
                                 {
                                     "metaName": "PortExpandedState",

@@ -354,9 +354,13 @@ class TestGraphs(unittest.TestCase):
             # Layer Tests
             "tasks_create_empty_layer.json",
             "tasks_export_layer_to_file.json",
-            # Primitive Tests
+            # Prim Tests
             "tasks_create_prim_hierarchy.json",
             "tasks_create_geom_subset.json",
+            "tasks_define_usd_skeleton.json",
+            "tasks_define_usd_skeleton_animation.json",
+            # Point Instancer Tests
+            "tasks_delete_usd_point_instances.json",
             # Stage Tests
             "tasks_add_to_stage.json",
             "tasks_add_to_stage_create_variants.json",

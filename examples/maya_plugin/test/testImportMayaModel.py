@@ -16,7 +16,7 @@
 # *****************************************************************************
 # +
 import unittest
-from unittest.mock import create_autospec
+from unittest.mock import patch
 
 import ufe
 from maya import cmds
@@ -26,35 +26,28 @@ from bifrost_usd.constants import kGraphName, kDefinePrimHierarchy
 from bifrost_usd import author_usd_graph
 from bifrost_usd.author_usd_graph import graphAPI
 
-# mock "get_graph_editor_selection" the Bifrost Graph Editor can't be open
-# in unitests.
+from bifrost_usd.graph_api import GraphEditorSelection
 
-author_usd_graph.get_graph_editor_selection = create_autospec(
-    author_usd_graph.get_graph_editor_selection,
-    return_value=author_usd_graph.GraphEditorSelection(
+
+def hasUfePythonBugFix() -> bool:
+    """Tests that are renaming Maya DAG paths will fail if Maya version is less than 2025.2.
+    This is related to ticket EMSUSD-1195."""
+    return cmds.about(apiVersion=True) >= 20260200
+
+
+def mock_get_graph_selection() -> GraphEditorSelection:
+    """Used to patch "bifrost_usd.author_usd_graph.get_graph_selection" since the Bifrost Graph Editor can't be open in unitests.
+
+    To be passed to the side_effect argument of a unittest.mock.Mock.
+
+    :return: An hard coded selection instead of the one from the Bifrost Graph Editor.
+    """
+    return GraphEditorSelection(
         f"|{kGraphName}|{kGraphName}Shape",
         f"{kGraphName}Shape",
         "/",
         "",
         ["add_to_stage"],
-    ),
-)
-
-
-def _path() -> str:
-    return cmds.vnnNode(
-        f"{kGraphName}Shape",
-        "/define_prim_hierarchy",
-        queryPortDefaultValues="path",
-    )
-
-
-def _connected_nodes(connected_to: str) -> list:
-    return cmds.vnnNode(
-        f"{kGraphName}Shape",
-        "/define_prim_hierarchy",
-        connectedTo=connected_to,
-        listConnectedNodes=1,
     )
 
 
@@ -109,21 +102,29 @@ class ImportMayaModelTestCase(unittest.TestCase):
         cmds.select("Model", replace=True)
         graphAPI.ufe_observer = True
 
-    def testImportModelUnderPseudoRoot(self):
+    @patch(
+        "bifrost_usd.author_usd_graph.get_graph_selection",
+        side_effect=mock_get_graph_selection,
+    )
+    def testImportModelUnderPseudoRoot(self, mock_get_graph_selection):
         self.assertTrue(author_usd_graph.add_maya_selection_to_stage())
+        mock_get_graph_selection.assert_called_once_with()
 
         self.assertEqual(
             graphAPI.find_nodes(kDefinePrimHierarchy),
-            ["define_prim_hierarchy", "define_prim_hierarchy1"],
+            ["define_usd_prim_hierarchy", "define_usd_prim_hierarchy1"],
         )
 
-        self.assertEqual(_connected_nodes("leaf_mesh"), ["bifrostUsdShape.mesh1"])
         self.assertEqual(
-            _connected_nodes("prim_definitions"),
+            graphAPI.connexions("define_usd_prim_hierarchy", "leaf_mesh"),
+            ["bifrostUsdShape.mesh1"],
+        )
+        self.assertEqual(
+            graphAPI.connexions("define_usd_prim_hierarchy", "prim_definitions"),
             ["add_to_stage.prim_definitions.mesh1"],
         )
 
-        self.assertEqual(_path(), "/Model/geo/pCube1")
+        self.assertEqual(graphAPI.param("define_usd_prim_hierarchy", "path"), "/Model/geo/pCube1")
 
         # Check the prims type
         self.assertTrue(
@@ -140,43 +141,52 @@ class ImportMayaModelTestCase(unittest.TestCase):
             )
         )
 
-        # Check prim path after renaming Maya model
-        cmds.rename("Model", "CUBE")
-        self.assertEqual(_path(), "/CUBE/geo/pCube1")
+        if hasUfePythonBugFix():
+            # Check prim path after renaming Maya model
+            cmds.rename("Model", "CUBE")
+            self.assertEqual(graphAPI.param("define_usd_prim_hierarchy", "path"), "/CUBE/geo/pCube1")
 
-        cmds.rename("geo", "GEOMETRIES")
-        self.assertEqual(_path(), "/CUBE/GEOMETRIES/pCube1")
+            cmds.rename("geo", "GEOMETRIES")
+            self.assertEqual(graphAPI.param("define_usd_prim_hierarchy", "path"), "/CUBE/GEOMETRIES/pCube1")
 
-        cmds.rename("pCube1", "SHAPE")
-        self.assertEqual(_path(), "/CUBE/GEOMETRIES/SHAPE")
+            cmds.rename("pCube1", "SHAPE")
+            self.assertEqual(graphAPI.param("define_usd_prim_hierarchy", "path"), "/CUBE/GEOMETRIES/SHAPE")
 
-        # check that compound is deleted when Maya node is delete
-        cmds.delete("SHAPE")
-        self.assertEqual(
-            graphAPI.find_nodes(kDefinePrimHierarchy), ["define_prim_hierarchy1"]
-        )
+            # check that compound is deleted when Maya node is delete
+            cmds.delete("SHAPE")
+            self.assertEqual(
+                graphAPI.find_nodes(kDefinePrimHierarchy), ["define_usd_prim_hierarchy1"]
+            )
 
-    def testGroupMesh(self):
-        author_usd_graph.add_maya_selection_to_stage()
-        cmds.group("pCube1", name="NEW_GROUP")
-        self.assertEqual(_path(), "/Model/geo/NEW_GROUP/pCube1")
+    @patch(
+        "bifrost_usd.author_usd_graph.get_graph_selection",
+        side_effect=mock_get_graph_selection,
+    )
+    def testGroupMesh(self, side_effect):
+        if hasUfePythonBugFix():
+            author_usd_graph.add_maya_selection_to_stage()
+            cmds.group("pCube1", name="NEW_GROUP")
+            self.assertEqual(graphAPI.param("define_usd_prim_hierarchy", "path"), "/Model/geo/NEW_GROUP/pCube1")
 
-    def testGroupGeo(self):
-        author_usd_graph.add_maya_selection_to_stage()
+    @patch(
+        "bifrost_usd.author_usd_graph.get_graph_selection",
+        side_effect=mock_get_graph_selection,
+    )
+    def testGroupGeo(self, side_effect):
+        if hasUfePythonBugFix():
+            author_usd_graph.add_maya_selection_to_stage()
 
-        cmds.parent("pCube1", "other_geo")
-        self.assertEqual(_path(), "/Model/other_geo/pCube1")
+            cmds.parent("pCube1", "other_geo")
+            self.assertEqual(graphAPI.param("define_usd_prim_hierarchy", "path"), "/Model/other_geo/pCube1")
 
-        cmds.parent("pCube1", "geo")
-        self.assertEqual(_path(), "/Model/geo/pCube1")
+            cmds.parent("pCube1", "geo")
+            self.assertEqual(graphAPI.param("define_usd_prim_hierarchy", "path"), "/Model/geo/pCube1")
 
-    def DISABLED_testGroupNonLeafNode(self):
-        author_usd_graph.add_maya_selection_to_stage()
-
-        cmds.group("geo", name="NEW_GROUP")
-        self.assertEqual(_path(), "/Model/NEW_GROUP/geo/pCube1")
-
-    def testImportModelUnderGeoPrim(self):
+    @patch(
+        "bifrost_usd.author_usd_graph.get_graph_selection",
+        side_effect=mock_get_graph_selection,
+    )
+    def testImportModelUnderGeoPrim(self, side_effect):
         cmds.vnnNode(
             f"{kGraphName}Shape",
             "/add_to_stage",
@@ -185,32 +195,36 @@ class ImportMayaModelTestCase(unittest.TestCase):
         self.assertTrue(author_usd_graph.add_maya_selection_to_stage())
         primHierarchyCompounds = graphAPI.find_nodes(kDefinePrimHierarchy)
         self.assertEqual(
-            primHierarchyCompounds, ["define_prim_hierarchy", "define_prim_hierarchy1"]
+            primHierarchyCompounds, ["define_usd_prim_hierarchy", "define_usd_prim_hierarchy1"]
         )
 
-        self.assertEqual(_connected_nodes("leaf_mesh"), ["bifrostUsdShape.mesh1"])
         self.assertEqual(
-            _connected_nodes("prim_definitions"),
+            graphAPI.connexions("define_usd_prim_hierarchy", "leaf_mesh"),
+            ["bifrostUsdShape.mesh1"],
+        )
+        self.assertEqual(
+            graphAPI.connexions("define_usd_prim_hierarchy", "prim_definitions"),
             ["add_to_stage.prim_definitions.mesh1"],
         )
 
-        self.assertEqual(_path(), "/pCube1")
+        self.assertEqual(graphAPI.param("define_usd_prim_hierarchy", "path"), "/pCube1")
 
-        # Check prim path after renaming Maya model
-        cmds.rename("Model", "CUBE")
-        self.assertEqual(_path(), "/pCube1")
+        if hasUfePythonBugFix():
+            # Check prim path after renaming Maya model
+            cmds.rename("Model", "CUBE")
+            self.assertEqual(graphAPI.param("define_usd_prim_hierarchy", "path"), "/pCube1")
 
-        cmds.rename("geo", "GEOMETRIES")
-        self.assertEqual(_path(), "/pCube1")
+            cmds.rename("geo", "GEOMETRIES")
+            self.assertEqual(graphAPI.param("define_usd_prim_hierarchy", "path"), "/pCube1")
 
-        cmds.rename("pCube1", "SHAPE")
-        self.assertEqual(_path(), "/SHAPE")
+            cmds.rename("pCube1", "SHAPE")
+            self.assertEqual(graphAPI.param("define_usd_prim_hierarchy", "path"), "/SHAPE")
 
-        # check that compound is deleted when Maya node is delete
-        cmds.delete("SHAPE")
-        self.assertEqual(
-            graphAPI.find_nodes(kDefinePrimHierarchy), ["define_prim_hierarchy1"]
-        )
+            # check that compound is deleted when Maya node is delete
+            cmds.delete("SHAPE")
+            self.assertEqual(
+                graphAPI.find_nodes(kDefinePrimHierarchy), ["define_usd_prim_hierarchy1"]
+            )
 
 
 if __name__ == "__main__":

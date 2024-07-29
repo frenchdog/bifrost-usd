@@ -17,7 +17,7 @@
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/define_usd_preview_surface.md"
+                    "metaValue": "../docs/${language}/USD_Shading_define_usd_preview_surface.md"
                 },
                 {
                     "metaName": "io_nodes",
@@ -110,7 +110,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_default.svg"
                 },
                 {
                     "metaName": "NodeValueDisplay",
@@ -145,7 +145,7 @@
                 {
                     "metaName": "UILayout",
                     "metaType": "string",
-                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"layer\"\n            },\n            {\n                \"port\": \"path\"\n            },\n            {\n                \"expanded\": true,\n                \"group\": \"Base\",\n                \"items\": [\n                    {\n                        \"port\": \"diffuse_color\"\n                    },\n                    {\n                        \"port\": \"use_texture\"\n                    },\n                    {\n                        \"port\": \"texture_file_path\"\n                    },\n                    {\n                        \"port\": \"emissive_color\"\n                    }\n                ]\n            },\n            {\n                \"expanded\": true,\n                \"group\": \"Specular\"\n            },\n            {\n                \"expanded\": true,\n                \"group\": \"Base\"\n            },\n            {\n                \"expanded\": true,\n                \"group\": \"Specular\",\n                \"items\": [\n                    {\n                        \"port\": \"clearcoat\"\n                    },\n                    {\n                        \"port\": \"index_of_refraction\"\n                    },\n                    {\n                        \"port\": \"metallic\"\n                    },\n                    {\n                        \"port\": \"opacity\"\n                    },\n                    {\n                        \"port\": \"roughness\"\n                    }\n                ]\n            },\n            {\n                \"expanded\": true,\n                \"group\": \"Materials\"\n            }\n        ]\n    }\n}\n"
+                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"layer\"\n            },\n            {\n                \"port\": \"path\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Base\",\n                \"items\": [\n                    {\n                        \"port\": \"diffuse_color\"\n                    },\n                    {\n                        \"port\": \"use_texture\"\n                    },\n                    {\n                        \"port\": \"texture_file_path\"\n                    },\n                    {\n                        \"port\": \"emissive_color\"\n                    }\n                ]\n            },\n            {\n                \"expanded\": true,\n                \"group\": \"Specular\"\n            },\n            {\n                \"expanded\": true,\n                \"group\": \"Base\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Specular\",\n                \"items\": [\n                    {\n                        \"port\": \"clearcoat\"\n                    },\n                    {\n                        \"port\": \"index_of_refraction\"\n                    },\n                    {\n                        \"port\": \"metallic\"\n                    },\n                    {\n                        \"port\": \"opacity\"\n                    },\n                    {\n                        \"port\": \"roughness\"\n                    }\n                ]\n            },\n            {\n                \"expanded\": true,\n                \"group\": \"Materials\"\n            }\n        ]\n    }\n}"
                 },
                 {
                     "metaName": "PortExpandedState",
@@ -370,7 +370,7 @@
                         {
                             "metaName": "icon",
                             "metaType": "string",
-                            "metaValue": "../icons/usd.svg"
+                            "metaValue": "../icons/usd_default.svg"
                         },
                         {
                             "metaName": "io_nodes",
@@ -766,7 +766,7 @@
                         {
                             "metaName": "icon",
                             "metaType": "string",
-                            "metaValue": "../icons/usd.svg"
+                            "metaValue": "../icons/usd_default.svg"
                         },
                         {
                             "metaName": "format",
@@ -1633,7 +1633,7 @@
                         {
                             "metaName": "icon",
                             "metaType": "string",
-                            "metaValue": "../icons/usd.svg"
+                            "metaValue": "../icons/usd_default.svg"
                         },
                         {
                             "metaName": "io_nodes",
@@ -2008,7 +2008,7 @@
                         {
                             "metaName": "icon",
                             "metaType": "string",
-                            "metaValue": "../icons/usd.svg"
+                            "metaValue": "../icons/usd_default.svg"
                         },
                         {
                             "metaName": "io_nodes",

@@ -1,5 +1,5 @@
 //-
-// Copyright 2022 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,8 +32,7 @@
 #define USDNODE_DOC_ICON_X(NAME, DOC_FILENAME, ICON_FILENAME, EXTRA)           \
     AMINO_ANNOTATE("Amino::Node " EXTRA " name=" NAME                          \
                    " metadata=[{documentation, string, " DOC_PATH DOC_FILENAME \
-                   ".md},"                                                     \
-                   "{icon, string, \\../icons/" ICON_FILENAME "}]")
+                   "}, {icon, string, \\../icons/" ICON_FILENAME "}]")
 
 /// \brief Set annotation with node's name, documentation and icon.
 ///
@@ -68,7 +67,7 @@
 #define USDNODE_INTERNAL_X(NAME, DOC_FILENAME, EXTRA)                 \
     AMINO_ANNOTATE("Amino::Node " EXTRA " name=" NAME                 \
                    " metadata=[{documentation," DOC_PATH DOC_FILENAME \
-                   ".md}, {internal, bool, true}]")
+                   "}, {internal, bool, true}]")
 
 /// \brief Hide node from the graph library.
 #define USDNODE_INTERNAL(NAME, DOC_FILENAME) \

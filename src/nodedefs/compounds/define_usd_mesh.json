@@ -12,12 +12,11 @@
     "compounds": [
         {
             "name": "USD::Prim::define_usd_mesh",
-            "uriImported": "file:///define_usd_mesh.json",
             "metadata": [
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/define_usd_mesh.md"
+                    "metaValue": "../docs/${language}/USD_Prim_define_usd_mesh.md"
                 },
                 {
                     "metaName": "NodeValueDisplay",
@@ -47,6 +46,11 @@
                                             "metaName": "LayoutPos",
                                             "metaType": "string",
                                             "metaValue": "39.2974 -119.764"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "46.000000"
                                         },
                                         {
                                             "metaName": "io_ports",
@@ -85,17 +89,15 @@
                                                     "metaName": "variant_name"
                                                 },
                                                 {
+                                                    "metaName": "applied_schema_names"
+                                                },
+                                                {
                                                     "metaName": "use_frame"
                                                 },
                                                 {
                                                     "metaName": "frame"
                                                 }
                                             ]
-                                        },
-                                        {
-                                            "metaName": "zValue",
-                                            "metaType": "string",
-                                            "metaValue": "47.000000"
                                         }
                                     ]
                                 }
@@ -128,7 +130,7 @@
                                         {
                                             "metaName": "zValue",
                                             "metaType": "string",
-                                            "metaValue": "48.000000"
+                                            "metaValue": "47.000000"
                                         }
                                     ]
                                 }
@@ -139,47 +141,12 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::Logic,if"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,Geometry::Mesh,get_mesh_structure"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,USD::Prim,define_usd_prim"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::Array,build_array"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::Type_Conversion,to_int"
-                },
-                {
-                    "metaName": "PortExpandedState",
-                    "metadata": [
-                        {
-                            "metaName": "General",
-                            "metaType": "string",
-                            "metaValue": "0"
-                        }
-                    ]
+                    "metaValue": "../icons/usd_mesh.svg"
                 },
                 {
                     "metaName": "ViewportRect",
                     "metaType": "string",
-                    "metaValue": "427.453 94.0372 1586.91 1123.62"
+                    "metaValue": "-505.189 12.4222 1576.42 513.44"
                 },
                 {
                     "metaName": "DisplayMode",
@@ -189,25 +156,40 @@
                 {
                     "metaName": "LayoutPos",
                     "metaType": "string",
-                    "metaValue": "620 324"
-                },
-                {
-                    "metaName": "UILayout",
-                    "metaType": "string",
-                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"path\"\n            },\n            {\n                \"port\": \"mesh\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"General\",\n                \"items\": [\n                    {\n                        \"port\": \"normal_per_vertex\"\n                    },\n                    {\n                        \"condition\": {\n                            \"action\": \"disable\",\n                            \"op\": \"==\",\n                            \"port\": \"normal_per_vertex\",\n                            \"value\": \"\"\n                        },\n                        \"group\": \"Disable based on: normal_per_vertex\",\n                        \"items\": [\n                            {\n                                \"port\": \"subdivision_scheme\"\n                            }\n                        ],\n                        \"unique_id\": 22\n                    },\n                    {\n                        \"port\": \"use_frame\"\n                    },\n                    {\n                        \"port\": \"frame\"\n                    },\n                    {\n                        \"expanded\": false,\n                        \"group\": \"Variant Selection\",\n                        \"items\": [\n                            {\n                                \"port\": \"variant_set_name\"\n                            },\n                            {\n                                \"port\": \"variant_name\"\n                            }\n                        ],\n                        \"unique_id\": 8\n                    }\n                ],\n                \"unique_id\": 3\n            },\n            {\n                \"port\": \"reference_definitions\"\n            },\n            {\n                \"port\": \"attribute_definitions\"\n            },\n            {\n                \"port\": \"children\"\n            },\n            {\n                \"port\": \"relationship_definitions\"\n            },\n            {\n                \"port\": \"material\"\n            }\n        ]\n    }\n}\n"
+                    "metaValue": "-116.5 -153"
                 },
                 {
                     "metaName": "zValue",
                     "metaType": "string",
-                    "metaValue": "43.000000"
+                    "metaValue": "44.000000"
+                },
+                {
+                    "metaName": "UILayout",
+                    "metaType": "string",
+                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"path\"\n            },\n            {\n                \"port\": \"mesh\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"General\",\n                \"items\": [\n                    {\n                        \"port\": \"normal_per_vertex\"\n                    },\n                    {\n                        \"condition\": {\n                            \"action\": \"disable\",\n                            \"op\": \"==\",\n                            \"port\": \"normal_per_vertex\",\n                            \"value\": \"\"\n                        },\n                        \"group\": \"Disable based on: normal_per_vertex\",\n                        \"items\": [\n                            {\n                                \"port\": \"subdivision_scheme\"\n                            }\n                        ],\n                        \"unique_id\": 22\n                    },\n                    {\n                        \"port\": \"applied_schema_names\"\n                    },\n                    {\n                        \"expanded\": false,\n                        \"group\": \"Time Sample\",\n                        \"items\": [\n                            {\n                                \"port\": \"use_frame\"\n                            },\n                            {\n                                \"port\": \"frame\"\n                            }\n                        ],\n                        \"unique_id\": 36\n                    },\n                    {\n                        \"expanded\": false,\n                        \"group\": \"Variant Selection\",\n                        \"items\": [\n                            {\n                                \"port\": \"variant_set_name\"\n                            },\n                            {\n                                \"port\": \"variant_name\"\n                            }\n                        ],\n                        \"unique_id\": 8\n                    }\n                ],\n                \"unique_id\": 3\n            },\n            {\n                \"port\": \"reference_definitions\"\n            },\n            {\n                \"port\": \"attribute_definitions\"\n            },\n            {\n                \"port\": \"children\"\n            },\n            {\n                \"port\": \"relationship_definitions\"\n            },\n            {\n                \"port\": \"material\"\n            }\n        ]\n    }\n}\n"
+                },
+                {
+                    "metaName": "PortExpandedState",
+                    "metadata": [
+                        {
+                            "metaName": "General.Variant Selection",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "General.Time Sample",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "General",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        }
+                    ]
                 }
             ],
             "ports": [
-                {
-                    "portName": "mesh_definition",
-                    "portDirection": "output",
-                    "portType": "Object"
-                },
                 {
                     "portName": "path",
                     "portDirection": "input",
@@ -221,24 +203,46 @@
                     "portDefault": {}
                 },
                 {
+                    "portName": "normal_per_vertex",
+                    "portDirection": "input",
+                    "portType": "bool",
+                    "portDefault": "true"
+                },
+                {
                     "portName": "subdivision_scheme",
                     "portDirection": "input",
                     "portType": "BifrostUsd::SubdivisionScheme",
                     "portDefault": "catmullClark"
                 },
                 {
-                    "portName": "attribute_definitions",
+                    "portName": "applied_schema_names",
                     "portDirection": "input",
-                    "portType": "array<Object>",
-                    "portDefault": [],
-                    "isDefaultFanIn": "true",
-                    "metadata": [
-                        {
-                            "metaName": "quick_create",
-                            "metaType": "string",
-                            "metaValue": "USD::Attribute::define_usd_attribute;USD::Attribute::define_usd_transform;USD::Attribute::define_usd_display_color"
-                        }
-                    ]
+                    "portType": "string",
+                    "portDefault": ""
+                },
+                {
+                    "portName": "use_frame",
+                    "portDirection": "input",
+                    "portType": "bool",
+                    "portDefault": "false"
+                },
+                {
+                    "portName": "frame",
+                    "portDirection": "input",
+                    "portType": "float",
+                    "portDefault": "0f"
+                },
+                {
+                    "portName": "variant_set_name",
+                    "portDirection": "input",
+                    "portType": "string",
+                    "portDefault": ""
+                },
+                {
+                    "portName": "variant_name",
+                    "portDirection": "input",
+                    "portType": "string",
+                    "portDefault": ""
                 },
                 {
                     "portName": "reference_definitions",
@@ -255,7 +259,7 @@
                     ]
                 },
                 {
-                    "portName": "relationship_definitions",
+                    "portName": "attribute_definitions",
                     "portDirection": "input",
                     "portType": "array<Object>",
                     "portDefault": [],
@@ -264,7 +268,7 @@
                         {
                             "metaName": "quick_create",
                             "metaType": "string",
-                            "metaValue": "USD::Prim::define_usd_relationship"
+                            "metaValue": "USD::Attribute::define_usd_attribute;USD::Attribute::define_usd_transform;USD::Attribute::define_usd_display_color"
                         }
                     ]
                 },
@@ -283,46 +287,34 @@
                     ]
                 },
                 {
+                    "portName": "relationship_definitions",
+                    "portDirection": "input",
+                    "portType": "array<Object>",
+                    "portDefault": [],
+                    "isDefaultFanIn": "true",
+                    "metadata": [
+                        {
+                            "metaName": "quick_create",
+                            "metaType": "string",
+                            "metaValue": "USD::Prim::define_usd_relationship"
+                        }
+                    ]
+                },
+                {
                     "portName": "material",
                     "portDirection": "input",
                     "portType": "Object",
                     "portDefault": {}
                 },
                 {
-                    "portName": "normal_per_vertex",
-                    "portDirection": "input",
-                    "portType": "bool",
-                    "portDefault": "true"
-                },
-                {
-                    "portName": "variant_set_name",
-                    "portDirection": "input",
-                    "portType": "string",
-                    "portDefault": ""
-                },
-                {
-                    "portName": "variant_name",
-                    "portDirection": "input",
-                    "portType": "string",
-                    "portDefault": ""
-                },
-                {
-                    "portName": "use_frame",
-                    "portDirection": "input",
-                    "portType": "bool",
-                    "portDefault": "false"
-                },
-                {
-                    "portName": "frame",
-                    "portDirection": "input",
-                    "portType": "float",
-                    "portDefault": "0f"
+                    "portName": "mesh_definition",
+                    "portDirection": "output",
+                    "portType": "Object"
                 }
             ],
             "compounds": [
                 {
                     "name": "set_subdivision_scheme",
-                    "uriImported": "file:///define_usd_mesh.json",
                     "metadata": [
                         {
                             "metaName": "io_nodes",
@@ -407,31 +399,6 @@
                                     "metaValue": "'The subdivision scheme to be applied to the surface.\n        Valid values are:\n\n        - \"catmullClark\": The default, Catmull-Clark subdivision; preferred for quad-dominant meshes (generalizes B-splines)\n        - \"loop\": Loop subdivision; preferred for purely triangular meshes\n        - \"bilinear\": Subdivision reduces all faces to quads (topologically similar to \"catmullClark\")\n        - \"none\": No subdivision, i.e. a simple polygonal mesh"
                                 }
                             ]
-                        },
-                        {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,Core::Logic,not"
-                        },
-                        {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,Core::Logic,and"
-                        },
-                        {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,Core::Logic,if"
-                        },
-                        {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,User::Compounds,save_object_to_text_file"
-                        },
-                        {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "backdrop"
                         },
                         {
                             "metaName": "ViewportRect",
@@ -921,7 +888,6 @@
                 },
                 {
                     "name": "get_mesh_geo",
-                    "uriImported": "file:///define_usd_mesh.json",
                     "metadata": [
                         {
                             "metaName": "io_nodes",
@@ -1029,7 +995,6 @@
                     "compounds": [
                         {
                             "name": "face_offset_to_face_vertex_counts",
-                            "uriImported": "file:///define_usd_mesh.json",
                             "metadata": [
                                 {
                                     "metaName": "io_nodes",
@@ -1103,31 +1068,6 @@
                                     ]
                                 },
                                 {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Core::Iterators,for_each"
-                                },
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Core::Math,decrement"
-                                },
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Core::Logic,if"
-                                },
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Geometry::Mesh,get_mesh_structure"
-                                },
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,USD::Prim,define_usd_prim"
-                                },
-                                {
                                     "metaName": "ViewportRect",
                                     "metaType": "string",
                                     "metaValue": "69.0223 -424.73 1530.11 1083.41"
@@ -1146,18 +1086,7 @@
                             "compounds": [
                                 {
                                     "name": "for_each",
-                                    "uriImported": "file:///define_usd_mesh.json",
                                     "metadata": [
-                                        {
-                                            "metaName": "icon",
-                                            "metaType": "string",
-                                            "metaValue": "<NATIVE>../icons/LoopForEach.svg"
-                                        },
-                                        {
-                                            "metaName": "icon",
-                                            "metaType": "string",
-                                            "metaValue": "<NATIVE>../icons/LoopForEach.svg"
-                                        },
                                         {
                                             "metaName": "icon",
                                             "metaType": "string",
@@ -1645,7 +1574,6 @@
                 },
                 {
                     "name": "set_vertex_normals",
-                    "uriImported": "file:///define_usd_mesh.json",
                     "metadata": [
                         {
                             "metaName": "io_nodes",
@@ -1715,31 +1643,6 @@
                             ]
                         },
                         {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,USD::Attribute,define_usd_attribute"
-                        },
-                        {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,Core::Logic,if"
-                        },
-                        {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,Core::Logic,not"
-                        },
-                        {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,Core::Array,array_is_empty"
-                        },
-                        {
-                            "metaName": "_recentNode_",
-                            "metaType": "string",
-                            "metaValue": "BifrostGraph,Core::Array,empty_array"
-                        },
-                        {
                             "metaName": "ViewportRect",
                             "metaType": "string",
                             "metaValue": "-30 -336.58 1871 1260.16"
@@ -1769,33 +1672,7 @@
                     "compounds": [
                         {
                             "name": "get_mesh_normals",
-                            "uriImported": "file:///define_usd_mesh.json",
                             "metadata": [
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Core::Logic,if"
-                                },
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Geometry::Internal,get_indexed_geo_property_check"
-                                },
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Geometry::Internal,get_indexed_geo_propert_check"
-                                },
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Geometry::Properties,get_geo_property_check"
-                                },
-                                {
-                                    "metaName": "_recentNode_",
-                                    "metaType": "string",
-                                    "metaValue": "BifrostGraph,Geometry::Properties,get_geo_property"
-                                },
                                 {
                                     "metaName": "DisplayMode",
                                     "metaType": "string",
@@ -2206,7 +2083,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "49.000000"
+                            "metaValue": "48.000000"
                         }
                     ]
                 },
@@ -2227,7 +2104,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "35.000000"
+                            "metaValue": "34.000000"
                         }
                     ]
                 },
@@ -2248,7 +2125,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "36.000000"
+                            "metaValue": "35.000000"
                         }
                     ]
                 },
@@ -2269,7 +2146,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "37.000000"
+                            "metaValue": "36.000000"
                         }
                     ]
                 },
@@ -2290,7 +2167,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "38.000000"
+                            "metaValue": "37.000000"
                         }
                     ]
                 },
@@ -2315,7 +2192,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "39.000000"
+                            "metaValue": "38.000000"
                         }
                     ]
                 },
@@ -2336,7 +2213,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "40.000000"
+                            "metaValue": "39.000000"
                         }
                     ]
                 },
@@ -2357,7 +2234,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "41.000000"
+                            "metaValue": "40.000000"
                         }
                     ]
                 },
@@ -2378,7 +2255,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "42.000000"
+                            "metaValue": "41.000000"
                         }
                     ]
                 },
@@ -2399,7 +2276,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "43.000000"
+                            "metaValue": "42.000000"
                         }
                     ]
                 },
@@ -2420,7 +2297,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "44.000000"
+                            "metaValue": "43.000000"
                         }
                     ]
                 },
@@ -2472,7 +2349,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "45.000000"
+                            "metaValue": "44.000000"
                         }
                     ]
                 },
@@ -2493,7 +2370,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "46.000000"
+                            "metaValue": "45.000000"
                         }
                     ]
                 }
@@ -2682,6 +2559,10 @@
                 {
                     "source": ".frame",
                     "target": "attribute4.frame"
+                },
+                {
+                    "source": ".applied_schema_names",
+                    "target": "define_usd_prim.applied_schema_names"
                 }
             ],
             "values": [

@@ -40,52 +40,64 @@ def initializePlugin(plugin):
     )
 
     # Add runtime commands
-    import bifrost_usd.component_creator.runtime_cmds as rtc
+    import bifrost_usd.runtime_cmds as rtc
 
-    rtc.component_creator_cmd()
-    rtc.refresh_cmd()
-    rtc.export_geometry_cmd()
-    rtc.open_materials_in_lookdevx_cmd()
-    rtc.create_material_library_cmd()
-    rtc.rename_current_model_variant_cmd()
-    rtc.add_model_cmd()
-    rtc.add_look_cmd()
-    rtc.add_new_material_cmd()
-    rtc.unassign_material_cmd()
-    rtc.duplicate_selected_material_cmd()
-    rtc.open_bifrost_usd_graph_editor_cmd()
-    rtc.open_bifrost_graph_editor_cmd()
-    rtc.create_set_selection_to_bounds_mode_cmd()
-    rtc.create_set_selection_to_inherited_mode_cmd()
-    rtc.show_guide_purposes_cmd()
-    rtc.show_proxy_purposes_cmd()
-    rtc.show_render_purposes_cmd()
-    rtc.create_new_stage_cmd()
     rtc.create_stage_from_sublayers_cmd()
-    rtc.export_geometry_cmd()
-    rtc.add_material_hint_attrib_cmd()
-    rtc.save_component_cmd()
-    rtc.help_cmd()
+    rtc.open_bifrost_usd_graph_editor_cmd()
+    rtc.create_new_stage_cmd()
+
+    import bifrost_usd.component_creator.runtime_cmds as cc_rtc
+
+    cc_rtc.component_creator_cmd()
+    cc_rtc.refresh_cmd()
+    cc_rtc.export_geometry_cmd()
+    cc_rtc.open_materials_in_lookdevx_cmd()
+    cc_rtc.create_material_library_cmd()
+    cc_rtc.rename_current_model_variant_cmd()
+    cc_rtc.add_model_cmd()
+    cc_rtc.add_look_cmd()
+    cc_rtc.add_new_material_cmd()
+    cc_rtc.unassign_material_cmd()
+    cc_rtc.duplicate_selected_material_cmd()
+    cc_rtc.open_bifrost_graph_editor_cmd()
+    cc_rtc.create_set_selection_to_bounds_mode_cmd()
+    cc_rtc.create_set_selection_to_inherited_mode_cmd()
+    cc_rtc.show_guide_purposes_cmd()
+    cc_rtc.show_proxy_purposes_cmd()
+    cc_rtc.show_render_purposes_cmd()
+    cc_rtc.export_geometry_cmd()
+    cc_rtc.add_material_hint_attrib_cmd()
+    cc_rtc.save_component_cmd()
+    cc_rtc.help_cmd()
 
     # Add "Bifrost USD" menu
     from bifrost_usd import maya_main_window_menu
 
     maya_main_window_menu.create_usd_menu()
 
-    # Register Ufe Observer
-    from bifrost_usd import dag_path_observer
+    # We don't register Ufe Observers with Maya 2025.0 and below
+    # because of a UFE Python binding issue (EMSUSD-1195)
+    if cmds.about(apiVersion=True) >= 20250200:
+        from bifrost_usd import dag_path_observer
 
-    dag_path_observer.register()
+        dag_path_observer.register()
 
-    from bifrost_usd.component_creator import material_library_observer
+        from bifrost_usd.component_creator import material_library_observer
 
-    material_library_observer.register()
+        material_library_observer.register()
 
     # Load required plugins that are Bifrost, MayaUSD and LookdevX (loading Bifrost will load MayaUSD).
     from bifrost_usd.component_creator import component
 
-    component.load_plugin_if_needed("LookdevXMaya")
-    component.load_plugin_if_needed("bifrostGraph")
+    try:
+        component.load_plugin_if_needed("LookdevXMaya")
+    except RuntimeError as e:
+        cmds.warning(e)
+
+    try:
+        component.load_plugin_if_needed("bifrostGraph")
+    except RuntimeError as e:
+        cmds.warning(e)
 
     # Callback to remove the USD Variants HUD on new scene.
     def removeHUDCallback(data):

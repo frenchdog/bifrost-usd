@@ -1,0 +1,14 @@
+#usda 1.0
+
+def Shader "surface_shader"
+{
+    color3f color.connect = </image_shader.outputs:out>
+    bool notConnected
+}
+
+def Shader "image_shader"
+{
+    asset file = @landscape.exr@
+    color3f outputs:out
+}
+

@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ TEST_F(TestSceneIndexPrim, usd_geometries_queries) {
     std::string stageFilePath =
         BifrostUsd::TestUtils::getResourcePath("usd_geometries.usda").c_str();
 
-    ASSERT_TRUE(openStage(stageFilePath));
+    openStage(stageFilePath);
     ASSERT_TRUE(render());
     {
         auto path = SdfPath{"/capsule"};
@@ -47,7 +47,7 @@ TEST_F(TestSceneIndexPrim, usd_geometries_queries) {
         auto path = SdfPath{"/instancer"};
         ExportAsString(getHdPrim(path), "/tmp/hdInstancer.txt");
 
-        auto childrenPaths = sceneIndex->GetChildPrimPaths(path);
+        auto childrenPaths = getSceneIndex()->GetChildPrimPaths(path);
         EXPECT_EQ(childrenPaths.size(), 1);
 
         ExportAsString(getHdPrim(childrenPaths[0]),
@@ -58,7 +58,7 @@ TEST_F(TestSceneIndexPrim, usd_geometries_queries) {
         auto path = SdfPath{"/cylinder"};
         ExportAsString(getHdPrim(path), "/tmp/hdCylinder.txt");
 
-        auto childrenPaths = sceneIndex->GetChildPrimPaths(path);
+        auto childrenPaths = getSceneIndex()->GetChildPrimPaths(path);
         EXPECT_EQ(childrenPaths.size(), 1);
 
         ExportAsString(getHdPrim(childrenPaths[0]),
@@ -72,17 +72,17 @@ TEST_F(TestSceneIndexPrim, usd_geometries_queries) {
 }
 
 TEST_F(TestSceneIndexPrim, create_colored_mesh_cube_query) {
-    std::string stageFilePath = BifrostUsd::TestUtils::getResourcePath(
-                                    "create_colored_mesh_cube.usda")
-                                    .c_str();
+    std::string stageFilePath =
+        BifrostUsd::TestUtils::getResourcePath("create_colored_mesh_cube.usda")
+            .c_str();
 
-    ASSERT_TRUE(openStage(stageFilePath));
+    openStage(stageFilePath);
     ASSERT_TRUE(render());
     {
         auto path = SdfPath{"/Asset/BifrostGraph"};
         ExportAsString(getHdPrim(path), "/tmp/hdCreateColoredMeshCubeProc.txt");
 
-        auto childrenPaths = sceneIndex->GetChildPrimPaths(path);
+        auto childrenPaths = getSceneIndex()->GetChildPrimPaths(path);
         ASSERT_EQ(childrenPaths.size(), 1);
 
         ExportAsString(getHdPrim(childrenPaths[0]),
@@ -91,17 +91,16 @@ TEST_F(TestSceneIndexPrim, create_colored_mesh_cube_query) {
 }
 
 TEST_F(TestSceneIndexPrim, create_strands_query) {
-    std::string stageFilePath = BifrostUsd::TestUtils::getResourcePath(
-                                    "create_strands_test1.usda")
-                                    .c_str();
-
-    ASSERT_TRUE(openStage(stageFilePath));
+    std::string stageFilePath =
+        BifrostUsd::TestUtils::getResourcePath("create_strands_test1.usda")
+            .c_str();
+    openStage(stageFilePath);
     ASSERT_TRUE(render());
     {
         auto path = SdfPath{"/Asset/BifrostGraph"};
         ExportAsString(getHdPrim(path), "/tmp/hdCreateStrandsProc.txt");
 
-        auto childrenPaths = sceneIndex->GetChildPrimPaths(path);
+        auto childrenPaths = getSceneIndex()->GetChildPrimPaths(path);
         ASSERT_EQ(childrenPaths.size(), 1);
 
         ExportAsString(getHdPrim(childrenPaths[0]),
@@ -115,20 +114,19 @@ TEST_F(TestSceneIndexPrim, create_instances_query) {
     std::string stageFilePath =
         BifrostUsd::TestUtils::getResourcePath("create_simple_instances_test.usda")
             .c_str();
-
-    ASSERT_TRUE(openStage(stageFilePath));
+    openStage(stageFilePath);
     ASSERT_TRUE(render());
     {
         auto path = SdfPath{"/Asset/BifrostGraph"};
         ExportAsString(getHdPrim(path), "/tmp/hdCreateInstancesProc.txt");
 
-        auto childrenPaths = sceneIndex->GetChildPrimPaths(path);
+        auto childrenPaths = getSceneIndex()->GetChildPrimPaths(path);
         EXPECT_EQ(childrenPaths.size(), 1);
 
         ExportAsString(getHdPrim(childrenPaths[0]),
                        "/tmp/hdCreateInstancesProc_instancerChild.txt");
 
-        childrenPaths = sceneIndex->GetChildPrimPaths(childrenPaths[0]);
+        childrenPaths = getSceneIndex()->GetChildPrimPaths(childrenPaths[0]);
         EXPECT_EQ(childrenPaths.size(), 1);
 
         ExportAsString(getHdPrim(childrenPaths[0]),

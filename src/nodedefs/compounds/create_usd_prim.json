@@ -16,7 +16,7 @@
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/create_usd_prim.md"
+                    "metaValue": "../docs/${language}/USD_Prim_create_usd_prim.md"
                 },
                 {
                     "metaName": "io_nodes",
@@ -103,7 +103,7 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_pill.svg"
                 },
                 {
                     "metaName": "NodeValueDisplay",

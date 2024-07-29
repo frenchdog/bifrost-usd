@@ -17,12 +17,12 @@
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/define_usd_transform.md"
+                    "metaValue": "../docs/${language}/USD_Attribute_define_usd_transform.md"
                 },
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_transform.svg"
                 },
                 {
                     "metaName": "io_nodes",

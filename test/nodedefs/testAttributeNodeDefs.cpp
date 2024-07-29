@@ -905,7 +905,7 @@ TEST(PrimNodeDefs, attribute_metadata) {
     auto pxrPrimPath = PXR_NS::SdfPath(primPath.c_str());
     auto prim        = stage->GetPrimAtPath(pxrPrimPath);
     auto attrName    = Amino::String{"my_float"};
-    auto attr        = prim.CreateAttribute(PXR_NS::TfToken(attrName.c_str()),
+    prim.CreateAttribute(PXR_NS::TfToken(attrName.c_str()),
                                      PXR_NS::SdfValueTypeNames->Float);
     // Test String
     {
@@ -1091,4 +1091,51 @@ TEST(AttributeNodeDefs, clear_attribute_connections) {
     PXR_NS::SdfPathVector sources;
     ASSERT_FALSE(targetAttr.GetConnections(&sources));
     ASSERT_EQ(sources.size(), 0);
+}
+
+TEST(AttributeNodeDefs, get_prim_attribute_connections) {
+    BifrostUsd::Stage stage{getResourcePath("attribute_connection_test1.usda")};
+    const auto stageInterface = Amino::newClassPtr<BifrostUsd::Stage>(stage);
+    ASSERT_TRUE(stageInterface);
+
+    auto primPath    = Amino::String{"/surface_shader"};
+    auto pxrPrimPath = PXR_NS::SdfPath(primPath.c_str());
+    auto prim        = stage->GetPrimAtPath(pxrPrimPath);
+    auto colorAttrib = prim.GetAttribute(PXR_NS::TfToken("color"));
+
+    Amino::MutablePtr<BifrostUsd::Prim> primInterface;
+    ASSERT_TRUE(
+        USD::Prim::get_prim_at_path(stageInterface, primPath, primInterface));
+    ASSERT_TRUE(primInterface);
+    ASSERT_TRUE((*primInterface)->IsValid());
+
+    BifrostUsd::Attribute colorAttribInterface{colorAttrib,
+                                               primInterface.toImmutable()};
+
+    // After call to toImmutable, membership is transfered and primInterface
+    // should be null
+    ASSERT_FALSE(primInterface);
+
+    Amino::MutablePtr<Amino::Array<Amino::String>> connections;
+    ASSERT_TRUE(USD::Attribute::get_prim_attribute_connections(
+        colorAttribInterface, connections));
+    ASSERT_EQ(connections->size(), 1);
+    ASSERT_EQ(connections->at(0), "/image_shader.outputs:out");
+
+    auto notConnectedAttrib =
+        prim.GetAttribute(PXR_NS::TfToken("notConnected"));
+
+    // We need a new Amino prim since primInterface.toImmutable() transfered the
+    // ownership of primInterface.
+    ASSERT_TRUE(
+        USD::Prim::get_prim_at_path(stageInterface, primPath, primInterface));
+    ASSERT_TRUE((*primInterface)->IsValid());
+
+    BifrostUsd::Attribute notConnectedAttribInterface{
+        notConnectedAttrib, primInterface.toImmutable()};
+
+    Amino::MutablePtr<Amino::Array<Amino::String>> emptyConnections;
+    ASSERT_FALSE(USD::Attribute::get_prim_attribute_connections(
+        notConnectedAttribInterface, emptyConnections));
+    ASSERT_TRUE(emptyConnections->empty());
 }

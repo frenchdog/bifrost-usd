@@ -16,12 +16,12 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_default.svg"
                 },
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/define_usd_geom_subset.md"
+                    "metaValue": "../docs/${language}/USD_Prim_define_usd_geom_subset.md"
                 },
                 {
                     "metaName": "ViewportRect",
@@ -551,12 +551,12 @@
                 {
                     "metaName": "icon",
                     "metaType": "string",
-                    "metaValue": "../icons/usd.svg"
+                    "metaValue": "../icons/usd_default.svg"
                 },
                 {
                     "metaName": "documentation",
                     "metaType": "string",
-                    "metaValue": "../docs/${language}/define_usd_geom_subset.md"
+                    "metaValue": "../docs/${language}/USD_Prim_define_usd_geom_subset.md"
                 },
                 {
                     "metaName": "io_nodes",
