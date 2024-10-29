@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -55,6 +55,7 @@ BIFUSD_WARNING_DISABLE_MSC(4244)
 BIFUSD_WARNING_POP
 
 using CallBackFunc = BifrostGraph::Executor::Watchpoint::CallBack;
+using Watcher      = BifrostGraph::Executor::Watchpoint::Watcher;
 using Records      = BifrostGraph::Executor::Watchpoint::Records;
 
 namespace {
@@ -481,6 +482,14 @@ public:
 
     void deleteThis() noexcept override;
 
+    void getSupportedTypeIds(TypeIdArray& typeIds) const noexcept override;
+
+    CallBackFunc getCallBackFunction(
+        const Amino::TypeId& typeId) const noexcept override;
+
+    Watcher* createWatcher(Amino::TypeId const& typeId,
+                           Watcher::Flags       flags) const noexcept override;
+
     void getSupportedTypeNames(StringArray& out_names) const noexcept override;
 
     CallBackFunc getCallBackFunction(
@@ -510,6 +519,23 @@ USDWatchpoint::USDWatchpoint() noexcept
 USDWatchpoint::~USDWatchpoint() noexcept = default;
 
 void USDWatchpoint::deleteThis() noexcept { delete this; }
+
+void USDWatchpoint::getSupportedTypeIds(
+    TypeIdArray& /*typeIds*/) const noexcept {
+    // TODO - replaces getSupportedTypeNames
+}
+
+CallBackFunc USDWatchpoint::getCallBackFunction(
+    const Amino::TypeId& /*typeId*/) const noexcept {
+    // TODO - replaces getCallBackFunction(Type)
+    return nullptr;
+}
+
+Watcher* USDWatchpoint::createWatcher(Amino::TypeId const& /*typeId*/,
+                                      Watcher::Flags /*flags*/) const noexcept {
+    // TODO - replaces createClientData/releaseClientData
+    return nullptr;
+}
 
 void USDWatchpoint::getSupportedTypeNames(
     StringArray& out_names) const noexcept {

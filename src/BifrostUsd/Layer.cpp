@@ -20,9 +20,6 @@
 
 #include <Amino/Cpp/ClassDefine.h>
 
-/// \todo BIFROST-6874 remove PXR_NS::Work_EnsureDetachedTaskProgress();
-#include <pxr/base/work/detachedTask.h>
-
 // Note: To silence warnings coming from USD library
 #include <bifusd/config/CfgWarningMacros.h>
 BIFUSD_WARNING_PUSH
@@ -483,11 +480,6 @@ Amino::String Layer::getPathWithValidUsdFileFormat(const Amino::String& path) {
 //
 namespace {
 Amino::Ptr<BifrostUsd::Layer> createDefaultLayer() {
-    // Destructor of USD instances are lauching threads. This result in
-    // a deadlock on windows when unloading the library (which destroys the
-    // default constructed object held in static variables).
-    /// \todo BIFROST-6874 remove PXR_NS::Work_EnsureDetachedTaskProgress();
-    PXR_NS::Work_EnsureDetachedTaskProgress();
     return Amino::newClassPtr<BifrostUsd::Layer>(BifrostUsd::Layer::Invalid{});
 }
 } // namespace

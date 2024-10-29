@@ -204,6 +204,17 @@ void USD::Layer::get_layer_identifier(const BifrostUsd::Layer&  layer,
     }
 }
 
+void USD::Layer::get_layer_display_name(const BifrostUsd::Layer&  layer,
+                                      Amino::String&            display_name) {
+    try {
+        if (layer) {
+            display_name = layer->GetDisplayName().c_str();
+        }
+    } catch (std::exception& e) {
+        log_exception("get_layer_display_name", e);
+    }
+}
+
 void USD::Layer::get_layer_file_path(const BifrostUsd::Layer&   layer,
                                      Amino::String&             file) {
     file = layer.getFilePath().c_str();

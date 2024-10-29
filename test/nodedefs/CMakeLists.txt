@@ -53,6 +53,7 @@ function(configure_bifusd_nodedefs_unittests)
             ENV_VARS USD_TEST_RESOURCES_DIR=${resources_dir}
                      PXR_AR_DEFAULT_SEARCH_PATH=${resources_dir}
                      USD_TEST_OUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}
+                     ${asan_options}
         )
     endforeach()
 
@@ -102,8 +103,14 @@ function(configure_bifusd_runtime_unittests)
     endforeach()
 endfunction()
 
-if( NOT BIFUSD_IS_DEBUG )
+# Bifrost USD maps coverage to BIFUSD_IS_RELEASE but
+# we may be asked to run Coverage from other tool chains.
+# We found that the python test test_graphs.py hangs in that case.
+bifusd_set_if_matches(coverage_demanded  CMAKE_BUILD_TYPE "^(Coverage)$")
+
+if( NOT BIFUSD_IS_DEBUG AND NOT coverage_demanded )
     # Testing graphs in DEBUG with bifcmd in release will fail.
+    # When Coverage is demanded, the test hangs
     # See BIFROST-8039
     configure_bifusd_runtime_unittests()
 endif()

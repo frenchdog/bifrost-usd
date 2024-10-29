@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2023 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ endif()
 set(bifusd_utils_included true)
 
 option(BIFUSD_USE_DEBUGGER "Launch unit tests using the platform-specific debugger." OFF)
+option(BIFUSD_ENABLE_ADDRESS_SANITIZER "Enable AddressSanitizer compiler instrumentations." OFF)
 
 # Export the given list of variables from the local scope to the parent scope.
 #

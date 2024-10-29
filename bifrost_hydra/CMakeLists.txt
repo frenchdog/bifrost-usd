@@ -22,4 +22,9 @@ endif()
 find_package(Bifrost REQUIRED SDK)
 
 add_subdirectory(src)
-add_subdirectory(test)
+
+if (NOT BIFUSD_ENABLE_ADDRESS_SANITIZER)
+    # Skip tests when using adress sanitizer as when building Bifrost USD standalone, it errors with:
+    # "AddressSanitizer:DEADLYSIGNAL 1: AddressSanitizer: nested bug in the same thread, aborting."
+    add_subdirectory(test)
+endif()

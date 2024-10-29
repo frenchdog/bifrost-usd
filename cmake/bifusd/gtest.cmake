@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2022 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ if(NOT BIFUSD_GTEST_LOCATION)
         googletest
         GIT_REPOSITORY https://github.com/google/googletest.git
         GIT_TAG release-1.12.1
+        GIT_CONFIG core.longpaths=true
     )
 
     # Populate

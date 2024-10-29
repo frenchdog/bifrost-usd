@@ -19,8 +19,6 @@
 
 #include <Amino/Cpp/ClassDefine.h>
 
-/// \todo BIFROST-6874 remove PXR_NS::Work_EnsureDetachedTaskProgress();
-#include <pxr/base/work/detachedTask.h>
 
 namespace BifrostUsd {
 Attribute::Attribute(PXR_NS::UsdAttribute attribute, Amino::Ptr<Prim> prim)
@@ -29,24 +27,6 @@ Attribute::Attribute(PXR_NS::UsdAttribute attribute, Amino::Ptr<Prim> prim)
 }
 Attribute::~Attribute() = default;
 
-//------------------------------------------------------------------------------
-//
-namespace {
-Amino::Ptr<BifrostUsd::Attribute> createDefaultAttribute() {
-    // Destructor of USD instances are lauching threads. This result in
-    // a deadlock on windows when unloading the library (which destroys the
-    // default constructed object held in static variables).
-    /// \todo BIFROST-6874 remove PXR_NS::Work_EnsureDetachedTaskProgress();
-    PXR_NS::Work_EnsureDetachedTaskProgress();
-    auto stage    = Amino::newClassPtr<BifrostUsd::Stage>();
-    auto pxr_prim = stage->get().GetPseudoRoot();
-    auto prim     = Amino::newClassPtr<BifrostUsd::Prim>(pxr_prim, stage);
-    auto pxr_attr = pxr_prim.CreateAttribute(PXR_NS::TfToken(""),
-                                             PXR_NS::SdfValueTypeName());
-    return Amino::newClassPtr<BifrostUsd::Attribute>(pxr_attr, prim);
-}
-} // namespace
 } // namespace BifrostUsd
 
-AMINO_DEFINE_DEFAULT_CLASS(BifrostUsd::Attribute,
-                           BifrostUsd::createDefaultAttribute());
+AMINO_DEFINE_DEFAULT_CLASS(BifrostUsd::Attribute);

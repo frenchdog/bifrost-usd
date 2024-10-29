@@ -54,6 +54,15 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 
+# Boost headers are indirectly included by USD and Boost is still using
+# std::unary_function which was deprecated in C++11 and removed in C++17.
+# Defining BOOST_NO_CXX98_FUNCTION_BASE prevents Boost from using deprecated
+# templates. This seems to be fixed in Boost >= 1.81, so we may be able to
+# remove that when the version of boost shipped with USD is updated.
+# _HAS_AUTO_PTR_ETC is also needed for older boost versions.
+add_definitions(-DBOOST_NO_CXX98_FUNCTION_BASE=1)
+add_definitions(-D_HAS_AUTO_PTR_ETC=0)
+
 #==============================================================================
 # Define common build variables
 #==============================================================================
@@ -152,6 +161,7 @@ include(${BIFUSD_TOOLS_DIR}/gtest.cmake)
 #==============================================================================
 
 find_package(Bifrost REQUIRED SDK)
+find_package(OpenGL REQUIRED)
 find_package(USD REQUIRED)
 
 #==============================================================================

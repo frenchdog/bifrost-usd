@@ -12,7 +12,7 @@
     "compounds": [
         {
             "name": "USD::Stage::add_to_stage",
-            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+            "uriImported": "file:///add_to_stage.json",
             "metadata": [
                 {
                     "metaName": "documentation",
@@ -34,6 +34,16 @@
                                             "metaValue": "2"
                                         },
                                         {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "-2681.84 726.238"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "40.000000"
+                                        },
+                                        {
                                             "metaName": "io_ports",
                                             "metadata": [
                                                 {
@@ -41,6 +51,9 @@
                                                 },
                                                 {
                                                     "metaName": "layer_index"
+                                                },
+                                                {
+                                                    "metaName": "layer"
                                                 },
                                                 {
                                                     "metaName": "prim_definitions"
@@ -52,16 +65,6 @@
                                                     "metaName": "use_material_name_or_tag"
                                                 }
                                             ]
-                                        },
-                                        {
-                                            "metaName": "LayoutPos",
-                                            "metaType": "string",
-                                            "metaValue": "-2133.85 407.727"
-                                        },
-                                        {
-                                            "metaName": "zValue",
-                                            "metaType": "string",
-                                            "metaValue": "31.000000"
                                         }
                                     ]
                                 },
@@ -89,7 +92,7 @@
                                         {
                                             "metaName": "zValue",
                                             "metaType": "string",
-                                            "metaValue": "36.000000"
+                                            "metaValue": "32.000000"
                                         }
                                     ]
                                 }
@@ -122,13 +125,18 @@
                                         {
                                             "metaName": "zValue",
                                             "metaType": "string",
-                                            "metaValue": "37.000000"
+                                            "metaValue": "33.000000"
                                         }
                                     ]
                                 }
                             ]
                         }
                     ]
+                },
+                {
+                    "metaName": "icon",
+                    "metaType": "string",
+                    "metaValue": "../icons/usd_add.svg"
                 },
                 {
                     "metaName": "NodeValueDisplay",
@@ -146,39 +154,34 @@
                     ]
                 },
                 {
-                    "metaName": "icon",
+                    "metaName": "_recentNode_",
                     "metaType": "string",
-                    "metaValue": "../icons/usd_add.svg"
+                    "metaValue": "BifrostGraph,USD::Utils,resolve_layer_index"
                 },
                 {
                     "metaName": "_recentNode_",
                     "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::Iterators,iterate"
+                    "metaValue": "BifrostGraph,Core::Type_Conversion,to_int"
                 },
                 {
                     "metaName": "_recentNode_",
                     "metaType": "string",
-                    "metaValue": "output"
+                    "metaValue": "BifrostGraph,Core::Logic,if"
                 },
                 {
                     "metaName": "_recentNode_",
                     "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::Object,set_property"
+                    "metaValue": "BifrostGraph,Core::Logic,less"
                 },
                 {
                     "metaName": "_recentNode_",
                     "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::Array,build_array"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::Graph,terminal"
+                    "metaValue": "BifrostGraph,Core::Array,array_size"
                 },
                 {
                     "metaName": "ViewportRect",
                     "metaType": "string",
-                    "metaValue": "-2215.1 -186 2826.2 1822"
+                    "metaValue": "-2715.81 298.124 1748.55 1346.75"
                 },
                 {
                     "metaName": "DisplayMode",
@@ -188,25 +191,25 @@
                 {
                     "metaName": "LayoutPos",
                     "metaType": "string",
-                    "metaValue": "2643.05 -474.741"
+                    "metaValue": "407.094 103.606"
                 },
                 {
                     "metaName": "zValue",
                     "metaType": "string",
-                    "metaValue": "107.000000"
+                    "metaValue": "49.000000"
                 },
                 {
                     "metaName": "UILayout",
                     "metaType": "string",
-                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"stage\"\n            },\n            {\n                \"port\": \"prim_definitions\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Settings\",\n                \"items\": [\n                    {\n                        \"port\": \"enable\"\n                    },\n                    {\n                        \"port\": \"parent_path\"\n                    },\n                    {\n                        \"port\": \"layer_index\"\n                    },\n                    {\n                        \"port\": \"use_material_name_or_tag\"\n                    }\n                ],\n                \"unique_id\": 7\n            }\n        ]\n    }\n}\n"
+                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"stage\"\n            },\n            {\n                \"port\": \"prim_definitions\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Settings\",\n                \"items\": [\n                    {\n                        \"port\": \"enable\"\n                    },\n                    {\n                        \"port\": \"parent_path\"\n                    },\n                    {\n                        \"port\": \"layer\"\n                    },\n                    {\n                        \"condition\": {\n                            \"action\": \"disable\",\n                            \"op\": \"==\",\n                            \"port\": \"layer\",\n                            \"value\": \"\"\n                        },\n                        \"group\": \"Disable based on: layer\",\n                        \"items\": [\n                            {\n                                \"port\": \"layer_index\"\n                            }\n                        ],\n                        \"unique_id\": 15\n                    },\n                    {\n                        \"port\": \"use_material_name_or_tag\"\n                    }\n                ],\n                \"unique_id\": 7\n            }\n        ]\n    }\n}\n"
                 },
                 {
                     "metaName": "PortExpandedState",
                     "metadata": [
                         {
-                            "metaName": "prim_definitions",
+                            "metaName": "Settings",
                             "metaType": "string",
-                            "metaValue": "1"
+                            "metaValue": "0"
                         }
                     ]
                 }
@@ -235,6 +238,10 @@
                     "portDirection": "input",
                     "portType": "int",
                     "portDefault": "-1L"
+                },
+                {
+                    "portName": "layer",
+                    "portDirection": "input"
                 },
                 {
                     "portName": "prim_definitions",
@@ -272,7 +279,7 @@
             "compounds": [
                 {
                     "name": "flatten_hierarchy",
-                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                    "uriImported": "file:///add_to_stage.json",
                     "metadata": [
                         {
                             "metaName": "io_nodes",
@@ -374,7 +381,7 @@
                     "compounds": [
                         {
                             "name": "get_prim_hierarchy",
-                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                            "uriImported": "file:///add_to_stage.json",
                             "metadata": [
                                 {
                                     "metaName": "ViewportRect",
@@ -559,7 +566,7 @@
                         },
                         {
                             "name": "reparent_prims",
-                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                            "uriImported": "file:///add_to_stage.json",
                             "metadata": [
                                 {
                                     "metaName": "_recentNode_",
@@ -685,7 +692,7 @@
                             "compounds": [
                                 {
                                     "name": "get_prim_spec_hierarchy",
-                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                    "uriImported": "file:///add_to_stage.json",
                                     "metadata": [
                                         {
                                             "metaName": "io_nodes",
@@ -1255,7 +1262,7 @@
                 },
                 {
                     "name": "add_relationships",
-                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                    "uriImported": "file:///add_to_stage.json",
                     "metadata": [
                         {
                             "metaName": "icon",
@@ -1382,7 +1389,7 @@
                     "compounds": [
                         {
                             "name": "add_relationships",
-                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                            "uriImported": "file:///add_to_stage.json",
                             "metadata": [
                                 {
                                     "metaName": "_recentNode_",
@@ -1509,7 +1516,7 @@
                             "compounds": [
                                 {
                                     "name": "iterate_on_relationships",
-                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                    "uriImported": "file:///add_to_stage.json",
                                     "metadata": [
                                         {
                                             "metaName": "icon",
@@ -2290,7 +2297,7 @@
                 },
                 {
                     "name": "iterate_on_top_parents",
-                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                    "uriImported": "file:///add_to_stage.json",
                     "metadata": [
                         {
                             "metaName": "icon",
@@ -2449,7 +2456,7 @@
                     "compounds": [
                         {
                             "name": "add_variant_sets",
-                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                            "uriImported": "file:///add_to_stage.json",
                             "metadata": [
                                 {
                                     "metaName": "io_nodes",
@@ -2551,7 +2558,7 @@
                             "compounds": [
                                 {
                                     "name": "has_variant_sets",
-                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                    "uriImported": "file:///add_to_stage.json",
                                     "metadata": [
                                         {
                                             "metaName": "ViewportRect",
@@ -2722,7 +2729,7 @@
                                 },
                                 {
                                     "name": "iterate_on_variant_sets",
-                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                    "uriImported": "file:///add_to_stage.json",
                                     "metadata": [
                                         {
                                             "metaName": "icon",
@@ -3149,7 +3156,7 @@
                         },
                         {
                             "name": "set_variant_sets_selection",
-                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                            "uriImported": "file:///add_to_stage.json",
                             "metadata": [
                                 {
                                     "metaName": "io_nodes",
@@ -3251,7 +3258,7 @@
                             "compounds": [
                                 {
                                     "name": "has_variant_sets",
-                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                    "uriImported": "file:///add_to_stage.json",
                                     "metadata": [
                                         {
                                             "metaName": "ViewportRect",
@@ -3422,7 +3429,7 @@
                                 },
                                 {
                                     "name": "iterate_on_variant_sets",
-                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                    "uriImported": "file:///add_to_stage.json",
                                     "metadata": [
                                         {
                                             "metaName": "icon",
@@ -4035,7 +4042,7 @@
                         },
                         {
                             "name": "build_children_prims",
-                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                            "uriImported": "file:///add_to_stage.json",
                             "metadata": [
                                 {
                                     "metaName": "_recentNode_",
@@ -4186,7 +4193,7 @@
                             "compounds": [
                                 {
                                     "name": "iterate_to_create_prims",
-                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                    "uriImported": "file:///add_to_stage.json",
                                     "metadata": [
                                         {
                                             "metaName": "icon",
@@ -4369,7 +4376,7 @@
                                     "compounds": [
                                         {
                                             "name": "add_and_select_variant",
-                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                            "uriImported": "file:///add_to_stage.json",
                                             "metadata": [
                                                 {
                                                     "metaName": "io_nodes",
@@ -5041,7 +5048,7 @@
                                 },
                                 {
                                     "name": "set_prims_active",
-                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                    "uriImported": "file:///add_to_stage.json",
                                     "metadata": [
                                         {
                                             "metaName": "icon",
@@ -5168,7 +5175,7 @@
                                     "compounds": [
                                         {
                                             "name": "set_active",
-                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                            "uriImported": "file:///add_to_stage.json",
                                             "metadata": [
                                                 {
                                                     "metaName": "_recentNode_",
@@ -5636,7 +5643,7 @@
                                 },
                                 {
                                     "name": "iterate_to_add_connections_and_relationships",
-                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                    "uriImported": "file:///add_to_stage.json",
                                     "metadata": [
                                         {
                                             "metaName": "icon",
@@ -5803,7 +5810,7 @@
                                     "compounds": [
                                         {
                                             "name": "set_variant_selection",
-                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                            "uriImported": "file:///add_to_stage.json",
                                             "metadata": [
                                                 {
                                                     "metaName": "io_nodes",
@@ -6185,7 +6192,7 @@
                                         },
                                         {
                                             "name": "add_attribute_connections",
-                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                            "uriImported": "file:///add_to_stage.json",
                                             "metadata": [
                                                 {
                                                     "metaName": "_recentNode_",
@@ -6312,7 +6319,7 @@
                                             "compounds": [
                                                 {
                                                     "name": "iterate_on_attributes",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "icon",
@@ -6459,7 +6466,7 @@
                                                     "compounds": [
                                                         {
                                                             "name": "has_connection",
-                                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                            "uriImported": "file:///add_to_stage.json",
                                                             "metadata": [
                                                                 {
                                                                     "metaName": "ViewportRect",
@@ -6633,7 +6640,7 @@
                                                         },
                                                         {
                                                             "name": "add_or_remove_attribute_connection",
-                                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                            "uriImported": "file:///add_to_stage.json",
                                                             "metadata": [
                                                                 {
                                                                     "metaName": "_recentNode_",
@@ -6754,7 +6761,7 @@
                                                             "compounds": [
                                                                 {
                                                                     "name": "build_source",
-                                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                                    "uriImported": "file:///add_to_stage.json",
                                                                     "metadata": [
                                                                         {
                                                                             "metaName": "io_nodes",
@@ -7669,7 +7676,7 @@
                                         },
                                         {
                                             "name": "resolve_material_assign",
-                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                            "uriImported": "file:///add_to_stage.json",
                                             "metadata": [
                                                 {
                                                     "metaName": "_recentNode_",
@@ -7819,7 +7826,7 @@
                                             "compounds": [
                                                 {
                                                     "name": "get_material_prims",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "ViewportRect",
@@ -7903,7 +7910,7 @@
                                                     "compounds": [
                                                         {
                                                             "name": "filter_prims_by_type",
-                                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                            "uriImported": "file:///add_to_stage.json",
                                                             "metadata": [
                                                                 {
                                                                     "metaName": "ViewportRect",
@@ -8216,7 +8223,7 @@
                                                 },
                                                 {
                                                     "name": "get_prims_with_material_tag_attribute",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "ViewportRect",
@@ -8300,7 +8307,7 @@
                                                     "compounds": [
                                                         {
                                                             "name": "filter_prims_by_attribute",
-                                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                            "uriImported": "file:///add_to_stage.json",
                                                             "metadata": [
                                                                 {
                                                                     "metaName": "ViewportRect",
@@ -8573,7 +8580,7 @@
                                                 },
                                                 {
                                                     "name": "iterate",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "icon",
@@ -8711,7 +8718,7 @@
                                                     "compounds": [
                                                         {
                                                             "name": "iterate",
-                                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                            "uriImported": "file:///add_to_stage.json",
                                                             "metadata": [
                                                                 {
                                                                     "metaName": "icon",
@@ -8874,7 +8881,7 @@
                                                             "compounds": [
                                                                 {
                                                                     "name": "get_prim_name",
-                                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                                    "uriImported": "file:///add_to_stage.json",
                                                                     "metadata": [
                                                                         {
                                                                             "metaName": "io_nodes",
@@ -8995,7 +9002,7 @@
                                                                 },
                                                                 {
                                                                     "name": "material_prim_path",
-                                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                                    "uriImported": "file:///add_to_stage.json",
                                                                     "metadata": [
                                                                         {
                                                                             "metaName": "io_nodes",
@@ -9836,7 +9843,7 @@
                                         },
                                         {
                                             "name": "add_relationships",
-                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                            "uriImported": "file:///add_to_stage.json",
                                             "metadata": [
                                                 {
                                                     "metaName": "io_nodes",
@@ -9938,7 +9945,7 @@
                                             "compounds": [
                                                 {
                                                     "name": "iterate_on_relationships",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "icon",
@@ -10952,7 +10959,7 @@
                                 },
                                 {
                                     "name": "has_variant_sets",
-                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                    "uriImported": "file:///add_to_stage.json",
                                     "metadata": [
                                         {
                                             "metaName": "ViewportRect",
@@ -11315,7 +11322,7 @@
                         },
                         {
                             "name": "set_parent_active",
-                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                            "uriImported": "file:///add_to_stage.json",
                             "metadata": [
                                 {
                                     "metaName": "_recentNode_",
@@ -11716,7 +11723,7 @@
                         },
                         {
                             "name": "add_attribute_connections",
-                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                            "uriImported": "file:///add_to_stage.json",
                             "metadata": [
                                 {
                                     "metaName": "_recentNode_",
@@ -11843,7 +11850,7 @@
                             "compounds": [
                                 {
                                     "name": "iterate_on_attributes",
-                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                    "uriImported": "file:///add_to_stage.json",
                                     "metadata": [
                                         {
                                             "metaName": "icon",
@@ -11980,7 +11987,7 @@
                                     "compounds": [
                                         {
                                             "name": "has_connection",
-                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                            "uriImported": "file:///add_to_stage.json",
                                             "metadata": [
                                                 {
                                                     "metaName": "ViewportRect",
@@ -12154,7 +12161,7 @@
                                         },
                                         {
                                             "name": "add_or_remove_attribute_connection",
-                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                            "uriImported": "file:///add_to_stage.json",
                                             "metadata": [
                                                 {
                                                     "metaName": "_recentNode_",
@@ -12275,7 +12282,7 @@
                                             "compounds": [
                                                 {
                                                     "name": "build_source",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "io_nodes",
@@ -13465,7 +13472,7 @@
                 },
                 {
                     "name": "update_paths",
-                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                    "uriImported": "file:///add_to_stage.json",
                     "metadata": [
                         {
                             "metaName": "_recentNode_",
@@ -13592,7 +13599,7 @@
                     "compounds": [
                         {
                             "name": "for_each_top_parent",
-                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                            "uriImported": "file:///add_to_stage.json",
                             "metadata": [
                                 {
                                     "metaName": "icon",
@@ -13725,7 +13732,7 @@
                             "compounds": [
                                 {
                                     "name": "for_each_child",
-                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                    "uriImported": "file:///add_to_stage.json",
                                     "metadata": [
                                         {
                                             "metaName": "icon",
@@ -13839,7 +13846,7 @@
                                     "compounds": [
                                         {
                                             "name": "update_prim_def_paths",
-                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                            "uriImported": "file:///add_to_stage.json",
                                             "metadata": [
                                                 {
                                                     "metaName": "ViewportRect",
@@ -13931,7 +13938,7 @@
                                             "compounds": [
                                                 {
                                                     "name": "update_prim_path",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "ViewportRect",
@@ -14023,7 +14030,7 @@
                                                     "compounds": [
                                                         {
                                                             "name": "array_is_one_element",
-                                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                            "uriImported": "file:///add_to_stage.json",
                                                             "metadata": [
                                                                 {
                                                                     "metaName": "ViewportRect",
@@ -14501,7 +14508,7 @@
                                                 },
                                                 {
                                                     "name": "update_reference_prim",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "ViewportRect",
@@ -14593,7 +14600,7 @@
                                                     "compounds": [
                                                         {
                                                             "name": "iterate",
-                                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                            "uriImported": "file:///add_to_stage.json",
                                                             "metadata": [
                                                                 {
                                                                     "metaName": "icon",
@@ -15161,7 +15168,7 @@
                                                 },
                                                 {
                                                     "name": "update_relationship_target",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "ViewportRect",
@@ -15253,7 +15260,7 @@
                                                     "compounds": [
                                                         {
                                                             "name": "iterate",
-                                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                            "uriImported": "file:///add_to_stage.json",
                                                             "metadata": [
                                                                 {
                                                                     "metaName": "icon",
@@ -15665,7 +15672,7 @@
                                                 },
                                                 {
                                                     "name": "update_target_prim",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "ViewportRect",
@@ -15757,7 +15764,7 @@
                                                     "compounds": [
                                                         {
                                                             "name": "iterate",
-                                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                            "uriImported": "file:///add_to_stage.json",
                                                             "metadata": [
                                                                 {
                                                                     "metaName": "icon",
@@ -16382,7 +16389,7 @@
                                 },
                                 {
                                     "name": "update_prim_def_paths",
-                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                    "uriImported": "file:///add_to_stage.json",
                                     "metadata": [
                                         {
                                             "metaName": "ViewportRect",
@@ -16474,7 +16481,7 @@
                                     "compounds": [
                                         {
                                             "name": "update_prim_path",
-                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                            "uriImported": "file:///add_to_stage.json",
                                             "metadata": [
                                                 {
                                                     "metaName": "ViewportRect",
@@ -16566,7 +16573,7 @@
                                             "compounds": [
                                                 {
                                                     "name": "array_is_one_element",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "ViewportRect",
@@ -17044,7 +17051,7 @@
                                         },
                                         {
                                             "name": "update_reference_prim",
-                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                            "uriImported": "file:///add_to_stage.json",
                                             "metadata": [
                                                 {
                                                     "metaName": "ViewportRect",
@@ -17136,7 +17143,7 @@
                                             "compounds": [
                                                 {
                                                     "name": "iterate",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "icon",
@@ -17704,7 +17711,7 @@
                                         },
                                         {
                                             "name": "update_relationship_target",
-                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                            "uriImported": "file:///add_to_stage.json",
                                             "metadata": [
                                                 {
                                                     "metaName": "ViewportRect",
@@ -17796,7 +17803,7 @@
                                             "compounds": [
                                                 {
                                                     "name": "iterate",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "icon",
@@ -18208,7 +18215,7 @@
                                         },
                                         {
                                             "name": "update_target_prim",
-                                            "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                            "uriImported": "file:///add_to_stage.json",
                                             "metadata": [
                                                 {
                                                     "metaName": "ViewportRect",
@@ -18300,7 +18307,7 @@
                                             "compounds": [
                                                 {
                                                     "name": "iterate",
-                                                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                                                    "uriImported": "file:///add_to_stage.json",
                                                     "metadata": [
                                                         {
                                                             "metaName": "icon",
@@ -19118,8 +19125,13 @@
                 },
                 {
                     "name": "set_variant_selections",
-                    "uriImported": "stream:/bifrostGraph_create_instancerShape",
+                    "uriImported": "file:///add_to_stage.json",
                     "metadata": [
+                        {
+                            "metaName": "icon",
+                            "metaType": "string",
+                            "metaValue": "<NATIVE>../icons/LoopIterate.svg"
+                        },
                         {
                             "metaName": "icon",
                             "metaType": "string",
@@ -19542,14 +19554,14 @@
                             "metaValue": "2"
                         },
                         {
-                            "metaName": "zValue",
-                            "metaType": "string",
-                            "metaValue": "43.000000"
-                        },
-                        {
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "-771.007 1015.38"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "35.000000"
                         }
                     ]
                 },
@@ -19563,14 +19575,14 @@
                             "metaValue": "2"
                         },
                         {
-                            "metaName": "zValue",
-                            "metaType": "string",
-                            "metaValue": "42.000000"
-                        },
-                        {
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "-767.837 698.926"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "34.000000"
                         }
                     ]
                 },
@@ -19586,12 +19598,12 @@
                         {
                             "metaName": "LayoutPos",
                             "metaType": "string",
-                            "metaValue": "-1093.01 509.771"
+                            "metaValue": "-1093.01 498.458"
                         },
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "41.000000"
+                            "metaValue": "38.000000"
                         }
                     ]
                 },
@@ -19607,12 +19619,12 @@
                         {
                             "metaName": "LayoutPos",
                             "metaType": "string",
-                            "metaValue": "-1687.16 763.49"
+                            "metaValue": "-1352.97 737.736"
                         },
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "33.000000"
+                            "metaValue": "41.000000"
                         }
                     ]
                 },
@@ -19633,7 +19645,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "35.000000"
+                            "metaValue": "31.000000"
                         }
                     ]
                 },
@@ -19647,14 +19659,14 @@
                             "metaValue": "2"
                         },
                         {
-                            "metaName": "zValue",
-                            "metaType": "string",
-                            "metaValue": "45.000000"
-                        },
-                        {
                             "metaName": "LayoutPos",
                             "metaType": "string",
-                            "metaValue": "-1674.54 187.908"
+                            "metaValue": "-1584.03 246.361"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "37.000000"
                         }
                     ]
                 },
@@ -19668,14 +19680,35 @@
                             "metaValue": "2"
                         },
                         {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "-419.732 733.409"
+                        },
+                        {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "44.000000"
+                            "metaValue": "36.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "resolve_layer_index",
+                    "nodeType": "USD::Layer::resolve_layer_index",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
                         },
                         {
                             "metaName": "LayoutPos",
                             "metaType": "string",
-                            "metaValue": "-419.732 733.409"
+                            "metaValue": "-1932.26 562.101"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "39.000000"
                         }
                     ]
                 }
@@ -19718,14 +19751,6 @@
                     "target": "flatten_hierarchy.parent_path"
                 },
                 {
-                    "source": ".layer_index",
-                    "target": "set_edit_layer.layer_index"
-                },
-                {
-                    "source": ".layer_index",
-                    "target": "iterate_on_top_parents.layer_index"
-                },
-                {
                     "source": ".use_material_name_or_tag",
                     "target": "iterate_on_top_parents.use_material_name_or_tag"
                 },
@@ -19752,6 +19777,26 @@
                 {
                     "source": "set_variant_selections.out_stage",
                     "target": "if.true_case"
+                },
+                {
+                    "source": ".stage",
+                    "target": "resolve_layer_index.stage"
+                },
+                {
+                    "source": ".layer_index",
+                    "target": "resolve_layer_index.layer_index"
+                },
+                {
+                    "source": ".layer",
+                    "target": "resolve_layer_index.layer"
+                },
+                {
+                    "source": "resolve_layer_index.out_layer_index",
+                    "target": "set_edit_layer.layer_index"
+                },
+                {
+                    "source": "resolve_layer_index.out_layer_index",
+                    "target": "iterate_on_top_parents.layer_index"
                 }
             ],
             "values": [

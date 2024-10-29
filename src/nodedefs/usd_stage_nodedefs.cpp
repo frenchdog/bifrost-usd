@@ -17,6 +17,7 @@
 #include "usd_stage_nodedefs.h"
 
 #include <Amino/Core/String.h>
+#include <Amino/Core/StringView.h>
 #include <pxr/usd/usd/prim.h>
 #include <pxr/usd/usd/stageCacheContext.h>
 #include <pxr/usd/usdGeom/metrics.h>
@@ -166,22 +167,48 @@ void USD::Stage::open_stage_from_cache(const Amino::long_t              id,
     assert(stage);
 }
 
-void USD::Stage::set_edit_layer(BifrostUsd::Stage&  stage,
-                                const int           layer_index) {
+void USD::Stage::set_edit_layer(BifrostUsd::Stage&   stage,
+                                const int            layer_index,
+                                const Amino::String& layer_display_name) {
     if (!stage) {
         return;
     }
     try {
-        // First verify given index. We do nothing if it is invalid:
-        const PXR_NS::SdfLayerHandle sdfLayer = stage.get().GetRootLayer();
-        const int numLayers = static_cast<int>(sdfLayer->GetNumSubLayerPaths());
-        if (layer_index >= -1 && layer_index < numLayers) {
-            // Reverse the given index to match the order of sublayers
-            // in the Pixar USD Layer:
-            int reversedIndex = (layer_index == -1) ? -1 :
-                USDUtils::reversedSublayerIndex(layer_index, numLayers);
-            stage.setEditLayerIndex(reversedIndex, false);
+        const PXR_NS::SdfLayerHandle rootLayer = stage.get().GetRootLayer();
+
+        bool targetIsSet = false;
+        if (!layer_display_name.empty()) {
+            const auto subLayerPaths = rootLayer->GetSubLayerPaths();
+            for (size_t i = 0; i < subLayerPaths.size(); ++i) {
+                const auto layer = PXR_NS::SdfLayer::Find(subLayerPaths[i]);
+                if (layer) {
+                    if (Amino::StringView(layer->GetDisplayName().c_str()) ==
+                        layer_display_name) {
+                        stage->SetEditTarget(layer);
+                        targetIsSet = true;
+                        break;
+                    }
+                }
+            }
         }
+
+        // If setting edit layer using the display name did not work, try using
+        // the index.
+        if (!targetIsSet) {
+            // First verify given index. We do nothing if it is invalid:
+            const int numLayers =
+                static_cast<int>(rootLayer->GetNumSubLayerPaths());
+            if (layer_index >= -1 && layer_index < numLayers) {
+                // Reverse the given index to match the order of sublayers
+                // in the Pixar USD Layer:
+                int reversedIndex = (layer_index == -1)
+                                        ? -1
+                                        : USDUtils::reversedSublayerIndex(
+                                              layer_index, numLayers);
+                stage.setEditLayerIndex(reversedIndex, false);
+            }
+        }
+
     } catch (std::exception& e) {
         log_exception("set_edit_layer", e);
     }

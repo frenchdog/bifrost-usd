@@ -1,5 +1,5 @@
 //-
-// Copyright 2023 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@
 
 #include "BifrostGraphGenerativeProcedural.h"
 
+#include <bifusd/config/CfgWarningMacros.h>
+
 #include <pxr/imaging/hdGp/generativeProceduralPluginRegistry.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
@@ -32,7 +34,11 @@ HdGpGenerativeProcedural* BifrostGraphGenerativeProceduralPlugin::Construct(
 
 ///////////////////////////////////////////////////////////////////////////////
 
+BIFUSD_WARNING_PUSH
+// Silence USD warning that we cast from 'void (*)(TfType *)' to 'void (*)()'
+BIFUSD_WARNING_DISABLE_CLANG_160(-Wcast-function-type-strict)
 TF_REGISTRY_FUNCTION(TfType) {
+BIFUSD_WARNING_POP
     HdGpGenerativeProceduralPluginRegistry::Define<
         BifrostGraphGenerativeProceduralPlugin,
         HdGpGenerativeProceduralPlugin>();

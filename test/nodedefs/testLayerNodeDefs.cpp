@@ -274,6 +274,15 @@ TEST(LayerNodeDefs, get_layer_identifier) {
     ASSERT_LT(identifier.find("my_layer.usd"), identifier.length());
 }
 
+TEST(LayerNodeDefs, get_layer_display_name) {
+    auto layerTag = Amino::String("my_layer.usd");
+    auto layer = BifrostUsd::Layer(layerTag);
+
+    Amino::String display_name = "";
+    USD::Layer::get_layer_display_name(layer, display_name);
+    ASSERT_EQ(display_name, layerTag);
+}
+
 TEST(LayerNodeDefs, export_layer_to_string) {
     const char* helloworldContent = R"usda(#usda 1.0
 
