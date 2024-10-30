@@ -354,6 +354,7 @@ class TestGraphs(unittest.TestCase):
             # Layer Tests
             "tasks_create_empty_layer.json",
             "tasks_export_layer_to_file.json",
+            "tasks_resolve_layer_index.json",
             # Prim Tests
             "tasks_create_prim_hierarchy.json",
             "tasks_create_geom_subset.json",

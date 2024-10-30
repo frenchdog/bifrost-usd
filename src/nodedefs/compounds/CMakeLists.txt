@@ -43,6 +43,7 @@ set(node_def_compound_json
     read_usd_curves.json
     read_usd_meshes.json
     replace_usd_point_instancer_proto.json
+    resolve_layer_index.json
     save_usd_stage.json
     set_attribute_comment.json
     set_attribute_custom_data.json

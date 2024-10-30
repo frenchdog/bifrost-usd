@@ -58,7 +58,7 @@ TEST(StageNodeDefs, set_edit_layer) {
 
     // Case 1: test with no sublayers
     {
-        std::string title("\t Case 1: Test when root has no sublayers - ");
+        std::string title("\t Case 1a: Test when root has no sublayers with layer_index - ");
 
         // Open an SdfLayer with no sublayer in it:
         PXR_NS::SdfLayerRefPtr sdfRootLayer = PXR_NS::SdfLayer::FindOrOpen(rootName.c_str());
@@ -96,6 +96,26 @@ TEST(StageNodeDefs, set_edit_layer) {
                     << "After an attempt to change the edit layer to index=" << i
                     << ", the BifrostUsd::Stage's EditLayerIndex was expected to remain -1\n";
             }
+
+            title = "\t Case 1b: Test when root has no sublayers with layer_display_name - ";
+            // Try changing edit layer using a display name that cannot be found
+            Amino::String unExpectedDisplayName = "ThisDisplayNameDoesNotExist.usd";
+            USD::Stage::set_edit_layer(stage, -1, unExpectedDisplayName);
+            // Check current edit layer on BifrostUsd::Stage
+            EXPECT_EQ(stage.getEditLayerIndex(), -1)
+                << title
+                << "After an attempt to change the edit layer using display name'" << unExpectedDisplayName.c_str()
+                << "', the BifrostUsd::Stage's EditLayerIndex was expected to remain -1\n";
+
+            title = "\t Case 1c: Test when root has no sublayers with valid layer_display_name - ";
+            // Try changing edit layer using a display name that cannot be found
+            USD::Stage::set_edit_layer(stage, -1, rootName);
+            // Check current edit layer on BifrostUsd::Stage
+            EXPECT_EQ(stage.getEditLayerIndex(), -1)
+                << title
+                << "After an attempt to change the edit layer using display name'" << rootName.c_str()
+                << "', the BifrostUsd::Stage's EditLayerIndex was expected to remain -1\n";
+
         }
     }
 
@@ -186,6 +206,39 @@ TEST(StageNodeDefs, set_edit_layer) {
                     << ", the BifrostUsd::Stage's EditLayerIndex was expected to remain "
                     << lastReversedEditIndex << "\n";
             }
+        }
+
+        // Case 4: test with multiple sublayers and a non empty layer display name:
+        if(layer && stage) {
+            std::string title("\t Case 4: Test with the layer display name - ");
+
+            Amino::String expectedDisplayName = "Mushroom1.usd";
+            USD::Stage::set_edit_layer(stage, 0, expectedDisplayName);
+
+            // Check current edit layer through Pixar interface
+            std::string displayName = stage.get().GetEditTarget().GetLayer()->GetDisplayName();
+
+            // Mushroom1.usd should be at index 0
+            EXPECT_EQ(stage.getEditLayerIndex(), 0);
+            EXPECT_EQ(displayName, std::string(expectedDisplayName.c_str()))
+                << title
+                << "After an attempt to change the edit layer using the display name '" << displayName
+                << "', the USD::Stage's EditTarget now has a layer display name `" << displayName
+                << "` but we expect it to be `" << expectedDisplayName.c_str() << "`\n";
+
+            Amino::String unExpectedDisplayName = "ThisDisplayNameDoesNotExist.usd";
+            USD::Stage::set_edit_layer(stage, -1, unExpectedDisplayName);
+            // Check current edit layer through Pixar interface
+            // Since the display name is not valid, it should use the layer index
+            EXPECT_EQ(stage.getEditLayerIndex(), -1);
+
+            displayName = stage.get().GetEditTarget().GetLayer()->GetDisplayName();
+            title = "\t Case 4: Test with multiple sublayers and an non existing layer display name - ";
+            EXPECT_NE(displayName, std::string(unExpectedDisplayName.c_str()))
+                << title
+                << "After an attempt to change the edit layer using the display name '" << unExpectedDisplayName.c_str()
+                << "', the USD::Stage's EditTarget now has a layer display name `" << displayName
+                << "` but we expect it to be `" << expectedDisplayName.c_str() << "`\n";
         }
     }
 }

@@ -26,7 +26,7 @@
 
 /// \brief Set annotation with node's name, documentation, icon and more.
 ///
-/// Annotate a node definition with its name, tis documentation file name, its
+/// Annotate a node definition with its name, its documentation file name, its
 /// icon file name and any number of extra annotation parameters such as
 /// Amino::DefaultOverload, Amino::Converter, Amino::Promoter, etc...
 #define USDNODE_DOC_ICON_X(NAME, DOC_FILENAME, ICON_FILENAME, EXTRA)           \

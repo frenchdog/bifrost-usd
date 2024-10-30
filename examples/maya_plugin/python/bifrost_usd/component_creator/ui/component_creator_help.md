@@ -11,7 +11,7 @@ Creates a Bifrost Graph with a _create_usd_component_ compound. The graph result
 - (optional) A _Look_ VariantSet to select different look variants from the default prim.
 - The _extentsHint_ attributes to display the component as a bounding box added on the default prim.
 - The _assetInfo_ metadata
-- A _Bifrost::usd_component_ dictionnary (in customLayerData) storing information like the host scene who generated the component.
+- A _Bifrost::usd_component_ dictionary (in customLayerData) storing information like the host scene who generated the component.
 
 ```
 

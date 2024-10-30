@@ -80,13 +80,16 @@ set(usd_env_config
      USD_TEST_OUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}
 )
 
+if (BIFUSD_ENABLE_ADDRESS_SANITIZER)
+    set(asan_options ASAN_OPTIONS=detect_container_overflow=0)
+endif()
+
 foreach(test_file ${test_files})
     configure_bifusd_unittest(
         ${test_file} "bifrost_hydra"
         LINK_LIBS ${libs} ${pxr_libs}
         SHARED_LIB_DIRS ${BIFUSD_EXTRA_BUILD_AND_TEST_PATHS} ${Maya_SHARED_LIB_DIRS}
-        ENV_VARS ${bifrost_env_config} ${usd_env_config}
-        ASAN_OPTIONS ${ASAN_OPTIONS}
+        ENV_VARS ${bifrost_env_config} ${usd_env_config} ${asan_options}
         OPTIONS      $<${BIFUSD_IS_MSC}:/wd4251 /wd4273>
     )
     get_unittest_target(unittest_target "bifrost_hydra" ${test_file})

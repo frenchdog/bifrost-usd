@@ -12,6 +12,7 @@
     "compounds": [
         {
             "name": "USD::VariantSet::add_to_stage_in_variant",
+            "uriImported": "file:///add_to_stage_in_variant.json",
             "metadata": [
                 {
                     "metaName": "icon",
@@ -64,6 +65,9 @@
                                                 },
                                                 {
                                                     "metaName": "use_material_name_or_tag"
+                                                },
+                                                {
+                                                    "metaName": "layer"
                                                 }
                                             ]
                                         },
@@ -138,7 +142,7 @@
                                         {
                                             "metaName": "zValue",
                                             "metaType": "string",
-                                            "metaValue": "38.000000"
+                                            "metaValue": "37.000000"
                                         }
                                     ]
                                 }
@@ -171,26 +175,11 @@
                                         {
                                             "metaName": "zValue",
                                             "metaType": "string",
-                                            "metaValue": "40.000000"
+                                            "metaValue": "39.000000"
                                         }
                                     ]
                                 }
                             ]
-                        }
-                    ]
-                },
-                {
-                    "metaName": "PortExpandedState",
-                    "metadata": [
-                        {
-                            "metaName": "Settings",
-                            "metaType": "string",
-                            "metaValue": "0"
-                        },
-                        {
-                            "metaName": "prim_definitions",
-                            "metaType": "string",
-                            "metaValue": "0"
                         }
                     ]
                 },
@@ -220,31 +209,6 @@
                     "metaValue": "BifrostGraph,USD::VariantSet,clear_variant_selection"
                 },
                 {
-                    "metaName": "ViewportRect",
-                    "metaType": "string",
-                    "metaValue": "-1413.91 -364.272 2404.52 697.973"
-                },
-                {
-                    "metaName": "UILayout",
-                    "metaType": "string",
-                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"stage\"\n            },\n            {\n                \"port\": \"prim_definitions\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Settings\",\n                \"items\": [\n                    {\n                        \"port\": \"enable\"\n                    },\n                    {\n                        \"port\": \"parent_path\"\n                    },\n                    {\n                        \"port\": \"layer_index\"\n                    },\n                    {\n                        \"port\": \"use_material_name_or_tag\"\n                    },\n                    {\n                        \"port\": \"enable_variant\"\n                    },\n                    {\n                        \"condition\": {\n                            \"action\": \"show\",\n                            \"op\": \"==\",\n                            \"port\": \"enable_variant\",\n                            \"value\": \"\"\n                        },\n                        \"group\": \"Show based on: enable_variant\",\n                        \"items\": [\n                            {\n                                \"expanded\": false,\n                                \"group\": \"Variant\",\n                                \"items\": [\n                                    {\n                                        \"port\": \"inside_current_variant\"\n                                    },\n                                    {\n                                        \"port\": \"variant_set_name\"\n                                    },\n                                    {\n                                        \"port\": \"variant_name\"\n                                    },\n                                    {\n                                        \"port\": \"select\"\n                                    }\n                                ],\n                                \"unique_id\": 18\n                            }\n                        ],\n                        \"unique_id\": 29\n                    }\n                ],\n                \"unique_id\": 9\n            }\n        ]\n    }\n}\n"
-                },
-                {
-                    "metaName": "DisplayMode",
-                    "metaType": "string",
-                    "metaValue": "2"
-                },
-                {
-                    "metaName": "LayoutPos",
-                    "metaType": "string",
-                    "metaValue": "512.876 -59.4859"
-                },
-                {
-                    "metaName": "zValue",
-                    "metaType": "string",
-                    "metaValue": "66.000000"
-                },
-                {
                     "metaName": "NodeValueDisplay",
                     "metadata": [
                         {
@@ -256,6 +220,41 @@
                             "metaName": "format",
                             "metaType": "string",
                             "metaValue": "Add to Stage in variant {variant_set_name}/{variant_name}"
+                        }
+                    ]
+                },
+                {
+                    "metaName": "ViewportRect",
+                    "metaType": "string",
+                    "metaValue": "-645.673 -740.218 1077.5 1307.19"
+                },
+                {
+                    "metaName": "DisplayMode",
+                    "metaType": "string",
+                    "metaValue": "2"
+                },
+                {
+                    "metaName": "LayoutPos",
+                    "metaType": "string",
+                    "metaValue": "480.528 -323.074"
+                },
+                {
+                    "metaName": "zValue",
+                    "metaType": "string",
+                    "metaValue": "54.000000"
+                },
+                {
+                    "metaName": "UILayout",
+                    "metaType": "string",
+                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"stage\"\n            },\n            {\n                \"port\": \"prim_definitions\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Settings\",\n                \"items\": [\n                    {\n                        \"port\": \"enable\"\n                    },\n                    {\n                        \"port\": \"parent_path\"\n                    },\n                    {\n                        \"port\": \"layer\"\n                    },\n                    {\n                        \"condition\": {\n                            \"action\": \"disable\",\n                            \"op\": \"==\",\n                            \"port\": \"layer\",\n                            \"value\": \"\"\n                        },\n                        \"group\": \"Disable based on: layer\",\n                        \"items\": [\n                            {\n                                \"port\": \"layer_index\"\n                            }\n                        ],\n                        \"unique_id\": 42\n                    },\n                    {\n                        \"port\": \"layer_display_name\"\n                    },\n                    {\n                        \"port\": \"use_material_name_or_tag\"\n                    },\n                    {\n                        \"port\": \"enable_variant\"\n                    },\n                    {\n                        \"condition\": {\n                            \"action\": \"show\",\n                            \"op\": \"==\",\n                            \"port\": \"enable_variant\",\n                            \"value\": \"\"\n                        },\n                        \"group\": \"Show based on: enable_variant\",\n                        \"items\": [\n                            {\n                                \"expanded\": false,\n                                \"group\": \"Variant\",\n                                \"items\": [\n                                    {\n                                        \"port\": \"inside_current_variant\"\n                                    },\n                                    {\n                                        \"port\": \"variant_set_name\"\n                                    },\n                                    {\n                                        \"port\": \"variant_name\"\n                                    },\n                                    {\n                                        \"port\": \"select\"\n                                    }\n                                ],\n                                \"unique_id\": 18\n                            }\n                        ],\n                        \"unique_id\": 29\n                    }\n                ],\n                \"unique_id\": 9\n            }\n        ]\n    }\n}\n"
+                },
+                {
+                    "metaName": "PortExpandedState",
+                    "metadata": [
+                        {
+                            "metaName": "Settings",
+                            "metaType": "string",
+                            "metaValue": "0"
                         }
                     ]
                 }
@@ -339,6 +338,10 @@
                     "portDirection": "input",
                     "portType": "bool",
                     "portDefault": "true"
+                },
+                {
+                    "portName": "layer",
+                    "portDirection": "input"
                 }
             ],
             "compounds": [
@@ -2225,19 +2228,19 @@
                             "metaValue": "Add to Stage (Layer index {layer_index})"
                         },
                         {
-                            "metaName": "DisplayMode",
-                            "metaType": "string",
-                            "metaValue": "1"
-                        },
-                        {
                             "metaName": "LayoutPos",
                             "metaType": "string",
                             "metaValue": "115.889 -456.216"
                         },
                         {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "36.000000"
+                            "metaValue": "43.000000"
                         }
                     ]
                 },
@@ -2258,7 +2261,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "37.000000"
+                            "metaValue": "36.000000"
                         }
                     ]
                 },
@@ -2279,7 +2282,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "44.000000"
+                            "metaValue": "42.000000"
                         }
                     ]
                 },
@@ -2314,7 +2317,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "42.000000"
+                            "metaValue": "41.000000"
                         }
                     ]
                 },
@@ -2356,7 +2359,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "39.000000"
+                            "metaValue": "38.000000"
                         }
                     ]
                 },
@@ -2398,7 +2401,7 @@
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "41.000000"
+                            "metaValue": "40.000000"
                         }
                     ]
                 },
@@ -2440,10 +2443,6 @@
                 {
                     "source": ".use_material_name_or_tag",
                     "target": "add_to_stage.use_material_name_or_tag"
-                },
-                {
-                    "source": ".prim_definitions",
-                    "target": "add_to_stage.prim_definitions.prim_definitions"
                 },
                 {
                     "source": ".variant_set_name",
@@ -2548,6 +2547,14 @@
                 {
                     "source": ".inside_current_variant",
                     "target": "create_vset_and_select_variant.inside_current_variant"
+                },
+                {
+                    "source": ".prim_definitions",
+                    "target": "add_to_stage.prim_definitions.prim_definitions"
+                },
+                {
+                    "source": ".layer",
+                    "target": "add_to_stage.layer"
                 }
             ],
             "values": [

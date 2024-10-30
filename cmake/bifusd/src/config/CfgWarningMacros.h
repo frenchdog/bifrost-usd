@@ -1,5 +1,5 @@
 //-
-// Copyright 2022 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -106,6 +106,12 @@
     #define BIFUSD_WARNING_DISABLE_CLANG_80(a) BIFUSD_WARNING_DISABLE(a)
 #else
     #define BIFUSD_WARNING_DISABLE_CLANG_80(a)
+#endif
+
+#if BIFUSD_IS_CLANG && (__clang_major__ >= 16)
+#define BIFUSD_WARNING_DISABLE_CLANG_160(a) BIFUSD_WARNING_DISABLE(a)
+#else
+#define BIFUSD_WARNING_DISABLE_CLANG_160(a)
 #endif
 
 #if BIFUSD_IS_GCC

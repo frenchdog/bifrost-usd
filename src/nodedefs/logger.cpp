@@ -1,5 +1,5 @@
 //-
-// Copyright 2022 Autodesk, Inc.
+// Copyright 2024 Autodesk, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 //+
 #include "logger.h"
 
-#include <Amino/Core/RuntimeMessage.h>
 #include <Amino/Core/RuntimeServices.h>
 
 namespace {
@@ -35,21 +34,15 @@ void Logger::setErrorVerboseLevel(int in_errorVerboseLevel) {
 }
 
 void Logger::info(const Amino::String& in_message) const {
-    auto msg =
-        Amino::RuntimeMessage(Amino::RuntimeMessageCategory::kInfo, in_message);
-    m_runtimeServices.logMessage(msg);
+    m_runtimeServices.logInfo(in_message);
 }
 
 void Logger::warn(const Amino::String& in_message) const {
-    auto msg = Amino::RuntimeMessage(Amino::RuntimeMessageCategory::kWarning,
-                                     in_message);
-    m_runtimeServices.logMessage(msg);
+    m_runtimeServices.logWarning(in_message);
 }
 
 void Logger::error(const Amino::String& in_message) const {
-    auto msg = Amino::RuntimeMessage(Amino::RuntimeMessageCategory::kError,
-                                     in_message);
-    m_runtimeServices.logMessage(msg);
+    m_runtimeServices.logError(in_message);
 }
 
 void log_exception(const char* func_name, std::exception const& e) {

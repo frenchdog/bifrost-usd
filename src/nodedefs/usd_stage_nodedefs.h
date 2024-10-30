@@ -58,7 +58,8 @@ void open_stage_from_cache(const Amino::long_t              id AMINO_ANNOTATE("A
 
 USD_NODEDEF_DECL
 void set_edit_layer(BifrostUsd::Stage&  stage USDPORT_INOUT("out_stage"),
-                    const int           layer_index)
+                    const int            layer_index,
+                    const Amino::String& layer_display_name = Amino::String())
     USDNODE_DOC_ICON("set_edit_layer", "USD_Stage_set_edit_layer.md", "make_target.svg");
 
 USD_NODEDEF_DECL

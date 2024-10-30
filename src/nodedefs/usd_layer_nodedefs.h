@@ -85,6 +85,11 @@ void get_layer_identifier(const BifrostUsd::Layer& layer,
     USDNODE_DOC_ICON("get_layer_identifier", "USD_Layer_get_layer_identifier.md", "usd_layers.svg");
 
 USD_NODEDEF_DECL
+void get_layer_display_name(const BifrostUsd::Layer& layer,
+                          Amino::String&             display_name)
+    USDNODE_DOC_ICON("get_layer_display_name", "USD_Layer_get_layer_display_name.md", "usd_layers.svg");
+
+USD_NODEDEF_DECL
 void get_layer_file_path(const BifrostUsd::Layer& layer, Amino::String& file)
     USDNODE_DOC_ICON("get_layer_file_path", "USD_Layer_get_layer_file_path.md", "usd_layers.svg");
 

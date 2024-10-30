@@ -1,3 +1,24 @@
+## [1.3.1] - 2024-10-29 (Bifrost 2.12)
+
+### Build
+ - BIFROST-10711 - Prevent older boost from using deprecated templates
+ - BIFROST-10578 - Fix sanitizer errors
+
+### Feature
+ - BIFROST-10691 - Set target layer using layer or display name instead of index
+
+   - Add layer input to add_to_stage and add_to_stage_in_variant nodes
+   - Add layer_display_name input to set_edit_layer node
+   - Add USD::Layer::get_layer_display_name Operator
+
+### Bugfix
+ - BIFROST-10745 - Fix Bifrost Browser scene "create_point_instancer_from_usd_file_example.ma".
+
+    Since the _scene_info_ node does not prepend a '/' anymore for the scene directory,
+    a '/' separator has been added to build the path of the referenced USD file.
+
+ - BIFROST-11053 - Fix error message when opening Data Browser for the first time
+
 ## [1.3.0] - 2024-07-29 (Bifrost 2.11)
 
 ### Build

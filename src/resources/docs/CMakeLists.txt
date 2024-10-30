@@ -47,6 +47,7 @@ set(doc_files
     USD_Layer_export_layer_to_file.md
     USD_Layer_export_layer_to_string.md
     USD_Layer_get_layer.md
+    USD_Layer_get_layer_display_name.md
     USD_Layer_get_layer_file_path.md
     USD_Layer_get_layer_identifier.md
     USD_Layer_get_root_layer.md

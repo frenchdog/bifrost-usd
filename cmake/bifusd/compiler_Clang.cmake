@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2023 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -188,3 +188,7 @@ set(CMAKE_CXX_FLAGS_DEBUG_INIT "${cxx_flags_debug}")
 
 # compiler flags
 set(cxx_flags -fPIC)
+
+if (BIFUSD_ENABLE_ADDRESS_SANITIZER)
+    list(APPEND cxx_flags -fsanitize=address)
+endif()

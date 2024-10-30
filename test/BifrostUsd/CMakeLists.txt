@@ -1,6 +1,6 @@
 #-
 #*****************************************************************************
-# Copyright 2022 Autodesk, Inc.
+# Copyright 2024 Autodesk, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -45,5 +45,6 @@ foreach(test_file ${test_files})
         ENV_VARS USD_TEST_RESOURCES_DIR=${resources_dir}
                  PXR_AR_DEFAULT_SEARCH_PATH=${resources_dir}
                  USD_TEST_OUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}
+                 ${asan_options}
     )
 endforeach()
