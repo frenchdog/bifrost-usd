@@ -185,6 +185,14 @@ def create_usd_menu():
         tearOff=True,
     )
     cmds.menuItem(
+        "InsertApplyUsdMaterialBindingsNode",
+        parent="BifrostUSDModifyMenu",
+        command='bifrostUSDExamples -insertNode -nodeType "BifrostGraph,USD::Shading,apply_usd_material_bindings" -currentCompound "" -nodeSelection "" -portSelection "" -inputPort "stage" -outputPort "out_stage"',
+        label="Apply Material Bindings",
+        sourceType="mel",
+        tearOff=True,
+    )
+    cmds.menuItem(
         "InsertSetEditLayerNode",
         parent="BifrostUSDModifyMenu",
         command='bifrostUSDExamples -insertNode -nodeType "BifrostGraph,USD::Stage,set_edit_layer" -currentCompound "" -nodeSelection "" -portSelection "" -inputPort "stage" -outputPort "out_stage"',
