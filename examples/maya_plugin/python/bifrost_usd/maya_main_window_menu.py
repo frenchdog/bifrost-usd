@@ -344,7 +344,7 @@ def create_usd_menu():
         "OpenMaterialLibraryFromLookdevWorkflow",
         parent="BifrostUSDModifyMenu",
         command='from bifrost_usd import create_stage; create_stage.create_materials_stage_from_selected_node()',
-        label="Open Lookdev Workflow Materials in editable stage",
+        label="Open Lookdev Workflow Materials in New Stage",
         sourceType="python",
         tearOff=True,
         image="material_create.png",

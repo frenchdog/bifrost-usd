@@ -229,7 +229,78 @@
                                         {
                                             "metaName": "zValue",
                                             "metaType": "string",
-                                            "metaValue": "49.000000"
+                                            "metaValue": "47.000000"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "metaName": "input2",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "enable"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "2588.28 8.63105"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "52.000000"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "metaName": "input3",
+                                    "metadata": [
+                                        {
+                                            "metaName": "DisplayMode",
+                                            "metaType": "string",
+                                            "metaValue": "2"
+                                        },
+                                        {
+                                            "metaName": "zValue",
+                                            "metaType": "string",
+                                            "metaValue": "59.000000"
+                                        },
+                                        {
+                                            "metaName": "LayoutPos",
+                                            "metaType": "string",
+                                            "metaValue": "3126.92 297.31"
+                                        },
+                                        {
+                                            "metaName": "io_ports",
+                                            "metadata": [
+                                                {
+                                                    "metaName": "relative_path"
+                                                },
+                                                {
+                                                    "metaName": "default_prim"
+                                                },
+                                                {
+                                                    "metaName": "enable_meters_per_unit"
+                                                },
+                                                {
+                                                    "metaName": "meters_per_unit"
+                                                },
+                                                {
+                                                    "metaName": "enable_up_axis"
+                                                },
+                                                {
+                                                    "metaName": "up_axis"
+                                                }
+                                            ]
                                         }
                                     ]
                                 }
@@ -257,12 +328,12 @@
                                         {
                                             "metaName": "LayoutPos",
                                             "metaType": "string",
-                                            "metaValue": "3412.87 -254.576"
+                                            "metaValue": "4029.11 -36.4921"
                                         },
                                         {
                                             "metaName": "zValue",
                                             "metaType": "string",
-                                            "metaValue": "47.000000"
+                                            "metaValue": "51.000000"
                                         }
                                     ]
                                 }
@@ -324,64 +395,34 @@
                     ]
                 },
                 {
-                    "metaName": "UILayout",
-                    "metaType": "string",
-                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"material_bindings\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Layers\",\n                \"items\": [\n                    {\n                        \"port\": \"root_layer\"\n                    },\n                    {\n                        \"expanded\": false,\n                        \"group\": \"Sub Layers\",\n                        \"items\": [\n                            {\n                                \"port\": \"look_layer\"\n                            },\n                            {\n                                \"port\": \"geometry_layer\"\n                            }\n                        ],\n                        \"unique_id\": 4\n                    },\n                    {\n                        \"expanded\": false,\n                        \"group\": \"Reference Layer\",\n                        \"items\": [\n                            {\n                                \"port\": \"can_edit_materials\"\n                            },\n                            {\n                                \"port\": \"materials_layer\"\n                            }\n                        ],\n                        \"unique_id\": 9\n                    }\n                ],\n                \"unique_id\": 16\n            }\n        ]\n    }\n}\n"
-                },
-                {
-                    "metaName": "PortExpandedState",
-                    "metadata": [
-                        {
-                            "metaName": "material_bindings",
-                            "metaType": "string",
-                            "metaValue": "1"
-                        },
-                        {
-                            "metaName": "Layers.Sub Layers",
-                            "metaType": "string",
-                            "metaValue": "0"
-                        },
-                        {
-                            "metaName": "Layers.Reference Layer",
-                            "metaType": "string",
-                            "metaValue": "0"
-                        },
-                        {
-                            "metaName": "Layers",
-                            "metaType": "string",
-                            "metaValue": "0"
-                        }
-                    ]
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::Iterators,for_each"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::String,string_join"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::Array,remove_from_array"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::Math,decrement"
-                },
-                {
-                    "metaName": "_recentNode_",
-                    "metaType": "string",
-                    "metaValue": "BifrostGraph,Core::Array,array_size"
-                },
-                {
                     "metaName": "ViewportRect",
                     "metaType": "string",
-                    "metaValue": "746.444 -627 2267.11 1323"
+                    "metaValue": "2755.59 -269.832 1209.78 1485.72"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "input"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,Core::Graph,pass"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Stage,export_stage_to_file"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Layer,open_usd_layer"
+                },
+                {
+                    "metaName": "_recentNode_",
+                    "metaType": "string",
+                    "metaValue": "BifrostGraph,USD::Stage,create_usd_stage"
                 },
                 {
                     "metaName": "DisplayMode",
@@ -391,12 +432,37 @@
                 {
                     "metaName": "LayoutPos",
                     "metaType": "string",
-                    "metaValue": "10 10"
+                    "metaValue": "52.5734 -145.727"
                 },
                 {
                     "metaName": "zValue",
                     "metaType": "string",
-                    "metaValue": "42.000000"
+                    "metaValue": "47.000000"
+                },
+                {
+                    "metaName": "UILayout",
+                    "metaType": "string",
+                    "metaValue": "{\n    \"NodeLayout\": {\n        \"hideUndeclaredPorts\": false,\n        \"items\": [\n            {\n                \"port\": \"material_bindings\"\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Layers\",\n                \"items\": [\n                    {\n                        \"port\": \"root_layer\"\n                    },\n                    {\n                        \"expanded\": false,\n                        \"group\": \"Sub Layers\",\n                        \"items\": [\n                            {\n                                \"port\": \"look_layer\"\n                            },\n                            {\n                                \"port\": \"geometry_layer\"\n                            }\n                        ],\n                        \"unique_id\": 4\n                    },\n                    {\n                        \"expanded\": false,\n                        \"group\": \"Reference Layer\",\n                        \"items\": [\n                            {\n                                \"port\": \"can_edit_materials\"\n                            },\n                            {\n                                \"port\": \"materials_layer\"\n                            }\n                        ],\n                        \"unique_id\": 9\n                    }\n                ],\n                \"unique_id\": 16\n            },\n            {\n                \"expanded\": false,\n                \"group\": \"Save Stage\",\n                \"items\": [\n                    {\n                        \"port\": \"enable\"\n                    },\n                    {\n                        \"expanded\": false,\n                        \"group\": \"Options\",\n                        \"items\": [\n                            {\n                                \"port\": \"default_prim\"\n                            },\n                            {\n                                \"port\": \"enable_meters_per_unit\"\n                            },\n                            {\n                                \"port\": \"enable_up_axis\"\n                            },\n                            {\n                                \"port\": \"meters_per_unit\"\n                            },\n                            {\n                                \"port\": \"relative_path\"\n                            },\n                            {\n                                \"port\": \"up_axis\"\n                            }\n                        ],\n                        \"unique_id\": 37\n                    }\n                ],\n                \"unique_id\": 23\n            }\n        ]\n    }\n}\n"
+                },
+                {
+                    "metaName": "PortExpandedState",
+                    "metadata": [
+                        {
+                            "metaName": "Layers",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "Save Stage.Options",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "Save Stage",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        }
+                    ]
                 }
             ],
             "ports": [
@@ -486,6 +552,48 @@
                             "metaValue": "USD::Model::define_usd_material_binding"
                         }
                     ]
+                },
+                {
+                    "portName": "enable",
+                    "portDirection": "input",
+                    "portType": "bool",
+                    "portDefault": "false"
+                },
+                {
+                    "portName": "relative_path",
+                    "portDirection": "input",
+                    "portType": "bool",
+                    "portDefault": "true"
+                },
+                {
+                    "portName": "default_prim",
+                    "portDirection": "input",
+                    "portType": "bool",
+                    "portDefault": "true"
+                },
+                {
+                    "portName": "enable_meters_per_unit",
+                    "portDirection": "input",
+                    "portType": "bool",
+                    "portDefault": "true"
+                },
+                {
+                    "portName": "meters_per_unit",
+                    "portDirection": "input",
+                    "portType": "double",
+                    "portDefault": "0.01"
+                },
+                {
+                    "portName": "enable_up_axis",
+                    "portDirection": "input",
+                    "portType": "bool",
+                    "portDefault": "true"
+                },
+                {
+                    "portName": "up_axis",
+                    "portDirection": "input",
+                    "portType": "BifrostUsd::UpAxis",
+                    "portDefault": "Y"
                 }
             ],
             "compounds": [
@@ -898,9 +1006,7 @@
                                     "metaValue": "backdrop"
                                 },
                                 {
-                                    "metaName": "title",
-                                    "metaType": "string",
-                                    "metaValue": ""
+                                    "metaName": "title"
                                 },
                                 {
                                     "metaName": "color",
@@ -1574,12 +1680,12 @@
                         {
                             "metaName": "LayoutPos",
                             "metaType": "string",
-                            "metaValue": "2534.1 -261.638"
+                            "metaValue": "2573.78 -432.964"
                         },
                         {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "48.000000"
+                            "metaValue": "49.000000"
                         }
                     ]
                 },
@@ -1614,14 +1720,165 @@
                             "metaValue": "2"
                         },
                         {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "2064 -413.419"
+                        },
+                        {
                             "metaName": "zValue",
                             "metaType": "string",
-                            "metaValue": "51.000000"
+                            "metaValue": "48.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "save_usd_stage",
+                    "nodeType": "USD::Stage::save_usd_stage",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "PortExpandedState",
+                            "metadata": [
+                                {
+                                    "metaName": "Options",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                }
+                            ]
                         },
                         {
                             "metaName": "LayoutPos",
                             "metaType": "string",
-                            "metaValue": "2064 -413.419"
+                            "metaValue": "3510.04 17.7372"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "62.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "force_pull_port1",
+                    "nodeType": "Simulation::Common::force_pull_port",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "3085.69 -157.94"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "50.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "if",
+                    "nodeType": "Core::Logic::if",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "2846.34 133.849"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "53.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "create_usd_stage1",
+                    "nodeType": "USD::Stage::create_usd_stage",
+                    "fanInPortNames": {
+                        "sublayers": [
+                            "layer"
+                        ]
+                    },
+                    "metadata": [
+                        {
+                            "metaName": "PortExpandedState",
+                            "metadata": [
+                                {
+                                    "metaName": "sublayers",
+                                    "metaType": "string",
+                                    "metaValue": "1"
+                                }
+                            ]
+                        },
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "2295.38 537.548"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "56.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "export_stage_to_file",
+                    "nodeType": "USD::Stage::export_stage_to_file",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "2"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "2561.31 650.281"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "54.000000"
+                        }
+                    ]
+                },
+                {
+                    "nodeName": "material_layer",
+                    "nodeType": "Core::Graph::pass",
+                    "metadata": [
+                        {
+                            "metaName": "DisplayMode",
+                            "metaType": "string",
+                            "metaValue": "0"
+                        },
+                        {
+                            "metaName": "LayoutPos",
+                            "metaType": "string",
+                            "metaValue": "2286.62 766.817"
+                        },
+                        {
+                            "metaName": "zValue",
+                            "metaType": "string",
+                            "metaValue": "55.000000"
                         }
                     ]
                 }
@@ -1700,10 +1957,6 @@
                     "target": "apply_usd_material_bindings.stage"
                 },
                 {
-                    "source": "apply_usd_material_bindings.out_stage",
-                    "target": ".out_stage"
-                },
-                {
                     "source": "value2.output",
                     "target": "add_to_stage.layer_index"
                 },
@@ -1722,6 +1975,74 @@
                 {
                     "source": "for_each_resolve_material_path.out_material_bindings",
                     "target": "apply_usd_material_bindings.material_bindings.material_bindings"
+                },
+                {
+                    "source": "save_usd_stage.out_stage",
+                    "target": ".out_stage"
+                },
+                {
+                    "source": ".enable",
+                    "target": "save_usd_stage.enable"
+                },
+                {
+                    "source": "apply_usd_material_bindings.out_stage",
+                    "target": "force_pull_port1.value"
+                },
+                {
+                    "source": "force_pull_port1.out_value",
+                    "target": "save_usd_stage.stage"
+                },
+                {
+                    "source": ".enable",
+                    "target": "if.condition"
+                },
+                {
+                    "source": "if.output",
+                    "target": "force_pull_port1.pull"
+                },
+                {
+                    "source": "set_layer_permission.out_layer",
+                    "target": "create_usd_stage1.sublayers.layer"
+                },
+                {
+                    "source": "create_usd_stage1.stage",
+                    "target": "export_stage_to_file.stage"
+                },
+                {
+                    "source": "export_stage_to_file.success",
+                    "target": "if.true_case"
+                },
+                {
+                    "source": ".materials_layer",
+                    "target": "material_layer.input"
+                },
+                {
+                    "source": "material_layer.output",
+                    "target": "export_stage_to_file.file"
+                },
+                {
+                    "source": ".relative_path",
+                    "target": "save_usd_stage.relative_path"
+                },
+                {
+                    "source": ".default_prim",
+                    "target": "save_usd_stage.default_prim"
+                },
+                {
+                    "source": ".enable_meters_per_unit",
+                    "target": "save_usd_stage.enable_meters_per_unit"
+                },
+                {
+                    "source": ".meters_per_unit",
+                    "target": "save_usd_stage.meters_per_unit"
+                },
+                {
+                    "source": ".enable_up_axis",
+                    "target": "save_usd_stage.enable_up_axis"
+                },
+                {
+                    "source": ".up_axis",
+                    "target": "save_usd_stage.up_axis"
                 }
             ],
             "values": [
@@ -1969,6 +2290,51 @@
                     "valueName": "value2.value",
                     "valueType": "int",
                     "value": "1L"
+                },
+                {
+                    "valueName": "save_usd_stage.file",
+                    "valueType": "string",
+                    "value": ""
+                },
+                {
+                    "valueName": "save_usd_stage.relative_path",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "save_usd_stage.enable",
+                    "valueType": "bool",
+                    "value": "false"
+                },
+                {
+                    "valueName": "save_usd_stage.default_prim",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "save_usd_stage.enable_meters_per_unit",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "save_usd_stage.meters_per_unit",
+                    "valueType": "double",
+                    "value": "0.01"
+                },
+                {
+                    "valueName": "save_usd_stage.enable_up_axis",
+                    "valueType": "bool",
+                    "value": "true"
+                },
+                {
+                    "valueName": "save_usd_stage.up_axis",
+                    "valueType": "BifrostUsd::UpAxis",
+                    "value": "Y"
+                },
+                {
+                    "valueName": "create_usd_stage1.layer",
+                    "valueType": "string",
+                    "value": "tmp_layer_used_to_override_material_library.usd"
                 }
             ],
             "reservedNodeNames": [
@@ -1980,6 +2346,12 @@
                 },
                 {
                     "name": "input1"
+                },
+                {
+                    "name": "input2"
+                },
+                {
+                    "name": "input3"
                 }
             ]
         }
