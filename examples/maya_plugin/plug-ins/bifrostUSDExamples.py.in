@@ -42,9 +42,12 @@ def initializePlugin(plugin):
     # Add runtime commands
     import bifrost_usd.runtime_cmds as rtc
 
-    rtc.create_stage_from_sublayers_cmd()
-    rtc.open_bifrost_usd_graph_editor_cmd()
+    rtc.create_maya_usd_material_library_cmd()
     rtc.create_new_stage_cmd()
+    rtc.create_stage_from_sublayers_cmd()
+    rtc.create_lookdev_stage_from_layers_cmd()
+    rtc.open_bifrost_usd_graph_editor_cmd()
+    rtc.open_maya_usd_material_library_cmd()
 
     import bifrost_usd.component_creator.runtime_cmds as cc_rtc
 

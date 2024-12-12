@@ -23,33 +23,35 @@ except ModuleNotFoundError:
     from PySide6 import QtWidgets
 
 from maya import cmds
+from bifrost_usd import create_stage as cs
 
 
-class CreateFromSublayersDialog(QtWidgets.QFileDialog):
+class CreateMayaUsdProxyShapeDialog(QtWidgets.QFileDialog):
     currentDir = os.getenv(
         "BIFROST_USD_LAB_COMPONENT_ROOT_DIR", cmds.workspace(q=True, dir=True)
     )
 
     def __init__(self, parent=None):
-        super(CreateFromSublayersDialog, self).__init__(parent)
+        super(CreateMayaUsdProxyShapeDialog, self).__init__(parent)
 
-        self.setWindowTitle("Open USD Stage")
+        self.setWindowTitle("Create USD Stage")
 
-        self.setDirectory(CreateFromSublayersDialog.currentDir)
-        self.setNameFilter("USD (*.usd *.usdc *.usda *.usdz)")
+        self.setDirectory(CreateMayaUsdProxyShapeDialog.currentDir)
+        self.setNameFilter("USD (*.usd *.usdc *.usda)")
+        self.setAcceptMode(QtWidgets.QFileDialog.AcceptSave)
         self.setViewMode(QtWidgets.QFileDialog.Detail)
-        self.setFileMode(QtWidgets.QFileDialog.ExistingFiles)
+        self.setFileMode(QtWidgets.QFileDialog.ExistingFile)
 
 
-def show(workflow=None):
-    dialog = CreateFromSublayersDialog(parent=None)
+def show(layerType="material_library"):
+    dialog = CreateMayaUsdProxyShapeDialog(parent=None)
     if dialog.exec_():
         fileNames = dialog.selectedFiles()
         if fileNames:
-            if workflow == "lookdev":
-                cmds.bifrostUSDExamples(openStage=True, lookdevWorkflow=True, files=",".join(fileNames))
-            else:
-                cmds.bifrostUSDExamples(openStage=True, files=",".join(fileNames))
+            if layerType == "material_library":
+                cs.create_maya_usd_proxy_shape(
+                    "materialLibrary", fileNames[0], cs.setup_new_material_stage
+                )
 
 
 if __name__ == "__main__":

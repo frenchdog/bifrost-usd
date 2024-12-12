@@ -112,7 +112,7 @@ def create_usd_menu():
     )
 
     cmds.menuItem(
-        "CreateMaterialLibrary",
+        "CreateComponentMaterialLibrary",
         parent="BifrostUSDCreateMenu",
         rtc="bifrostUsdRtc_CreateMaterialLibrary",
         label="Create Material Library",
@@ -136,6 +136,34 @@ def create_usd_menu():
         sourceType="mel",
         tearOff=True,
     )
+
+    cmds.menuItem(parent="BifrostUSDCreateMenu", divider=True, dividerLabel="Lookdev")
+    cmds.menuItem(
+        "CreateLookdevStageFromLayers",
+        parent="BifrostUSDCreateMenu",
+        rtc="bifrostUsdRtc_CreateLookdevStageFromLayers",
+        label="Create Lookdev Workflow Stage from USD files",
+        sourceType="mel",
+        tearOff=True,
+    )
+
+    cmds.menuItem(
+        "CreateMayaUsdMaterialLibrary",
+        parent="BifrostUSDCreateMenu",
+        rtc="bifrostUsdRtc_CreateMayaUsdMaterialLibrary",
+        label="Create New USD Material Library",
+        sourceType="mel",
+        tearOff=True,
+    )
+
+    # cmds.menuItem(
+    #     "OpenMayaUsdMaterialLibrary",
+    #     parent="BifrostUSDCreateMenu",
+    #     rtc="bifrostUsdRtc_OpenMayaUsdMaterialLibrary",
+    #     label="Open USD Material Library",
+    #     sourceType="mel",
+    #     tearOff=True,
+    # )
 
     # Modify submenu
     cmds.menuItem(
@@ -181,14 +209,6 @@ def create_usd_menu():
         parent="BifrostUSDModifyMenu",
         command='bifrostUSDExamples -insertNode -nodeType "BifrostGraph,USD::Stage,add_to_stage" -currentCompound "" -nodeSelection "" -portSelection "" -inputPort "stage" -outputPort "out_stage"',
         label="Add to Stage",
-        sourceType="mel",
-        tearOff=True,
-    )
-    cmds.menuItem(
-        "InsertApplyUsdMaterialBindingsNode",
-        parent="BifrostUSDModifyMenu",
-        command='bifrostUSDExamples -insertNode -nodeType "BifrostGraph,USD::Shading,apply_usd_material_bindings" -currentCompound "" -nodeSelection "" -portSelection "" -inputPort "stage" -outputPort "out_stage"',
-        label="Apply Material Bindings",
         sourceType="mel",
         tearOff=True,
     )
@@ -314,6 +334,30 @@ def create_usd_menu():
         label="Add or Modify material_hint Attribute",
         sourceType="mel",
         tearOff=True,
+    )
+
+    cmds.menuItem(
+        parent="BifrostUSDModifyMenu", divider=True, dividerLabel="Lookdev"
+    )
+
+    cmds.menuItem(
+        "OpenMaterialLibraryFromLookdevWorkflow",
+        parent="BifrostUSDModifyMenu",
+        command='from bifrost_usd import create_stage; create_stage.create_materials_stage_from_selected_node()',
+        label="Open Lookdev Workflow Materials in editable stage",
+        sourceType="python",
+        tearOff=True,
+        image="material_create.png",
+    )
+
+    cmds.menuItem(
+        "InsertApplyUsdMaterialBindingsNode",
+        parent="BifrostUSDModifyMenu",
+        command='bifrostUSDExamples -insertNode -nodeType "BifrostGraph,USD::Shading,apply_usd_material_bindings" -currentCompound "" -nodeSelection "" -portSelection "" -inputPort "stage" -outputPort "out_stage"',
+        label="Apply Material Bindings",
+        sourceType="mel",
+        tearOff=True,
+        image="material_create.png",
     )
 
     # Display submenu

@@ -65,5 +65,47 @@ def create_stage_from_sublayers_cmd():
         )
 
 
+def create_lookdev_stage_from_layers_cmd():
+    name = "bifrostUsdRtc_CreateLookdevStageFromLayers"
+    if not cmds.runTimeCommand(name, exists=True):
+        cmds.runTimeCommand(
+            name,
+            default=True,
+            label="BifrostUSD: Create Lookdev Workflow Stage",
+            annotation="Creates a stage for Lookdev workflow",
+            tags="BifrostUSD",
+            command="from bifrost_usd.ui import create_from_sublayers_dialog; create_from_sublayers_dialog.show('lookdev')",
+            image="material_create.png",
+        )
+
+
+def create_maya_usd_material_library_cmd():
+    name = "bifrostUsdRtc_CreateMayaUsdMaterialLibrary"
+    if not cmds.runTimeCommand(name, exists=True):
+        cmds.runTimeCommand(
+            name,
+            default=True,
+            label="BifrostUSD: Create Maya USD Material Library...",
+            annotation="Save a stage with a mtl default prim and open it in a new mayaUsdProxyShape",
+            tags="BifrostUSD",
+            command="from bifrost_usd.ui import create_maya_usd_proxy_shape_dialog; create_maya_usd_proxy_shape_dialog.show('material_library')",
+            image="material_create.png",
+        )
+
+
+def open_maya_usd_material_library_cmd():
+    name = "bifrostUsdRtc_OpenMayaUsdMaterialLibrary"
+    if not cmds.runTimeCommand(name, exists=True):
+        cmds.runTimeCommand(
+            name,
+            default=True,
+            label="BifrostUSD: Open Maya USD Material Library...",
+            annotation="Open a stage with a mtl default prim and open it in a new mayaUsdProxyShape",
+            tags="BifrostUSD",
+            command="from bifrost_usd.ui import open_maya_usd_proxy_shape_dialog; open_maya_usd_proxy_shape_dialog.show()",
+            image="material_create.png",
+        )
+
+
 if __name__ == "__main__":
     create_stage_from_sublayers_cmd()
