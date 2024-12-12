@@ -440,6 +440,15 @@ def create_usd_menu():
     )
 
     cmds.menuItem(
+        "USD Attribute Quick Look from selection",
+        parent="BifrostUSDWindowsMenu",
+        rtc="bifrostUsdRtc_USDAttributeQuickLookFromSelection",
+        label="Sow USD Attributes from selected prim",
+        sourceType="mel",
+        tearOff=True,
+    )
+
+    cmds.menuItem(
         parent="BifrostUSDWindowsMenu", divider=True, dividerLabel="Component"
     )
     cmds.menuItem(

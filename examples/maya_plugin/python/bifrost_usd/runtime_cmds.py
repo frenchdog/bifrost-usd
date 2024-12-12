@@ -37,6 +37,20 @@ def open_bifrost_usd_graph_editor_cmd():
         )
 
 
+def usd_attribute_quick_look_from_selection_cmd():
+    name = "bifrostUsdRtc_USDAttributeQuickLookFromSelection"
+    if not cmds.runTimeCommand(name, exists=True):
+        cmds.runTimeCommand(
+            name,
+            default=True,
+            label="BifrostUSD: Sow USD Attributes from selected prim",
+            annotation="Sow USD Attributes from selected prim",
+            tags="BifrostUSD",
+            command="from bifrost_usd.ui import usd_attribute_finder_dialog; usd_attribute_finder_dialog.show()",
+            image="USD_generic_200.png",
+        )
+
+
 def create_new_stage_cmd():
     name = "bifrostUsdRtc_CreateNewStage"
     if not cmds.runTimeCommand(name, exists=True):
