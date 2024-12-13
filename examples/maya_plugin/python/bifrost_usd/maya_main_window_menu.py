@@ -443,7 +443,7 @@ def create_usd_menu():
         "USD Attribute Quick Look from selection",
         parent="BifrostUSDWindowsMenu",
         rtc="bifrostUsdRtc_USDAttributeQuickLookFromSelection",
-        label="Sow USD Attributes from selected prim",
+        label="Sow USD Attributes from Selected Prim",
         sourceType="mel",
         tearOff=True,
     )

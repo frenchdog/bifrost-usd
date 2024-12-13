@@ -77,7 +77,6 @@ def _get_attributes(prim) -> list[dict[str, str]]:
 
         value: str = ""
         typeName = attr.GetTypeName().type.typeName
-        print(typeName)
         if attr.GetTypeName().isArray:
             value = ""
         elif (
