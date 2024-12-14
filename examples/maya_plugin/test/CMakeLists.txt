@@ -27,6 +27,7 @@ set(python_tests
     testImportMayaModel.py
     testImportMayaModelInNewStage.py
     testImportMayaVariants.py
+    testLookdevWorkflow.py
     testMaterialHintAttribute.py
     testModelExporter.py
     testPatternMatching.py
