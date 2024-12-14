@@ -29,6 +29,7 @@ set(python_tests
     testImportMayaVariants.py
     testMaterialHintAttribute.py
     testModelExporter.py
+    testPatternMatching.py
     testPrimPath.py
     testValidateGeo.py
 )
