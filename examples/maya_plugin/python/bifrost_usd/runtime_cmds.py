@@ -43,8 +43,8 @@ def usd_attribute_quick_look_from_selection_cmd():
         cmds.runTimeCommand(
             name,
             default=True,
-            label="BifrostUSD: Sow USD Attributes from selected prim",
-            annotation="Sow USD Attributes from selected prim",
+            label="BifrostUSD: Show USD Attributes from selected prim",
+            annotation="Show USD Attributes from selected prim",
             tags="BifrostUSD",
             command="from bifrost_usd.ui import usd_attribute_finder_dialog; usd_attribute_finder_dialog.show()",
             image="USD_generic_200.png",
