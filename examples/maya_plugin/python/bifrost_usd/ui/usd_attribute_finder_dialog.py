@@ -34,22 +34,7 @@ class UsdAttributeFinderDialog(QtWidgets.QDialog):
         super(UsdAttributeFinderDialog, self).__init__(parent)
 
         mainLayout = QtWidgets.QVBoxLayout()
-
-        table = QtWidgets.QTableWidget()
-        table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
-        attributes = get_attributes_from_selected_prim()
-        table.setRowCount(len(attributes))
-        table.setColumnCount(3)
-        table.setHorizontalHeaderLabels(["Name", "Type", "Value"])
-
-        mainLayout.addWidget(table)
-
-        for i, attrib in enumerate(get_attributes_from_selected_prim()):
-            table.setItem(i, 0, QtWidgets.QTableWidgetItem(attrib["name"]))
-            table.setItem(i, 1, QtWidgets.QTableWidgetItem(attrib["type"]))
-            if attrib["value"]:
-                table.setItem(i, 2, QtWidgets.QTableWidgetItem(attrib["value"]))
-
+        mainLayout.addWidget(self._build_table())
         closeBtn = QtWidgets.QPushButton("Close", self)
         closeBtn.clicked.connect(self.close)
         mainLayout.addWidget(closeBtn)
@@ -60,6 +45,21 @@ class UsdAttributeFinderDialog(QtWidgets.QDialog):
         self.setMinimumHeight(400)
         self.setWindowTitle("USD Attribute Finder")
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+
+    def _build_table(self):
+        table = QtWidgets.QTableWidget()
+        table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        attributes = get_attributes_from_selected_prim()
+        table.setRowCount(len(attributes))
+        table.setColumnCount(3)
+        table.setHorizontalHeaderLabels(["Name", "Type", "Value"])
+
+        for i, attrib in enumerate(get_attributes_from_selected_prim()):
+            table.setItem(i, 0, QtWidgets.QTableWidgetItem(attrib["name"]))
+            table.setItem(i, 1, QtWidgets.QTableWidgetItem(attrib["type"]))
+            if attrib["value"]:
+                table.setItem(i, 2, QtWidgets.QTableWidgetItem(attrib["value"]))
+        return table
 
 
 def show():
