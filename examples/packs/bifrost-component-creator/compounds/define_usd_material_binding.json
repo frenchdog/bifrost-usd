@@ -204,12 +204,27 @@
                 {
                     "metaName": "LayoutPos",
                     "metaType": "string",
-                    "metaValue": "-499.046 -70.1939"
+                    "metaValue": "-12.9678 261.613"
                 },
                 {
                     "metaName": "zValue",
                     "metaType": "string",
-                    "metaValue": "134.000000"
+                    "metaValue": "60.000000"
+                },
+                {
+                    "metaName": "NodeValueDisplay",
+                    "metadata": [
+                        {
+                            "metaName": "show",
+                            "metaType": "string",
+                            "metaValue": "1"
+                        },
+                        {
+                            "metaName": "format",
+                            "metaType": "string",
+                            "metaValue": "Define Binding to {material}"
+                        }
+                    ]
                 }
             ],
             "ports": [
@@ -382,16 +397,6 @@
                             "name": "for_each",
                             "uriImported": "file:///define_usd_material_binding.json",
                             "metadata": [
-                                {
-                                    "metaName": "icon",
-                                    "metaType": "string",
-                                    "metaValue": "<NATIVE>../icons/LoopForEach.svg"
-                                },
-                                {
-                                    "metaName": "icon",
-                                    "metaType": "string",
-                                    "metaValue": "<NATIVE>../icons/LoopForEach.svg"
-                                },
                                 {
                                     "metaName": "icon",
                                     "metaType": "string",

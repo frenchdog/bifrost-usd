@@ -140,7 +140,9 @@ def insert_stage_node(
             graphAPI.connect(newNode, new_node_def.output_name, "", cnxInfo.port)
         else:
             newNodeName = cnxInfo.node
-            graphAPI.connect(newNode, new_node_def.output_name, newNodeName, cnxInfo.port)
+            graphAPI.connect(
+                newNode, new_node_def.output_name, newNodeName, cnxInfo.port
+            )
 
     return newNode
 
@@ -446,7 +448,7 @@ def add_one_maya_selection_as_variant_to_stage(
 
 
 def _get_graph_selection_if_needed(
-    graph_selection: GraphEditorSelection,
+    graph_selection: GraphEditorSelection, warning_msg: str = ""
 ) -> GraphEditorSelection:
     """When the graph selection is empty, creates a new GraphEditorSelection from
     Bifrost Graph Editor selection, else do nothing and returns the graph selection unchanged.
@@ -456,9 +458,11 @@ def _get_graph_selection_if_needed(
         output = graph_selection.output
         graph_selection = get_graph_selection()
         if not graph_selection.nodeSelection:
-            warning(
-                "You must select a node upstream (with a stage output) in the Bifrost Graph Editor"
-            )
+            if not warning_msg:
+                msg = "You must select a node upstream (with a stage output) in the Bifrost Graph Editor"
+            else:
+                msg = warning_msg
+            warning(msg)
 
         graph_selection.output = output
 
@@ -791,6 +795,15 @@ def get_prim_selection() -> Dict[str, List[str]]:
     return selection
 
 
+def get_prim_selection_as_string() -> str:
+    primPaths: str = ""
+    selection = get_prim_selection()
+    for node in selection:
+        primPaths += ", ".join(selection[node])
+
+    return primPaths
+
+
 def get_bifrost_graph_from_prim_selection() -> tuple[str, str]:
     """Get the Bifrost graph connected to the MayaUsdProxyShape of the selected USD prim.
 
@@ -908,14 +921,62 @@ def update_prim_path(current_prim_path: str, new_prim_path: str) -> None:
             graphAPI.set_param(node, ("parent_path", new_prim_path))
 
 
-if __name__ == "__main__":
-    insert_prim_node(
+def add_string_to_array_compound() -> None:
+    graphSelection = _get_graph_selection_if_needed(
         GraphEditorSelection(),
-        NodeDef(
-            is_terminal=True,
-            type_name="BifrostGraph,USD::PointInstancer,usd_point_instancer_scope",
-            input_name="stage",
-            output_name="",
-            prim_path_param_name="point_instancer_path",
-        ),
+        warning_msg="You must select a 'define_usd_prim' "
+        "or a 'define_usd_material_binding' node in the Bifrost Graph Editor",
     )
+    if not graphSelection.nodeSelection:
+        return
+
+    firstSelectedNode = graphSelection.nodeSelection[0]
+    if (
+        graphAPI.type_name(firstSelectedNode)
+        == "BifrostGraph,Core::String,string_to_array"
+    ):
+        previousPaths = graphAPI.param(firstSelectedNode, "comma_separated_string")
+        newPaths = previousPaths + ", " + get_prim_selection_as_string()
+        graphAPI.set_param(
+            firstSelectedNode,
+            ("comma_separated_string", newPaths),
+        )
+        return
+
+    if (
+        graphAPI.type_name(firstSelectedNode)
+        == "BifrostGraph,USD::Model,define_usd_material_binding"
+    ):
+        stringToArrayNode = graphAPI.add_node(
+            "BifrostGraph,Core::String,string_to_array"
+        )
+        graphAPI.disable_fanin_port(firstSelectedNode, "prim_paths")
+        graphAPI.connect(
+            stringToArrayNode, "string_array", firstSelectedNode, "prim_paths"
+        )
+    elif (
+        graphAPI.type_name(firstSelectedNode)
+        == "BifrostGraph,USD::Prim,define_usd_prim"
+    ):
+        stringToArrayNode = graphAPI.add_node(
+            "BifrostGraph,Core::String,string_to_array"
+        )
+        graphAPI.connect(stringToArrayNode, "string_array", firstSelectedNode, "path")
+    elif (
+        graphAPI.type_name(firstSelectedNode)
+        == "BifrostGraph,USDLab::PatternMatching,path_expression"
+    ):
+        stringToArrayNode = graphAPI.add_node(
+            "BifrostGraph,Core::String,string_to_array"
+        )
+        graphAPI.connect(
+            stringToArrayNode, "string_array", firstSelectedNode, "prim_path"
+        )
+
+    graphAPI.set_param(
+        stringToArrayNode, ("comma_separated_string", get_prim_selection_as_string())
+    )
+
+
+if __name__ == "__main__":
+    add_string_to_array_compound()

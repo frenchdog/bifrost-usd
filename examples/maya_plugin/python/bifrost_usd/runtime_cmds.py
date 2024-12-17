@@ -51,6 +51,20 @@ def usd_attribute_quick_look_from_selection_cmd():
         )
 
 
+def prim_selection_to_string_array_compound_cmd():
+    name = "bifrostUsdRtc_PrimSelectionToStringArrayCompound"
+    if not cmds.runTimeCommand(name, exists=True):
+        cmds.runTimeCommand(
+            name,
+            default=True,
+            label="BifrostUSD: Creates or set a 'string_to_array' compound from the selected prims in Outliner or viewport",
+            annotation="Creates or set a 'string_to_array' compound from the selected prims in Outliner or viewport",
+            tags="BifrostUSD",
+            command="from bifrost_usd import author_usd_graph; author_usd_graph.add_string_to_array_compound()",
+            image="USD_generic_200.png",
+        )
+
+
 def create_new_stage_cmd():
     name = "bifrostUsdRtc_CreateNewStage"
     if not cmds.runTimeCommand(name, exists=True):
