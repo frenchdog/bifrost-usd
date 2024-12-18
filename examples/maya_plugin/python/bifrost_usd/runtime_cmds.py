@@ -85,8 +85,8 @@ def select_prims_from_selected_node_cmd():
         cmds.runTimeCommand(
             name,
             default=True,
-            label="BifrostUSD: Select Prims from Selected String to Array Node",
-            annotation="Select Prims from Selected String to Array Node",
+            label="BifrostUSD: Select Prims from Selected Node (with a prim path port)",
+            annotation="Select Prims from Selected Node (with a prim path port)",
             tags="BifrostUSD",
             command="from bifrost_usd import author_usd_graph; author_usd_graph.select_prims_from_selected_node()",
             image="USD_generic_200.png",

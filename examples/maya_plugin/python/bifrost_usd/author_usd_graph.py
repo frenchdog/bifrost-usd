@@ -949,8 +949,13 @@ def add_string_to_array_compound() -> None:
         stringToArrayNode = graphAPI.add_node(
             "BifrostGraph,Core::String,string_to_array"
         )
-        graphAPI.disable_fanin_port(selectedNode, "prim_paths")
-        graphAPI.connect(stringToArrayNode, "string_array", selectedNode, "prim_paths")
+        graphAPI.connect_to_fanin_port(
+            stringToArrayNode,
+            selectedNode,
+            "prim_paths",
+            "string_array",
+        )
+
     elif graphAPI.type_name(selectedNode) == "BifrostGraph,USD::Prim,define_usd_prim":
         stringToArrayNode = graphAPI.add_node(
             "BifrostGraph,Core::String,string_to_array"
@@ -1019,7 +1024,8 @@ def select_prims_from_selected_node() -> None:
         return
 
     graphSelection = _get_graph_selection_if_needed(
-        GraphEditorSelection(), warning_msg="You must select a 'string_to_array' node"
+        GraphEditorSelection(),
+        warning_msg="You must select a node in the Bifrost Graph Editor",
     )
 
     if not graphSelection.nodeSelection:
@@ -1031,11 +1037,30 @@ def select_prims_from_selected_node() -> None:
         primPaths = [token.replace(" ", "") for token in primPaths]
         primPaths = [token.replace(",", "") for token in primPaths]
 
-    if primPaths:
-        cmds.select(clear=True)
+        if primPaths:
+            cmds.select(clear=True)
 
-    for item in primPaths:
-        cmds.select(f"{mayaUsdProxyShape},{item}", add=True)
+        for item in primPaths:
+            cmds.select(f"{mayaUsdProxyShape},{item}", add=True)
+        return
+
+    elif graphAPI.type_name(selectedNode) == "BifrostGraph,USD::Model,define_usd_material_binding":
+        primPath = graphAPI.param(selectedNode, "material")
+        if primPath:
+            cmds.select(clear=True)
+            cmds.select(f"{mayaUsdProxyShape},{primPath}", add=True)
+
+    elif graphAPI.type_name(selectedNode) in (
+        kDefinePrim,
+        kDefineUsdMesh,
+        kDefineUsdCurves,
+        kDefineUsdPointInstancer,
+        kDefinePrimHierarchy,
+    ):
+        primPath = graphAPI.param(selectedNode, "path")
+        if primPath:
+            cmds.select(clear=True)
+            cmds.select(f"{mayaUsdProxyShape},{primPath}", add=True)
 
 
 if __name__ == "__main__":
