@@ -29,6 +29,7 @@ from bifrost_usd.constants import (
     kConstantString,
     kCreateUsdStage,
     kCreateLookdevWorkflowStage,
+    kDefineMaterialBinding,
     kDefaultLayerIdentifier,
     kGraphName,
     kMayaUsdProxyShape,
@@ -266,20 +267,45 @@ def create_lookdev_graph_from_usd_files(
     graphAPI.set_param(lookdevWorkflowNode, ("geometry_layer", file_paths[0]), graph)
 
     rootDir = os.path.dirname(file_paths[0])
-    graphAPI.set_param(lookdevWorkflowNode, ("root_layer", os.path.join(rootDir, "untitled.usd")), graph)
-    graphAPI.set_param(lookdevWorkflowNode, ("look_layer", os.path.join(rootDir, "look.usd")), graph)
+    graphAPI.set_param(
+        lookdevWorkflowNode,
+        ("root_layer", os.path.join(rootDir, "untitled.usd")),
+        graph,
+    )
+    graphAPI.set_param(
+        lookdevWorkflowNode, ("look_layer", os.path.join(rootDir, "look.usd")), graph
+    )
 
-    materialsLayers: str
+    materialsLayer: str
     if len(file_paths) == 1:
-        materialsLayers = os.path.join(rootDir, "material_library.usd")
-        setup_new_material_stage(materialsLayers)
-        graphAPI.set_param(lookdevWorkflowNode, ("materials_layer", materialsLayers), graph)
+        materialsLayer = os.path.join(rootDir, "material_library.usd")
+        setup_new_material_stage(materialsLayer)
+        graphAPI.set_param(
+            lookdevWorkflowNode, ("materials_layer", materialsLayer), graph
+        )
     elif len(file_paths) > 1:
-        materialsLayers = file_paths[1]
+        materialsLayer = file_paths[1]
 
-    graphAPI.set_param(lookdevWorkflowNode, ("materials_layer", materialsLayers), graph)
+    graphAPI.set_param(lookdevWorkflowNode, ("materials_layer", materialsLayer), graph)
+
+    materialNames = []
+    stage = Usd.Stage.Open(materialsLayer)
+    mtlScope = stage.GetDefaultPrim()
+    if mtlScope:
+        materialNames = mtlScope.GetChildrenNames()
 
     _output_stage_to_maya(graph, lookdevWorkflowNode, node_output="out_stage")
+
+    if materialNames:
+        for name in materialNames:
+            materialBindingNode = graphAPI.add_node(kDefineMaterialBinding, graph)
+            graphAPI.set_param(materialBindingNode, ("material", name), graph)
+            graphAPI.connect_to_fanin_port(
+                materialBindingNode,
+                lookdevWorkflowNode,
+                "material_bindings",
+                "material_binding",
+            )
 
     open_bifrost_usd_graph()
 
@@ -365,4 +391,4 @@ def setup_open_materials_stage(proxyShapePath: str) -> bool:
 
 
 if __name__ == "__main__":
-    create_materials_stage_from_selected_node()
+    create_lookdev_graph_from_usd_files(["/Users/laforgg/Documents/tmp/Robot_mod_v002.usd", "/Users/laforgg/Documents/tmp/my_material_library.usd"])
