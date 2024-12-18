@@ -391,4 +391,4 @@ def setup_open_materials_stage(proxyShapePath: str) -> bool:
 
 
 if __name__ == "__main__":
-    create_lookdev_graph_from_usd_files(["/Users/laforgg/Documents/tmp/Robot_mod_v002.usd", "/Users/laforgg/Documents/tmp/my_material_library.usd"])
+    pass

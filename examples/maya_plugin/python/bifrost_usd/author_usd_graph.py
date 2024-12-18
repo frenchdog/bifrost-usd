@@ -1002,5 +1002,41 @@ def remove_from_string_to_array_compound() -> None:
     graphAPI.set_param(selectedNode, ("comma_separated_string", ", ".join(newTokens)))
 
 
+def get_maya_usd_proxy_shape_from_bifrost_usd_graph(graph: str) -> str:
+    cnx = cmds.listConnections(graph, type=kMayaUsdProxyShape, shapes=True)
+    if cnx:
+        return cmds.ls(cnx[0], long=True)[0]
+
+    return ""
+
+
+def select_prims_from_selected_node() -> None:
+    primPaths: list[str] = []
+    mayaUsdProxyShape = get_maya_usd_proxy_shape_from_bifrost_usd_graph(
+        graphAPI._getGraphName()
+    )
+    if not mayaUsdProxyShape:
+        return
+
+    graphSelection = _get_graph_selection_if_needed(
+        GraphEditorSelection(), warning_msg="You must select a 'string_to_array' node"
+    )
+
+    if not graphSelection.nodeSelection:
+        return
+
+    selectedNode = graphSelection.nodeSelection[0]
+    if graphAPI.type_name(selectedNode) == "BifrostGraph,Core::String,string_to_array":
+        primPaths = graphAPI.param(selectedNode, "comma_separated_string").split(" ")
+        primPaths = [token.replace(" ", "") for token in primPaths]
+        primPaths = [token.replace(",", "") for token in primPaths]
+
+    if primPaths:
+        cmds.select(clear=True)
+
+    for item in primPaths:
+        cmds.select(f"{mayaUsdProxyShape},{item}", add=True)
+
+
 if __name__ == "__main__":
-    remove_from_string_to_array_compound()
+    select_prims_from_selected_node()

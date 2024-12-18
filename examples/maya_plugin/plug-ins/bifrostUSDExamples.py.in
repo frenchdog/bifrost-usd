@@ -51,6 +51,7 @@ def initializePlugin(plugin):
     rtc.usd_attribute_quick_look_from_selection_cmd()
     rtc.prim_selection_to_string_array_compound_cmd()
     rtc.remove_prim_selection_from_string_to_array_compound_cmd()
+    rtc.select_prims_from_selected_node_cmd()
 
     import bifrost_usd.component_creator.runtime_cmds as cc_rtc
 

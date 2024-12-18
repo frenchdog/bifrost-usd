@@ -79,6 +79,20 @@ def remove_prim_selection_from_string_to_array_compound_cmd():
         )
 
 
+def select_prims_from_selected_node_cmd():
+    name = "bifrostUsdRtc_SelectPrimsFromSelectedNode"
+    if not cmds.runTimeCommand(name, exists=True):
+        cmds.runTimeCommand(
+            name,
+            default=True,
+            label="BifrostUSD: Select Prims from Selected String to Array Node",
+            annotation="Select Prims from Selected String to Array Node",
+            tags="BifrostUSD",
+            command="from bifrost_usd import author_usd_graph; author_usd_graph.select_prims_from_selected_node()",
+            image="USD_generic_200.png",
+        )
+
+
 def create_new_stage_cmd():
     name = "bifrostUsdRtc_CreateNewStage"
     if not cmds.runTimeCommand(name, exists=True):
