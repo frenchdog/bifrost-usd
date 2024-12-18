@@ -213,10 +213,18 @@ def create_usd_menu():
         tearOff=True,
     )
     cmds.menuItem(
-        "SendSelectedPrimPathsToGraph",
+        "AddSelectedPrimPathsToGraph",
         parent="BifrostUSDModifyMenu",
         rtc="bifrostUsdRtc_PrimSelectionToStringArrayCompound",
-        label="Send Selected Prim Paths to Graph",
+        label="Add Selected Prim Paths to Graph",
+        sourceType="mel",
+        tearOff=True,
+    )
+    cmds.menuItem(
+        "RemoveSelectedPrimPathsFromGraph",
+        parent="BifrostUSDModifyMenu",
+        rtc="bifrostUsdRtc_RemovePrimSelectionFromStringToArrayCompound",
+        label="Remove Selected Prim Paths from String to Array Node",
         sourceType="mel",
         tearOff=True,
     )

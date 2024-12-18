@@ -932,53 +932,75 @@ def add_string_to_array_compound() -> None:
     if not graphSelection.nodeSelection:
         return
 
-    firstSelectedNode = graphSelection.nodeSelection[0]
-    if (
-        graphAPI.type_name(firstSelectedNode)
-        == "BifrostGraph,Core::String,string_to_array"
-    ):
-        previousPaths = graphAPI.param(firstSelectedNode, "comma_separated_string")
+    selectedNode = graphSelection.nodeSelection[0]
+    if graphAPI.type_name(selectedNode) == "BifrostGraph,Core::String,string_to_array":
+        previousPaths = graphAPI.param(selectedNode, "comma_separated_string")
         newPaths = previousPaths + ", " + get_prim_selection_as_string()
         graphAPI.set_param(
-            firstSelectedNode,
+            selectedNode,
             ("comma_separated_string", newPaths),
         )
         return
 
     if (
-        graphAPI.type_name(firstSelectedNode)
+        graphAPI.type_name(selectedNode)
         == "BifrostGraph,USD::Model,define_usd_material_binding"
     ):
         stringToArrayNode = graphAPI.add_node(
             "BifrostGraph,Core::String,string_to_array"
         )
-        graphAPI.disable_fanin_port(firstSelectedNode, "prim_paths")
-        graphAPI.connect(
-            stringToArrayNode, "string_array", firstSelectedNode, "prim_paths"
-        )
-    elif (
-        graphAPI.type_name(firstSelectedNode)
-        == "BifrostGraph,USD::Prim,define_usd_prim"
-    ):
+        graphAPI.disable_fanin_port(selectedNode, "prim_paths")
+        graphAPI.connect(stringToArrayNode, "string_array", selectedNode, "prim_paths")
+    elif graphAPI.type_name(selectedNode) == "BifrostGraph,USD::Prim,define_usd_prim":
         stringToArrayNode = graphAPI.add_node(
             "BifrostGraph,Core::String,string_to_array"
         )
-        graphAPI.connect(stringToArrayNode, "string_array", firstSelectedNode, "path")
+        graphAPI.connect(stringToArrayNode, "string_array", selectedNode, "path")
     elif (
-        graphAPI.type_name(firstSelectedNode)
+        graphAPI.type_name(selectedNode)
         == "BifrostGraph,USDLab::PatternMatching,path_expression"
     ):
         stringToArrayNode = graphAPI.add_node(
             "BifrostGraph,Core::String,string_to_array"
         )
-        graphAPI.connect(
-            stringToArrayNode, "string_array", firstSelectedNode, "prim_path"
-        )
+        graphAPI.connect(stringToArrayNode, "string_array", selectedNode, "prim_path")
 
     graphAPI.set_param(
         stringToArrayNode, ("comma_separated_string", get_prim_selection_as_string())
     )
 
 
+def remove_from_string_to_array_compound() -> None:
+    graphSelection = _get_graph_selection_if_needed(
+        GraphEditorSelection(),
+        warning_msg="You must select a 'string_to_array' node in the Bifrost Graph Editor",
+    )
+
+    if not graphSelection.nodeSelection:
+        return
+
+    selectedNode = graphSelection.nodeSelection[0]
+    if graphAPI.type_name(selectedNode) != "BifrostGraph,Core::String,string_to_array":
+        return
+
+    originalValue = graphAPI.param(selectedNode, ("comma_separated_string"))
+
+    originalTokens = originalValue.split(",")
+    originalTokens = [token.replace(" ", "") for token in originalTokens]
+    tokensToRemove = get_prim_selection_as_string().split(",")
+    tokensToRemove = [token.replace(" ", "") for token in tokensToRemove]
+    newTokens = []
+    for token in originalTokens:
+        keep = True
+        for badToken in tokensToRemove:
+            if token == badToken:
+                keep = False
+                break
+        if keep:
+            newTokens.append(token)
+
+    graphAPI.set_param(selectedNode, ("comma_separated_string", ", ".join(newTokens)))
+
+
 if __name__ == "__main__":
-    add_string_to_array_compound()
+    remove_from_string_to_array_compound()

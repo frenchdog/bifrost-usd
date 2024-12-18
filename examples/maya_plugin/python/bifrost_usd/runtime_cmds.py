@@ -57,10 +57,24 @@ def prim_selection_to_string_array_compound_cmd():
         cmds.runTimeCommand(
             name,
             default=True,
-            label="BifrostUSD: Send Selected Prim Paths to Graph",
-            annotation="Send Selected Prim Paths to Graph",
+            label="BifrostUSD: Add Selected Prim Paths to Graph",
+            annotation="Add Selected Prim Paths to Graph",
             tags="BifrostUSD",
             command="from bifrost_usd import author_usd_graph; author_usd_graph.add_string_to_array_compound()",
+            image="USD_generic_200.png",
+        )
+
+
+def remove_prim_selection_from_string_to_array_compound_cmd():
+    name = "bifrostUsdRtc_RemovePrimSelectionFromStringToArrayCompound"
+    if not cmds.runTimeCommand(name, exists=True):
+        cmds.runTimeCommand(
+            name,
+            default=True,
+            label="BifrostUSD: Remove Selected Prim Paths from String to Array Node",
+            annotation="Remove Selected Prim Paths from String to Array Node",
+            tags="BifrostUSD",
+            command="from bifrost_usd import author_usd_graph; author_usd_graph.remove_from_string_to_array_compound()",
             image="USD_generic_200.png",
         )
 
