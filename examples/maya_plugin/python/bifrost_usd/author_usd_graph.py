@@ -38,6 +38,7 @@ from bifrost_usd.constants import (
     kDefineUsdPreviewSurface,
     kMayaUsdProxyShape,
     kOverridePrim,
+    kUsdStringPathsToArray,
 )
 
 from bifrost_usd.node_def import NodeDef
@@ -933,12 +934,12 @@ def add_string_to_array_compound() -> None:
         return
 
     selectedNode = graphSelection.nodeSelection[0]
-    if graphAPI.type_name(selectedNode) == "BifrostGraph,Core::String,string_to_array":
-        previousPaths = graphAPI.param(selectedNode, "comma_separated_string")
+    if graphAPI.type_name(selectedNode) == kUsdStringPathsToArray:
+        previousPaths = graphAPI.param(selectedNode, "paths")
         newPaths = previousPaths + ", " + get_prim_selection_as_string()
         graphAPI.set_param(
             selectedNode,
-            ("comma_separated_string", newPaths),
+            ("paths", newPaths),
         )
         return
 
@@ -947,31 +948,32 @@ def add_string_to_array_compound() -> None:
         == "BifrostGraph,USD::Model,define_usd_material_binding"
     ):
         stringToArrayNode = graphAPI.add_node(
-            "BifrostGraph,Core::String,string_to_array"
+            kUsdStringPathsToArray
         )
+
         graphAPI.connect_to_fanin_port(
             stringToArrayNode,
             selectedNode,
             "prim_paths",
-            "string_array",
+            "path_array",
         )
 
     elif graphAPI.type_name(selectedNode) == "BifrostGraph,USD::Prim,define_usd_prim":
         stringToArrayNode = graphAPI.add_node(
-            "BifrostGraph,Core::String,string_to_array"
+            kUsdStringPathsToArray
         )
-        graphAPI.connect(stringToArrayNode, "string_array", selectedNode, "path")
+        graphAPI.connect(stringToArrayNode, "path_array", selectedNode, "path")
     elif (
         graphAPI.type_name(selectedNode)
         == "BifrostGraph,USDLab::PatternMatching,path_expression"
     ):
         stringToArrayNode = graphAPI.add_node(
-            "BifrostGraph,Core::String,string_to_array"
+            kUsdStringPathsToArray
         )
-        graphAPI.connect(stringToArrayNode, "string_array", selectedNode, "prim_path")
+        graphAPI.connect(stringToArrayNode, "path_array", selectedNode, "prim_path")
 
     graphAPI.set_param(
-        stringToArrayNode, ("comma_separated_string", get_prim_selection_as_string())
+        stringToArrayNode, ("paths", get_prim_selection_as_string())
     )
 
 
@@ -985,10 +987,10 @@ def remove_from_string_to_array_compound() -> None:
         return
 
     selectedNode = graphSelection.nodeSelection[0]
-    if graphAPI.type_name(selectedNode) != "BifrostGraph,Core::String,string_to_array":
+    if graphAPI.type_name(selectedNode) != kUsdStringPathsToArray:
         return
 
-    originalValue = graphAPI.param(selectedNode, ("comma_separated_string"))
+    originalValue = graphAPI.param(selectedNode, ("paths"))
 
     originalTokens = originalValue.split(",")
     originalTokens = [token.replace(" ", "") for token in originalTokens]
@@ -1004,7 +1006,7 @@ def remove_from_string_to_array_compound() -> None:
         if keep:
             newTokens.append(token)
 
-    graphAPI.set_param(selectedNode, ("comma_separated_string", ", ".join(newTokens)))
+    graphAPI.set_param(selectedNode, ("paths", ", ".join(newTokens)))
 
 
 def get_maya_usd_proxy_shape_from_bifrost_usd_graph(graph: str) -> str:
@@ -1032,8 +1034,8 @@ def select_prims_from_selected_node() -> None:
         return
 
     selectedNode = graphSelection.nodeSelection[0]
-    if graphAPI.type_name(selectedNode) == "BifrostGraph,Core::String,string_to_array":
-        primPaths = graphAPI.param(selectedNode, "comma_separated_string").split(" ")
+    if graphAPI.type_name(selectedNode) == kUsdStringPathsToArray:
+        primPaths = graphAPI.param(selectedNode, "paths").split(" ")
         primPaths = [token.replace(" ", "") for token in primPaths]
         primPaths = [token.replace(",", "") for token in primPaths]
 
@@ -1064,4 +1066,5 @@ def select_prims_from_selected_node() -> None:
 
 
 if __name__ == "__main__":
-    select_prims_from_selected_node()
+    # add_string_to_array_compound()
+    remove_from_string_to_array_compound()

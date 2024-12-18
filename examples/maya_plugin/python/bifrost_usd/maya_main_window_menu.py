@@ -142,7 +142,7 @@ def create_usd_menu():
         "CreateLookdevStageFromLayers",
         parent="BifrostUSDCreateMenu",
         rtc="bifrostUsdRtc_CreateLookdevStageFromLayers",
-        label="Create Lookdev Workflow Stage from USD files",
+        label="Create Lookdev Workflow Stage from USD Files",
         sourceType="mel",
         tearOff=True,
     )

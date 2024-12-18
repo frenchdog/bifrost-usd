@@ -44,6 +44,7 @@ kDefineUsdPreviewSurface: Final = "BifrostGraph,USD::Shading,define_usd_preview_
 kCreateUsdPrim: Final = "BifrostGraph,USD::Prim,create_usd_prim"
 kOverridePrim: Final = "BifrostGraph,USD::Prim,override_prim"
 kDefinePrimHierarchy: Final = "BifrostGraph,USD::Prim,define_usd_prim_hierarchy"
+kUsdStringPathsToArray: Final = "BifrostGraph,USD::Utils,usd_string_paths_to_array"
 
 kPrimNodeList: Final = [
     kDefinePrim,
