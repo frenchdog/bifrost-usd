@@ -197,6 +197,14 @@ def create_usd_menu():
     )
 
     cmds.menuItem(
+        "InsertAddToStageNode",
+        parent="BifrostUSDModifyMenu",
+        command='bifrostUSDExamples -insertNode -nodeType "BifrostGraph,USD::Stage,add_to_stage" -currentCompound "" -nodeSelection "" -portSelection "" -inputPort "stage" -outputPort "out_stage"',
+        label="Add to Stage",
+        sourceType="mel",
+        tearOff=True,
+    )
+    cmds.menuItem(
         "InsertSaveStageNode",
         parent="BifrostUSDModifyMenu",
         command='bifrostUSDExamples -insertNode -nodeType "BifrostGraph,USD::Stage,save_usd_stage" -currentCompound "" -nodeSelection "" -portSelection "" -inputPort "stage" -outputPort "out_stage"',
@@ -205,10 +213,10 @@ def create_usd_menu():
         tearOff=True,
     )
     cmds.menuItem(
-        "InsertAddToStageNode",
+        "SendSelectedPrimPathsToGraph",
         parent="BifrostUSDModifyMenu",
-        command='bifrostUSDExamples -insertNode -nodeType "BifrostGraph,USD::Stage,add_to_stage" -currentCompound "" -nodeSelection "" -portSelection "" -inputPort "stage" -outputPort "out_stage"',
-        label="Add to Stage",
+        rtc="bifrostUsdRtc_PrimSelectionToStringArrayCompound",
+        label="Send Selected Prim Paths to Graph",
         sourceType="mel",
         tearOff=True,
     )

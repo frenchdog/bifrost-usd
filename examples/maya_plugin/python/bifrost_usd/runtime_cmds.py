@@ -57,8 +57,8 @@ def prim_selection_to_string_array_compound_cmd():
         cmds.runTimeCommand(
             name,
             default=True,
-            label="BifrostUSD: Creates or set a 'string_to_array' compound from the selected prims in Outliner or viewport",
-            annotation="Creates or set a 'string_to_array' compound from the selected prims in Outliner or viewport",
+            label="BifrostUSD: Send Selected Prim Paths to Graph",
+            annotation="Send Selected Prim Paths to Graph",
             tags="BifrostUSD",
             command="from bifrost_usd import author_usd_graph; author_usd_graph.add_string_to_array_compound()",
             image="USD_generic_200.png",

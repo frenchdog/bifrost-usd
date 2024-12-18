@@ -924,8 +924,10 @@ def update_prim_path(current_prim_path: str, new_prim_path: str) -> None:
 def add_string_to_array_compound() -> None:
     graphSelection = _get_graph_selection_if_needed(
         GraphEditorSelection(),
-        warning_msg="You must select a 'define_usd_prim' "
-        "or a 'define_usd_material_binding' node in the Bifrost Graph Editor",
+        warning_msg="You must select a 'define_usd_prim', "
+        "'define_usd_material_binding' or 'path_expression' node in the Bifrost Graph Editor\n"
+        "          from which a 'string_to_array' node will be connected. Or select a 'string_to_array' "
+        "to append prim paths to it.",
     )
     if not graphSelection.nodeSelection:
         return
