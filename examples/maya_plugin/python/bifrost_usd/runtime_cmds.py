@@ -71,8 +71,8 @@ def remove_prim_selection_from_string_to_array_compound_cmd():
         cmds.runTimeCommand(
             name,
             default=True,
-            label="BifrostUSD: Remove Selected Prim Paths from String to Array Node",
-            annotation="Remove Selected Prim Paths from String to Array Node",
+            label="BifrostUSD: Remove Selected Prim Paths from String Paths to Array Node",
+            annotation="Remove Selected Prim Paths from String Paths to Array Node",
             tags="BifrostUSD",
             command="from bifrost_usd import author_usd_graph; author_usd_graph.remove_from_string_to_array_compound()",
             image="USD_generic_200.png",
